@@ -34,6 +34,22 @@ Default: `%APPDATA%/tiktok-intelligence-hub/hub-data/`
 
 Place extension JSON exports or TikTok `.xlsx` product exports here, or use **Import JSON / XLSX**.
 
+## Troubleshooting
+
+**App won't open / `Network service crashed` in terminal**
+
+This usually means stale Electron processes are fighting over the same cache (common after stopping `npm run dev` mid-run).
+
+1. Open Task Manager → end every **Electron** process
+2. Start again:
+
+```powershell
+cd C:\Users\liamb\Projects\tiktok-intelligence-hub
+npm.cmd run dev
+```
+
+The hub now uses a single-instance lock and opens the window before background imports run.
+
 ## Stack
 
 Electron 34 · Vite · React · TypeScript · JSON store · Claude API

@@ -24,12 +24,10 @@ function readJsonFile(filePath: string): unknown {
 
 function upsertLibrary(store: JsonStore, items: unknown[]) {
   const now = new Date().toISOString();
-  let count = 0;
-  for (const item of items) {
+  const rows = items.map((item) => {
     const row = item as Record<string, unknown>;
-    const id = String(row.id || randomUUID());
-    store.upsertById("library_items", {
-      id,
+    return {
+      id: String(row.id || randomUUID()),
       payload_json: JSON.stringify(row),
       hook_type: String(row.hook_type || ""),
       funnel_category: String(row.funnel_category || row.funnel_class || ""),
@@ -40,20 +38,18 @@ function upsertLibrary(store: JsonStore, items: unknown[]) {
         0,
       saved_at: String(row.savedAt || ""),
       imported_at: now,
-    });
-    count += 1;
-  }
-  return count;
+    };
+  });
+  store.upsertManyById("library_items", rows);
+  return rows.length;
 }
 
 function upsertMemory(store: JsonStore, items: unknown[]) {
   const now = new Date().toISOString();
-  let count = 0;
-  for (const item of items) {
+  const rows = items.map((item) => {
     const row = item as Record<string, unknown>;
-    const id = String(row.id || randomUUID());
-    store.upsertById("positive_memory", {
-      id,
+    return {
+      id: String(row.id || randomUUID()),
       payload_json: JSON.stringify(row),
       rating: Number(row.rating) || 0,
       my_views: Number(row.my_views) || 0,
@@ -61,10 +57,10 @@ function upsertMemory(store: JsonStore, items: unknown[]) {
       what_i_took: String(row.what_i_took || ""),
       date_used: String(row.date_used || ""),
       imported_at: now,
-    });
-    count += 1;
-  }
-  return count;
+    };
+  });
+  store.upsertManyById("positive_memory", rows);
+  return rows.length;
 }
 
 function saveStudioSnapshot(store: JsonStore, data: Record<string, unknown>, now: string) {
@@ -189,7 +185,29 @@ function tryImportFile(store: JsonStore, fullPath: string, label: string) {
   }
 }
 
-export function importFromDataFolder(store: JsonStore, dataDir: string) {
+function fileFingerprint(filePath: string) {
+  const stat = fs.statSync(filePath);
+  return `${stat.size}:${stat.mtimeMs}`;
+}
+
+function readImportManifest(store: JsonStore): Record<string, string> {
+  const raw = store.getSetting("importManifest", "{}");
+  try {
+    return JSON.parse(raw) as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+function writeImportManifest(store: JsonStore, manifest: Record<string, string>) {
+  store.setSetting("importManifest", JSON.stringify(manifest));
+}
+
+export function importFromDataFolder(
+  store: JsonStore,
+  dataDir: string,
+  options: { force?: boolean } = {}
+) {
   const results: Array<
     | ({ file: string; ok: true } & ImportResult)
     | { file: string; ok: false; error: string }
@@ -197,15 +215,33 @@ export function importFromDataFolder(store: JsonStore, dataDir: string) {
 
   if (!fs.existsSync(dataDir)) return results;
 
+  const manifest = readImportManifest(store);
+  const nextManifest = { ...manifest };
+  let manifestChanged = false;
+
   for (const entry of fs.readdirSync(dataDir)) {
     const lower = entry.toLowerCase();
     if (!lower.endsWith(".json") && !lower.endsWith(".xlsx") && !lower.endsWith(".xls")) continue;
     const full = path.join(dataDir, entry);
     if (!fs.statSync(full).isFile()) continue;
-    results.push(tryImportFile(store, full, entry));
+
+    const fingerprint = fileFingerprint(full);
+    if (!options.force && manifest[entry] === fingerprint) continue;
+
+    const result = tryImportFile(store, full, entry);
+    results.push(result);
+    if (result.ok) {
+      nextManifest[entry] = fingerprint;
+      manifestChanged = true;
+    }
   }
 
+  if (manifestChanged) writeImportManifest(store, nextManifest);
   return results;
+}
+
+export function importFromDataFolderIfChanged(store: JsonStore, dataDir: string) {
+  return importFromDataFolder(store, dataDir, { force: false });
 }
 
 export function copyIncomingFile(dataDir: string, sourcePath: string) {

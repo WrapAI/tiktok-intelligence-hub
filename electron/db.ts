@@ -91,6 +91,13 @@ export class JsonStore {
     this.write(table, rows);
   }
 
+  upsertManyById<T extends { id: string }>(table: TableName, incoming: T[]) {
+    if (!incoming.length) return;
+    const byId = new Map(this.list<T>(table).map((row) => [row.id, row]));
+    for (const row of incoming) byId.set(row.id, row);
+    this.write(table, Array.from(byId.values()));
+  }
+
   deleteById(table: TableName, id: string) {
     const rows = this.list<{ id: string }>(table).filter((r) => r.id !== id);
     this.write(table, rows);

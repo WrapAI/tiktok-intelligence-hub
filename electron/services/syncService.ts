@@ -5,6 +5,7 @@ export async function registerDataFolder(dataFolder: string) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ dataFolder }),
+    signal: AbortSignal.timeout(2500),
   });
   const data = await res.json();
   if (!res.ok || !data.ok) {

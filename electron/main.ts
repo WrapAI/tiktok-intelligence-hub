@@ -4,13 +4,26 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { JsonStore, resolvePaths } from "./db.js";
-import { importFromDataFolder, importFile, copyIncomingFile } from "./services/importService.js";
+import { importFromDataFolderIfChanged, importFromDataFolder, importFile, copyIncomingFile } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
 import { generateScript } from "./services/scriptWriter.js";
 import { listHookTypesForScripts } from "./services/hookTypes.js";
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
+
+const gotSingleInstanceLock = app.requestSingleInstanceLock();
+if (!gotSingleInstanceLock) {
+  app.quit();
+  process.exit(0);
+}
+
+// Windows: multiple dev restarts were colliding on the same Chromium cache profile.
+app.commandLine.appendSwitch("disable-features", "NetworkServiceSandbox");
+app.commandLine.appendSwitch("disable-gpu-shader-disk-cache");
+const cacheDir = path.join(app.getPath("userData"), "chromium-cache");
+fs.mkdirSync(cacheDir, { recursive: true });
+app.setPath("cache", cacheDir);
 
 function getDialogWindow() {
   return BrowserWindow.getFocusedWindow() || mainWindow || BrowserWindow.getAllWindows()[0] || null;
@@ -32,21 +45,66 @@ function createWindow() {
     minWidth: 960,
     minHeight: 640,
     title: "TikTok Intelligence Hub",
+    show: false,
+    backgroundColor: "#0a0a0a",
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
       contextIsolation: true,
       nodeIntegration: false,
+      sandbox: false,
     },
   });
 
-  if (process.env.VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+  mainWindow.once("ready-to-show", () => {
+    mainWindow?.show();
+    mainWindow?.focus();
+  });
+
+  const devUrl = process.env.VITE_DEV_SERVER_URL;
+  if (devUrl) {
+    mainWindow.loadURL(devUrl).catch((err) => {
+      console.error("Failed to load dev server:", err);
+    });
   } else {
     mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   }
+
+  mainWindow.webContents.on("did-fail-load", (_event, code, description, url) => {
+    if (devUrl && url.startsWith(devUrl)) {
+      setTimeout(() => mainWindow?.loadURL(devUrl), 800);
+    } else {
+      console.error("Page failed to load:", code, description, url);
+    }
+  });
 }
 
-app.whenReady().then(async () => {
+function runBackgroundStartup() {
+  void (async () => {
+    try {
+      await registerDataFolder(paths.dataDir);
+    } catch {
+      // whisper-server optional at startup
+    }
+
+    try {
+      importFromDataFolderIfChanged(store, paths.dataDir);
+    } catch (err) {
+      console.error("Background import failed:", err);
+    }
+  })();
+}
+
+app.on("second-instance", () => {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.show();
+    mainWindow.focus();
+  } else {
+    createWindow();
+  }
+});
+
+app.whenReady().then(() => {
   paths = resolvePaths(app.getPath("userData"));
   store = new JsonStore(paths.dbDir);
   if (!store.getSetting("dataFolder")) {
@@ -56,14 +114,8 @@ app.whenReady().then(async () => {
     fs.mkdirSync(paths.dataDir, { recursive: true });
   }
 
-  try {
-    await registerDataFolder(paths.dataDir);
-  } catch {
-    // whisper-server optional at startup
-  }
-
-  importFromDataFolder(store, paths.dataDir);
   createWindow();
+  runBackgroundStartup();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -339,7 +391,7 @@ ipcMain.handle("hub:import-files", async () => {
 ipcMain.handle("hub:rescan-data-folder", () => {
   try {
     ensureStore();
-    const results = importFromDataFolder(store, paths.dataDir);
+    const results = importFromDataFolder(store, paths.dataDir, { force: true });
     const products = extractProductsFromLibrary(store);
     const imported = results.filter((r) => r.ok);
     const errors = results.filter((r) => !r.ok);

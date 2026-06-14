@@ -9,7 +9,7 @@ export default defineConfig({
       main: {
         entry: "electron/main.ts",
         onstart({ startup }) {
-          startup(["."]);
+          startup();
         },
       },
       preload: { input: "electron/preload.ts" },
