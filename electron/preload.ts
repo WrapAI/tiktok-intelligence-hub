@@ -15,9 +15,8 @@ contextBridge.exposeInMainWorld("hub", {
   listScripts: () => ipcRenderer.invoke("hub:list-scripts"),
   getScript: (id: string) => ipcRenderer.invoke("hub:get-script", id),
   listPacingReferences: () => ipcRenderer.invoke("hub:list-pacing-references"),
-  listHookTypes: () => ipcRenderer.invoke("hub:list-hook-types"),
+  getScriptInsights: () => ipcRenderer.invoke("hub:get-script-insights"),
   generateScript: (req: {
-    hookType: string;
     productId: string;
     durationSeconds?: number;
     referenceLibraryId?: string;

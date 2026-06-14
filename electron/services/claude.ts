@@ -1,10 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 
+const DEFAULT_MODEL = "claude-sonnet-4-6";
+
 export async function callClaude(
   apiKey: string,
   system: string,
   user: string,
-  model = "claude-sonnet-4-20250514"
+  model = DEFAULT_MODEL
 ): Promise<string> {
   const client = new Anthropic({ apiKey });
   const response = await client.messages.create({

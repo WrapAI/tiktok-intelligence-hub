@@ -5,7 +5,7 @@ Desktop companion for the **TikTok Hook Analyzer** Chrome extension.
 ## What it does
 
 - **Database** for extension exports (`library.json`, `positive_memory.json`, Studio, Compass)
-- **Script Writer** — Claude generates voiceover scripts by **hook type** + product, using all your winning memory (no manual inspiration notes)
+- **Script Writer** — Claude reads library stats (views, likes, comments) and auto-picks winning hook structure + ElevenLabs SSML pacing from your top videos
 - **Sync** — requests Studio/Compass scrape via whisper-server + extension polling
 - **Products** — from extension JSON, TikTok Shop/Affiliate **XLSX** exports, or library analyses
 
@@ -20,7 +20,7 @@ npm run dev
 1. Open **Settings** → add Anthropic API key (`sk-ant-...`)
 2. **Dashboard** → Import **JSON / XLSX** (extension exports or TikTok Shop spreadsheets)
 3. **My Products** — auto-filled from imports
-4. **Script Writer** → Pick hook type (from memory) + search product → Generate
+4. **Script Writer** → Search product → Generate (hook + pacing chosen from library performance data)
 
 ## Extension sync
 

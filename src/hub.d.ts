@@ -1,9 +1,36 @@
-export type HookTypeOption = {
-  id: string;
-  label: string;
-  wins: number;
-  exampleHooks: string[];
-  guide: string;
+export type LibraryVideoInsight = {
+  libraryId: string;
+  views: number;
+  likes: number;
+  comments: number;
+  shares: number;
+  saves: number;
+  engagementScore: number;
+  hookType: string;
+  hookText: string;
+  visualHook: string;
+  hookMechanism: string;
+  funnelCategory: string;
+  primaryReason: string;
+  replicationNotes: string;
+  replicationScore: number;
+  hasPacing: boolean;
+  profile?: string;
+};
+
+export type HookTypeStat = {
+  hookType: string;
+  count: number;
+  avgViews: number;
+  avgEngagement: number;
+  totalEngagement: number;
+};
+
+export type ScriptInsights = {
+  topVideos: LibraryVideoInsight[];
+  hookTypeStats: HookTypeStat[];
+  recommendedReferenceId: string | null;
+  recommendedHookType: string;
 };
 
 export type Product = {
@@ -73,12 +100,20 @@ export type HubApi = {
   listScripts: () => Promise<Array<{ id: string; title: string; hook_type: string; created_at: string }>>;
   getScript: (id: string) => Promise<{ script_text: string; ssml: string; title: string } | undefined>;
   refreshProductsFromLibrary: () => Promise<{ ok: boolean; count: number }>;
-  listHookTypes: () => Promise<HookTypeOption[]>;
+  getScriptInsights: () => Promise<ScriptInsights>;
   listPacingReferences: () => Promise<
-    Array<{ id: string; hook: string; hookType: string; replicationScore: number }>
+    Array<{
+      id: string;
+      hook: string;
+      hookType: string;
+      views: number;
+      likes: number;
+      comments: number;
+      replicationScore: number;
+      engagementScore: number;
+    }>
   >;
   generateScript: (req: {
-    hookType: string;
     productId: string;
     durationSeconds?: number;
     referenceLibraryId?: string;

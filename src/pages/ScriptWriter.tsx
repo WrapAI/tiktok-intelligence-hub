@@ -1,13 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
-import type { HookTypeOption, Product, ScriptResult } from "../hub";
+import type { Product, ScriptInsights, ScriptResult } from "../hub";
 
-type PacingRef = { id: string; hook: string; hookType: string; replicationScore: number };
+type PacingRef = {
+  id: string;
+  hook: string;
+  hookType: string;
+  views: number;
+  likes: number;
+  replicationScore: number;
+};
+
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return String(n);
+}
 
 export default function ScriptWriter() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [hookTypes, setHookTypes] = useState<HookTypeOption[]>([]);
+  const [insights, setInsights] = useState<ScriptInsights | null>(null);
   const [pacingRefs, setPacingRefs] = useState<PacingRef[]>([]);
-  const [hookType, setHookType] = useState("");
   const [productId, setProductId] = useState("");
   const [productQuery, setProductQuery] = useState("");
   const [referenceLibraryId, setReferenceLibraryId] = useState("");
@@ -32,10 +44,7 @@ export default function ScriptWriter() {
 
   useEffect(() => {
     window.hub.listProducts().then(setProducts);
-    window.hub.listHookTypes().then((types) => {
-      setHookTypes(types);
-      if (types[0]?.id) setHookType(types[0].id);
-    });
+    window.hub.getScriptInsights().then(setInsights);
     window.hub.listPacingReferences().then((rows) => setPacingRefs(rows as PacingRef[]));
   }, []);
 
@@ -44,16 +53,11 @@ export default function ScriptWriter() {
       setError("Search and select a product first.");
       return;
     }
-    if (!hookType) {
-      setError("Select a hook type.");
-      return;
-    }
     setLoading(true);
     setError("");
     setResult(null);
     setAudioPath("");
     const res = await window.hub.generateScript({
-      hookType,
       productId,
       durationSeconds: duration,
       referenceLibraryId: referenceLibraryId || undefined,
@@ -87,31 +91,13 @@ export default function ScriptWriter() {
     <div>
       <h2 className="page-title">Script Writer</h2>
       <p className="page-desc">
-        Pick a hook type from your winning memory, search your product catalog, and generate a script + audio using
-        all stored patterns — no manual inspiration needed.
+        Search your product, then generate. Claude reads your library stats (views, likes, comments) and picks the
+        winning hook structure automatically — SSML pacing matches your top-performing reference videos.
       </p>
 
       <div className="grid-2">
         <div className="card">
-          <div className="card-title">1 · Hook type (from your memory)</div>
-          <div className="hook-options">
-            {hookTypes.map((h) => (
-              <button
-                key={h.id}
-                type="button"
-                className={`hook-option ${hookType === h.id ? "selected" : ""}`}
-                onClick={() => setHookType(h.id)}
-              >
-                <div className="hook-option-head">
-                  <strong>{h.label}</strong>
-                  {h.wins > 0 && <span className="hook-wins">{h.wins} wins</span>}
-                </div>
-                <p className="muted">{h.guide.slice(0, 100)}…</p>
-              </button>
-            ))}
-          </div>
-
-          <div className="card-title">2 · Product</div>
+          <div className="card-title">1 · Product</div>
           <label className="field-label" htmlFor="product-search">
             Search products ({products.length.toLocaleString()} in catalog)
           </label>
@@ -152,16 +138,19 @@ export default function ScriptWriter() {
             )}
           </div>
 
-          <div className="card-title">3 · Pacing reference</div>
+          <div className="card-title">2 · Pacing reference (optional)</div>
           <select
             className="field-select"
             value={referenceLibraryId}
             onChange={(e) => setReferenceLibraryId(e.target.value)}
           >
-            <option value="">Auto — best scored video with pacing</option>
+            <option value="">
+              Auto — top performer with pacing
+              {insights?.recommendedReferenceId ? " ✓" : ""}
+            </option>
             {pacingRefs.map((r) => (
               <option key={r.id} value={r.id}>
-                {r.replicationScore}/10 · {r.hook.slice(0, 60)}
+                {formatCount(r.views)} views · {formatCount(r.likes)} likes · {r.hookType} · {r.hook.slice(0, 50)}
               </option>
             ))}
           </select>
@@ -185,18 +174,30 @@ export default function ScriptWriter() {
         </div>
 
         <div className="card">
-          <div className="card-title">Memory driving this script</div>
-          {!hookTypes.length ? (
-            <p className="muted">Import library.json + positive_memory.json from the extension.</p>
+          <div className="card-title">What Claude reads from your library</div>
+          {!insights?.topVideos.length ? (
+            <p className="muted">Import library.json from the extension to rank videos by performance.</p>
           ) : (
             <>
               <p className="muted" style={{ marginBottom: 10 }}>
-                Claude uses <strong>all</strong> winning patterns, weighted toward{" "}
-                <strong>{hookTypes.find((h) => h.id === hookType)?.label || hookType}</strong>.
+                Auto-selected approach: <strong>{insights.recommendedHookType}</strong> (highest engagement in your
+                library). No manual hook picking needed.
               </p>
-              {(hookTypes.find((h) => h.id === hookType)?.exampleHooks || []).slice(0, 6).map((hook, i) => (
-                <div key={i} className="pattern-list-item">
-                  "{hook}"
+              {insights.hookTypeStats.slice(0, 5).map((stat) => (
+                <div key={stat.hookType} className="pattern-list-item">
+                  <strong>{stat.hookType}</strong> — {stat.count} videos · avg {formatCount(stat.avgViews)} views
+                </div>
+              ))}
+              <div className="card-title" style={{ marginTop: 16 }}>
+                Top performers
+              </div>
+              {insights.topVideos.slice(0, 6).map((video) => (
+                <div key={video.libraryId} className="pattern-list-item">
+                  {formatCount(video.views)} views · {formatCount(video.likes)} likes · {formatCount(video.comments)}{" "}
+                  comments
+                  <br />
+                  <span className="muted">{video.hookType}</span>
+                  {video.hookText !== "—" && <> · "{video.hookText.slice(0, 80)}"</>}
                 </div>
               ))}
             </>
@@ -208,7 +209,7 @@ export default function ScriptWriter() {
         <div className="card">
           <div className="card-title">{result.title}</div>
           <p className="muted" style={{ marginBottom: 12 }}>
-            {result.hookType} · {new Date(result.createdAt).toLocaleString()}
+            Inferred from library stats: {result.hookType} · {new Date(result.createdAt).toLocaleString()}
           </p>
           <div className="script-output">{result.script}</div>
           <div className="btn-row" style={{ marginTop: 12 }}>

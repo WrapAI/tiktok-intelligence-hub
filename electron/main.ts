@@ -7,7 +7,7 @@ import { JsonStore, resolvePaths } from "./db.js";
 import { importFromDataFolderIfChanged, importFromDataFolder, importFile, copyIncomingFile } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
 import { generateScript } from "./services/scriptWriter.js";
-import { listHookTypesForScripts } from "./services/hookTypes.js";
+import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerformance.js";
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
@@ -229,14 +229,13 @@ ipcMain.handle("hub:get-script", (_e, id: string) =>
   (store.list("scripts") as Array<{ id: string }>).find((s) => s.id === id)
 );
 
-ipcMain.handle("hub:list-hook-types", () => listHookTypesForScripts(store));
+ipcMain.handle("hub:get-script-insights", () => getScriptInsights(store));
 
 ipcMain.handle(
   "hub:generate-script",
   async (
     _e,
     req: {
-      hookType: string;
       productId: string;
       durationSeconds?: number;
       referenceLibraryId?: string;
@@ -245,7 +244,6 @@ ipcMain.handle(
     try {
       ensureStore();
       const result = await generateScript(store, {
-        hookType: req.hookType,
         productId: req.productId,
         durationSeconds: req.durationSeconds,
         referenceLibraryId: req.referenceLibraryId,
@@ -260,30 +258,20 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle("hub:list-pacing-references", () => {
-  const rows = store.list<{ id: string; payload_json: string; hook_type: string | null }>("library_items");
-  return rows
-    .map((row) => {
-      let item: Record<string, unknown> = {};
-      try {
-        item = JSON.parse(row.payload_json);
-      } catch {
-        return null;
-      }
-      const pacing = item.pacing_transcript || item.ssml;
-      if (!pacing) return null;
-      const wtw = (item.why_this_worked as Record<string, unknown>) || {};
-      const hookDetail = (item.hook_detail as Record<string, unknown>) || {};
-      return {
-        id: row.id,
-        hook: String(hookDetail.text || item.hook || "—"),
-        hookType: row.hook_type || item.hook_type || "",
-        replicationScore: Number(wtw.replication_score) || 0,
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => (b!.replicationScore || 0) - (a!.replicationScore || 0));
-});
+ipcMain.handle("hub:list-pacing-references", () =>
+  buildLibraryInsights(store, 30)
+    .filter((v) => v.hasPacing)
+    .map((v) => ({
+      id: v.libraryId,
+      hook: v.hookText,
+      hookType: v.hookType,
+      views: v.views,
+      likes: v.likes,
+      comments: v.comments,
+      replicationScore: v.replicationScore,
+      engagementScore: v.engagementScore,
+    }))
+);
 
 ipcMain.handle("hub:list-elevenlabs-voices", async () => {
   try {

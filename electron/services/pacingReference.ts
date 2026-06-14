@@ -1,4 +1,5 @@
 import type { JsonStore } from "../db.js";
+import { computeEngagementScore } from "./libraryPerformance.js";
 
 export type PacingReference = {
   libraryId: string;
@@ -6,6 +7,10 @@ export type PacingReference = {
   pacingTranscript: string;
   ssml: string;
   replicationScore: number;
+  engagementScore: number;
+  views: number;
+  likes: number;
+  comments: number;
 };
 
 function parsePayload(raw: string): Record<string, unknown> {
@@ -27,7 +32,7 @@ export function findPacingReference(store: JsonStore, libraryId?: string): Pacin
   const ranked = rows
     .map(rowToReference)
     .filter((r): r is PacingReference => !!r && (!!r.pacingTranscript || !!r.ssml))
-    .sort((a, b) => b.replicationScore - a.replicationScore);
+    .sort((a, b) => b.engagementScore - a.engagementScore || b.replicationScore - a.replicationScore);
 
   return ranked[0] || null;
 }
@@ -40,27 +45,40 @@ function rowToReference(row: { id: string; payload_json: string }): PacingRefere
   const ssml = String(item.ssml || "");
   if (!pacing && !ssml) return null;
 
+  const videoData = (item.videoData as Record<string, unknown>) || {};
+  const stats = (videoData.stats as Record<string, unknown>) || videoData;
+  const views = Number(stats.views ?? item.view_count_at_scan ?? 0) || 0;
+  const likes = Number(stats.likes ?? stats.likeText ?? 0) || 0;
+  const comments = Number(stats.comments ?? stats.commentText ?? 0) || 0;
+  const shares = Number(stats.shares ?? stats.reposts ?? 0) || 0;
+  const saves = Number(stats.saves ?? 0) || 0;
+
   return {
     libraryId: row.id,
-    hook: String(hookDetail.text || item.hook || ""),
+    hook: String(hookDetail.text || hookDetail.visual_action || item.hook || ""),
     pacingTranscript: pacing,
     ssml,
     replicationScore: Number(wtw.replication_score) || 0,
+    engagementScore: computeEngagementScore({ views, likes, comments, shares, saves }),
+    views,
+    likes,
+    comments,
   };
 }
 
 export function formatPacingBlock(ref: PacingReference | null): string {
   if (!ref) return "";
   return [
-    "## Reference video pacing (match this rhythm — same beat structure, not same words)",
+    "## Reference video pacing (match this speaking SPEED and rhythm — same beat structure, not same words)",
     `Original hook studied: "${ref.hook}"`,
+    `Performance: ${ref.views.toLocaleString()} views · ${ref.likes.toLocaleString()} likes · ${ref.comments.toLocaleString()} comments`,
     "",
     "### Timestamp pacing from winning video",
     ref.pacingTranscript || "(no pacing transcript)",
     "",
-    "### Reference SSML break pattern",
+    "### Reference SSML break pattern (mirror these pause lengths and prosody rates)",
     ref.ssml || "(no SSML)",
     "",
-    "Your SSML must mirror the same pause lengths and fast/slow sections at similar points in the script.",
+    "Your SSML must mirror the same pause lengths, prosody rate changes, and overall speaking speed at similar points in the script.",
   ].join("\n");
 }
