@@ -1,0 +1,372 @@
+import { app, BrowserWindow, ipcMain, dialog, shell } from "electron";
+import path from "node:path";
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
+import { randomUUID } from "node:crypto";
+import { JsonStore, resolvePaths } from "./db.js";
+import { importFromDataFolder, importFile, copyIncomingFile } from "./services/importService.js";
+import { buildMemorySummary } from "./services/memoryInsights.js";
+import { generateScript } from "./services/scriptWriter.js";
+import { listHookTypesForScripts } from "./services/hookTypes.js";
+import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
+import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
+import { extractProductsFromLibrary } from "./services/productExtractor.js";
+
+function getDialogWindow() {
+  return BrowserWindow.getFocusedWindow() || mainWindow || BrowserWindow.getAllWindows()[0] || null;
+}
+
+function ensureStore() {
+  if (!store) throw new Error("App is still starting — try again in a moment.");
+}
+
+let mainWindow: BrowserWindow | null = null;
+let store: JsonStore;
+let paths: ReturnType<typeof resolvePaths>;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 860,
+    minWidth: 960,
+    minHeight: 640,
+    title: "TikTok Intelligence Hub",
+    webPreferences: {
+      preload: path.join(__dirname, "preload.mjs"),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+
+  if (process.env.VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+  } else {
+    mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+  }
+}
+
+app.whenReady().then(async () => {
+  paths = resolvePaths(app.getPath("userData"));
+  store = new JsonStore(paths.dbDir);
+  if (!store.getSetting("dataFolder")) {
+    store.setSetting("dataFolder", paths.dataDir);
+  } else {
+    paths.dataDir = store.getSetting("dataFolder", paths.dataDir);
+    fs.mkdirSync(paths.dataDir, { recursive: true });
+  }
+
+  try {
+    await registerDataFolder(paths.dataDir);
+  } catch {
+    // whisper-server optional at startup
+  }
+
+  importFromDataFolder(store, paths.dataDir);
+  createWindow();
+
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
+});
+
+ipcMain.handle("hub:get-bootstrap", () => ({
+  dataFolder: paths.dataDir,
+}));
+
+ipcMain.handle("hub:check-whisper", async () => checkWhisperHealth());
+
+ipcMain.handle("hub:get-settings", () => ({
+  anthropicApiKey: store.getSetting("anthropicApiKey"),
+  elevenLabsApiKey: store.getSetting("elevenLabsApiKey"),
+  elevenLabsVoiceId: store.getSetting("elevenLabsVoiceId"),
+  myTiktokHandle: store.getSetting("myTiktokHandle"),
+  dataFolder: paths.dataDir,
+}));
+
+ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
+  if (settings.anthropicApiKey != null) store.setSetting("anthropicApiKey", settings.anthropicApiKey.trim());
+  if (settings.elevenLabsApiKey != null) {
+    store.setSetting("elevenLabsApiKey", settings.elevenLabsApiKey.trim());
+  }
+  if (settings.elevenLabsVoiceId != null) {
+    store.setSetting("elevenLabsVoiceId", settings.elevenLabsVoiceId.trim());
+  }
+  if (settings.myTiktokHandle != null) {
+    store.setSetting("myTiktokHandle", settings.myTiktokHandle.trim().replace(/^@/, ""));
+  }
+  if (settings.dataFolder?.trim()) {
+    paths.dataDir = settings.dataFolder.trim();
+    fs.mkdirSync(paths.dataDir, { recursive: true });
+    store.setSetting("dataFolder", paths.dataDir);
+  }
+  return { ok: true };
+});
+
+ipcMain.handle("hub:get-dashboard", () => {
+  const studio = store.list<{ synced_at: string; imported_at: string }>("studio_snapshots");
+  const compass = store.list<{ synced_at: string; imported_at: string }>("compass_snapshots");
+  studio.sort((a, b) => b.imported_at.localeCompare(a.imported_at));
+  compass.sort((a, b) => b.imported_at.localeCompare(a.imported_at));
+
+  return {
+    libraryCount: store.list("library_items").length,
+    memoryCount: store.list("positive_memory").length,
+    productCount: store.list("products").length,
+    scriptCount: store.list("scripts").length,
+    summary: buildMemorySummary(store),
+    latestStudioSync: studio[0]?.synced_at || null,
+    latestCompassSync: compass[0]?.synced_at || null,
+    dataFolder: paths.dataDir,
+  };
+});
+
+ipcMain.handle("hub:list-products", () =>
+  store
+    .list<Record<string, unknown>>("products")
+    .sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)))
+);
+
+ipcMain.handle("hub:save-product", (_e, product: Record<string, string>) => {
+  const now = new Date().toISOString();
+  const id = product.id || randomUUID();
+  store.upsertById("products", {
+    id,
+    name: product.name,
+    brand: product.brand || "",
+    price: product.price || "",
+    description: product.description || "",
+    image_url: product.image_url || "",
+    source: "manual",
+    raw_json: JSON.stringify(product),
+    created_at: now,
+    updated_at: now,
+  });
+  return { ok: true, id };
+});
+
+ipcMain.handle("hub:delete-product", (_e, id: string) => {
+  store.deleteById("products", id);
+  return { ok: true };
+});
+
+ipcMain.handle("hub:list-library", () =>
+  (store.list("library_items") as Array<{ saved_at?: string }>)
+    .sort((a, b) => String(b.saved_at).localeCompare(String(a.saved_at)))
+    .slice(0, 200)
+);
+
+ipcMain.handle("hub:list-memory", () =>
+  (store.list("positive_memory") as Array<{ date_used?: string }>)
+    .sort((a, b) => String(b.date_used).localeCompare(String(a.date_used)))
+    .slice(0, 200)
+);
+
+ipcMain.handle("hub:list-scripts", () =>
+  store
+    .list<{ created_at: string }>("scripts")
+    .sort((a, b) => b.created_at.localeCompare(a.created_at))
+    .slice(0, 50)
+);
+
+ipcMain.handle("hub:get-script", (_e, id: string) =>
+  (store.list("scripts") as Array<{ id: string }>).find((s) => s.id === id)
+);
+
+ipcMain.handle("hub:list-hook-types", () => listHookTypesForScripts(store));
+
+ipcMain.handle(
+  "hub:generate-script",
+  async (
+    _e,
+    req: {
+      hookType: string;
+      productId: string;
+      durationSeconds?: number;
+      referenceLibraryId?: string;
+    }
+  ) => {
+    try {
+      ensureStore();
+      const result = await generateScript(store, {
+        hookType: req.hookType,
+        productId: req.productId,
+        durationSeconds: req.durationSeconds,
+        referenceLibraryId: req.referenceLibraryId,
+      });
+      store.appendLog("script", "ok", result.title);
+      return { ok: true, result };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      store.appendLog("script", "error", message);
+      return { ok: false, error: message };
+    }
+  }
+);
+
+ipcMain.handle("hub:list-pacing-references", () => {
+  const rows = store.list<{ id: string; payload_json: string; hook_type: string | null }>("library_items");
+  return rows
+    .map((row) => {
+      let item: Record<string, unknown> = {};
+      try {
+        item = JSON.parse(row.payload_json);
+      } catch {
+        return null;
+      }
+      const pacing = item.pacing_transcript || item.ssml;
+      if (!pacing) return null;
+      const wtw = (item.why_this_worked as Record<string, unknown>) || {};
+      const hookDetail = (item.hook_detail as Record<string, unknown>) || {};
+      return {
+        id: row.id,
+        hook: String(hookDetail.text || item.hook || "—"),
+        hookType: row.hook_type || item.hook_type || "",
+        replicationScore: Number(wtw.replication_score) || 0,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => (b!.replicationScore || 0) - (a!.replicationScore || 0));
+});
+
+ipcMain.handle("hub:list-elevenlabs-voices", async () => {
+  try {
+    const apiKey = store.getSetting("elevenLabsApiKey");
+    if (!apiKey) return { ok: false, error: "Add ElevenLabs API key in Settings" };
+    const voices = await listVoices(apiKey);
+    return { ok: true, voices };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:generate-audio", async (_e, scriptId: string) => {
+  try {
+    const existing = store
+      .list<Record<string, unknown>>("scripts")
+      .find((s) => s.id === scriptId);
+    if (!existing) throw new Error("Script not found");
+
+    const audioDir = path.join(app.getPath("userData"), "audio");
+    const result = await synthesizeSpeech(store, {
+      text: String(existing.script_text || ""),
+      ssml: String(existing.ssml || ""),
+      scriptId: String(existing.id),
+      outputDir: audioDir,
+    });
+
+    store.upsertById("scripts", {
+      ...(existing as { id: string }),
+      audio_path: result.filePath,
+      alignment_path: result.alignmentPath,
+    });
+
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:open-audio-file", (_e, filePath: string) => {
+  shell.showItemInFolder(filePath);
+  return { ok: true };
+});
+
+ipcMain.handle("hub:refresh-products-from-library", () => {
+  const count = extractProductsFromLibrary(store);
+  return { ok: true, count };
+});
+
+ipcMain.handle("hub:get-memory-summary", () => buildMemorySummary(store));
+
+ipcMain.handle("hub:import-files", async () => {
+  try {
+    ensureStore();
+    const win = getDialogWindow();
+    if (!win) return { ok: false, error: "App window not ready. Close and reopen the hub." };
+
+    const result = await dialog.showOpenDialog(win, {
+      properties: ["openFile", "multiSelections"],
+    });
+    if (result.canceled || !result.filePaths.length) {
+      return { ok: false, canceled: true };
+    }
+
+    const imported: Array<{ file: string; ok: true; type: string; count: number }> = [];
+    const errors: Array<{ file: string; error: string }> = [];
+
+    for (const filePath of result.filePaths) {
+      const fileName = path.basename(filePath);
+      try {
+        const dest = copyIncomingFile(paths.dataDir, filePath);
+        const res = importFile(store, dest);
+        imported.push({ file: fileName, ok: true, type: res.type, count: res.count });
+      } catch (err) {
+        errors.push({
+          file: fileName,
+          error: err instanceof Error ? err.message : String(err),
+        });
+      }
+    }
+
+    if (imported.length) {
+      extractProductsFromLibrary(store);
+    }
+
+    const summary =
+      imported.length === 0
+        ? "No files imported."
+        : `Imported ${imported.length} file(s): ${imported.map((i) => `${i.file} (${i.type})`).join(", ")}`;
+
+    store.appendLog("import", errors.length ? "partial" : "ok", summary);
+
+    return {
+      ok: imported.length > 0,
+      canceled: false,
+      imported,
+      errors,
+      message: errors.length ? `${summary} ${errors.length} failed.` : summary,
+    };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:rescan-data-folder", () => {
+  try {
+    ensureStore();
+    const results = importFromDataFolder(store, paths.dataDir);
+    const products = extractProductsFromLibrary(store);
+    const imported = results.filter((r) => r.ok);
+    const errors = results.filter((r) => !r.ok);
+    return {
+      ok: imported.length > 0 || errors.length === 0,
+      results,
+      productsExtracted: products,
+      message: `Rescanned: ${imported.length} ok, ${errors.length} failed`,
+    };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:open-data-folder", () => {
+  shell.openPath(paths.dataDir);
+  return { ok: true };
+});
+
+ipcMain.handle("hub:request-sync", async (_e, type: "ALL" | "STUDIO" | "COMPASS") => {
+  try {
+    await requestExtensionSync(type, paths.dataDir);
+    store.appendLog(type, "requested", "Waiting for extension");
+    return { ok: true, message: "Sync requested — keep Chrome extension loaded." };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    store.appendLog(type, "error", message);
+    return { ok: false, error: message };
+  }
+});
