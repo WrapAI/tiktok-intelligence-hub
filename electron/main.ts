@@ -38,6 +38,56 @@ let store: JsonStore;
 let paths: ReturnType<typeof resolvePaths>;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Windows: blank renderer / cache crashes
+if (process.platform === "win32") {
+  app.disableHardwareAcceleration();
+}
+
+function resolvePreloadPath() {
+  for (const file of ["preload.mjs", "preload.js"]) {
+    const candidate = path.join(__dirname, file);
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return path.join(__dirname, "preload.mjs");
+}
+
+function getDevServerUrl(): string | undefined {
+  if (process.env.VITE_DEV_SERVER_URL) return process.env.VITE_DEV_SERVER_URL;
+  if (!app.isPackaged) return "http://localhost:5173/";
+  return undefined;
+}
+
+function loadWindowContent(win: BrowserWindow, attempt = 0) {
+  const devUrl = getDevServerUrl();
+  const prodFile = path.join(__dirname, "../dist/index.html");
+
+  if (devUrl) {
+    win
+      .loadURL(devUrl)
+      .then(() => {
+        if (!win.isVisible()) win.show();
+      })
+      .catch((err) => {
+        console.error(`Dev load failed (attempt ${attempt + 1}):`, err);
+        if (attempt < 30) {
+          setTimeout(() => loadWindowContent(win, attempt + 1), 500);
+        }
+      });
+    return;
+  }
+
+  if (!fs.existsSync(prodFile)) {
+    console.error("Missing build output:", prodFile, "— run npm run build first");
+  }
+
+  win
+    .loadFile(prodFile)
+    .then(() => {
+      if (!win.isVisible()) win.show();
+    })
+    .catch((err) => console.error("Failed to load app file:", err));
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
@@ -45,37 +95,35 @@ function createWindow() {
     minWidth: 960,
     minHeight: 640,
     title: "TikTok Intelligence Hub",
-    show: false,
+    show: true,
     backgroundColor: "#0a0a0a",
     webPreferences: {
-      preload: path.join(__dirname, "preload.mjs"),
+      preload: resolvePreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: false,
     },
   });
 
-  mainWindow.once("ready-to-show", () => {
+  mainWindow.webContents.on("did-finish-load", () => {
     mainWindow?.show();
     mainWindow?.focus();
   });
 
-  const devUrl = process.env.VITE_DEV_SERVER_URL;
-  if (devUrl) {
-    mainWindow.loadURL(devUrl).catch((err) => {
-      console.error("Failed to load dev server:", err);
-    });
-  } else {
-    mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
-  }
+  mainWindow.webContents.on("render-process-gone", (_event, details) => {
+    console.error("Renderer process gone:", details.reason, details.exitCode);
+  });
 
-  mainWindow.webContents.on("did-fail-load", (_event, code, description, url) => {
-    if (devUrl && url.startsWith(devUrl)) {
-      setTimeout(() => mainWindow?.loadURL(devUrl), 800);
-    } else {
-      console.error("Page failed to load:", code, description, url);
+  mainWindow.webContents.on("did-fail-load", (_event, code, description, url, isMainFrame) => {
+    if (!isMainFrame) return;
+    const devUrl = getDevServerUrl();
+    console.error("Page failed to load:", code, description, url);
+    if (devUrl && url.startsWith("http://localhost:")) {
+      setTimeout(() => loadWindowContent(mainWindow!), 800);
     }
   });
+
+  loadWindowContent(mainWindow);
 }
 
 function runBackgroundStartup() {

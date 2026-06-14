@@ -36,6 +36,19 @@ Place extension JSON exports or TikTok `.xlsx` product exports here, or use **Im
 
 ## Troubleshooting
 
+**Black screen on open**
+
+1. End all **Electron** processes in Task Manager  
+2. Pull latest, then:
+
+```powershell
+cd C:\Users\liamb\Projects\tiktok-intelligence-hub
+git pull
+npm.cmd run dev
+```
+
+The hub now falls back to `http://localhost:5173` if the dev URL env var is missing, and shows an error message instead of a blank screen if the UI bridge fails.
+
 **App won't open / `Network service crashed` in terminal**
 
 This usually means stale Electron processes are fighting over the same cache (common after stopping `npm run dev` mid-run).

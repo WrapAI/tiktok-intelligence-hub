@@ -18,12 +18,27 @@ const TABS: { id: Tab; label: string }[] = [
 ];
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>("scripts");
+  const [tab, setTab] = useState<Tab>("dashboard");
   const [whisperOnline, setWhisperOnline] = useState(false);
+  const hubReady = typeof window !== "undefined" && !!window.hub;
 
   useEffect(() => {
-    window.hub?.checkWhisper().then(setWhisperOnline).catch(() => setWhisperOnline(false));
+    if (!window.hub) return;
+    window.hub.checkWhisper().then(setWhisperOnline).catch(() => setWhisperOnline(false));
   }, []);
+
+  if (!hubReady) {
+    return (
+      <div className="app">
+        <main className="main">
+          <div className="card">
+            <div className="card-title">TikTok Intelligence Hub</div>
+            <p className="error">App bridge failed to load. Close all Electron windows and restart with npm.cmd run dev.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
