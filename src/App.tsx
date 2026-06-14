@@ -33,7 +33,10 @@ export default function App() {
         <main className="main">
           <div className="card">
             <div className="card-title">TikTok Intelligence Hub</div>
-            <p className="error">App bridge failed to load. Close all Electron windows and restart with npm.cmd run dev.</p>
+            <p className="error">App bridge failed to load (preload script error).</p>
+            <p className="muted">
+              Close all Electron windows, run <code>git pull</code>, then <code>npm.cmd run dev</code> again.
+            </p>
           </div>
         </main>
       </div>

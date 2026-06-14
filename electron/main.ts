@@ -44,11 +44,11 @@ if (process.platform === "win32") {
 }
 
 function resolvePreloadPath() {
-  for (const file of ["preload.mjs", "preload.js"]) {
+  for (const file of ["preload.cjs", "preload.js", "preload.mjs"]) {
     const candidate = path.join(__dirname, file);
     if (fs.existsSync(candidate)) return candidate;
   }
-  return path.join(__dirname, "preload.mjs");
+  return path.join(__dirname, "preload.cjs");
 }
 
 function getDevServerUrl(): string | undefined {
@@ -103,6 +103,10 @@ function createWindow() {
       nodeIntegration: false,
       sandbox: false,
     },
+  });
+
+  mainWindow.webContents.on("preload-error", (_event, preloadPath, error) => {
+    console.error("Preload script failed:", preloadPath, error);
   });
 
   mainWindow.webContents.on("did-finish-load", () => {

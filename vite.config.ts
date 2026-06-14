@@ -13,7 +13,19 @@ export default defineConfig({
           startup();
         },
       },
-      preload: { input: "electron/preload.ts" },
+      preload: {
+        input: "electron/preload.ts",
+        vite: {
+          build: {
+            rollupOptions: {
+              output: {
+                format: "cjs",
+                entryFileNames: "preload.cjs",
+              },
+            },
+          },
+        },
+      },
     }),
   ],
 });
