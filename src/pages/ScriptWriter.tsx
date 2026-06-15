@@ -22,6 +22,7 @@ export default function ScriptWriter() {
   const [pacingRefs, setPacingRefs] = useState<PacingRef[]>([]);
   const [productId, setProductId] = useState("");
   const [productQuery, setProductQuery] = useState("");
+  const [productSearchOpen, setProductSearchOpen] = useState(true);
   const [referenceLibraryId, setReferenceLibraryId] = useState("");
   const [duration, setDuration] = useState(45);
   const [loading, setLoading] = useState(false);
@@ -98,45 +99,65 @@ export default function ScriptWriter() {
       <div className="grid-2">
         <div className="card">
           <div className="card-title">1 · Product</div>
-          <label className="field-label" htmlFor="product-search">
-            Search products ({products.length.toLocaleString()} in catalog)
-          </label>
-          <input
-            id="product-search"
-            className="field-input"
-            placeholder="Type name, brand, or price…"
-            value={productQuery}
-            onChange={(e) => setProductQuery(e.target.value)}
-          />
-          {selectedProduct && (
-            <p className="product-selected">
-              Selected: <strong>{selectedProduct.name}</strong>
-              {selectedProduct.brand ? ` · ${selectedProduct.brand}` : ""}
-              {selectedProduct.price ? ` · ${selectedProduct.price}` : ""}
-            </p>
+
+          {selectedProduct && !productSearchOpen ? (
+            <div className="product-chip">
+              <div className="product-chip-body">
+                <div className="product-chip-name">{selectedProduct.name}</div>
+                <div className="product-chip-meta">
+                  {[selectedProduct.brand, selectedProduct.price].filter(Boolean).join(" · ") || "No brand/price"}
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn btn-secondary product-chip-change"
+                onClick={() => {
+                  setProductSearchOpen(true);
+                  setProductQuery("");
+                }}
+              >
+                Change
+              </button>
+            </div>
+          ) : (
+            <>
+              <label className="field-label" htmlFor="product-search">
+                Search products ({products.length.toLocaleString()} in catalog)
+              </label>
+              <input
+                id="product-search"
+                className="field-input"
+                placeholder="Type name, brand, or price…"
+                value={productQuery}
+                onChange={(e) => setProductQuery(e.target.value)}
+                autoFocus={productSearchOpen && !productId}
+              />
+              <div className="product-picker">
+                {filteredProducts.length === 0 ? (
+                  <p className="muted product-picker-empty">No matches — import XLSX/JSON on Dashboard first.</p>
+                ) : (
+                  filteredProducts.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      className="product-picker-item"
+                      onClick={() => {
+                        setProductId(p.id);
+                        setProductQuery("");
+                        setProductSearchOpen(false);
+                        setError("");
+                      }}
+                    >
+                      <span className="product-picker-name">{p.name}</span>
+                      <span className="product-picker-meta">
+                        {[p.brand, p.price].filter(Boolean).join(" · ") || "—"}
+                      </span>
+                    </button>
+                  ))
+                )}
+              </div>
+            </>
           )}
-          <div className="product-picker">
-            {filteredProducts.length === 0 ? (
-              <p className="muted">No matches — import XLSX/JSON on Dashboard first.</p>
-            ) : (
-              filteredProducts.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  className={`product-picker-item ${productId === p.id ? "selected" : ""}`}
-                  onClick={() => {
-                    setProductId(p.id);
-                    setProductQuery(p.name);
-                  }}
-                >
-                  <span className="product-picker-name">{p.name}</span>
-                  <span className="product-picker-meta">
-                    {[p.brand, p.price].filter(Boolean).join(" · ") || "—"}
-                  </span>
-                </button>
-              ))
-            )}
-          </div>
 
           <div className="card-title">2 · Pacing reference (optional)</div>
           <select
