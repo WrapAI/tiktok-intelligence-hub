@@ -4,7 +4,6 @@ import { listProductSales, type SalesRow } from "./salesImport.js";
 import {
   buildFunnelKnowledge,
   funnelBucketLabel,
-  normalizeFunnelBucket,
   pickReference,
   type FunnelBucket,
   type FunnelReference,
