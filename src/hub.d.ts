@@ -71,6 +71,66 @@ export type MemorySummary = {
   }>;
 };
 
+export type FunnelLimits = {
+  top: number;
+  middle: number;
+  bottom: number;
+};
+
+export type ClipInstruction = {
+  step: number;
+  duration: string;
+  whatToFilm: string;
+  whatToSay: string;
+  onScreenText: string;
+};
+
+export type PlanVideo = {
+  id: string;
+  funnel: "top" | "middle" | "bottom";
+  funnelLabel: string;
+  productName: string;
+  productBrand: string;
+  productId: string | null;
+  salesRank: number;
+  videoIndex: number;
+  videoCountForProduct: number;
+  title: string;
+  summary: string;
+  referenceLibraryId: string | null;
+  hookType: string;
+  clips: ClipInstruction[];
+};
+
+export type DailyPlan = {
+  id: string;
+  planDate: string;
+  limits: FunnelLimits;
+  totalVideos: number;
+  salesSource: string | null;
+  salesPeriodDays: number;
+  videos: PlanVideo[];
+  createdAt: string;
+};
+
+export type PlannerSummary = {
+  salesCount: number;
+  lastSalesImport: string;
+  lastSalesFile: string;
+  salesPeriodDays: number;
+  topProducts: Array<{
+    rank: number;
+    name: string;
+    brand: string;
+    gmv: number;
+    orders: number;
+    units: number;
+  }>;
+  funnelLibraryCounts: { top: number; middle: number; bottom: number };
+  defaultLimits: FunnelLimits;
+  maxDailyPosts: number;
+};
+
 export type HubApi = {
   getBootstrap: () => Promise<{ dataFolder: string }>;
   checkWhisper: () => Promise<boolean>;
@@ -139,6 +199,16 @@ export type HubApi = {
   }>;
   openDataFolder: () => Promise<{ ok: boolean }>;
   requestSync: (type: "ALL" | "STUDIO" | "COMPASS") => Promise<{ ok: boolean; message?: string; error?: string }>;
+  getPlannerSummary: () => Promise<PlannerSummary>;
+  getMaxDailyPosts: () => Promise<number>;
+  importSalesFile: () => Promise<{ ok: boolean; canceled?: boolean; count?: number; file?: string; error?: string }>;
+  generateDailyPlan: (req: {
+    planDate?: string;
+    limits: FunnelLimits;
+    selectedProductNames?: string[];
+  }) => Promise<{ ok: boolean; plan?: DailyPlan; error?: string }>;
+  listDailyPlans: () => Promise<Array<{ id: string; planDate: string; totalVideos: number; createdAt: string }>>;
+  getDailyPlan: (id: string) => Promise<DailyPlan | null>;
 };
 
 declare global {

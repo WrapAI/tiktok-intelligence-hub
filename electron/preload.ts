@@ -29,4 +29,14 @@ contextBridge.exposeInMainWorld("hub", {
   rescanDataFolder: () => ipcRenderer.invoke("hub:rescan-data-folder"),
   openDataFolder: () => ipcRenderer.invoke("hub:open-data-folder"),
   requestSync: (type: "ALL" | "STUDIO" | "COMPASS") => ipcRenderer.invoke("hub:request-sync", type),
+  getPlannerSummary: () => ipcRenderer.invoke("hub:get-planner-summary"),
+  getMaxDailyPosts: () => ipcRenderer.invoke("hub:get-max-daily-posts"),
+  importSalesFile: () => ipcRenderer.invoke("hub:import-sales-file"),
+  generateDailyPlan: (req: {
+    planDate?: string;
+    limits: { top: number; middle: number; bottom: number };
+    selectedProductNames?: string[];
+  }) => ipcRenderer.invoke("hub:generate-daily-plan", req),
+  listDailyPlans: () => ipcRenderer.invoke("hub:list-daily-plans"),
+  getDailyPlan: (id: string) => ipcRenderer.invoke("hub:get-daily-plan", id),
 });

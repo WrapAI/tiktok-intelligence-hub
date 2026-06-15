@@ -4,13 +4,22 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { JsonStore, resolvePaths } from "./db.js";
-import { importFromDataFolderIfChanged, importFromDataFolder, importFile, copyIncomingFile } from "./services/importService.js";
+import { importFromDataFolderIfChanged, importFromDataFolder, importFile, importSalesDataFile, copyIncomingFile } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
 import { generateScript } from "./services/scriptWriter.js";
 import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerformance.js";
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
+import {
+  generateDailyPlan,
+  getDailyPlan,
+  getPlannerSummary,
+  listDailyPlans,
+  validateLimits,
+  MAX_DAILY_POSTS,
+} from "./services/dailyPlanner.js";
+import { listProductSales } from "./services/salesImport.js";
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock();
 if (!gotSingleInstanceLock) {
@@ -324,6 +333,65 @@ ipcMain.handle("hub:list-pacing-references", () =>
       engagementScore: v.engagementScore,
     }))
 );
+
+ipcMain.handle("hub:get-planner-summary", () => getPlannerSummary(store));
+
+ipcMain.handle("hub:list-product-sales", () => listProductSales(store));
+
+ipcMain.handle("hub:list-daily-plans", () => listDailyPlans(store));
+
+ipcMain.handle("hub:get-daily-plan", (_e, id: string) => getDailyPlan(store, id));
+
+ipcMain.handle(
+  "hub:generate-daily-plan",
+  (
+    _e,
+    req: {
+      planDate?: string;
+      limits: { top: number; middle: number; bottom: number };
+      selectedProductNames?: string[];
+    }
+  ) => {
+    try {
+      ensureStore();
+      const validation = validateLimits(req.limits);
+      if (!validation.ok) return { ok: false, error: validation.error };
+      const plan = generateDailyPlan(store, req);
+      return { ok: true, plan };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+);
+
+ipcMain.handle("hub:import-sales-file", async () => {
+  try {
+    ensureStore();
+    const win = getDialogWindow();
+    if (!win) return { ok: false, error: "App window not ready." };
+
+    const result = await dialog.showOpenDialog(win, {
+      properties: ["openFile"],
+      filters: [
+        { name: "Sales data", extensions: ["csv", "xlsx", "xls"] },
+        { name: "All files", extensions: ["*"] },
+      ],
+    });
+    if (result.canceled || !result.filePaths.length) {
+      return { ok: false, canceled: true };
+    }
+
+    const filePath = result.filePaths[0];
+    const dest = copyIncomingFile(paths.dataDir, filePath);
+    const res = importSalesDataFile(store, dest);
+    store.appendLog("sales", "ok", `Imported ${res.count} products from ${res.file}`);
+    return { ok: true, count: res.count, file: res.file };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:get-max-daily-posts", () => MAX_DAILY_POSTS);
 
 ipcMain.handle("hub:list-elevenlabs-voices", async () => {
   try {

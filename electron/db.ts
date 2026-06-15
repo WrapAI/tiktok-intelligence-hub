@@ -24,6 +24,8 @@ type TableName =
   | "compass_snapshots"
   | "scripts"
   | "predictions"
+  | "product_sales"
+  | "daily_plans"
   | "sync_log";
 
 const DEFAULTS: Record<TableName, unknown> = {
@@ -35,6 +37,8 @@ const DEFAULTS: Record<TableName, unknown> = {
   compass_snapshots: [],
   scripts: [],
   predictions: [],
+  product_sales: [],
+  daily_plans: [],
   sync_log: [],
 };
 

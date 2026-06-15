@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
-import ScriptWriter from "./pages/ScriptWriter";
+import DailyPlanner from "./pages/DailyPlanner";
 import Products from "./pages/Products";
 import Library from "./pages/Library";
 import Memory from "./pages/Memory";
 import Settings from "./pages/Settings";
 
-type Tab = "dashboard" | "scripts" | "products" | "library" | "memory" | "settings";
+const ScriptWriter = lazy(() => import("./pages/ScriptWriter"));
+
+type Tab = "dashboard" | "planner" | "scripts" | "products" | "library" | "memory" | "settings";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "dashboard", label: "Dashboard" },
+  { id: "planner", label: "Daily Planner" },
   { id: "scripts", label: "Script Writer" },
   { id: "products", label: "My Products" },
   { id: "library", label: "Library" },
@@ -50,7 +53,7 @@ export default function App() {
           <span className="brand-icon">🎣</span>
           <div>
             <h1>TikTok Intelligence Hub</h1>
-            <p className="subtitle">Extension database · performance · scripts</p>
+            <p className="subtitle">Plan · scripts · performance</p>
           </div>
         </div>
         <div className={`status-pill ${whisperOnline ? "online" : "offline"}`}>
@@ -72,7 +75,12 @@ export default function App() {
 
       <main className="main">
         {tab === "dashboard" && <Dashboard />}
-        {tab === "scripts" && <ScriptWriter />}
+        {tab === "planner" && <DailyPlanner />}
+        {tab === "scripts" && (
+          <Suspense fallback={<p className="muted">Loading Script Writer…</p>}>
+            <ScriptWriter />
+          </Suspense>
+        )}
         {tab === "products" && <Products />}
         {tab === "library" && <Library />}
         {tab === "memory" && <Memory />}

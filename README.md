@@ -5,7 +5,7 @@ Desktop companion for the **TikTok Hook Analyzer** Chrome extension.
 ## What it does
 
 - **Database** for extension exports (`library.json`, `positive_memory.json`, Studio, Compass)
-- **Script Writer** — Claude reads library stats (views, likes, comments) and auto-picks winning hook structure + ElevenLabs SSML pacing from your top videos
+- **Daily Planner** — set funnel post limits (max 30/day), import 28-day sales CSV/XLSX, get product video counts + simple shot lists from library analyses
 - **Sync** — requests Studio/Compass scrape via whisper-server + extension polling
 - **Products** — from extension JSON, TikTok Shop/Affiliate **XLSX** exports, or library analyses
 

@@ -8,6 +8,7 @@ import {
   importProductsJson,
 } from "./productExtractor.js";
 import { importXlsxFile } from "./xlsxImport.js";
+import { importSalesFile } from "./salesImport.js";
 
 export type ImportResult = {
   type: string;
@@ -166,6 +167,11 @@ export function importFile(store: JsonStore, filePath: string): ImportResult {
   if (ext === ".json") return importJsonFile(store, filePath);
   if (ext === ".xlsx" || ext === ".xls") return importXlsxFile(store, filePath);
   throw new Error(`Unsupported file type "${ext || "unknown"}". Use .json, .xlsx, or .xls`);
+}
+
+export function importSalesDataFile(store: JsonStore, filePath: string, periodDays = 28): ImportResult {
+  const res = importSalesFile(store, filePath, periodDays);
+  return { type: "product_sales", count: res.count, file: res.file };
 }
 
 export function importProducts(store: JsonStore, items: unknown[]) {
