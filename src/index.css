@@ -217,6 +217,70 @@ body {
   color: var(--accent);
 }
 
+.agent-status-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+}
+
+.agent-status-list li {
+  padding: 4px 0;
+}
+
+.agent-chat-log {
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.agent-msg {
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  max-width: 92%;
+}
+
+.agent-msg-user {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+}
+
+.agent-msg-assistant {
+  align-self: flex-start;
+  background: rgba(120, 180, 255, 0.08);
+  border: 1px solid rgba(120, 180, 255, 0.2);
+}
+
+.agent-msg-role {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.agent-msg-text {
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.agent-chat-form {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.agent-chat-input {
+  flex: 1;
+  resize: vertical;
+  min-height: 72px;
+}
+
 .stat-card {
   background: var(--surface-2);
   border: 1px solid var(--border);

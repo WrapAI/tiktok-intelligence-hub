@@ -158,6 +158,22 @@ export type ImportHistoryEntry = {
   imported_at: string;
 };
 
+export type AgentStatus = {
+  configured: boolean;
+  memoryConfigured: boolean;
+  agentId: string;
+  environmentId: string;
+  memoryStoreId: string;
+  sessionId: string | null;
+  hasApiKey: boolean;
+};
+
+export type AgentMessage = {
+  role: "user" | "assistant";
+  text: string;
+  at: string;
+};
+
 export type HubApi = {
   getBootstrap: () => Promise<{ dataFolder: string }>;
   checkWhisper: () => Promise<boolean>;
@@ -167,6 +183,9 @@ export type HubApi = {
     elevenLabsVoiceId: string;
     myTiktokHandle: string;
     dataFolder: string;
+    tiktokAgentId: string;
+    tiktokAgentEnvironmentId: string;
+    tiktokAgentMemoryStoreId: string;
   }>;
   saveSettings: (settings: Record<string, string>) => Promise<{ ok: boolean }>;
   getDashboard: () => Promise<{
@@ -242,6 +261,11 @@ export type HubApi = {
   }) => Promise<{ ok: boolean; plan?: DailyPlan; error?: string }>;
   listDailyPlans: () => Promise<Array<{ id: string; planDate: string; totalVideos: number; createdAt: string }>>;
   getDailyPlan: (id: string) => Promise<DailyPlan | null>;
+  getAgentStatus: () => Promise<AgentStatus>;
+  syncAgentMemory: () => Promise<{ ok: boolean; uploaded?: number; paths?: string[]; error?: string }>;
+  sendAgentMessage: (message: string) => Promise<{ ok: boolean; reply?: string; sessionId?: string; error?: string }>;
+  listAgentChatHistory: () => Promise<AgentMessage[]>;
+  resetAgentSession: () => Promise<{ ok: boolean; sessionId?: string; error?: string }>;
 };
 
 declare global {

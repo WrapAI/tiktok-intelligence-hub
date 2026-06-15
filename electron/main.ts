@@ -20,6 +20,14 @@ import {
   MAX_DAILY_POSTS,
 } from "./services/dailyPlanner.js";
 import { listProductSales } from "./services/salesImport.js";
+import {
+  clearAgentSession,
+  createAgentSession,
+  getAgentStatus,
+  listAgentChatHistory,
+  sendAgentMessage,
+  syncHubContextToMemoryStore,
+} from "./services/tiktokAgent.js";
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock();
 if (!gotSingleInstanceLock) {
@@ -201,6 +209,9 @@ ipcMain.handle("hub:get-settings", () => ({
   elevenLabsVoiceId: store.getSetting("elevenLabsVoiceId"),
   myTiktokHandle: store.getSetting("myTiktokHandle"),
   dataFolder: paths.dataDir,
+  tiktokAgentId: store.getSetting("tiktokAgentId", "agent_01NxQdQvuQLXgJgMgXbQ1LNz"),
+  tiktokAgentEnvironmentId: store.getSetting("tiktokAgentEnvironmentId"),
+  tiktokAgentMemoryStoreId: store.getSetting("tiktokAgentMemoryStoreId"),
 }));
 
 ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
@@ -220,6 +231,13 @@ ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
     ensureDataLayout(paths.dataDir);
     migrateFlatDataFolder(paths.dataDir);
     store.setSetting("dataFolder", paths.dataDir);
+  }
+  if (settings.tiktokAgentId != null) store.setSetting("tiktokAgentId", settings.tiktokAgentId.trim());
+  if (settings.tiktokAgentEnvironmentId != null) {
+    store.setSetting("tiktokAgentEnvironmentId", settings.tiktokAgentEnvironmentId.trim());
+  }
+  if (settings.tiktokAgentMemoryStoreId != null) {
+    store.setSetting("tiktokAgentMemoryStoreId", settings.tiktokAgentMemoryStoreId.trim());
   }
   return { ok: true };
 });
@@ -560,6 +578,48 @@ ipcMain.handle("hub:list-import-history", () => {
     }>("import_history")
     .sort((a, b) => b.imported_at.localeCompare(a.imported_at))
     .slice(0, 50);
+});
+
+ipcMain.handle("hub:get-agent-status", () => {
+  ensureStore();
+  return getAgentStatus(store);
+});
+
+ipcMain.handle("hub:sync-agent-memory", async () => {
+  try {
+    ensureStore();
+    const result = await syncHubContextToMemoryStore(store, paths.dataDir, paths.dbDir);
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:send-agent-message", async (_e, message: string) => {
+  try {
+    ensureStore();
+    if (!message?.trim()) return { ok: false, error: "Message is empty." };
+    const result = await sendAgentMessage(store, message.trim());
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:list-agent-chat-history", () => {
+  ensureStore();
+  return listAgentChatHistory(store);
+});
+
+ipcMain.handle("hub:reset-agent-session", async () => {
+  try {
+    ensureStore();
+    clearAgentSession(store);
+    const session = await createAgentSession(store, true);
+    return { ok: true, sessionId: session.sessionId };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
 });
 
 ipcMain.handle("hub:request-sync", async (_e, type: "ALL" | "STUDIO" | "COMPASS") => {

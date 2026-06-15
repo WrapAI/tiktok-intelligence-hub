@@ -42,4 +42,9 @@ contextBridge.exposeInMainWorld("hub", {
   }) => ipcRenderer.invoke("hub:generate-daily-plan", req),
   listDailyPlans: () => ipcRenderer.invoke("hub:list-daily-plans"),
   getDailyPlan: (id: string) => ipcRenderer.invoke("hub:get-daily-plan", id),
+  getAgentStatus: () => ipcRenderer.invoke("hub:get-agent-status"),
+  syncAgentMemory: () => ipcRenderer.invoke("hub:sync-agent-memory"),
+  sendAgentMessage: (message: string) => ipcRenderer.invoke("hub:send-agent-message", message),
+  listAgentChatHistory: () => ipcRenderer.invoke("hub:list-agent-chat-history"),
+  resetAgentSession: () => ipcRenderer.invoke("hub:reset-agent-session"),
 });

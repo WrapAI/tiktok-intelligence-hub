@@ -9,6 +9,9 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
   const [voices, setVoices] = useState<Voice[]>([]);
   const [handle, setHandle] = useState("");
   const [dataFolder, setDataFolder] = useState("");
+  const [agentId, setAgentId] = useState("");
+  const [agentEnvironmentId, setAgentEnvironmentId] = useState("");
+  const [agentMemoryStoreId, setAgentMemoryStoreId] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
@@ -19,6 +22,9 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       setVoiceId(s.elevenLabsVoiceId || "");
       setHandle(s.myTiktokHandle || "");
       setDataFolder(s.dataFolder || "");
+      setAgentId(s.tiktokAgentId || "agent_01NxQdQvuQLXgJgMgXbQ1LNz");
+      setAgentEnvironmentId(s.tiktokAgentEnvironmentId || "");
+      setAgentMemoryStoreId(s.tiktokAgentMemoryStoreId || "");
     });
   }, []);
 
@@ -46,6 +52,9 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       elevenLabsVoiceId: voiceId,
       myTiktokHandle: handle,
       dataFolder,
+      tiktokAgentId: agentId,
+      tiktokAgentEnvironmentId: agentEnvironmentId,
+      tiktokAgentMemoryStoreId: agentMemoryStoreId,
     });
     setStatus("Settings saved locally on this machine");
     onSaved?.();
@@ -109,6 +118,35 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           value={handle}
           onChange={(e) => setHandle(e.target.value)}
           placeholder="@yourname"
+        />
+
+        <div className="card-title" style={{ marginTop: 20 }}>
+          TikTok Claude Agent
+        </div>
+        <p className="muted" style={{ marginBottom: 10 }}>
+          Managed agent session + memory store. Agent ID is pre-filled; add your environment and memory store IDs from
+          the Anthropic Console.
+        </p>
+        <label className="field-label">Agent ID</label>
+        <input
+          className="field-input"
+          value={agentId}
+          onChange={(e) => setAgentId(e.target.value)}
+          placeholder="agent_01NxQdQvuQLXgJgMgXbQ1LNz"
+        />
+        <label className="field-label">Environment ID</label>
+        <input
+          className="field-input"
+          value={agentEnvironmentId}
+          onChange={(e) => setAgentEnvironmentId(e.target.value)}
+          placeholder="env_0139W3…"
+        />
+        <label className="field-label">Memory store ID</label>
+        <input
+          className="field-input"
+          value={agentMemoryStoreId}
+          onChange={(e) => setAgentMemoryStoreId(e.target.value)}
+          placeholder="memstore_…"
         />
 
         <label className="field-label">Data folder (extension sync + imports)</label>

@@ -4,15 +4,17 @@ import DailyPlanner from "./pages/DailyPlanner";
 import Products from "./pages/Products";
 import Library from "./pages/Library";
 import Memory from "./pages/Memory";
+import TikTokAgent from "./pages/TikTokAgent";
 import Settings from "./pages/Settings";
 
 const ScriptWriter = lazy(() => import("./pages/ScriptWriter"));
 
-type Tab = "dashboard" | "planner" | "scripts" | "products" | "library" | "memory" | "settings";
+type Tab = "dashboard" | "planner" | "agent" | "scripts" | "products" | "library" | "memory" | "settings";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "dashboard", label: "Dashboard" },
   { id: "planner", label: "Daily Planner" },
+  { id: "agent", label: "TikTok Agent" },
   { id: "scripts", label: "Script Writer" },
   { id: "products", label: "My Products" },
   { id: "library", label: "Library" },
@@ -76,6 +78,7 @@ export default function App() {
       <main className="main">
         {tab === "dashboard" && <Dashboard />}
         {tab === "planner" && <DailyPlanner />}
+        {tab === "agent" && <TikTokAgent />}
         {tab === "scripts" && (
           <Suspense fallback={<p className="muted">Loading Script Writer…</p>}>
             <ScriptWriter />
