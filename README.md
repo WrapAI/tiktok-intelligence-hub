@@ -8,6 +8,7 @@ Desktop companion for the **TikTok Hook Analyzer** Chrome extension.
 - **Daily Planner** — set funnel post limits (max 30/day), import 28-day sales CSV/XLSX, get product video counts + simple shot lists from library analyses
 - **Sync** — requests Studio/Compass scrape via whisper-server + extension polling
 - **Products** — from extension JSON, TikTok Shop/Affiliate **XLSX** exports, or library analyses
+- **TikTok Agent** — Claude managed agent with memory store synced from your hub database
 
 ## Setup
 
@@ -21,6 +22,29 @@ npm run dev
 2. **Dashboard** → Import **JSON / XLSX** (extension exports or TikTok Shop spreadsheets)
 3. **My Products** — auto-filled from imports
 4. **Script Writer** → Search product → Generate (hook + pacing chosen from library performance data)
+5. **TikTok Agent** → Settings: add Environment ID + Memory store ID → Sync hub context → chat
+
+## TikTok Claude Agent
+
+Settings fields (Anthropic Console):
+
+| Field | Example |
+|-------|---------|
+| Agent ID | `agent_01NxQdQvuQLXgJgMgXbQ1LNz` (pre-filled) |
+| Environment ID | `env_0139W3…` |
+| Memory store ID | `memstore_…` |
+
+**Sync hub context → memory** uploads 8 files under `/hub/` (products, sales, library, planner rules, etc.). The agent session is created with your memory store attached:
+
+```typescript
+await client.beta.sessions.create({
+  agent: "agent_01NxQdQvuQLXgJgMgXbQ1LNz",
+  environment_id: "env_…",
+  resources: [{ type: "memory_store", memory_store_id: "memstore_…", access: "read_write" }],
+});
+```
+
+Cursor skill: `.cursor/skills/tiktok-hub-context/SKILL.md`
 
 ## Extension sync
 
