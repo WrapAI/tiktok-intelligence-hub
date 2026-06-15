@@ -293,6 +293,22 @@ Stored in `hubContextSnapshot.ts → COMPLIANCE_RULES` and synced to `/hub/compl
 
 ---
 
+## Session Log — Jun 15 2026
+
+- Personal Library — saves from extension auto-push to hub via whisper server `/personal-library` endpoint
+- Product research loop — 608 library products marked "Competitor/skipped", banner cleared on restart
+- Additional information field — Script Writer + Daily Planner (optional textarea, injected into Claude prompt)
+- Grok funnel classification — explicit definitions + real examples injected into every Grok prompt via `formatFunnelClassificationBlock()`
+- My Videos — `↓ Sync from extension` button + auto-import on page open
+- UI fix — textarea overflow on Additional information fields (box-sizing: border-box)
+- Pricing estimates — tightened token counts for script (~$0.05-0.07), plan (~$0.19-0.36), chat (~$0.015)
+- CLAUDE.md + Cursor rules — full project reference, low-cost agent rules, project conventions
+- `settings.example.json` — all 20+ keys documented
+- Grok Collections — decided NOT to use; prompt enrichment is sufficient for funnel accuracy
+- Personal library extension flow: `@vexcile_` detected → red "⭐ Save to Personal Library" button → POSTs to whisper server → written to hub data folder → imported into My Videos with red "needs review" banner
+
+---
+
 ## Development
 
 ### Running the Hub
