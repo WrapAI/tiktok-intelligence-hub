@@ -60,6 +60,19 @@ Sales imports use **short script-friendly names** (e.g. "EHPlabs Hydreau") while
 2. Recommend actions using **their products and sales**, not products from analysed competitor videos
 3. Prefer concrete filming steps (Film / Say / On-screen text) over generic advice
 4. Reference library patterns as **style inspiration** only
+
+## Auto-sync
+
+The hub app automatically syncs all new data to this memory store when:
+- Library.json / competitor analyses are imported
+- Sales CSV/XLSX is imported
+- Product catalog updates
+- Positive memory (what worked on their account)
+- Studio or Compass analytics syncs
+- Scripts or daily plans are generated
+- Products are edited manually
+
+Always treat \`/hub/*.md\` as the live source of truth.
 `);
 }
 
@@ -174,6 +187,63 @@ Database: ${layout.database}
 ${layout.folders.map((f) => `- **${f.label}** (\`${f.path.split(/[/\\]/).pop()}/\`) — ${f.fileCount} files`).join("\n")}
 `);
 
+  const importHistory = store
+    .list<{
+      category: string;
+      file_name: string;
+      import_type: string;
+      record_count: number;
+      imported_at: string;
+    }>("import_history")
+    .sort((a, b) => b.imported_at.localeCompare(a.imported_at))
+    .slice(0, 30);
+
+  const importDoc = clip(`# Import history (recent)
+
+${importHistory.length ? importHistory.map((row, i) => `${i + 1}. **${row.category}** · ${row.file_name} · ${row.record_count} rows · ${row.imported_at.slice(0, 10)}`).join("\n") : "No imports yet."}
+`);
+
+  const studioSnaps = store.list<{ synced_at: string; imported_at: string; payload_json: string }>("studio_snapshots");
+  const compassSnaps = store.list<{ synced_at: string; imported_at: string; payload_json: string }>("compass_snapshots");
+  studioSnaps.sort((a, b) => b.imported_at.localeCompare(a.imported_at));
+  compassSnaps.sort((a, b) => b.imported_at.localeCompare(a.imported_at));
+
+  function summarizeStudioPayload(raw: string): string {
+    try {
+      const data = JSON.parse(raw) as Record<string, unknown>;
+      const videos = Array.isArray(data.videos) ? data.videos.length : 0;
+      return `${videos || data.totalVideos || 0} videos`;
+    } catch {
+      return "snapshot";
+    }
+  }
+
+  function summarizeCompassPayload(raw: string): string {
+    try {
+      const data = JSON.parse(raw) as Record<string, unknown>;
+      const gmv = data.gmv ?? (data.overview as Record<string, unknown> | undefined)?.gmv;
+      return gmv != null ? `GMV ${gmv}` : "metrics snapshot";
+    } catch {
+      return "snapshot";
+    }
+  }
+
+  const analyticsDoc = clip(`# Video performance & analytics
+
+## TikTok Studio (latest)
+${studioSnaps[0] ? `- Synced: ${studioSnaps[0].synced_at || studioSnaps[0].imported_at}\n- Data: ${summarizeStudioPayload(studioSnaps[0].payload_json)}` : "No Studio sync yet — use Dashboard → Request sync."}
+
+## TikTok Compass (latest)
+${compassSnaps[0] ? `- Synced: ${compassSnaps[0].synced_at || compassSnaps[0].imported_at}\n- Data: ${summarizeCompassPayload(compassSnaps[0].payload_json)}` : "No Compass sync yet — use Dashboard → Request sync."}
+
+## Saved scripts
+- Total: ${store.list("scripts").length}
+- Latest: ${store.list<{ created_at: string; title?: string }>("scripts").sort((a, b) => b.created_at.localeCompare(a.created_at))[0]?.title || "—"}
+
+## Daily plans saved
+- Total: ${store.list("daily_plans").length}
+`);
+
   return [
     { path: "/hub/SKILL.md", content: buildSkillMarkdown() },
     { path: "/hub/overview.md", content: overview },
@@ -183,6 +253,8 @@ ${layout.folders.map((f) => `- **${f.label}** (\`${f.path.split(/[/\\]/).pop()}/
     { path: "/hub/performance_memory.md", content: performanceDoc },
     { path: "/hub/planner_rules.md", content: plannerDoc },
     { path: "/hub/data_layout.md", content: layoutDoc },
+    { path: "/hub/import_history.md", content: importDoc },
+    { path: "/hub/analytics.md", content: analyticsDoc },
   ];
 }
 

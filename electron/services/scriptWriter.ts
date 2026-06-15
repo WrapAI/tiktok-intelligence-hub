@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import type { JsonStore } from "../db.js";
 import { findPacingReference, formatPacingBlock } from "./pacingReference.js";
 import { formatLibraryPerformanceForPrompt, getScriptInsights } from "./libraryPerformance.js";
-import { callClaude } from "./claude.js";
+import { requestAgentTask } from "./tiktokAgent.js";
 import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type ScriptRequest = {
@@ -20,6 +20,7 @@ export type ScriptResult = {
   productId: string;
   referenceLibraryId?: string;
   createdAt: string;
+  cost?: import("./agentPricing.js").AgentCostBreakdown;
 };
 
 function parseScriptResponse(raw: string): { title: string; script: string; ssml: string } {
@@ -34,8 +35,9 @@ function parseScriptResponse(raw: string): { title: string; script: string; ssml
 }
 
 export async function generateScript(store: JsonStore, req: ScriptRequest): Promise<ScriptResult> {
-  const apiKey = store.getSetting("anthropicApiKey");
-  if (!apiKey) throw new Error("Add your Anthropic API key in Settings first.");
+  if (!store.getSetting("anthropicApiKey")) {
+    throw new Error("Add your Anthropic API key in Settings first.");
+  }
 
   const product = store.list<Record<string, unknown>>("products").find((p) => p.id === req.productId);
   if (!product) throw new Error("Product not found.");
@@ -48,7 +50,7 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
   const duration = req.durationSeconds || 45;
   const inferredHookType = insights.recommendedHookType;
 
-  const system = `You are an expert TikTok Shop affiliate scriptwriter for UK creators.
+  const instructions = `You are an expert TikTok Shop affiliate scriptwriter for UK creators.
 Write spoken-word voiceover scripts optimized for ElevenLabs TTS.
 
 ${formatInspirationRules()}
@@ -79,7 +81,7 @@ Output format:
 (Full ElevenLabs SSML for the entire script — pacing must match the reference video speed)
 \`\`\``;
 
-  const user = `${performanceBlock}
+  const context = `${performanceBlock}
 
 ${pacingBlock ? `${pacingBlock}\n\n` : ""}## Product to sell
 - Name: ${product.name}
@@ -94,8 +96,7 @@ Write one complete script for this product using the highest-performing patterns
 Adapt hook structure, pacing, and visual energy only — do not copy competitor products, backgrounds, props, or scripts verbatim.
 All [VISUAL: ...] cues must feature "${product.name}" or generic shots (face, hands, on-screen text) — never items from the reference video unless they are the same product.`;
 
-  const model = store.getSetting("anthropicModel", "claude-sonnet-4-6");
-  const raw = await callClaude(apiKey, system, user, model);
+  const { reply: raw, cost } = await requestAgentTask(store, "generate_script", instructions, context);
   const parsed = parseScriptResponse(raw);
   const id = randomUUID();
   const createdAt = new Date().toISOString();
@@ -125,5 +126,6 @@ All [VISUAL: ...] cues must feature "${product.name}" or generic shots (face, ha
     productId: req.productId,
     referenceLibraryId: pacingRef?.libraryId || referenceId,
     createdAt,
+    cost,
   };
 }

@@ -23,11 +23,23 @@ import { listProductSales } from "./services/salesImport.js";
 import {
   clearAgentSession,
   createAgentSession,
+  DEFAULT_AGENT_ID,
+  DEFAULT_ENVIRONMENT_ID,
+  DEFAULT_MEMORY_STORE_ID,
+  DEFAULT_SESSION_ID,
   getAgentStatus,
   listAgentChatHistory,
+  requestAgentTask,
+  seedAgentDefaults,
   sendAgentMessage,
   syncHubContextToMemoryStore,
 } from "./services/tiktokAgent.js";
+import { estimateAgentActionCost } from "./services/agentPricing.js";
+import {
+  hubChangeFromImport,
+  initAgentBridge,
+  notifyHubDataChanged,
+} from "./services/agentBridge.js";
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock();
 if (!gotSingleInstanceLock) {
@@ -156,7 +168,14 @@ function runBackgroundStartup() {
     }
 
     try {
-      importFromDataFolderIfChanged(store, paths.dataDir);
+      const results = importFromDataFolderIfChanged(store, paths.dataDir);
+      const imported = results.filter((r) => r.ok);
+      if (imported.length) {
+        extractProductsFromLibrary(store);
+        for (const row of imported) {
+          if (row.ok) notifyHubDataChanged(hubChangeFromImport(row.type, row.count, row.file));
+        }
+      }
     } catch (err) {
       console.error("Background import failed:", err);
     }
@@ -176,6 +195,7 @@ app.on("second-instance", () => {
 app.whenReady().then(() => {
   paths = resolvePaths(app.getPath("userData"));
   store = new JsonStore(paths.dbDir);
+  seedAgentDefaults(store);
   if (!store.getSetting("dataFolder")) {
     store.setSetting("dataFolder", paths.dataDir);
   } else {
@@ -184,6 +204,7 @@ app.whenReady().then(() => {
   fs.mkdirSync(paths.dataDir, { recursive: true });
   ensureDataLayout(paths.dataDir);
   migrateFlatDataFolder(paths.dataDir);
+  initAgentBridge(store, paths.dataDir, paths.dbDir);
 
   createWindow();
   runBackgroundStartup();
@@ -209,9 +230,10 @@ ipcMain.handle("hub:get-settings", () => ({
   elevenLabsVoiceId: store.getSetting("elevenLabsVoiceId"),
   myTiktokHandle: store.getSetting("myTiktokHandle"),
   dataFolder: paths.dataDir,
-  tiktokAgentId: store.getSetting("tiktokAgentId", "agent_01NxQdQvuQLXgJgMgXbQ1LNz"),
-  tiktokAgentEnvironmentId: store.getSetting("tiktokAgentEnvironmentId"),
-  tiktokAgentMemoryStoreId: store.getSetting("tiktokAgentMemoryStoreId"),
+  tiktokAgentId: store.getSetting("tiktokAgentId", DEFAULT_AGENT_ID),
+  tiktokAgentEnvironmentId: store.getSetting("tiktokAgentEnvironmentId", DEFAULT_ENVIRONMENT_ID),
+  tiktokAgentMemoryStoreId: store.getSetting("tiktokAgentMemoryStoreId", DEFAULT_MEMORY_STORE_ID),
+  tiktokAgentSessionId: store.getSetting("tiktokAgentSessionId", DEFAULT_SESSION_ID),
 }));
 
 ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
@@ -231,6 +253,7 @@ ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
     ensureDataLayout(paths.dataDir);
     migrateFlatDataFolder(paths.dataDir);
     store.setSetting("dataFolder", paths.dataDir);
+    initAgentBridge(store, paths.dataDir, paths.dbDir);
   }
   if (settings.tiktokAgentId != null) store.setSetting("tiktokAgentId", settings.tiktokAgentId.trim());
   if (settings.tiktokAgentEnvironmentId != null) {
@@ -238,6 +261,9 @@ ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
   }
   if (settings.tiktokAgentMemoryStoreId != null) {
     store.setSetting("tiktokAgentMemoryStoreId", settings.tiktokAgentMemoryStoreId.trim());
+  }
+  if (settings.tiktokAgentSessionId != null) {
+    store.setSetting("tiktokAgentSessionId", settings.tiktokAgentSessionId.trim());
   }
   return { ok: true };
 });
@@ -290,11 +316,19 @@ ipcMain.handle("hub:save-product", (_e, product: Record<string, string>) => {
     created_at: now,
     updated_at: now,
   });
+  notifyHubDataChanged({
+    kind: "product_edit",
+    summary: `Product saved: ${product.name}`,
+  });
   return { ok: true, id };
 });
 
 ipcMain.handle("hub:delete-product", (_e, id: string) => {
   store.deleteById("products", id);
+  notifyHubDataChanged({
+    kind: "product_edit",
+    summary: "Product deleted",
+  });
   return { ok: true };
 });
 
@@ -341,7 +375,12 @@ ipcMain.handle(
         referenceLibraryId: req.referenceLibraryId,
       });
       store.appendLog("script", "ok", result.title);
-      return { ok: true, result };
+      notifyHubDataChanged({
+        kind: "script",
+        summary: `Script generated: ${result.title}`,
+        count: 1,
+      });
+      return { ok: true, result, cost: result.cost };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       store.appendLog("script", "error", message);
@@ -375,7 +414,7 @@ ipcMain.handle("hub:get-daily-plan", (_e, id: string) => getDailyPlan(store, id)
 
 ipcMain.handle(
   "hub:generate-daily-plan",
-  (
+  async (
     _e,
     req: {
       planDate?: string;
@@ -387,8 +426,13 @@ ipcMain.handle(
       ensureStore();
       const validation = validateLimits(req.limits);
       if (!validation.ok) return { ok: false, error: validation.error };
-      const plan = generateDailyPlan(store, req);
-      return { ok: true, plan };
+      const plan = await generateDailyPlan(store, req);
+      notifyHubDataChanged({
+        kind: "daily_plan",
+        summary: `Daily plan for ${plan.planDate}: ${plan.totalVideos} videos`,
+        count: plan.totalVideos,
+      });
+      return { ok: true, plan, cost: plan.cost };
     } catch (err) {
       return { ok: false, error: err instanceof Error ? err.message : String(err) };
     }
@@ -415,6 +459,7 @@ ipcMain.handle("hub:import-sales-file", async () => {
     const filePath = result.filePaths[0];
     const res = ingestIncomingFile(store, paths.dataDir, filePath, "sales");
     store.appendLog("sales", "ok", `Imported ${res.count} products from ${res.file}`);
+    notifyHubDataChanged(hubChangeFromImport(res.type, res.count, res.file || path.basename(filePath)));
     return { ok: true, count: res.count, file: res.file };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
@@ -468,6 +513,11 @@ ipcMain.handle("hub:open-audio-file", (_e, filePath: string) => {
 
 ipcMain.handle("hub:refresh-products-from-library", () => {
   const count = extractProductsFromLibrary(store);
+  notifyHubDataChanged({
+    kind: "products",
+    summary: "Products refreshed from library analyses",
+    count,
+  });
   return { ok: true, count };
 });
 
@@ -505,6 +555,9 @@ ipcMain.handle("hub:import-files", async () => {
 
     if (imported.length) {
       extractProductsFromLibrary(store);
+      for (const row of imported) {
+        notifyHubDataChanged(hubChangeFromImport(row.type, row.count, row.file));
+      }
     }
 
     const summary =
@@ -533,6 +586,9 @@ ipcMain.handle("hub:rescan-data-folder", () => {
     const products = extractProductsFromLibrary(store);
     const imported = results.filter((r) => r.ok);
     const errors = results.filter((r) => !r.ok);
+    for (const row of imported) {
+      if (row.ok) notifyHubDataChanged(hubChangeFromImport(row.type, row.count, row.file));
+    }
     return {
       ok: imported.length > 0 || errors.length === 0,
       results,
@@ -595,6 +651,16 @@ ipcMain.handle("hub:sync-agent-memory", async () => {
   }
 });
 
+ipcMain.handle("hub:estimate-agent-cost", (_e, params) => {
+  try {
+    ensureStore();
+    const cost = estimateAgentActionCost(params);
+    return { ok: true, cost };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
 ipcMain.handle("hub:send-agent-message", async (_e, message: string) => {
   try {
     ensureStore();
@@ -605,6 +671,27 @@ ipcMain.handle("hub:send-agent-message", async (_e, message: string) => {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
 });
+
+ipcMain.handle(
+  "hub:request-agent-task",
+  async (
+    _e,
+    req: {
+      task: "generate_script" | "generate_daily_plan" | "analyze_data" | "custom";
+      instructions: string;
+      context?: string;
+    }
+  ) => {
+    try {
+      ensureStore();
+      if (!req.instructions?.trim()) return { ok: false, error: "Instructions are empty." };
+      const result = await requestAgentTask(store, req.task, req.instructions.trim(), req.context?.trim());
+      return { ok: true, reply: result.reply, sessionId: result.sessionId, cost: result.cost };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+);
 
 ipcMain.handle("hub:list-agent-chat-history", () => {
   ensureStore();

@@ -8,12 +8,9 @@ import {
   type FunnelBucket,
   type FunnelReference,
 } from "./funnelKnowledge.js";
-import {
-  adaptHookTextForProduct,
-  adaptInspiredNote,
-  adaptVisualHookForProduct,
-  adaptVisualTactic,
-} from "./referenceAdaptation.js";
+import { formatInspirationRules, adaptHookTextForProduct, adaptInspiredNote, adaptVisualHookForProduct, adaptVisualTactic } from "./referenceAdaptation.js";
+import { requestAgentTask } from "./tiktokAgent.js";
+import type { AgentCostBreakdown } from "./agentPricing.js";
 
 export const MAX_DAILY_POSTS = 30;
 
@@ -57,6 +54,7 @@ export type DailyPlan = {
   salesPeriodDays: number;
   videos: PlanVideo[];
   createdAt: string;
+  cost?: AgentCostBreakdown;
 };
 
 export type GeneratePlanRequest = {
@@ -310,7 +308,205 @@ export function validateLimits(limits: FunnelLimits): { ok: true; total: number 
   return { ok: true, total };
 }
 
-export function generateDailyPlan(store: JsonStore, req: GeneratePlanRequest): DailyPlan {
+export function generateDailyPlan(store: JsonStore, req: GeneratePlanRequest): Promise<DailyPlan> {
+  return generateDailyPlanViaAgent(store, req);
+}
+
+function extractJsonFromAgentReply(text: string): unknown {
+  const fenced = text.match(/```(?:json)?\s*\n([\s\S]*?)```/i);
+  if (fenced) return JSON.parse(fenced[1].trim());
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start >= 0 && end > start) return JSON.parse(text.slice(start, end + 1));
+  throw new Error("Agent did not return valid JSON for the daily plan.");
+}
+
+function buildPlanAgentContext(store: JsonStore, req: GeneratePlanRequest) {
+  const sales = listProductSales(store);
+  const filtered = req.selectedProductNames?.length
+    ? sales.filter((s) => req.selectedProductNames!.some((n) => salesRowMatchesQuery(s, n)))
+    : sales;
+  const pool = filtered.length ? filtered : sales;
+  const knowledge = buildFunnelKnowledge(store);
+
+  const productLines = pool
+    .slice(0, 20)
+    .map(
+      (s, i) =>
+        `${i + 1}. ${s.product_name} — GMV £${s.gmv.toFixed(0)} · units ${s.units} · brand ${s.brand || "—"}`
+    )
+    .join("\n");
+
+  return `## Plan date
+${req.planDate || new Date().toISOString().slice(0, 10)}
+
+## Funnel limits (must match exactly)
+- Top funnel: ${req.limits.top} videos
+- Middle funnel: ${req.limits.middle} videos
+- Bottom funnel: ${req.limits.bottom} videos
+- Total: ${req.limits.top + req.limits.middle + req.limits.bottom} videos (max ${MAX_DAILY_POSTS})
+
+## Sales pool (${pool.length} products)
+${productLines}
+
+## Library references available
+- Top funnel refs: ${knowledge.top.length}
+- Middle funnel refs: ${knowledge.middle.length}
+- Bottom funnel refs: ${knowledge.bottom.length}
+
+${formatInspirationRules()}`;
+}
+
+async function generateDailyPlanViaAgent(store: JsonStore, req: GeneratePlanRequest): Promise<DailyPlan> {
+  const validation = validateLimits(req.limits);
+  if (!validation.ok) throw new Error(validation.error);
+
+  const sales = listProductSales(store);
+  if (!sales.length) {
+    throw new Error("Import your 28-day product sales CSV or XLSX first (Dashboard or Daily Planner).");
+  }
+
+  if (!store.getSetting("anthropicApiKey")) {
+    throw new Error("Add your Anthropic API key in Settings first.");
+  }
+
+  const expectedTotal = validation.total;
+  const context = buildPlanAgentContext(store, req);
+
+  const instructions = `Create a complete daily TikTok Shop filming plan for a UK affiliate creator.
+
+Read /hub/*.md in the memory store for products, sales, library patterns, and performance memory.
+
+Rules:
+- Allocate exactly ${req.limits.bottom} bottom-funnel, ${req.limits.middle} middle-funnel, and ${req.limits.top} top-funnel videos (${expectedTotal} total).
+- Weight bottom-funnel toward highest GMV sellers; top-funnel can include lower sellers for awareness.
+- Each video needs 4 clip steps with duration, whatToFilm, whatToSay, onScreenText.
+- Use SHORT product names from sales data in spoken lines.
+- Copy hook structure, pacing, and visual ENERGY from library analyses only — never competitor products, backgrounds, props, or verbatim scripts.
+- Every whatToFilm/whatToSay must be about the assigned product or generic shots (face, hands, on-screen text).
+
+Return ONLY valid JSON (no markdown outside the JSON block):
+{
+  "videos": [
+    {
+      "funnel": "top" | "middle" | "bottom",
+      "productName": "short product name",
+      "productBrand": "brand or empty string",
+      "salesRank": 1,
+      "title": "Awareness video 1: Product name",
+      "summary": "One sentence plan summary",
+      "hookType": "pattern interrupt",
+      "clips": [
+        {
+          "step": 1,
+          "duration": "0–3 sec",
+          "whatToFilm": "...",
+          "whatToSay": "...",
+          "onScreenText": "..."
+        }
+      ]
+    }
+  ]
+}`;
+
+  const { reply, cost } = await requestAgentTask(
+    store,
+    "generate_daily_plan",
+    instructions,
+    context,
+    300_000
+  );
+
+  const parsed = extractJsonFromAgentReply(reply) as { videos?: Array<Record<string, unknown>> };
+  if (!parsed.videos?.length) {
+    throw new Error("Agent returned an empty plan — try again.");
+  }
+
+  if (parsed.videos.length !== expectedTotal) {
+    throw new Error(
+      `Agent returned ${parsed.videos.length} videos but you requested ${expectedTotal}. Try again or adjust limits.`
+    );
+  }
+
+  const productVideoCounts = new Map<string, number>();
+  for (const raw of parsed.videos) {
+    const name = String(raw.productName || "");
+    productVideoCounts.set(name, (productVideoCounts.get(name) || 0) + 1);
+  }
+
+  const perProductIndex = new Map<string, number>();
+  const videos: PlanVideo[] = parsed.videos.map((raw) => {
+    const funnel = String(raw.funnel || "middle") as FunnelBucket;
+    if (!["top", "middle", "bottom"].includes(funnel)) {
+      throw new Error(`Invalid funnel "${raw.funnel}" in agent plan.`);
+    }
+
+    const productName = String(raw.productName || "Unknown product");
+    const productBrand = String(raw.productBrand || "");
+    const videoIndex = (perProductIndex.get(productName) || 0) + 1;
+    perProductIndex.set(productName, videoIndex);
+
+    const salesRow =
+      sales.find((s) => s.product_name.toLowerCase() === productName.toLowerCase()) ||
+      sales.find((s) => s.full_name.toLowerCase().includes(productName.toLowerCase()));
+
+    const clipsRaw = Array.isArray(raw.clips) ? raw.clips : [];
+    const clips: ClipInstruction[] = clipsRaw.map((c, i) => ({
+      step: Number((c as Record<string, unknown>).step) || i + 1,
+      duration: String((c as Record<string, unknown>).duration || ""),
+      whatToFilm: String((c as Record<string, unknown>).whatToFilm || ""),
+      whatToSay: String((c as Record<string, unknown>).whatToSay || ""),
+      onScreenText: String((c as Record<string, unknown>).onScreenText || ""),
+    }));
+
+    if (!clips.length) {
+      throw new Error(`Agent plan missing clips for ${productName}.`);
+    }
+
+    return {
+      id: randomUUID(),
+      funnel,
+      funnelLabel: funnelBucketLabel(funnel),
+      productName,
+      productBrand,
+      productId: salesRow ? matchProductId(store, salesRow) : null,
+      salesRank: Number(raw.salesRank) || 1,
+      videoIndex,
+      videoCountForProduct: productVideoCounts.get(productName) || 1,
+      title: String(raw.title || buildVideoTitle(funnel, salesRow || { product_name: productName, brand: productBrand } as SalesRow, videoIndex - 1)),
+      summary: String(raw.summary || ""),
+      referenceLibraryId: null,
+      hookType: String(raw.hookType || "pattern interrupt"),
+      clips,
+    };
+  });
+
+  const plan: DailyPlan = {
+    id: randomUUID(),
+    planDate: req.planDate || new Date().toISOString().slice(0, 10),
+    limits: req.limits,
+    totalVideos: videos.length,
+    salesSource: store.getSetting("lastSalesImportFile"),
+    salesPeriodDays: Number(store.getSetting("salesPeriodDays", "28")) || 28,
+    videos,
+    createdAt: new Date().toISOString(),
+    cost,
+  };
+
+  store.upsertById("daily_plans", {
+    id: plan.id,
+    plan_date: plan.planDate,
+    payload_json: JSON.stringify(plan),
+    total_videos: plan.totalVideos,
+    created_at: plan.createdAt,
+  });
+
+  store.setSetting("plannerLimits", JSON.stringify(req.limits));
+  return plan;
+}
+
+/** @deprecated Local rule-based planner — kept for tests/reference only. */
+export function generateDailyPlanLocal(store: JsonStore, req: GeneratePlanRequest): DailyPlan {
   const validation = validateLimits(req.limits);
   if (!validation.ok) throw new Error(validation.error);
 

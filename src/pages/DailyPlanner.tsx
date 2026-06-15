@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import type { DailyPlan, FunnelLimits, PlannerSummary, PlanVideo } from "../hub";
+import type { AgentCostBreakdown, DailyPlan, FunnelLimits, PlannerSummary, PlanVideo } from "../hub";
+import AgentCostBadge from "../components/AgentCostBadge";
 
 const FUNNEL_META = [
   { key: "bottom" as const, label: "Bottom funnel", hint: "Hard sell / orange cart" },
@@ -23,6 +24,7 @@ export default function DailyPlanner() {
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [lastCost, setLastCost] = useState<AgentCostBreakdown | null>(null);
 
   const totalPosts = limits.top + limits.middle + limits.bottom;
   const overLimit = totalPosts > maxPosts;
@@ -84,6 +86,7 @@ export default function DailyPlanner() {
     setLoading(true);
     setError("");
     setMessage("");
+    setLastCost(null);
     const res = await window.hub.generateDailyPlan({
       limits,
       selectedProductNames: Array.from(selectedProducts),
@@ -94,7 +97,9 @@ export default function DailyPlanner() {
       return;
     }
     setPlan(res.plan);
-    setMessage(`Plan ready — ${res.plan.totalVideos} videos to film today.`);
+    setLastCost(res.cost || res.plan.cost || null);
+    const costNote = res.cost ? ` · API cost $${res.cost.totalUsd.toFixed(2)}` : "";
+    setMessage(`Plan ready — ${res.plan.totalVideos} videos to film today${costNote}.`);
   }
 
   const productBreakdown = useMemo(() => {
@@ -125,8 +130,8 @@ export default function DailyPlanner() {
     <div>
       <h2 className="page-title">Daily Planner</h2>
       <p className="page-desc">
-        Plan up to {maxPosts} posts per day. Import 28-day sales, set your funnel mix, and get a simple shot list for
-        each video based on winning competitor analyses in your library.
+        Plan up to {maxPosts} posts per day. Import 28-day sales, set your funnel mix, and your TikTok agent builds
+        the full filming plan with shot lists from library analyses.
         <span className="muted" style={{ display: "block", marginTop: 6 }}>
           Shot lists borrow hook structure and visual style from analysed videos — always for your product, never their
           products, backgrounds, or props.
@@ -209,15 +214,18 @@ export default function DailyPlanner() {
             </>
           ) : null}
 
-          <div className="btn-row" style={{ marginTop: 16 }}>
+          <div className="btn-row" style={{ marginTop: 16, alignItems: "center", gap: 12 }}>
             <button
               type="button"
               className="btn btn-primary"
               disabled={loading || overLimit || !summary?.salesCount}
               onClick={handleGenerate}
             >
-              {loading ? "Building plan…" : "Generate today's filming plan"}
+              {loading ? "Agent planning…" : "Generate today's filming plan"}
             </button>
+            {!loading && (
+              <AgentCostBadge action="generate_daily_plan" totalVideos={totalPosts} actualCost={lastCost} />
+            )}
           </div>
           {message && <p className="success">{message}</p>}
           {error && <p className="error">{error}</p>}

@@ -42,6 +42,24 @@ export type Product = {
   image_url?: string;
 };
 
+export type AgentCostBreakdown = {
+  pricingAsOf: string;
+  modelId: string;
+  modelLabel: string;
+  usage: {
+    inputTokens: number;
+    outputTokens: number;
+    cacheReadInputTokens?: number;
+    cacheCreation5mTokens?: number;
+  };
+  inputUsd: number;
+  outputUsd: number;
+  cacheReadUsd: number;
+  cacheWriteUsd: number;
+  totalUsd: number;
+  estimated: boolean;
+};
+
 export type ScriptResult = {
   id: string;
   title: string;
@@ -51,6 +69,7 @@ export type ScriptResult = {
   productId: string;
   referenceLibraryId?: string;
   createdAt: string;
+  cost?: AgentCostBreakdown;
 };
 
 export type MemorySummary = {
@@ -111,6 +130,7 @@ export type DailyPlan = {
   salesPeriodDays: number;
   videos: PlanVideo[];
   createdAt: string;
+  cost?: AgentCostBreakdown;
 };
 
 export type PlannerSummary = {
@@ -172,6 +192,7 @@ export type AgentMessage = {
   role: "user" | "assistant";
   text: string;
   at: string;
+  cost?: AgentCostBreakdown;
 };
 
 export type HubApi = {
@@ -186,6 +207,7 @@ export type HubApi = {
     tiktokAgentId: string;
     tiktokAgentEnvironmentId: string;
     tiktokAgentMemoryStoreId: string;
+    tiktokAgentSessionId: string;
   }>;
   saveSettings: (settings: Record<string, string>) => Promise<{ ok: boolean }>;
   getDashboard: () => Promise<{
@@ -226,7 +248,7 @@ export type HubApi = {
     productId: string;
     durationSeconds?: number;
     referenceLibraryId?: string;
-  }) => Promise<{ ok: boolean; result?: ScriptResult; error?: string }>;
+  }) => Promise<{ ok: boolean; result?: ScriptResult; cost?: AgentCostBreakdown; error?: string }>;
   listElevenLabsVoices: () => Promise<{ ok: boolean; voices?: Array<{ voice_id: string; name: string }>; error?: string }>;
   generateAudio: (scriptId: string) => Promise<{ ok: boolean; filePath?: string; alignmentPath?: string | null; error?: string }>;
   openAudioFile: (filePath: string) => Promise<{ ok: boolean }>;
@@ -258,12 +280,23 @@ export type HubApi = {
     planDate?: string;
     limits: FunnelLimits;
     selectedProductNames?: string[];
-  }) => Promise<{ ok: boolean; plan?: DailyPlan; error?: string }>;
+  }) => Promise<{ ok: boolean; plan?: DailyPlan; cost?: AgentCostBreakdown; error?: string }>;
   listDailyPlans: () => Promise<Array<{ id: string; planDate: string; totalVideos: number; createdAt: string }>>;
   getDailyPlan: (id: string) => Promise<DailyPlan | null>;
   getAgentStatus: () => Promise<AgentStatus>;
   syncAgentMemory: () => Promise<{ ok: boolean; uploaded?: number; paths?: string[]; error?: string }>;
-  sendAgentMessage: (message: string) => Promise<{ ok: boolean; reply?: string; sessionId?: string; error?: string }>;
+  sendAgentMessage: (message: string) => Promise<{ ok: boolean; reply?: string; sessionId?: string; cost?: AgentCostBreakdown; error?: string }>;
+  estimateAgentCost: (params: {
+    action: "generate_script" | "generate_daily_plan" | "agent_chat";
+    totalVideos?: number;
+    durationSeconds?: number;
+    messageChars?: number;
+  }) => Promise<{ ok: boolean; cost?: AgentCostBreakdown; error?: string }>;
+  requestAgentTask: (req: {
+    task: "generate_script" | "generate_daily_plan" | "analyze_data" | "custom";
+    instructions: string;
+    context?: string;
+  }) => Promise<{ ok: boolean; reply?: string; sessionId?: string; cost?: AgentCostBreakdown; error?: string }>;
   listAgentChatHistory: () => Promise<AgentMessage[]>;
   resetAgentSession: () => Promise<{ ok: boolean; sessionId?: string; error?: string }>;
 };

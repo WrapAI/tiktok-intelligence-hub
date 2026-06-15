@@ -271,14 +271,38 @@ body {
 
 .agent-chat-form {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agent-chat-form-main {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  align-items: flex-end;
+}
+
+.agent-chat-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .agent-chat-input {
   flex: 1;
   resize: vertical;
   min-height: 72px;
+}
+
+.agent-cost-badge {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.agent-msg-cost {
+  font-size: 11px;
+  margin-top: 6px;
 }
 
 .stat-card {

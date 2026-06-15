@@ -1,27 +1,15 @@
-import Anthropic from "@anthropic-ai/sdk";
+import type { JsonStore } from "../db.js";
+import { requestAgentTask } from "./tiktokAgent.js";
 
 const DEFAULT_MODEL = "claude-sonnet-4-6";
 
+/** @deprecated All LLM work routes through the TikTok managed agent. */
 export async function callClaude(
-  apiKey: string,
+  store: JsonStore,
   system: string,
   user: string,
-  model = DEFAULT_MODEL
+  _model = DEFAULT_MODEL
 ): Promise<string> {
-  const client = new Anthropic({ apiKey });
-  const response = await client.messages.create({
-    model,
-    max_tokens: 4096,
-    system,
-    messages: [{ role: "user", content: user }],
-  });
-
-  const text = response.content
-    .filter((block) => block.type === "text")
-    .map((block) => block.text)
-    .join("\n")
-    .trim();
-
-  if (!text) throw new Error("Claude returned an empty response");
-  return text;
+  const { reply } = await requestAgentTask(store, "custom", system, user);
+  return reply;
 }

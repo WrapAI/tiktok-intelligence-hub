@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Product, ScriptInsights, ScriptResult } from "../hub";
+import type { AgentCostBreakdown, Product, ScriptInsights, ScriptResult } from "../hub";
+import AgentCostBadge from "../components/AgentCostBadge";
 
 type PacingRef = {
   id: string;
@@ -30,6 +31,7 @@ export default function ScriptWriter() {
   const [error, setError] = useState("");
   const [audioPath, setAudioPath] = useState("");
   const [result, setResult] = useState<ScriptResult | null>(null);
+  const [lastCost, setLastCost] = useState<AgentCostBreakdown | null>(null);
 
   const selectedProduct = products.find((p) => p.id === productId);
 
@@ -57,6 +59,7 @@ export default function ScriptWriter() {
     setLoading(true);
     setError("");
     setResult(null);
+    setLastCost(null);
     setAudioPath("");
     const res = await window.hub.generateScript({
       productId,
@@ -69,6 +72,7 @@ export default function ScriptWriter() {
       return;
     }
     setResult(res.result);
+    setLastCost(res.cost || res.result.cost || null);
   }
 
   async function handleAudio() {
@@ -92,8 +96,7 @@ export default function ScriptWriter() {
     <div>
       <h2 className="page-title">Script Writer</h2>
       <p className="page-desc">
-        Search your product, then generate. Claude reads your library stats (views, likes, comments) and picks the
-        winning hook structure automatically — SSML pacing matches your top-performing reference videos.
+        Search your product, then generate. Your TikTok agent reads library stats and writes the script + SSML pacing.
       </p>
 
       <div className="grid-2">
@@ -186,10 +189,13 @@ export default function ScriptWriter() {
             onChange={(e) => setDuration(Number(e.target.value) || 45)}
           />
 
-          <div className="btn-row">
+          <div className="btn-row" style={{ alignItems: "center", gap: 12 }}>
             <button type="button" className="btn btn-primary" disabled={loading} onClick={handleGenerate}>
-              {loading ? "Writing script…" : "Generate script"}
+              {loading ? "Agent writing…" : "Generate script"}
             </button>
+            {!loading && (
+              <AgentCostBadge action="generate_script" durationSeconds={duration} actualCost={lastCost} />
+            )}
           </div>
           {error && <p className="error">{error}</p>}
         </div>

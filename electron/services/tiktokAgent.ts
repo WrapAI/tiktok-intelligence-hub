@@ -1,10 +1,19 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { JsonStore } from "../db.js";
 import { buildHubMemoryDocuments } from "./hubContextSnapshot.js";
+import {
+  calculateUsageCost,
+  diffUsage,
+  normalizeSessionUsage,
+  type AgentCostBreakdown,
+} from "./agentPricing.js";
 
 const MANAGED_AGENTS_BETA = "managed-agents-2026-04-01" as const;
 
-const DEFAULT_AGENT_ID = "agent_01NxQdQvuQLXgJgMgXbQ1LNz";
+export const DEFAULT_AGENT_ID = "agent_01NxQdQvuQLXgJgMgXbQ1LNz";
+export const DEFAULT_ENVIRONMENT_ID = "env_0139W3beYzg2rMpMX18KQ69M";
+export const DEFAULT_MEMORY_STORE_ID = "memstore_01Vp97M6cAtSRivSiWnGsL67";
+export const DEFAULT_SESSION_ID = "sesn_01PHBz1sPSVVM61oH2yzNQi9";
 
 export type AgentConfig = {
   agentId: string;
@@ -17,15 +26,36 @@ export type AgentMessage = {
   role: "user" | "assistant";
   text: string;
   at: string;
+  cost?: AgentCostBreakdown;
+};
+
+export type AgentCallResult = {
+  sessionId: string;
+  reply: string;
+  cost: AgentCostBreakdown;
 };
 
 function getConfig(store: JsonStore): AgentConfig {
   return {
     agentId: store.getSetting("tiktokAgentId", DEFAULT_AGENT_ID),
-    environmentId: store.getSetting("tiktokAgentEnvironmentId"),
-    memoryStoreId: store.getSetting("tiktokAgentMemoryStoreId"),
-    sessionId: store.getSetting("tiktokAgentSessionId"),
+    environmentId: store.getSetting("tiktokAgentEnvironmentId", DEFAULT_ENVIRONMENT_ID),
+    memoryStoreId: store.getSetting("tiktokAgentMemoryStoreId", DEFAULT_MEMORY_STORE_ID),
+    sessionId: store.getSetting("tiktokAgentSessionId", DEFAULT_SESSION_ID),
   };
+}
+
+/** Fill empty agent settings on first run or after upgrade. */
+export function seedAgentDefaults(store: JsonStore) {
+  if (!store.getSetting("tiktokAgentId")) store.setSetting("tiktokAgentId", DEFAULT_AGENT_ID);
+  if (!store.getSetting("tiktokAgentEnvironmentId")) {
+    store.setSetting("tiktokAgentEnvironmentId", DEFAULT_ENVIRONMENT_ID);
+  }
+  if (!store.getSetting("tiktokAgentMemoryStoreId")) {
+    store.setSetting("tiktokAgentMemoryStoreId", DEFAULT_MEMORY_STORE_ID);
+  }
+  if (!store.getSetting("tiktokAgentSessionId")) {
+    store.setSetting("tiktokAgentSessionId", DEFAULT_SESSION_ID);
+  }
 }
 
 function requireApiKey(store: JsonStore): string {
@@ -161,12 +191,27 @@ async function waitForIdle(client: Anthropic, sessionId: string, timeoutMs = 120
   throw new Error("Agent timed out waiting for a response.");
 }
 
-export async function sendAgentMessage(store: JsonStore, message: string) {
+async function readSessionMeta(client: Anthropic, sessionId: string) {
+  const session = await client.beta.sessions.retrieve(sessionId, { betas: [MANAGED_AGENTS_BETA] });
+  return {
+    usage: normalizeSessionUsage(session.usage),
+    modelId: session.agent?.model?.id,
+    speed: session.agent?.model?.speed,
+  };
+}
+
+async function deliverAgentMessage(
+  store: JsonStore,
+  message: string,
+  options: { recordInChat?: boolean; timeoutMs?: number } = {}
+): Promise<AgentCallResult> {
   const apiKey = requireApiKey(store);
   const client = createClient(apiKey);
+  const timeoutMs = options.timeoutMs ?? 120_000;
 
   const session = await createAgentSession(store);
   const sessionId = session.sessionId;
+  const usageBefore = await readSessionMeta(client, sessionId);
 
   const before = new Set<string>();
   for await (const event of client.beta.sessions.events.list(sessionId, { betas: [MANAGED_AGENTS_BETA] })) {
@@ -183,7 +228,11 @@ export async function sendAgentMessage(store: JsonStore, message: string) {
     betas: [MANAGED_AGENTS_BETA],
   });
 
-  await waitForIdle(client, sessionId);
+  await waitForIdle(client, sessionId, timeoutMs);
+
+  const usageAfter = await readSessionMeta(client, sessionId);
+  const delta = diffUsage(usageBefore.usage, usageAfter.usage);
+  const cost = calculateUsageCost(delta, usageAfter.modelId, usageAfter.speed, false);
 
   const replies: string[] = [];
   for await (const event of client.beta.sessions.events.list(sessionId, { betas: [MANAGED_AGENTS_BETA] })) {
@@ -194,12 +243,66 @@ export async function sendAgentMessage(store: JsonStore, message: string) {
 
   const assistantText = replies.join("\n\n").trim() || "Agent finished but returned no text.";
 
-  const history = readChatHistory(store);
-  history.push({ role: "user", text: message, at: new Date().toISOString() });
-  history.push({ role: "assistant", text: assistantText, at: new Date().toISOString() });
-  writeChatHistory(store, history.slice(-40));
+  if (options.recordInChat !== false) {
+    const history = readChatHistory(store);
+    history.push({ role: "user", text: message, at: new Date().toISOString() });
+    history.push({ role: "assistant", text: assistantText, at: new Date().toISOString(), cost });
+    writeChatHistory(store, history.slice(-40));
+  }
 
-  return { sessionId, reply: assistantText };
+  accumulateAgentSpend(store, cost);
+
+  return { sessionId, reply: assistantText, cost };
+}
+
+/** Internal hub tasks (scripts, auto-sync notices) — not shown in TikTok Agent chat tab. */
+export async function sendAgentTask(
+  store: JsonStore,
+  message: string,
+  options: { timeoutMs?: number } = {}
+) {
+  return deliverAgentMessage(store, message, { recordInChat: false, timeoutMs: options.timeoutMs });
+}
+
+export type AgentTaskType =
+  | "generate_script"
+  | "generate_daily_plan"
+  | "analyze_data"
+  | "custom";
+
+export async function requestAgentTask(
+  store: JsonStore,
+  task: AgentTaskType,
+  instructions: string,
+  context?: string,
+  timeoutMs = 180_000
+) {
+  const header = `[Hub task: ${task}]
+You are the TikTok Intelligence Hub managed agent. Read /hub/*.md in the attached memory store for current products, sales, library, and performance data before responding.
+
+`;
+  const body = context ? `${instructions}\n\n---\n\n${context}` : instructions;
+  return sendAgentTask(store, header + body, { timeoutMs });
+}
+
+export async function sendAgentMessage(store: JsonStore, message: string) {
+  const result = await deliverAgentMessage(store, message, { recordInChat: true });
+  return { sessionId: result.sessionId, reply: result.reply, cost: result.cost };
+}
+
+function accumulateAgentSpend(store: JsonStore, cost: AgentCostBreakdown) {
+  const prev = Number(store.getSetting("agentSpendUsdTotal", "0")) || 0;
+  store.setSetting("agentSpendUsdTotal", String(prev + cost.totalUsd));
+  store.setSetting("agentLastCostUsd", String(cost.totalUsd));
+  store.setSetting("agentLastCostAt", new Date().toISOString());
+}
+
+export function getAgentSpendSummary(store: JsonStore) {
+  return {
+    totalUsd: Number(store.getSetting("agentSpendUsdTotal", "0")) || 0,
+    lastUsd: Number(store.getSetting("agentLastCostUsd", "0")) || 0,
+    lastAt: store.getSetting("agentLastCostAt") || null,
+  };
 }
 
 function readChatHistory(store: JsonStore): AgentMessage[] {

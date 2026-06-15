@@ -45,6 +45,17 @@ contextBridge.exposeInMainWorld("hub", {
   getAgentStatus: () => ipcRenderer.invoke("hub:get-agent-status"),
   syncAgentMemory: () => ipcRenderer.invoke("hub:sync-agent-memory"),
   sendAgentMessage: (message: string) => ipcRenderer.invoke("hub:send-agent-message", message),
+  estimateAgentCost: (params: {
+    action: "generate_script" | "generate_daily_plan" | "agent_chat";
+    totalVideos?: number;
+    durationSeconds?: number;
+    messageChars?: number;
+  }) => ipcRenderer.invoke("hub:estimate-agent-cost", params),
+  requestAgentTask: (req: {
+    task: "generate_script" | "generate_daily_plan" | "analyze_data" | "custom";
+    instructions: string;
+    context?: string;
+  }) => ipcRenderer.invoke("hub:request-agent-task", req),
   listAgentChatHistory: () => ipcRenderer.invoke("hub:list-agent-chat-history"),
   resetAgentSession: () => ipcRenderer.invoke("hub:reset-agent-session"),
 });

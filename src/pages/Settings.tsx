@@ -12,6 +12,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
   const [agentId, setAgentId] = useState("");
   const [agentEnvironmentId, setAgentEnvironmentId] = useState("");
   const [agentMemoryStoreId, setAgentMemoryStoreId] = useState("");
+  const [agentSessionId, setAgentSessionId] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
@@ -23,8 +24,9 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       setHandle(s.myTiktokHandle || "");
       setDataFolder(s.dataFolder || "");
       setAgentId(s.tiktokAgentId || "agent_01NxQdQvuQLXgJgMgXbQ1LNz");
-      setAgentEnvironmentId(s.tiktokAgentEnvironmentId || "");
-      setAgentMemoryStoreId(s.tiktokAgentMemoryStoreId || "");
+      setAgentEnvironmentId(s.tiktokAgentEnvironmentId || "env_0139W3beYzg2rMpMX18KQ69M");
+      setAgentMemoryStoreId(s.tiktokAgentMemoryStoreId || "memstore_01Vp97M6cAtSRivSiWnGsL67");
+      setAgentSessionId(s.tiktokAgentSessionId || "sesn_01PHBz1sPSVVM61oH2yzNQi9");
     });
   }, []);
 
@@ -55,6 +57,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       tiktokAgentId: agentId,
       tiktokAgentEnvironmentId: agentEnvironmentId,
       tiktokAgentMemoryStoreId: agentMemoryStoreId,
+      tiktokAgentSessionId: agentSessionId,
     });
     setStatus("Settings saved locally on this machine");
     onSaved?.();
@@ -139,14 +142,21 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           className="field-input"
           value={agentEnvironmentId}
           onChange={(e) => setAgentEnvironmentId(e.target.value)}
-          placeholder="env_0139W3…"
+          placeholder="env_0139W3beYzg2rMpMX18KQ69M"
         />
         <label className="field-label">Memory store ID</label>
         <input
           className="field-input"
           value={agentMemoryStoreId}
           onChange={(e) => setAgentMemoryStoreId(e.target.value)}
-          placeholder="memstore_…"
+          placeholder="memstore_01Vp97M6cAtSRivSiWnGsL67"
+        />
+        <label className="field-label">Session ID (optional — reuse existing session)</label>
+        <input
+          className="field-input"
+          value={agentSessionId}
+          onChange={(e) => setAgentSessionId(e.target.value)}
+          placeholder="sesn_01PHBz1sPSVVM61oH2yzNQi9"
         />
 
         <label className="field-label">Data folder (extension sync + imports)</label>

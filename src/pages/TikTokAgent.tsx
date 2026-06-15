@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import type { AgentMessage, AgentStatus } from "../hub";
+import type { AgentCostBreakdown, AgentMessage, AgentStatus } from "../hub";
+import AgentCostBadge from "../components/AgentCostBadge";
 
 export default function TikTokAgent() {
   const [status, setStatus] = useState<AgentStatus | null>(null);
@@ -9,6 +10,7 @@ export default function TikTokAgent() {
   const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [lastSendCost, setLastSendCost] = useState<AgentCostBreakdown | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   async function refresh() {
@@ -64,6 +66,7 @@ export default function TikTokAgent() {
     setLoading(true);
     setError("");
     setNotice("");
+    setLastSendCost(null);
     setInput("");
 
     const res = await window.hub.sendAgentMessage(text);
@@ -75,6 +78,7 @@ export default function TikTokAgent() {
       return;
     }
 
+    setLastSendCost(res.cost || null);
     await refresh();
   }
 
@@ -84,8 +88,9 @@ export default function TikTokAgent() {
     <div>
       <h2 className="page-title">TikTok Agent</h2>
       <p className="page-desc">
-        Your Claude managed agent for TikTok Shop strategy. Sync hub data to the memory store, then ask for filming
-        plans, script angles, or product focus using your sales + library context.
+        Your Claude managed agent for TikTok Shop strategy. All AI work (scripts, chat, analysis) runs through this
+        agent. New imports — library, sales, products, Studio/Compass analytics — auto-sync to the memory store so it
+        learns over time.
       </p>
 
       <div className="card" style={{ marginBottom: 16 }}>
@@ -111,8 +116,12 @@ export default function TikTokAgent() {
           <p className="error">Add your Agent environment ID in Settings.</p>
         )}
         {status?.hasApiKey && !status?.memoryStoreId && (
-          <p className="muted">Optional: add a memory store ID to persist hub context across sessions.</p>
+          <p className="muted">Memory store ID required for auto-sync on imports.</p>
         )}
+        <p className="muted" style={{ marginTop: 8 }}>
+          Imports and script generation sync hub data to memory automatically (~2s after each change). Use manual sync
+          to force a full refresh.
+        </p>
         <div className="btn-row" style={{ marginTop: 12 }}>
           <button type="button" className="btn btn-secondary" disabled={syncing || !status?.memoryConfigured} onClick={handleSync}>
             {syncing ? "Syncing…" : "Sync hub context → memory"}
@@ -137,6 +146,11 @@ export default function TikTokAgent() {
             <div key={`${m.at}-${i}`} className={`agent-msg agent-msg-${m.role}`}>
               <div className="agent-msg-role">{m.role === "user" ? "You" : "Agent"}</div>
               <div className="agent-msg-text">{m.text}</div>
+              {m.cost && (
+                <div className="agent-msg-cost muted">
+                  ${m.cost.totalUsd.toFixed(3)} · {m.cost.modelLabel}
+                </div>
+              )}
             </div>
           ))}
           {loading && <p className="muted">Agent thinking…</p>}
@@ -144,17 +158,24 @@ export default function TikTokAgent() {
         </div>
 
         <form className="agent-chat-form" onSubmit={handleSend}>
-          <textarea
-            className="field-input agent-chat-input"
-            rows={3}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={ready ? "Ask your TikTok agent…" : "Configure agent in Settings first"}
-            disabled={!ready || loading}
-          />
-          <button type="submit" className="btn btn-primary" disabled={!ready || loading || !input.trim()}>
-            Send
-          </button>
+          <div className="agent-chat-form-main">
+            <textarea
+              className="field-input agent-chat-input"
+              rows={3}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={ready ? "Ask your TikTok agent…" : "Configure agent in Settings first"}
+              disabled={!ready || loading}
+            />
+            <div className="agent-chat-form-actions">
+              <button type="submit" className="btn btn-primary" disabled={!ready || loading || !input.trim()}>
+                Send
+              </button>
+              {!loading && input.trim() && (
+                <AgentCostBadge action="agent_chat" messageChars={input.trim().length} actualCost={lastSendCost} />
+              )}
+            </div>
+          </div>
         </form>
         {error && <p className="error">{error}</p>}
       </div>

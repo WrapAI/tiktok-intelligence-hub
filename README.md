@@ -8,7 +8,7 @@ Desktop companion for the **TikTok Hook Analyzer** Chrome extension.
 - **Daily Planner** — set funnel post limits (max 30/day), import 28-day sales CSV/XLSX, get product video counts + simple shot lists from library analyses
 - **Sync** — requests Studio/Compass scrape via whisper-server + extension polling
 - **Products** — from extension JSON, TikTok Shop/Affiliate **XLSX** exports, or library analyses
-- **TikTok Agent** — Claude managed agent with memory store synced from your hub database
+- **TikTok Agent** — Claude managed agent; all AI tasks route through it; hub data auto-syncs to memory store on every import
 
 ## Setup
 
@@ -30,11 +30,14 @@ Settings fields (Anthropic Console):
 
 | Field | Example |
 |-------|---------|
-| Agent ID | `agent_01NxQdQvuQLXgJgMgXbQ1LNz` (pre-filled) |
-| Environment ID | `env_0139W3…` |
-| Memory store ID | `memstore_…` |
+| Agent ID | `agent_01NxQdQvuQLXgJgMgXbQ1LNz` |
+| Environment ID | `env_0139W3beYzg2rMpMX18KQ69M` |
+| Memory store ID | `memstore_01Vp97M6cAtSRivSiWnGsL67` |
+| Session ID | `sesn_01PHBz1sPSVVM61oH2yzNQi9` (reused if still active) |
 
-**Sync hub context → memory** uploads 8 files under `/hub/` (products, sales, library, planner rules, etc.). The agent session is created with your memory store attached:
+**Sync hub context → memory** uploads 10 files under `/hub/` (products, sales, library, analytics, import history, etc.). New imports auto-sync within ~2 seconds — manual sync forces a full refresh. Script generation also runs through the agent session.
+
+The agent session is created with your memory store attached:
 
 ```typescript
 await client.beta.sessions.create({

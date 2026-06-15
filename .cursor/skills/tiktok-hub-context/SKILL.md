@@ -9,7 +9,7 @@ description: >-
 
 # TikTok Intelligence Hub — Agent Context
 
-Read `/hub/*.md` in the attached memory store before answering. Those files are synced from the user's local hub database.
+Read `/hub/*.md` in the attached memory store before answering. Those files are synced automatically from the hub app whenever library, sales, products, memory, Studio/Compass, scripts, or plans change (~2s debounce).
 
 ## App purpose
 
@@ -56,10 +56,16 @@ When reference notes mention a competitor product, translate to **technique only
 | `/hub/performance_memory.md` | Creator win patterns |
 | `/hub/planner_rules.md` | Daily planner defaults + inspiration rules |
 | `/hub/data_layout.md` | Import folder structure |
+| `/hub/import_history.md` | Recent imports by category |
+| `/hub/analytics.md` | Studio/Compass snapshots, scripts, plans |
+
+## AI routing
+
+All hub AI work (Script Writer, chat, custom tasks) runs through the managed TikTok agent session — not direct API calls. Internal tasks use `[Hub task: …]` prefixes; auto-sync uses `[Hub auto-sync]`.
 
 ## Answering style
 
 - Be direct and filming-oriented (Film / Say / On-screen text when helpful)
 - Use **short product names** from sales data in spoken lines
 - Ground recommendations in current sales + library stats from memory files
-- If memory is stale, say so and ask the user to sync hub context from the app
+- Memory auto-syncs on imports; manual sync in TikTok Agent tab forces a full refresh
