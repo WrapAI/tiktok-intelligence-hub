@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1781480956997,
+    "type": "script",
+    "status": "error",
+    "message": "404 {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: claude-sonnet-4-20250514\"},\"request_id\":\"req_011Cc43hskHbB1X9W86ivW3s\"}",
+    "created_at": "2026-06-14T23:49:16.997Z"
+  },
+  {
+    "id": 1781480011575,
+    "type": "import",
+    "status": "ok",
+    "message": "Imported 2 file(s): my_compass_data.json (compass), my_studio_data.json (studio)",
+    "created_at": "2026-06-14T23:33:31.575Z"
+  },
+  {
+    "id": 1781479999692,
+    "type": "import",
+    "status": "ok",
+    "message": "Imported 1 file(s): Creator Product List - 20260614232031.xlsx (tiktok_xlsx_products)",
+    "created_at": "2026-06-14T23:33:19.692Z"
+  },
+  {
+    "id": 1781479542727,
+    "type": "ALL",
+    "status": "requested",
+    "message": "Waiting for extension",
+    "created_at": "2026-06-14T23:25:42.727Z"
+  }
+]

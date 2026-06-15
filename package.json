@@ -8,7 +8,9 @@
     "dev": "vite",
     "build": "tsc -p tsconfig.node.json && vite build",
     "preview": "vite preview",
-    "start": "electron ."
+    "start": "electron .",
+    "data:export": "node scripts/data-sync.mjs export",
+    "data:import": "node scripts/data-sync.mjs import"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",

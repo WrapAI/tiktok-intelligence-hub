@@ -1,0 +1,36 @@
+---
+description: Export and commit hub library/product/sales data when dashboard data changes
+alwaysApply: true
+---
+
+# Sync hub data to git
+
+The repo `data/` folder is the shared copy of library, products, sales, studio/compass, and database tables.
+
+## When to export
+
+Run `npm run data:export` and commit `data/` when you or the user:
+
+- Import library, sales, products, studio, or compass files
+- Change data that affects the Dashboard, Library, Products, Memory, or planner
+- Finish a session where hub database tables were updated
+
+## Never commit
+
+- `data/database/settings.json` — API keys (blocked by .gitignore)
+- AppData paths or local secrets
+
+## Before pushing hub work
+
+1. `npm run data:export`
+2. `git add data/`
+3. Include data in the commit (or a dedicated "Sync hub data" commit)
+
+## After pull (tell the user)
+
+```powershell
+npm run data:import
+npm run dev
+```
+
+`data:import` copies into `%APPDATA%/tiktok-intelligence-hub/` without overwriting `settings.json`.
