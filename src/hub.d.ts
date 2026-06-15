@@ -33,6 +33,8 @@ export type ScriptInsights = {
   recommendedHookType: string;
 };
 
+export type ProductResearchStatus = "pending" | "researching" | "complete" | "error";
+
 export type Product = {
   id: string;
   name: string;
@@ -40,11 +42,14 @@ export type Product = {
   price?: string;
   description?: string;
   image_url?: string;
+  source?: string;
   packaging_type?: string;
   container_nouns?: string;
   product_category?: string;
   research_notes?: string;
   research_completed_at?: string;
+  research_status?: ProductResearchStatus;
+  research_error?: string;
 };
 
 export type AgentCostBreakdown = {
@@ -207,6 +212,25 @@ export type AgentMessage = {
   cost?: AgentCostBreakdown;
 };
 
+export type AgentSessionPhase =
+  | "connecting"
+  | "sending"
+  | "running"
+  | "waiting_json"
+  | "finalizing"
+  | "done"
+  | "error";
+
+export type AgentSessionLiveStatus = {
+  active: boolean;
+  phase: AgentSessionPhase;
+  message: string;
+  sessionStatus?: string;
+  task?: string;
+  sessionId?: string;
+  at: string;
+};
+
 export type HubApi = {
   getBootstrap: () => Promise<{ dataFolder: string }>;
   checkWhisper: () => Promise<boolean>;
@@ -237,6 +261,7 @@ export type HubApi = {
   }>;
   listProducts: () => Promise<Product[]>;
   saveProduct: (product: Record<string, string>) => Promise<{ ok: boolean; id: string }>;
+  retryProductResearch: (productId: string) => Promise<{ ok: boolean }>;
   deleteProduct: (id: string) => Promise<{ ok: boolean }>;
   listLibrary: () => Promise<unknown[]>;
   listMemory: () => Promise<unknown[]>;
@@ -311,6 +336,7 @@ export type HubApi = {
   }) => Promise<{ ok: boolean; reply?: string; sessionId?: string; cost?: AgentCostBreakdown; error?: string }>;
   listAgentChatHistory: () => Promise<AgentMessage[]>;
   resetAgentSession: () => Promise<{ ok: boolean; sessionId?: string; error?: string }>;
+  onAgentSessionStatus: (callback: (status: AgentSessionLiveStatus) => void) => () => void;
 };
 
 declare global {

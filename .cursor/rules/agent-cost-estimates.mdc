@@ -1,0 +1,53 @@
+---
+description: Verify AgentCostBadge estimates stay accurate when adding or changing agent-powered features
+alwaysApply: true
+---
+
+# Agent API cost estimates
+
+Whenever you add or change anything that calls the TikTok agent / Anthropic API, **re-check button cost estimates** before finishing.
+
+## Required on every agent action button
+
+1. Render `<AgentCostBadge>` beside the trigger button (see Daily Planner, Script Writer, TikTok Agent).
+2. Pass inputs that affect token usage:
+   - `generate_daily_plan` → `totalVideos={totalPosts}` (or actual video count)
+   - `generate_script` → `durationSeconds={duration}`
+   - `agent_chat` → `messageChars={input.trim().length}`
+3. After the action completes, pass `actualCost={lastCost}` from the API response so the badge shows real usage.
+
+## Keep estimates in sync with implementation
+
+Update `electron/services/agentPricing.ts` → `estimateAgentActionCost()` when you change:
+
+- Prompt/instruction length or JSON schema size
+- Context blocks (library, products, pacing, packaging research)
+- Expected output size (e.g. full scripts per video, SSML, captions)
+- Memory-store context assumptions (`memoryContextInput`, `memoryCacheRead`)
+
+If estimates drift, tune `taskInput` / `taskOutput` per action — estimates should land within ~2× of typical actual costs.
+
+## New agent-powered actions
+
+When adding a new user-facing agent action:
+
+1. Add action to `AgentActionEstimateParams` in `agentPricing.ts`
+2. Add case in `estimateAgentActionCost()` with realistic token math
+3. Extend `AgentCostBadge` props + `hub.d.ts` `estimateAgentCost` types
+4. Wire `hub:estimate-agent-cost` in `main.ts` if params change
+5. Return `cost` from the service (`requestAgentTask` / `sendAgentMessage`) and surface `actualCost` in UI
+
+## Pricing table maintenance
+
+- Rates live in `MODEL_RATES`; `PRICING_AS_OF` must match the source date
+- Default model is `claude-sonnet-4-6` — estimates use the same model as the agent when possible
+- Re-verify against [Anthropic pricing](https://docs.anthropic.com/en/docs/about-claude/pricing) when models or rates change
+
+## Done checklist (before marking work complete)
+
+- [ ] Every new/changed agent button has `AgentCostBadge` with correct dynamic props
+- [ ] `estimateAgentActionCost` reflects new prompt/output size
+- [ ] `actualCost` wired after successful calls
+- [ ] Build passes (`npm.cmd run build`)
+
+Background-only agent calls (e.g. one-time product research) do not need a badge unless the user triggers them from the UI.

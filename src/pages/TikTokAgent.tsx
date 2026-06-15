@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { AgentCostBreakdown, AgentMessage, AgentStatus } from "../hub";
 import AgentCostBadge from "../components/AgentCostBadge";
+import AgentSessionStatus from "../components/AgentSessionStatus";
 
 export default function TikTokAgent() {
   const [status, setStatus] = useState<AgentStatus | null>(null);
@@ -153,7 +154,6 @@ export default function TikTokAgent() {
               )}
             </div>
           ))}
-          {loading && <p className="muted">Agent thinking…</p>}
           <div ref={bottomRef} />
         </div>
 
@@ -175,6 +175,7 @@ export default function TikTokAgent() {
                 <AgentCostBadge action="agent_chat" messageChars={input.trim().length} actualCost={lastSendCost} />
               )}
             </div>
+            <AgentSessionStatus active={loading} tasks={["agent_chat"]} />
           </div>
         </form>
         {error && <p className="error">{error}</p>}

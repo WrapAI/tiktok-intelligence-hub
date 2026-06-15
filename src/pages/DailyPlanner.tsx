@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { AgentCostBreakdown, DailyPlan, FunnelLimits, PlannerSummary, PlanVideo } from "../hub";
 import AgentCostBadge from "../components/AgentCostBadge";
+import AgentSessionStatus from "../components/AgentSessionStatus";
 
 const FUNNEL_META = [
   { key: "bottom" as const, label: "Bottom funnel", hint: "Hard sell / orange cart" },
@@ -214,7 +215,7 @@ export default function DailyPlanner() {
             </>
           ) : null}
 
-          <div className="btn-row" style={{ marginTop: 16, alignItems: "center", gap: 12 }}>
+          <div className="btn-row" style={{ marginTop: 16, alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <button
               type="button"
               className="btn btn-primary"
@@ -227,6 +228,7 @@ export default function DailyPlanner() {
               <AgentCostBadge action="generate_daily_plan" totalVideos={totalPosts} actualCost={lastCost} />
             )}
           </div>
+          <AgentSessionStatus active={loading} tasks={["generate_daily_plan"]} />
           {message && <p className="success">{message}</p>}
           {error && <p className="error">{error}</p>}
         </div>

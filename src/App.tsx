@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import TabPanel from "./components/TabPanel";
 import Dashboard from "./pages/Dashboard";
 import DailyPlanner from "./pages/DailyPlanner";
 import Products from "./pages/Products";
@@ -24,8 +25,18 @@ const TABS: { id: Tab; label: string }[] = [
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("dashboard");
+  const [mountedTabs, setMountedTabs] = useState<Set<Tab>>(() => new Set(["dashboard"]));
   const [whisperOnline, setWhisperOnline] = useState(false);
   const hubReady = typeof window !== "undefined" && !!window.hub;
+
+  useEffect(() => {
+    setMountedTabs((prev) => {
+      if (prev.has(tab)) return prev;
+      const next = new Set(prev);
+      next.add(tab);
+      return next;
+    });
+  }, [tab]);
 
   useEffect(() => {
     if (!window.hub) return;
@@ -76,18 +87,32 @@ export default function App() {
       </nav>
 
       <main className="main">
-        {tab === "dashboard" && <Dashboard />}
-        {tab === "planner" && <DailyPlanner />}
-        {tab === "agent" && <TikTokAgent />}
-        {tab === "scripts" && (
+        <TabPanel active={tab === "dashboard"} mounted={mountedTabs.has("dashboard")}>
+          <Dashboard />
+        </TabPanel>
+        <TabPanel active={tab === "planner"} mounted={mountedTabs.has("planner")}>
+          <DailyPlanner />
+        </TabPanel>
+        <TabPanel active={tab === "agent"} mounted={mountedTabs.has("agent")}>
+          <TikTokAgent />
+        </TabPanel>
+        <TabPanel active={tab === "scripts"} mounted={mountedTabs.has("scripts")}>
           <Suspense fallback={<p className="muted">Loading Script Writer…</p>}>
             <ScriptWriter />
           </Suspense>
-        )}
-        {tab === "products" && <Products />}
-        {tab === "library" && <Library />}
-        {tab === "memory" && <Memory />}
-        {tab === "settings" && <Settings onSaved={() => window.hub.checkWhisper().then(setWhisperOnline)} />}
+        </TabPanel>
+        <TabPanel active={tab === "products"} mounted={mountedTabs.has("products")}>
+          <Products />
+        </TabPanel>
+        <TabPanel active={tab === "library"} mounted={mountedTabs.has("library")}>
+          <Library />
+        </TabPanel>
+        <TabPanel active={tab === "memory"} mounted={mountedTabs.has("memory")}>
+          <Memory />
+        </TabPanel>
+        <TabPanel active={tab === "settings"} mounted={mountedTabs.has("settings")}>
+          <Settings onSaved={() => window.hub.checkWhisper().then(setWhisperOnline)} />
+        </TabPanel>
       </main>
     </div>
   );

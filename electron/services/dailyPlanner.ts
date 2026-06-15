@@ -12,8 +12,7 @@ import { formatInspirationRules, adaptHookTextForProduct, adaptInspiredNote, ada
 import { requestAgentTask } from "./tiktokAgent.js";
 import type { AgentCostBreakdown } from "./agentPricing.js";
 import { buildLibraryContextBlock } from "./libraryContext.js";
-import { getProductResearchContext, researchProduct } from "./productResearch.js";
-import { PACKAGING_KNOWLEDGE } from "./productPackaging.js";
+import { parseDailyPlanAgentReply } from "./agentJson.js";
 
 export const MAX_DAILY_POSTS = 30;
 
@@ -319,15 +318,6 @@ export function generateDailyPlan(store: JsonStore, req: GeneratePlanRequest): P
   return generateDailyPlanViaAgent(store, req);
 }
 
-function extractJsonFromAgentReply(text: string): unknown {
-  const fenced = text.match(/```(?:json)?\s*\n([\s\S]*?)```/i);
-  if (fenced) return JSON.parse(fenced[1].trim());
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start >= 0 && end > start) return JSON.parse(text.slice(start, end + 1));
-  throw new Error("Agent did not return valid JSON for the daily plan.");
-}
-
 function buildPlanAgentContext(store: JsonStore, req: GeneratePlanRequest) {
   const sales = listProductSales(store);
   const filtered = req.selectedProductNames?.length
@@ -395,6 +385,11 @@ Rules:
 - Each video needs a complete spoken voiceover script (UK English, natural TikTok cadence).
 - Use correct packaging words (tub, bottle, can, bag) from /hub/products.md research when mentioning the physical product.
 
+CRITICAL output rules:
+- Return ONLY a raw JSON object — no markdown fences, no commentary before or after.
+- Escape line breaks inside string values as \\n (do not use literal newlines inside JSON strings).
+- The root object must have a "videos" array with exactly ${expectedTotal} item(s).
+
 For EACH video return:
 - fullAudioScript: complete word-for-word voiceover
 - onScreenCaption: on-screen text overlay if needed, or empty string
@@ -405,30 +400,71 @@ Return ONLY valid JSON:
 {
   "videos": [
     {
-      "funnel": "top",
-      "funnelCategory": "Top Funnel",
+      "funnel": "bottom",
+      "funnelCategory": "Bottom Funnel",
       "productName": "short name",
       "productBrand": "",
       "salesRank": 1,
       "title": "Video title",
       "summary": "one line",
       "hookType": "pattern interrupt",
-      "fullAudioScript": "Full spoken script...",
+      "fullAudioScript": "Full spoken script on one line with \\n for pauses",
       "onScreenCaption": "HOW IS THIS EVEN LEGAL?",
       "tiktokCaption": "Caption with hashtags #tiktokshop..."
     }
   ]
 }`;
 
-  const { reply, cost } = await requestAgentTask(
+  let reply: string;
+  let cost: AgentCostBreakdown | undefined;
+
+  const first = await requestAgentTask(
     store,
     "generate_daily_plan",
     instructions,
     context,
     300_000
   );
+  reply = first.reply;
+  cost = first.cost;
 
-  const parsed = extractJsonFromAgentReply(reply) as { videos?: Array<Record<string, unknown>> };
+  let parsed: { videos: Array<Record<string, unknown>> };
+  try {
+    parsed = parseDailyPlanAgentReply(reply);
+  } catch {
+    const retry = await requestAgentTask(
+      store,
+      "generate_daily_plan",
+      `Your last reply was not valid JSON. Return ONLY a JSON object: {"videos":[...]} with exactly ${expectedTotal} video object(s).
+No markdown, no explanation. Escape newlines in strings as \\n.
+Required fields per video: funnel, funnelCategory, productName, title, fullAudioScript, onScreenCaption, tiktokCaption, hookType.`,
+      `Broken reply to fix:\n${reply.slice(0, 4000)}`,
+      180_000
+    );
+    reply = retry.reply;
+    if (cost && retry.cost) {
+      cost = {
+        ...cost,
+        usage: {
+          inputTokens: cost.usage.inputTokens + retry.cost.usage.inputTokens,
+          outputTokens: cost.usage.outputTokens + retry.cost.usage.outputTokens,
+          cacheReadInputTokens:
+            (cost.usage.cacheReadInputTokens || 0) + (retry.cost.usage.cacheReadInputTokens || 0),
+          cacheCreation5mTokens:
+            (cost.usage.cacheCreation5mTokens || 0) + (retry.cost.usage.cacheCreation5mTokens || 0),
+        },
+        inputUsd: cost.inputUsd + retry.cost.inputUsd,
+        outputUsd: cost.outputUsd + retry.cost.outputUsd,
+        cacheReadUsd: cost.cacheReadUsd + retry.cost.cacheReadUsd,
+        cacheWriteUsd: cost.cacheWriteUsd + retry.cost.cacheWriteUsd,
+        totalUsd: cost.totalUsd + retry.cost.totalUsd,
+      };
+    } else {
+      cost = retry.cost || cost;
+    }
+    parsed = parseDailyPlanAgentReply(reply);
+  }
+
   if (!parsed.videos?.length) {
     throw new Error("Agent returned an empty plan — try again.");
   }
@@ -461,7 +497,9 @@ Return ONLY valid JSON:
       sales.find((s) => s.product_name.toLowerCase() === productName.toLowerCase()) ||
       sales.find((s) => s.full_name.toLowerCase().includes(productName.toLowerCase()));
 
-    const fullAudioScript = String(raw.fullAudioScript || raw.audioScript || "").trim();
+    const fullAudioScript = String(raw.fullAudioScript || raw.audioScript || "")
+      .trim()
+      .replace(/\\n/g, "\n");
     if (!fullAudioScript) {
       throw new Error(`Agent plan missing fullAudioScript for ${productName}.`);
     }

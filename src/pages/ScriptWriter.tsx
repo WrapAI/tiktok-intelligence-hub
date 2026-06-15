@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { AgentCostBreakdown, Product, ScriptInsights, ScriptResult } from "../hub";
 import AgentCostBadge from "../components/AgentCostBadge";
+import AgentSessionStatus from "../components/AgentSessionStatus";
 
 type PacingRef = {
   id: string;
@@ -193,7 +194,7 @@ export default function ScriptWriter() {
             onChange={(e) => setDuration(Number(e.target.value) || 45)}
           />
 
-          <div className="btn-row" style={{ alignItems: "center", gap: 12 }}>
+          <div className="btn-row" style={{ alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <button type="button" className="btn btn-primary" disabled={loading} onClick={handleGenerate}>
               {loading ? "Agent writing…" : "Generate script"}
             </button>
@@ -201,6 +202,7 @@ export default function ScriptWriter() {
               <AgentCostBadge action="generate_script" durationSeconds={duration} actualCost={lastCost} />
             )}
           </div>
+          <AgentSessionStatus active={loading} tasks={["generate_script", "analyze_data"]} />
           {error && <p className="error">{error}</p>}
         </div>
 

@@ -2,6 +2,8 @@ import type { JsonStore } from "../db.js";
 import { requestAgentTask } from "./tiktokAgent.js";
 import { guessPackagingFromName, PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 
+export type ProductResearchStatus = "pending" | "researching" | "complete" | "error";
+
 export type ProductResearch = {
   packaging_type: string;
   container_nouns: string[];
@@ -27,11 +29,36 @@ export function productNeedsResearch(product: Record<string, unknown>): boolean 
   return !product.research_completed_at;
 }
 
+const researchInFlight = new Set<string>();
+
+function setProductResearchStatus(
+  store: JsonStore,
+  productId: string,
+  status: ProductResearchStatus,
+  error = ""
+) {
+  const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
+  if (!product) return;
+
+  store.upsertById("products", {
+    ...product,
+    id: productId,
+    research_status: status,
+    research_error: error,
+    updated_at: new Date().toISOString(),
+  } as Record<string, unknown> & { id: string });
+}
+
 export async function researchProduct(store: JsonStore, productId: string): Promise<ProductResearch | null> {
-  if (!store.getSetting("anthropicApiKey")) return null;
+  if (!store.getSetting("anthropicApiKey")) {
+    setProductResearchStatus(store, productId, "error", "Add your Anthropic API key in Settings first.");
+    return null;
+  }
 
   const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
   if (!product || !productNeedsResearch(product)) return null;
+
+  setProductResearchStatus(store, productId, "researching");
 
   const guess = guessPackagingFromName(String(product.name || ""), String(product.description || ""));
 
@@ -76,6 +103,8 @@ Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
       product_category: research.category,
       research_notes: research.research_notes,
       research_completed_at: researched_at,
+      research_status: "complete",
+      research_error: "",
       updated_at: researched_at,
     } as Record<string, unknown> & { id: string });
 
@@ -83,6 +112,7 @@ Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
     return research;
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
+    setProductResearchStatus(store, productId, "error", msg);
     store.appendLog("product_research", "error", msg);
     return null;
   }
@@ -90,7 +120,41 @@ Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
 
 /** Fire-and-forget research for new products. */
 export function scheduleProductResearch(store: JsonStore, productId: string) {
-  void researchProduct(store, productId);
+  const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
+  if (!product || product.research_completed_at) return;
+  if (researchInFlight.has(productId)) return;
+
+  researchInFlight.add(productId);
+  setProductResearchStatus(store, productId, "pending");
+
+  void researchProduct(store, productId).finally(() => {
+    researchInFlight.delete(productId);
+  });
+}
+
+/** Retry research after a failure (clears error state). */
+export function retryProductResearch(store: JsonStore, productId: string) {
+  const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
+  if (!product || product.research_completed_at) return;
+
+  store.upsertById("products", {
+    ...product,
+    id: productId,
+    research_status: "pending",
+    research_error: "",
+    updated_at: new Date().toISOString(),
+  } as Record<string, unknown> & { id: string });
+
+  scheduleProductResearch(store, productId);
+}
+
+/** Queue research for any catalog products that have never been researched. */
+export function ensurePendingProductResearch(store: JsonStore) {
+  for (const product of store.list<Record<string, unknown>>("products")) {
+    if (!productNeedsResearch(product)) continue;
+    if (product.research_status === "researching" || product.research_status === "pending") continue;
+    scheduleProductResearch(store, String(product.id));
+  }
 }
 
 export function scheduleResearchForNewProducts(store: JsonStore, productIds: string[]) {

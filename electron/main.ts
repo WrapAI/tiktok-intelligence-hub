@@ -11,7 +11,7 @@ import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerfo
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
-import { scheduleProductResearch } from "./services/productResearch.js";
+import { scheduleProductResearch, retryProductResearch, ensurePendingProductResearch } from "./services/productResearch.js";
 import {
   generateDailyPlan,
   getDailyPlan,
@@ -36,6 +36,7 @@ import {
   syncHubContextToMemoryStore,
 } from "./services/tiktokAgent.js";
 import { estimateAgentActionCost } from "./services/agentPricing.js";
+import { setAgentStatusWindow } from "./services/agentSessionStatus.js";
 import {
   hubChangeFromImport,
   initAgentBridge,
@@ -158,6 +159,11 @@ function createWindow() {
   });
 
   loadWindowContent(mainWindow);
+  setAgentStatusWindow(mainWindow);
+  mainWindow.on("closed", () => {
+    setAgentStatusWindow(null);
+    mainWindow = null;
+  });
 }
 
 function runBackgroundStartup() {
@@ -296,11 +302,12 @@ ipcMain.handle("hub:get-dashboard", () => {
   };
 });
 
-ipcMain.handle("hub:list-products", () =>
-  store
+ipcMain.handle("hub:list-products", () => {
+  ensurePendingProductResearch(store);
+  return store
     .list<Record<string, unknown>>("products")
-    .sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)))
-);
+    .sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)));
+});
 
 ipcMain.handle("hub:save-product", (_e, product: Record<string, string>) => {
   const now = new Date().toISOString();
@@ -328,6 +335,11 @@ ipcMain.handle("hub:save-product", (_e, product: Record<string, string>) => {
     scheduleProductResearch(store, id);
   }
   return { ok: true, id };
+});
+
+ipcMain.handle("hub:retry-product-research", (_e, productId: string) => {
+  retryProductResearch(store, productId);
+  return { ok: true };
 });
 
 ipcMain.handle("hub:delete-product", (_e, id: string) => {

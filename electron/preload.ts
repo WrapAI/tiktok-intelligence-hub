@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld("hub", {
   getDashboard: () => ipcRenderer.invoke("hub:get-dashboard"),
   listProducts: () => ipcRenderer.invoke("hub:list-products"),
   saveProduct: (product: Record<string, string>) => ipcRenderer.invoke("hub:save-product", product),
+  retryProductResearch: (productId: string) => ipcRenderer.invoke("hub:retry-product-research", productId),
   deleteProduct: (id: string) => ipcRenderer.invoke("hub:delete-product", id),
   refreshProductsFromLibrary: () => ipcRenderer.invoke("hub:refresh-products-from-library"),
   listLibrary: () => ipcRenderer.invoke("hub:list-library"),
@@ -58,4 +59,11 @@ contextBridge.exposeInMainWorld("hub", {
   }) => ipcRenderer.invoke("hub:request-agent-task", req),
   listAgentChatHistory: () => ipcRenderer.invoke("hub:list-agent-chat-history"),
   resetAgentSession: () => ipcRenderer.invoke("hub:reset-agent-session"),
+  onAgentSessionStatus: (callback: (status: unknown) => void) => {
+    const listener = (_event: unknown, status: unknown) => callback(status);
+    ipcRenderer.on("hub:agent-session-status", listener);
+    return () => {
+      ipcRenderer.removeListener("hub:agent-session-status", listener);
+    };
+  },
 });

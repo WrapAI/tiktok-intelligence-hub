@@ -10,6 +10,7 @@ import { buildLibraryContextBlock } from "./libraryContext.js";
 import { getProductResearchContext, researchProduct } from "./productResearch.js";
 import { formatProductPackagingForPrompt, PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 import { synthesizeSpeech } from "./elevenlabs.js";
+import { emitAgentSessionStatus } from "./agentSessionStatus.js";
 
 export type ScriptRequest = {
   productId: string;
@@ -32,14 +33,7 @@ export type ScriptResult = {
   cost?: import("./agentPricing.js").AgentCostBreakdown;
 };
 
-function extractJsonFromAgentReply(text: string): Record<string, unknown> {
-  const fenced = text.match(/```(?:json)?\s*\n([\s\S]*?)```/i);
-  if (fenced) return JSON.parse(fenced[1].trim()) as Record<string, unknown>;
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start >= 0 && end > start) return JSON.parse(text.slice(start, end + 1)) as Record<string, unknown>;
-  throw new Error("Agent did not return valid JSON for the script.");
-}
+import { extractJsonFromAgentReply } from "./agentJson.js";
 
 function parseScriptResponse(raw: string): {
   title: string;
@@ -49,7 +43,7 @@ function parseScriptResponse(raw: string): {
   tiktokCaption: string;
 } {
   try {
-    const parsed = extractJsonFromAgentReply(raw);
+    const parsed = extractJsonFromAgentReply(raw, "script") as Record<string, unknown>;
     return {
       title: String(parsed.title || "Untitled script").trim(),
       script: String(parsed.fullAudioScript || parsed.script || "").trim(),
@@ -78,6 +72,13 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
   if (!product) throw new Error("Product not found.");
 
   if (!product.research_completed_at) {
+    emitAgentSessionStatus({
+      active: true,
+      phase: "running",
+      message: "Researching product packaging (one-time)…",
+      task: "analyze_data",
+      at: new Date().toISOString(),
+    });
     await researchProduct(store, req.productId);
   }
 
