@@ -1,5 +1,803 @@
 [
   {
+    "id": 1781548909878,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 12 hub context files to memory store",
+    "created_at": "2026-06-15T18:41:49.878Z"
+  },
+  {
+    "id": 1781548585945,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 12 hub context files to memory store",
+    "created_at": "2026-06-15T18:36:25.945Z"
+  },
+  {
+    "id": 1781548572480,
+    "type": "import",
+    "status": "ok",
+    "message": "Imported 1 file(s): library.json (library)",
+    "created_at": "2026-06-15T18:36:12.480Z"
+  },
+  {
+    "id": 1781548207468,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 12 hub context files to memory store",
+    "created_at": "2026-06-15T18:30:07.468Z"
+  },
+  {
+    "id": 1781546616921,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 11 hub context files to memory store",
+    "created_at": "2026-06-15T18:03:36.921Z"
+  },
+  {
+    "id": 1781543933906,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 10 hub context files to memory store",
+    "created_at": "2026-06-15T17:18:53.906Z"
+  },
+  {
+    "id": 1781543927562,
+    "type": "script",
+    "status": "ok",
+    "message": "Nuage Hayfever Wipes – Bold Claim Counting Hook (~20s)",
+    "created_at": "2026-06-15T17:18:47.562Z"
+  },
+  {
+    "id": 1781543903057,
+    "type": "product_research",
+    "status": "ok",
+    "message": "Researched Nuage Hayfever Relief Wipes – 30‑Pack Biodegradable Wipes | Peppermint & Tea‑Tree Allergen Trap",
+    "created_at": "2026-06-15T17:18:23.057Z"
+  },
+  {
+    "id": 1781543901998,
+    "type": "product_research",
+    "status": "ok",
+    "message": "Researched Nuage Hayfever Relief Wipes – 30‑Pack Biodegradable Wipes | Peppermint & Tea‑Tree Allergen Trap",
+    "created_at": "2026-06-15T17:18:21.998Z"
+  },
+  {
+    "id": 1781543688131,
+    "type": "script",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:14:48.131Z"
+  },
+  {
+    "id": 1781543506586,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:11:46.586Z"
+  },
+  {
+    "id": 1781543080528,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:04:40.528Z"
+  },
+  {
+    "id": 1781542961523,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:41.523Z"
+  },
+  {
+    "id": 1781542961182,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:41.182Z"
+  },
+  {
+    "id": 1781542960951,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.951Z"
+  },
+  {
+    "id": 1781542960826,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.826Z"
+  },
+  {
+    "id": 1781542960750,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.750Z"
+  },
+  {
+    "id": 1781542960747,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.747Z"
+  },
+  {
+    "id": 1781542960719,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.719Z"
+  },
+  {
+    "id": 1781542960715,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.715Z"
+  },
+  {
+    "id": 1781542960263,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.263Z"
+  },
+  {
+    "id": 1781542960199,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.199Z"
+  },
+  {
+    "id": 1781542960151,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.151Z"
+  },
+  {
+    "id": 1781542960129,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.129Z"
+  },
+  {
+    "id": 1781542960125,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.125Z"
+  },
+  {
+    "id": 1781542960121,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:40.121Z"
+  },
+  {
+    "id": 1781542959716,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:39.716Z"
+  },
+  {
+    "id": 1781542959661,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:39.661Z"
+  },
+  {
+    "id": 1781542959657,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:39.657Z"
+  },
+  {
+    "id": 1781542959654,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:39.654Z"
+  },
+  {
+    "id": 1781542959626,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:39.626Z"
+  },
+  {
+    "id": 1781542959622,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T17:02:39.622Z"
+  },
+  {
+    "id": 1781542785907,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:45.907Z"
+  },
+  {
+    "id": 1781542785829,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:45.829Z"
+  },
+  {
+    "id": 1781542780590,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:40.590Z"
+  },
+  {
+    "id": 1781542780340,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:40.340Z"
+  },
+  {
+    "id": 1781542777813,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:37.813Z"
+  },
+  {
+    "id": 1781542776932,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:36.932Z"
+  },
+  {
+    "id": 1781542775093,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:35.093Z"
+  },
+  {
+    "id": 1781542775063,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:35.063Z"
+  },
+  {
+    "id": 1781542774889,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.889Z"
+  },
+  {
+    "id": 1781542774659,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.659Z"
+  },
+  {
+    "id": 1781542774536,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.536Z"
+  },
+  {
+    "id": 1781542774519,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.519Z"
+  },
+  {
+    "id": 1781542774506,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.506Z"
+  },
+  {
+    "id": 1781542774482,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.482Z"
+  },
+  {
+    "id": 1781542774316,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.316Z"
+  },
+  {
+    "id": 1781542774213,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.213Z"
+  },
+  {
+    "id": 1781542774208,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.208Z"
+  },
+  {
+    "id": 1781542774189,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:34.189Z"
+  },
+  {
+    "id": 1781542773624,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:33.624Z"
+  },
+  {
+    "id": 1781542773524,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:33.524Z"
+  },
+  {
+    "id": 1781542773270,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:33.270Z"
+  },
+  {
+    "id": 1781542772643,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:32.643Z"
+  },
+  {
+    "id": 1781542772440,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:32.440Z"
+  },
+  {
+    "id": 1781542772155,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:32.155Z"
+  },
+  {
+    "id": 1781542772152,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:32.152Z"
+  },
+  {
+    "id": 1781542772147,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:32.147Z"
+  },
+  {
+    "id": 1781542771608,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:31.608Z"
+  },
+  {
+    "id": 1781542771255,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:31.255Z"
+  },
+  {
+    "id": 1781542771240,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:31.240Z"
+  },
+  {
+    "id": 1781542771034,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:31.034Z"
+  },
+  {
+    "id": 1781542770985,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.985Z"
+  },
+  {
+    "id": 1781542770900,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.900Z"
+  },
+  {
+    "id": 1781542770895,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.895Z"
+  },
+  {
+    "id": 1781542770849,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.849Z"
+  },
+  {
+    "id": 1781542770819,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.819Z"
+  },
+  {
+    "id": 1781542770770,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.770Z"
+  },
+  {
+    "id": 1781542770728,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.728Z"
+  },
+  {
+    "id": 1781542770567,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.567Z"
+  },
+  {
+    "id": 1781542770466,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.466Z"
+  },
+  {
+    "id": 1781542770313,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.313Z"
+  },
+  {
+    "id": 1781542770267,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.267Z"
+  },
+  {
+    "id": 1781542770205,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.205Z"
+  },
+  {
+    "id": 1781542770175,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.175Z"
+  },
+  {
+    "id": 1781542770117,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.117Z"
+  },
+  {
+    "id": 1781542770086,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.086Z"
+  },
+  {
+    "id": 1781542770007,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:30.007Z"
+  },
+  {
+    "id": 1781542769732,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:29.732Z"
+  },
+  {
+    "id": 1781542769555,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:29.555Z"
+  },
+  {
+    "id": 1781542769509,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:29.509Z"
+  },
+  {
+    "id": 1781542769327,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QGEhqKhYBv5ZqeNPMb\"}",
+    "created_at": "2026-06-15T16:59:29.327Z"
+  },
+  {
+    "id": 1781542769279,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:29.279Z"
+  },
+  {
+    "id": 1781542769211,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:29.211Z"
+  },
+  {
+    "id": 1781542768246,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QG8wZyvGQewiWogizn\"}",
+    "created_at": "2026-06-15T16:59:28.246Z"
+  },
+  {
+    "id": 1781542768161,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:28.161Z"
+  },
+  {
+    "id": 1781542768047,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFRooZnYcvKTf929yq\"}",
+    "created_at": "2026-06-15T16:59:28.047Z"
+  },
+  {
+    "id": 1781542767698,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QG6ZSpCxgZKgei4w5F\"}",
+    "created_at": "2026-06-15T16:59:27.698Z"
+  },
+  {
+    "id": 1781542767073,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QG3j2gVDeg29usA3db\"}",
+    "created_at": "2026-06-15T16:59:27.073Z"
+  },
+  {
+    "id": 1781542767068,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QG3hJLSuEE5GeRCwxW\"}",
+    "created_at": "2026-06-15T16:59:27.068Z"
+  },
+  {
+    "id": 1781542766966,
+    "type": "product_research",
+    "status": "error",
+    "message": "Agent timed out waiting for a response.",
+    "created_at": "2026-06-15T16:59:26.966Z"
+  },
+  {
+    "id": 1781542766528,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QG1hkG5DbJ9ea41P8c\"}",
+    "created_at": "2026-06-15T16:59:26.528Z"
+  },
+  {
+    "id": 1781542766474,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFdEP6egVy4hsidppP\"}",
+    "created_at": "2026-06-15T16:59:26.474Z"
+  },
+  {
+    "id": 1781542765764,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFy21XfphnnfDMYG99\"}",
+    "created_at": "2026-06-15T16:59:25.764Z"
+  },
+  {
+    "id": 1781542765714,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFxv4XmcXiWoPCC611\"}",
+    "created_at": "2026-06-15T16:59:25.714Z"
+  },
+  {
+    "id": 1781542765334,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFwz1HG7G4sbmZxp89\"}",
+    "created_at": "2026-06-15T16:59:25.334Z"
+  },
+  {
+    "id": 1781542765233,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFweucqeJdLfbmf2FT\"}",
+    "created_at": "2026-06-15T16:59:25.233Z"
+  },
+  {
+    "id": 1781542765172,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFwTksS4ZiCk3tEp6B\"}",
+    "created_at": "2026-06-15T16:59:25.172Z"
+  },
+  {
+    "id": 1781542765079,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFwDcdHQ6kh4idKf12\"}",
+    "created_at": "2026-06-15T16:59:25.079Z"
+  },
+  {
+    "id": 1781542764995,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFvuGof5nQC7ESpthc\"}",
+    "created_at": "2026-06-15T16:59:24.995Z"
+  },
+  {
+    "id": 1781542764945,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFvmawj7PYVEyVQzsJ\"}",
+    "created_at": "2026-06-15T16:59:24.945Z"
+  },
+  {
+    "id": 1781542758472,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFRB6MrisDqpbqairh\"}",
+    "created_at": "2026-06-15T16:59:18.472Z"
+  },
+  {
+    "id": 1781542758060,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFPk2L64a96kMC5ur3\"}",
+    "created_at": "2026-06-15T16:59:18.060Z"
+  },
+  {
+    "id": 1781542758051,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFPjHNiGTcWK2CPf1k\"}",
+    "created_at": "2026-06-15T16:59:18.051Z"
+  },
+  {
+    "id": 1781542757851,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFNnUwKsdGkDfWSpFA\"}",
+    "created_at": "2026-06-15T16:59:17.851Z"
+  },
+  {
+    "id": 1781542757592,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFMbJ4Ya6hj38WdUQQ\"}",
+    "created_at": "2026-06-15T16:59:17.592Z"
+  },
+  {
+    "id": 1781542756901,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFKMMgSjmi64ocZSnZ\"}",
+    "created_at": "2026-06-15T16:59:16.901Z"
+  },
+  {
+    "id": 1781542756508,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFJ7wC2vS4hE1PLqH9\"}",
+    "created_at": "2026-06-15T16:59:16.508Z"
+  },
+  {
+    "id": 1781542756481,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFJ6SsEuicCAvfwk8S\"}",
+    "created_at": "2026-06-15T16:59:16.481Z"
+  },
+  {
+    "id": 1781542756117,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFH4C1LuPTHJkNFx5E\"}",
+    "created_at": "2026-06-15T16:59:16.117Z"
+  },
+  {
+    "id": 1781542756103,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFGzDdz1a4M1XqKnNS\"}",
+    "created_at": "2026-06-15T16:59:16.103Z"
+  },
+  {
+    "id": 1781542756049,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFGnpniqkxBubbG66E\"}",
+    "created_at": "2026-06-15T16:59:16.049Z"
+  },
+  {
+    "id": 1781542756045,
+    "type": "product_research",
+    "status": "error",
+    "message": "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"message\":\"Rate limit exceeded. Please retry after a minute.\"},\"request_id\":\"req_011Cc5QFGnpZFkRHnQ6yzzYP\"}",
+    "created_at": "2026-06-15T16:59:16.045Z"
+  },
+  {
+    "id": 1781542644230,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 10 hub context files to memory store",
+    "created_at": "2026-06-15T16:57:24.230Z"
+  },
+  {
     "id": 1781480956997,
     "type": "script",
     "status": "error",

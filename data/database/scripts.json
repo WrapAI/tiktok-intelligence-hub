@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "52a9e2a9-e86f-470a-a23a-c0d2ddb66d48",
+    "product_id": "d00dc14cc16da1aa",
+    "hook_type": "bold claim",
+    "funnel_style": "bold claim",
+    "title": "Nuage Hayfever Wipes – Bold Claim Counting Hook (~20s)",
+    "script_text": "Not eye drops, not tablets, not a nasal spray — just one pack that actually traps pollen before it gets to you. Thirty biodegradable wipes, peppermint and tea tree, wipe your face and hands and the allergens are gone. Fits in your bag, your car, your pocket. Check that price and those reviews — if you see the orange cart, grab it before it's gone.",
+    "ssml": "<speak><prosody rate='fast'>Not</prosody> eye drops, <prosody rate='fast'>not</prosody> tablets, <prosody rate='fast'>not</prosody> a nasal spray — <prosody rate='fast'>just</prosody> one pack <prosody rate='fast'>that actually traps pollen</prosody> before it gets to you. <prosody rate='fast'>Thirty</prosody> biodegradable wipes, <prosody rate='fast'>peppermint and tea tree,</prosody> wipe your face and hands <prosody rate='fast'>and the allergens are gone.</prosody> Fits in your bag, <prosody rate='fast'>your car,</prosody> your pocket. <prosody rate='fast'>Check that</prosody> price <prosody rate='fast'>and those</prosody> reviews — <prosody rate='fast'>if you see the orange</prosody> cart, grab it <prosody rate='fast'>before it's gone.</prosody></speak>",
+    "on_screen_caption": "NOT eye drops ❌ NOT tablets ❌ just THIS 👇",
+    "tiktok_caption": "Hayfever wipes that actually TRAP pollen 🌿 peppermint + tea tree, 30 biodegradable wipes — fits right in your bag 🌼 #hayfever #hayfeverrelief #allergyseason #hayfeverwipes #ukhayfever #tiktokshopuk #hayfever2025",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\52a9e2a9-e86f-470a-a23a-c0d2ddb66d48.mp3",
+    "prompt_context": "{\"inferredHookType\":\"bold claim\",\"referenceLibraryId\":\"ddd4d0ef-f4b9-4c85-a2f7-740c03aa6838\"}",
+    "reference_library_id": "ddd4d0ef-f4b9-4c85-a2f7-740c03aa6838",
+    "created_at": "2026-06-15T17:18:40.801Z"
+  }
+]

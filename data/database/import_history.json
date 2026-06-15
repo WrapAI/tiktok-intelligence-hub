@@ -1,0 +1,156 @@
+[
+  {
+    "id": "bf856875-ce54-46da-ab45-261ee52ee84a",
+    "imported_at": "2026-06-15T18:41:38.056Z",
+    "category": "library",
+    "file_name": "library-2.json",
+    "relative_path": "library/library-2.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-15T18-41-38-054Z_library-2.json",
+    "import_type": "library",
+    "record_count": 32,
+    "fingerprint": "3049230:1781548362654.6902"
+  },
+  {
+    "id": "c1502058-2ca9-4f7a-b4f0-3391d12d1375",
+    "imported_at": "2026-06-15T18:36:12.277Z",
+    "category": "library",
+    "file_name": "library-2.json",
+    "relative_path": "library/library-2.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-15T18-36-12-275Z_library-2.json",
+    "import_type": "library",
+    "record_count": 32,
+    "fingerprint": "3049230:1781548362654.6902"
+  },
+  {
+    "id": "86f10e34-3f7f-4708-a237-4f1db4c77668",
+    "imported_at": "2026-06-15T18:29:58.746Z",
+    "category": "studio",
+    "file_name": "my_studio_data.json",
+    "relative_path": "studio/my_studio_data.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\studio\\2026-06-15T18-29-58-746Z_my_studio_data.json",
+    "import_type": "studio",
+    "record_count": 1,
+    "fingerprint": "2490:1781542423073.2998"
+  },
+  {
+    "id": "29cc61fb-019f-4413-9568-bb266aa083d6",
+    "imported_at": "2026-06-15T18:29:58.744Z",
+    "category": "sales",
+    "file_name": "Creator Product List - 20260615040049.xlsx",
+    "relative_path": "sales-data/Creator Product List - 20260615040049.xlsx",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\sales-data\\2026-06-15T18-29-58-744Z_Creator Product List - 20260615040049.xlsx",
+    "import_type": "product_sales",
+    "record_count": 90,
+    "fingerprint": "60085:1781542423073.2998"
+  },
+  {
+    "id": "561d4b7f-39b1-45f9-973e-0b732ebbf32e",
+    "imported_at": "2026-06-15T18:29:58.722Z",
+    "category": "sales",
+    "file_name": "Creator Product List - 20260614232031.xlsx",
+    "relative_path": "sales-data/Creator Product List - 20260614232031.xlsx",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\sales-data\\2026-06-15T18-29-58-722Z_Creator Product List - 20260614232031.xlsx",
+    "import_type": "product_sales",
+    "record_count": 90,
+    "fingerprint": "59503:1781542423072.296"
+  },
+  {
+    "id": "6293b8c8-bdc0-4a5f-a96d-cdb0dbd5833b",
+    "imported_at": "2026-06-15T18:29:58.687Z",
+    "category": "library",
+    "file_name": "library.json",
+    "relative_path": "library/library.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-15T18-29-58-685Z_library.json",
+    "import_type": "library",
+    "record_count": 26,
+    "fingerprint": "4962384:1781542423071.297"
+  },
+  {
+    "id": "a0ec7674-5a43-4904-9557-008de19e6a20",
+    "imported_at": "2026-06-15T18:29:58.542Z",
+    "category": "library",
+    "file_name": "library-1.json",
+    "relative_path": "library/library-1.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-15T18-29-58-541Z_library-1.json",
+    "import_type": "library",
+    "record_count": 27,
+    "fingerprint": "5189325:1781542423053.4707"
+  },
+  {
+    "id": "41a68268-558c-4f90-87b1-3f113b36d518",
+    "imported_at": "2026-06-15T18:29:58.402Z",
+    "category": "compass",
+    "file_name": "my_compass_data.json",
+    "relative_path": "compass/my_compass_data.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\compass\\2026-06-15T18-29-58-401Z_my_compass_data.json",
+    "import_type": "compass",
+    "record_count": 1,
+    "fingerprint": "3099:1781542423035.4534"
+  },
+  {
+    "id": "5c022fda-8ed4-49f5-bf93-607b82b03321",
+    "imported_at": "2026-06-15T16:57:07.437Z",
+    "category": "studio",
+    "file_name": "my_studio_data.json",
+    "relative_path": "studio/my_studio_data.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\studio\\2026-06-15T16-57-07-437Z_my_studio_data.json",
+    "import_type": "studio",
+    "record_count": 1,
+    "fingerprint": "2490:1781542423073.2998"
+  },
+  {
+    "id": "fe6a9e89-e90a-42a3-996e-47aeafae17f9",
+    "imported_at": "2026-06-15T16:57:07.435Z",
+    "category": "sales",
+    "file_name": "Creator Product List - 20260615040049.xlsx",
+    "relative_path": "sales-data/Creator Product List - 20260615040049.xlsx",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\sales-data\\2026-06-15T16-57-07-435Z_Creator Product List - 20260615040049.xlsx",
+    "import_type": "product_sales",
+    "record_count": 90,
+    "fingerprint": "60085:1781542423073.2998"
+  },
+  {
+    "id": "9d3e25f4-1d7b-4fd7-8f00-28cb96e5d525",
+    "imported_at": "2026-06-15T16:57:07.414Z",
+    "category": "sales",
+    "file_name": "Creator Product List - 20260614232031.xlsx",
+    "relative_path": "sales-data/Creator Product List - 20260614232031.xlsx",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\sales-data\\2026-06-15T16-57-07-414Z_Creator Product List - 20260614232031.xlsx",
+    "import_type": "product_sales",
+    "record_count": 90,
+    "fingerprint": "59503:1781542423072.296"
+  },
+  {
+    "id": "3ceca00b-56bc-4728-a072-e6f205907492",
+    "imported_at": "2026-06-15T16:57:07.379Z",
+    "category": "library",
+    "file_name": "library.json",
+    "relative_path": "library/library.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-15T16-57-07-377Z_library.json",
+    "import_type": "library",
+    "record_count": 26,
+    "fingerprint": "4962384:1781542423071.297"
+  },
+  {
+    "id": "b78cc476-7dbb-4419-b89f-32b44efe482e",
+    "imported_at": "2026-06-15T16:57:07.238Z",
+    "category": "library",
+    "file_name": "library-1.json",
+    "relative_path": "library/library-1.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-15T16-57-07-236Z_library-1.json",
+    "import_type": "library",
+    "record_count": 27,
+    "fingerprint": "5189325:1781542423053.4707"
+  },
+  {
+    "id": "173cb368-5180-4ad9-b79f-b373e80f31ed",
+    "imported_at": "2026-06-15T16:57:07.089Z",
+    "category": "compass",
+    "file_name": "my_compass_data.json",
+    "relative_path": "compass/my_compass_data.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\compass\\2026-06-15T16-57-07-089Z_my_compass_data.json",
+    "import_type": "compass",
+    "record_count": 1,
+    "fingerprint": "3099:1781542423035.4534"
+  }
+]
