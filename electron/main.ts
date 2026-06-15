@@ -4,7 +4,7 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { JsonStore, resolvePaths } from "./db.js";
-import { importFromDataFolderIfChanged, importFromDataFolder, importFile, importSalesDataFile, copyIncomingFile } from "./services/importService.js";
+import { ingestIncomingFile, importFromDataFolderIfChanged, importFromDataFolder, ensureDataLayout, migrateFlatDataFolder, getDataLayoutSummary, classifyImportFile, categoryFolder, DATA_FOLDERS, type DataCategory } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
 import { generateScript } from "./services/scriptWriter.js";
 import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerformance.js";
@@ -172,8 +172,10 @@ app.whenReady().then(() => {
     store.setSetting("dataFolder", paths.dataDir);
   } else {
     paths.dataDir = store.getSetting("dataFolder", paths.dataDir);
-    fs.mkdirSync(paths.dataDir, { recursive: true });
   }
+  fs.mkdirSync(paths.dataDir, { recursive: true });
+  ensureDataLayout(paths.dataDir);
+  migrateFlatDataFolder(paths.dataDir);
 
   createWindow();
   runBackgroundStartup();
@@ -215,6 +217,8 @@ ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
   if (settings.dataFolder?.trim()) {
     paths.dataDir = settings.dataFolder.trim();
     fs.mkdirSync(paths.dataDir, { recursive: true });
+    ensureDataLayout(paths.dataDir);
+    migrateFlatDataFolder(paths.dataDir);
     store.setSetting("dataFolder", paths.dataDir);
   }
   return { ok: true };
@@ -226,15 +230,24 @@ ipcMain.handle("hub:get-dashboard", () => {
   studio.sort((a, b) => b.imported_at.localeCompare(a.imported_at));
   compass.sort((a, b) => b.imported_at.localeCompare(a.imported_at));
 
+  const layout = getDataLayoutSummary(
+    paths.dataDir,
+    paths.dbDir,
+    store.list("import_history").length
+  );
+
   return {
     libraryCount: store.list("library_items").length,
     memoryCount: store.list("positive_memory").length,
     productCount: store.list("products").length,
     scriptCount: store.list("scripts").length,
+    salesCount: store.list("product_sales").length,
     summary: buildMemorySummary(store),
     latestStudioSync: studio[0]?.synced_at || null,
     latestCompassSync: compass[0]?.synced_at || null,
     dataFolder: paths.dataDir,
+    dataLayout: layout,
+    importHistoryCount: layout.importHistoryCount,
   };
 });
 
@@ -382,8 +395,7 @@ ipcMain.handle("hub:import-sales-file", async () => {
     }
 
     const filePath = result.filePaths[0];
-    const dest = copyIncomingFile(paths.dataDir, filePath);
-    const res = importSalesDataFile(store, dest);
+    const res = ingestIncomingFile(store, paths.dataDir, filePath, "sales");
     store.appendLog("sales", "ok", `Imported ${res.count} products from ${res.file}`);
     return { ok: true, count: res.count, file: res.file };
   } catch (err) {
@@ -462,8 +474,8 @@ ipcMain.handle("hub:import-files", async () => {
     for (const filePath of result.filePaths) {
       const fileName = path.basename(filePath);
       try {
-        const dest = copyIncomingFile(paths.dataDir, filePath);
-        const res = importFile(store, dest);
+        const category = classifyImportFile(filePath);
+        const res = ingestIncomingFile(store, paths.dataDir, filePath, category === "inbox" ? undefined : category);
         imported.push({ file: fileName, ok: true, type: res.type, count: res.count });
       } catch (err) {
         errors.push({
@@ -517,6 +529,37 @@ ipcMain.handle("hub:rescan-data-folder", () => {
 ipcMain.handle("hub:open-data-folder", () => {
   shell.openPath(paths.dataDir);
   return { ok: true };
+});
+
+ipcMain.handle("hub:open-data-subfolder", (_e, folderId: string) => {
+  ensureStore();
+  ensureDataLayout(paths.dataDir);
+  const key = folderId in DATA_FOLDERS ? (folderId as DataCategory) : "inbox";
+  const sub = categoryFolder(paths.dataDir, key);
+  fs.mkdirSync(sub, { recursive: true });
+  shell.openPath(sub);
+  return { ok: true };
+});
+
+ipcMain.handle("hub:get-data-layout", () => {
+  ensureStore();
+  return getDataLayoutSummary(paths.dataDir, paths.dbDir, store.list("import_history").length);
+});
+
+ipcMain.handle("hub:list-import-history", () => {
+  ensureStore();
+  return store
+    .list<{
+      id: string;
+      category: string;
+      file_name: string;
+      relative_path: string;
+      import_type: string;
+      record_count: number;
+      imported_at: string;
+    }>("import_history")
+    .sort((a, b) => b.imported_at.localeCompare(a.imported_at))
+    .slice(0, 50);
 });
 
 ipcMain.handle("hub:request-sync", async (_e, type: "ALL" | "STUDIO" | "COMPASS") => {

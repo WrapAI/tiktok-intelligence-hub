@@ -111,8 +111,12 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           placeholder="@yourname"
         />
 
-        <label className="field-label">Data folder (extension sync)</label>
+        <label className="field-label">Data folder (extension sync + imports)</label>
         <input className="field-input" value={dataFolder} onChange={(e) => setDataFolder(e.target.value)} />
+        <p className="muted" style={{ marginTop: 6, fontSize: 12 }}>
+          Inside this folder the hub creates: library/, memory/, products/, sales-data/, studio/, compass/, inbox/, and
+          archive/ for every successful import.
+        </p>
 
         <button type="submit" className="btn btn-primary">
           Save settings

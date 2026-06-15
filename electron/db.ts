@@ -5,14 +5,17 @@ export type HubPaths = {
   userData: string;
   dataDir: string;
   dbDir: string;
+  importsDir: string;
 };
 
 export function resolvePaths(userData: string): HubPaths {
   const dataDir = path.join(userData, "hub-data");
   const dbDir = path.join(userData, "database");
+  const importsDir = path.join(dbDir, "imports");
   fs.mkdirSync(dataDir, { recursive: true });
   fs.mkdirSync(dbDir, { recursive: true });
-  return { userData, dataDir, dbDir };
+  fs.mkdirSync(importsDir, { recursive: true });
+  return { userData, dataDir, dbDir, importsDir };
 }
 
 type TableName =
@@ -26,6 +29,7 @@ type TableName =
   | "predictions"
   | "product_sales"
   | "daily_plans"
+  | "import_history"
   | "sync_log";
 
 const DEFAULTS: Record<TableName, unknown> = {
@@ -39,6 +43,7 @@ const DEFAULTS: Record<TableName, unknown> = {
   predictions: [],
   product_sales: [],
   daily_plans: [],
+  import_history: [],
   sync_log: [],
 };
 

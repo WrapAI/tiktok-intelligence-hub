@@ -132,6 +132,32 @@ export type PlannerSummary = {
   maxDailyPosts: number;
 };
 
+export type DataFolderInfo = {
+  id: string;
+  label: string;
+  description: string;
+  path: string;
+  fileCount: number;
+};
+
+export type DataLayoutSummary = {
+  root: string;
+  database: string;
+  folders: DataFolderInfo[];
+  archiveCount: number;
+  importHistoryCount: number;
+};
+
+export type ImportHistoryEntry = {
+  id: string;
+  category: string;
+  file_name: string;
+  relative_path: string;
+  import_type: string;
+  record_count: number;
+  imported_at: string;
+};
+
 export type HubApi = {
   getBootstrap: () => Promise<{ dataFolder: string }>;
   checkWhisper: () => Promise<boolean>;
@@ -148,10 +174,13 @@ export type HubApi = {
     memoryCount: number;
     productCount: number;
     scriptCount: number;
+    salesCount: number;
     summary: MemorySummary;
     latestStudioSync: string | null;
     latestCompassSync: string | null;
     dataFolder: string;
+    dataLayout: DataLayoutSummary;
+    importHistoryCount: number;
   }>;
   listProducts: () => Promise<Product[]>;
   saveProduct: (product: Record<string, string>) => Promise<{ ok: boolean; id: string }>;
@@ -199,6 +228,9 @@ export type HubApi = {
     error?: string;
   }>;
   openDataFolder: () => Promise<{ ok: boolean }>;
+  openDataSubfolder: (folderId: string) => Promise<{ ok: boolean }>;
+  getDataLayout: () => Promise<DataLayoutSummary>;
+  listImportHistory: () => Promise<ImportHistoryEntry[]>;
   requestSync: (type: "ALL" | "STUDIO" | "COMPASS") => Promise<{ ok: boolean; message?: string; error?: string }>;
   getPlannerSummary: () => Promise<PlannerSummary>;
   getMaxDailyPosts: () => Promise<number>;

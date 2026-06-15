@@ -223,5 +223,6 @@ export function importXlsxFile(store: JsonStore, filePath: string) {
     count: totalProducts,
     sheets: sheetResults,
     file: base,
+    category: "products" as const,
   };
 }

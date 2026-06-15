@@ -32,7 +32,22 @@ Hub registers its data folder with `POST http://localhost:5050/config`. Sync req
 
 Default: `%APPDATA%/tiktok-intelligence-hub/hub-data/`
 
-Place extension JSON exports or TikTok `.xlsx` product exports here, or use **Import JSON / XLSX**.
+The hub sorts files automatically:
+
+| Folder | Use |
+|--------|-----|
+| `library/` | Analysed competitor videos (`library.json`) |
+| `memory/` | Your positive memory exports |
+| `products/` | TikTok Shop catalog XLSX / `products.json` |
+| `sales-data/` | Creator Product List & affiliate sales CSV/XLSX |
+| `studio/` | TikTok Studio sync exports |
+| `compass/` | Affiliate Compass sync exports |
+| `inbox/` | Unclassified drops (auto-sorted on import) |
+| `archive/` | Timestamped copy of every successful import |
+
+Runtime database tables live in `%APPDATA%/tiktok-intelligence-hub/database/` with an import history log.
+
+Place extension JSON exports in the matching folder, or use **Import files** on the Dashboard.
 
 ## Troubleshooting
 
