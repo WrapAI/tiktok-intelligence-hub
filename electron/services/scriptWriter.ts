@@ -1,9 +1,15 @@
 import { randomUUID } from "node:crypto";
+import path from "node:path";
+import { app } from "electron";
 import type { JsonStore } from "../db.js";
 import { findPacingReference, formatPacingBlock } from "./pacingReference.js";
 import { formatLibraryPerformanceForPrompt, getScriptInsights } from "./libraryPerformance.js";
 import { requestAgentTask } from "./tiktokAgent.js";
 import { formatInspirationRules } from "./referenceAdaptation.js";
+import { buildLibraryContextBlock } from "./libraryContext.js";
+import { getProductResearchContext, researchProduct } from "./productResearch.js";
+import { formatProductPackagingForPrompt, PACKAGING_KNOWLEDGE } from "./productPackaging.js";
+import { synthesizeSpeech } from "./elevenlabs.js";
 
 export type ScriptRequest = {
   productId: string;
@@ -20,18 +26,47 @@ export type ScriptResult = {
   productId: string;
   referenceLibraryId?: string;
   createdAt: string;
+  onScreenCaption: string;
+  tiktokCaption: string;
+  audioPath?: string;
   cost?: import("./agentPricing.js").AgentCostBreakdown;
 };
 
-function parseScriptResponse(raw: string): { title: string; script: string; ssml: string } {
-  const titleMatch = raw.match(/^#\s*(.+)$/m);
-  const title = titleMatch?.[1]?.trim() || "Untitled script";
-  const ssmlMatch = raw.match(/```ssml\n([\s\S]*?)```/i);
-  const ssml = ssmlMatch?.[1]?.trim() || "";
-  let script = raw;
-  if (ssmlMatch) script = script.replace(ssmlMatch[0], "").trim();
-  script = script.replace(/^#\s*.+\n?/m, "").trim();
-  return { title, script, ssml };
+function extractJsonFromAgentReply(text: string): Record<string, unknown> {
+  const fenced = text.match(/```(?:json)?\s*\n([\s\S]*?)```/i);
+  if (fenced) return JSON.parse(fenced[1].trim()) as Record<string, unknown>;
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start >= 0 && end > start) return JSON.parse(text.slice(start, end + 1)) as Record<string, unknown>;
+  throw new Error("Agent did not return valid JSON for the script.");
+}
+
+function parseScriptResponse(raw: string): {
+  title: string;
+  script: string;
+  ssml: string;
+  onScreenCaption: string;
+  tiktokCaption: string;
+} {
+  try {
+    const parsed = extractJsonFromAgentReply(raw);
+    return {
+      title: String(parsed.title || "Untitled script").trim(),
+      script: String(parsed.fullAudioScript || parsed.script || "").trim(),
+      ssml: String(parsed.ssml || "").trim(),
+      onScreenCaption: String(parsed.onScreenCaption || parsed.on_screen_caption || "").trim(),
+      tiktokCaption: String(parsed.tiktokCaption || parsed.tiktok_caption || "").trim(),
+    };
+  } catch {
+    const titleMatch = raw.match(/^#\s*(.+)$/m);
+    const title = titleMatch?.[1]?.trim() || "Untitled script";
+    const ssmlMatch = raw.match(/```ssml\n([\s\S]*?)```/i);
+    const ssml = ssmlMatch?.[1]?.trim() || "";
+    let script = raw;
+    if (ssmlMatch) script = script.replace(ssmlMatch[0], "").trim();
+    script = script.replace(/^#\s*.+\n?/m, "").trim();
+    return { title, script, ssml, onScreenCaption: "", tiktokCaption: "" };
+  }
 }
 
 export async function generateScript(store: JsonStore, req: ScriptRequest): Promise<ScriptResult> {
@@ -42,64 +77,77 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
   const product = store.list<Record<string, unknown>>("products").find((p) => p.id === req.productId);
   if (!product) throw new Error("Product not found.");
 
+  if (!product.research_completed_at) {
+    await researchProduct(store, req.productId);
+  }
+
   const insights = getScriptInsights(store);
   const referenceId = req.referenceLibraryId || insights.recommendedReferenceId || undefined;
   const pacingRef = findPacingReference(store, referenceId);
   const performanceBlock = formatLibraryPerformanceForPrompt(store);
   const pacingBlock = formatPacingBlock(pacingRef);
+  const libraryBlock = buildLibraryContextBlock(store, 10);
+  const packagingBlock = formatProductPackagingForPrompt(product);
+  const researchBlock = getProductResearchContext(store, req.productId);
   const duration = req.durationSeconds || 45;
   const inferredHookType = insights.recommendedHookType;
 
   const instructions = `You are an expert TikTok Shop affiliate scriptwriter for UK creators.
-Write spoken-word voiceover scripts optimized for ElevenLabs TTS.
 
 ${formatInspirationRules()}
 
+${PACKAGING_KNOWLEDGE}
+
 Rules:
-- Read the library performance stats (views, likes, comments, shares, saves) and infer the best hook structure yourself.
-- Do NOT ask the creator to choose a hook type — decide from the data.
-- Mirror the reference video's speaking SPEED and pause rhythm in your SSML (same beat structure, new words).
-- Every line must be about the creator's product listed below — never products from analysed competitor videos.
-- Do NOT specify backgrounds, rooms, or sets from reference videos. Use neutral [VISUAL: show product / your face / hands] cues only.
-- Do NOT tell the creator to use props, packaging, or assets from reference videos they do not own.
-- SSML must use ElevenLabs-compatible tags: <break time="Xms"/>, <prosody rate="fast|slow|medium">, <emphasis level="strong">.
-- Match timestamp pacing from the reference when provided — same gaps between beats, same fast/slow sections.
+- Read library stats and SEPARATED hooks (on-screen, audio, visual) — adapt structure only.
+- Mirror top-performing speaking PACE in SSML (breaks, prosody) from reference pacing data.
+- Use correct container nouns (tub, bottle, can, bag) for this product when showing/holding it.
+- Never copy competitor products, backgrounds, or props from library videos.
 
-Output format:
-# Script title
-
-## Voiceover script
-(spoken lines with [VISUAL: ...] cues where helpful)
-
-## Hook (first 3 seconds)
-(exact opening line — derived from top-performing library patterns)
-
-## CTA
-(closing shop link push)
-
-\`\`\`ssml
-(Full ElevenLabs SSML for the entire script — pacing must match the reference video speed)
-\`\`\``;
+Return JSON only:
+{
+  "title": "Script title",
+  "fullAudioScript": "Complete spoken voiceover word-for-word",
+  "ssml": "<speak>...ElevenLabs SSML with <break time=\\"300ms\\"/> pacing from top performers...</speak>",
+  "onScreenCaption": "On-screen text overlay for the video (or empty string)",
+  "tiktokCaption": "Full TikTok post caption with hashtags, ready to paste"
+}`;
 
   const context = `${performanceBlock}
+
+${libraryBlock}
 
 ${pacingBlock ? `${pacingBlock}\n\n` : ""}## Product to sell
 - Name: ${product.name}
 - Brand: ${product.brand || "—"}
 - Price: ${product.price || "—"}
 - Notes: ${product.description || "—"}
+- ${packagingBlock}
+${researchBlock ? `- ${researchBlock}` : ""}
 
 ## Target length
-~${duration} seconds at the same speaking pace as the reference video.
-
-Write one complete script for this product using the highest-performing patterns from the library stats.
-Adapt hook structure, pacing, and visual energy only — do not copy competitor products, backgrounds, props, or scripts verbatim.
-All [VISUAL: ...] cues must feature "${product.name}" or generic shots (face, hands, on-screen text) — never items from the reference video unless they are the same product.`;
+~${duration} seconds at the same speaking pace as the reference video.`;
 
   const { reply: raw, cost } = await requestAgentTask(store, "generate_script", instructions, context);
   const parsed = parseScriptResponse(raw);
   const id = randomUUID();
   const createdAt = new Date().toISOString();
+
+  let audioPath: string | undefined;
+  if (store.getSetting("elevenLabsApiKey") && store.getSetting("elevenLabsVoiceId")) {
+    try {
+      const audioDir = path.join(app.getPath("userData"), "audio");
+      const audio = await synthesizeSpeech(store, {
+        text: parsed.script,
+        ssml: parsed.ssml,
+        scriptId: id,
+        outputDir: audioDir,
+      });
+      audioPath = audio.filePath;
+    } catch (err) {
+      console.warn("ElevenLabs auto-generate failed:", err);
+    }
+  }
 
   store.upsertById("scripts", {
     id,
@@ -109,6 +157,9 @@ All [VISUAL: ...] cues must feature "${product.name}" or generic shots (face, ha
     title: parsed.title,
     script_text: parsed.script,
     ssml: parsed.ssml,
+    on_screen_caption: parsed.onScreenCaption,
+    tiktok_caption: parsed.tiktokCaption,
+    audio_path: audioPath || "",
     prompt_context: JSON.stringify({
       inferredHookType,
       referenceLibraryId: pacingRef?.libraryId || referenceId || null,
@@ -126,6 +177,9 @@ All [VISUAL: ...] cues must feature "${product.name}" or generic shots (face, ha
     productId: req.productId,
     referenceLibraryId: pacingRef?.libraryId || referenceId,
     createdAt,
+    onScreenCaption: parsed.onScreenCaption,
+    tiktokCaption: parsed.tiktokCaption,
+    audioPath,
     cost,
   };
 }

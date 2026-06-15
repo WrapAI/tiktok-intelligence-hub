@@ -314,10 +314,64 @@ export default function DailyPlanner() {
                   </button>
                   {expandedVideo === video.id && (
                     <div className="clip-list">
-                      <p className="muted" style={{ marginBottom: 10 }}>
-                        Film these clips in order. Video {video.videoIndex} of {video.videoCountForProduct} for this
-                        product · Hook style: {video.hookType}
-                      </p>
+                      <div className="plan-meta-grid" style={{ marginBottom: 14 }}>
+                        <p>
+                          <strong>Product:</strong> {video.productName}
+                          {video.productBrand ? ` (${video.productBrand})` : ""}
+                        </p>
+                        <p>
+                          <strong>Funnel category:</strong> {video.funnelCategory || video.funnelLabel}
+                        </p>
+                        <p className="muted">
+                          Video {video.videoIndex} of {video.videoCountForProduct} for this product · Hook style:{" "}
+                          {video.hookType}
+                        </p>
+                      </div>
+
+                      <div className="plan-script-block">
+                        <div className="card-title" style={{ fontSize: "0.95rem" }}>
+                          Full audio script
+                        </div>
+                        <div className="script-output">{video.fullAudioScript}</div>
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          style={{ marginTop: 8 }}
+                          onClick={() => navigator.clipboard.writeText(video.fullAudioScript)}
+                        >
+                          Copy audio script
+                        </button>
+                      </div>
+
+                      {video.onScreenCaption ? (
+                        <div className="plan-script-block" style={{ marginTop: 12 }}>
+                          <div className="card-title" style={{ fontSize: "0.95rem" }}>
+                            On-screen caption
+                          </div>
+                          <div className="script-output">{video.onScreenCaption}</div>
+                        </div>
+                      ) : null}
+
+                      {video.tiktokCaption ? (
+                        <div className="plan-script-block" style={{ marginTop: 12 }}>
+                          <div className="card-title" style={{ fontSize: "0.95rem" }}>
+                            TikTok caption
+                          </div>
+                          <div className="script-output">{video.tiktokCaption}</div>
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            style={{ marginTop: 8 }}
+                            onClick={() => navigator.clipboard.writeText(video.tiktokCaption)}
+                          >
+                            Copy TikTok caption
+                          </button>
+                        </div>
+                      ) : null}
+
+                      <div className="card-title" style={{ marginTop: 16, fontSize: "0.95rem" }}>
+                        Filming clips
+                      </div>
                       {video.clips.map((clip) => (
                         <div key={clip.step} className="clip-card">
                           <div className="clip-step">

@@ -89,10 +89,13 @@ function rowToInsight(row: {
   const item = parsePayload(row.payload_json);
   const stats = extractStats(item);
   const hookDetail = (item.hook_detail as Record<string, unknown>) || {};
+  const hooks = (item.hooks as Record<string, unknown>) || {};
   const wtw = (item.why_this_worked as Record<string, unknown>) || {};
 
-  const hookText = String(hookDetail.text || item.hook || "").trim();
-  const visualHook = String(hookDetail.visual_action || item.visual_hook || "").trim();
+  const hookText = String(
+    hooks.on_screen_text || hooks.audio_spoken || hookDetail.text || item.hook || ""
+  ).trim();
+  const visualHook = String(hooks.visual_action || hookDetail.visual_action || item.visual_hook || "").trim();
 
   return {
     libraryId: row.id,
@@ -196,6 +199,7 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
     "## Library performance data (use this to decide structure — do NOT ask the creator to pick a hook type)",
     "",
     "Choose hook mechanics, pacing, and CTA style from the highest-performing videos below.",
+    "Each library video has SEPARATE hooks: on_screen_text, audio_spoken, visual_action, caption_text — read them distinctly.",
     "Weight views, likes, comments, shares, and saves together — higher engagement score = stronger signal.",
     "Treat every hook / visual / replication note as TECHNIQUE ONLY — always apply to the creator's product, never copy competitor items.",
     "",
@@ -219,7 +223,7 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
       );
       lines.push(`   - Hook type: ${video.hookType}${video.funnelCategory ? ` · Funnel: ${video.funnelCategory}` : ""}`);
       if (video.hookText && video.hookText !== "—")
-        lines.push(`   - Hook pattern (adapt, don't copy product): "${video.hookText}"`);
+        lines.push(`   - On-screen / audio hook pattern (adapt, don't copy product): "${video.hookText}"`);
       if (video.visualHook)
         lines.push(`   - Visual technique (adapt to creator's product): ${video.visualHook.slice(0, 200)}`);
       if (video.hookMechanism) lines.push(`   - Why hook works: ${video.hookMechanism.slice(0, 220)}`);

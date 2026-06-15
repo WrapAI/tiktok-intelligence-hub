@@ -40,6 +40,11 @@ export type Product = {
   price?: string;
   description?: string;
   image_url?: string;
+  packaging_type?: string;
+  container_nouns?: string;
+  product_category?: string;
+  research_notes?: string;
+  research_completed_at?: string;
 };
 
 export type AgentCostBreakdown = {
@@ -69,6 +74,9 @@ export type ScriptResult = {
   productId: string;
   referenceLibraryId?: string;
   createdAt: string;
+  onScreenCaption: string;
+  tiktokCaption: string;
+  audioPath?: string;
   cost?: AgentCostBreakdown;
 };
 
@@ -118,6 +126,10 @@ export type PlanVideo = {
   summary: string;
   referenceLibraryId: string | null;
   hookType: string;
+  funnelCategory: string;
+  fullAudioScript: string;
+  onScreenCaption: string;
+  tiktokCaption: string;
   clips: ClipInstruction[];
 };
 

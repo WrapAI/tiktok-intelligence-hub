@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import type { JsonStore } from "../db.js";
+import { scheduleProductResearch } from "./productResearch.js";
 
 function productId(name: string, brand = ""): string {
   return createHash("sha256").update(`${brand}|${name}`.toLowerCase()).digest("hex").slice(0, 16);
@@ -18,7 +19,10 @@ function upsertProduct(
   if (!row.name?.trim()) return false;
   const now = new Date().toISOString();
   const id = productId(row.name, row.brand);
+  const existing = store.list<Record<string, unknown>>("products").find((p) => p.id === id);
+  const isNew = !existing;
   store.upsertById("products", {
+    ...(existing || {}),
     id,
     name: row.name.trim(),
     brand: row.brand || "",
@@ -27,9 +31,12 @@ function upsertProduct(
     image_url: "",
     source: row.source,
     raw_json: JSON.stringify(row),
-    created_at: now,
+    created_at: String(existing?.created_at || now),
     updated_at: now,
   });
+  if (isNew) {
+    scheduleProductResearch(store, id);
+  }
   return true;
 }
 

@@ -11,6 +11,9 @@ import {
 import { formatInspirationRules, adaptHookTextForProduct, adaptInspiredNote, adaptVisualHookForProduct, adaptVisualTactic } from "./referenceAdaptation.js";
 import { requestAgentTask } from "./tiktokAgent.js";
 import type { AgentCostBreakdown } from "./agentPricing.js";
+import { buildLibraryContextBlock } from "./libraryContext.js";
+import { getProductResearchContext, researchProduct } from "./productResearch.js";
+import { PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 
 export const MAX_DAILY_POSTS = 30;
 
@@ -42,6 +45,10 @@ export type PlanVideo = {
   summary: string;
   referenceLibraryId: string | null;
   hookType: string;
+  funnelCategory: string;
+  fullAudioScript: string;
+  onScreenCaption: string;
+  tiktokCaption: string;
   clips: ClipInstruction[];
 };
 
@@ -354,6 +361,9 @@ ${productLines}
 - Middle funnel refs: ${knowledge.middle.length}
 - Bottom funnel refs: ${knowledge.bottom.length}
 
+## Library analyses (separated hooks from TikTok Hook Analyzer)
+${buildLibraryContextBlock(store, 12)}
+
 ${formatInspirationRules()}`;
 }
 
@@ -375,36 +385,37 @@ async function generateDailyPlanViaAgent(store: JsonStore, req: GeneratePlanRequ
 
   const instructions = `Create a complete daily TikTok Shop filming plan for a UK affiliate creator.
 
-Read /hub/*.md in the memory store for products, sales, library patterns, and performance memory.
+Read /hub/library.md and /hub/*.md in the memory store. Library entries have SEPARATE fields:
+on-screen hook, audio hook, visual hook, caption hook, CTA, funnel category, views/likes/comments.
 
 Rules:
 - Allocate exactly ${req.limits.bottom} bottom-funnel, ${req.limits.middle} middle-funnel, and ${req.limits.top} top-funnel videos (${expectedTotal} total).
-- Weight bottom-funnel toward highest GMV sellers; top-funnel can include lower sellers for awareness.
-- Each video needs 4 clip steps with duration, whatToFilm, whatToSay, onScreenText.
-- Use SHORT product names from sales data in spoken lines.
-- Copy hook structure, pacing, and visual ENERGY from library analyses only — never competitor products, backgrounds, props, or verbatim scripts.
-- Every whatToFilm/whatToSay must be about the assigned product or generic shots (face, hands, on-screen text).
+- Weight bottom-funnel toward highest GMV sellers.
+- Copy hook STRUCTURE and pacing from library analyses only — never competitor products, backgrounds, or props.
+- Each video needs a complete spoken voiceover script (UK English, natural TikTok cadence).
+- Use correct packaging words (tub, bottle, can, bag) from /hub/products.md research when mentioning the physical product.
 
-Return ONLY valid JSON (no markdown outside the JSON block):
+For EACH video return:
+- fullAudioScript: complete word-for-word voiceover
+- onScreenCaption: on-screen text overlay if needed, or empty string
+- tiktokCaption: full TikTok post caption with hashtags (ready to paste)
+- productName, funnelCategory (Top/Middle/Bottom Funnel label), funnel (top|middle|bottom)
+
+Return ONLY valid JSON:
 {
   "videos": [
     {
-      "funnel": "top" | "middle" | "bottom",
-      "productName": "short product name",
-      "productBrand": "brand or empty string",
+      "funnel": "top",
+      "funnelCategory": "Top Funnel",
+      "productName": "short name",
+      "productBrand": "",
       "salesRank": 1,
-      "title": "Awareness video 1: Product name",
-      "summary": "One sentence plan summary",
+      "title": "Video title",
+      "summary": "one line",
       "hookType": "pattern interrupt",
-      "clips": [
-        {
-          "step": 1,
-          "duration": "0–3 sec",
-          "whatToFilm": "...",
-          "whatToSay": "...",
-          "onScreenText": "..."
-        }
-      ]
+      "fullAudioScript": "Full spoken script...",
+      "onScreenCaption": "HOW IS THIS EVEN LEGAL?",
+      "tiktokCaption": "Caption with hashtags #tiktokshop..."
     }
   ]
 }`;
@@ -450,18 +461,34 @@ Return ONLY valid JSON (no markdown outside the JSON block):
       sales.find((s) => s.product_name.toLowerCase() === productName.toLowerCase()) ||
       sales.find((s) => s.full_name.toLowerCase().includes(productName.toLowerCase()));
 
-    const clipsRaw = Array.isArray(raw.clips) ? raw.clips : [];
-    const clips: ClipInstruction[] = clipsRaw.map((c, i) => ({
-      step: Number((c as Record<string, unknown>).step) || i + 1,
-      duration: String((c as Record<string, unknown>).duration || ""),
-      whatToFilm: String((c as Record<string, unknown>).whatToFilm || ""),
-      whatToSay: String((c as Record<string, unknown>).whatToSay || ""),
-      onScreenText: String((c as Record<string, unknown>).onScreenText || ""),
-    }));
-
-    if (!clips.length) {
-      throw new Error(`Agent plan missing clips for ${productName}.`);
+    const fullAudioScript = String(raw.fullAudioScript || raw.audioScript || "").trim();
+    if (!fullAudioScript) {
+      throw new Error(`Agent plan missing fullAudioScript for ${productName}.`);
     }
+
+    const onScreenCaption = String(raw.onScreenCaption || raw.on_screen_caption || "").trim();
+    const tiktokCaption = String(raw.tiktokCaption || raw.tiktok_caption || "").trim();
+    const funnelCategory =
+      String(raw.funnelCategory || funnelBucketLabel(funnel)).trim();
+
+    const clipsRaw = Array.isArray(raw.clips) ? raw.clips : [];
+    const clips: ClipInstruction[] = clipsRaw.length
+      ? clipsRaw.map((c, i) => ({
+          step: Number((c as Record<string, unknown>).step) || i + 1,
+          duration: String((c as Record<string, unknown>).duration || ""),
+          whatToFilm: String((c as Record<string, unknown>).whatToFilm || ""),
+          whatToSay: String((c as Record<string, unknown>).whatToSay || ""),
+          onScreenText: String((c as Record<string, unknown>).onScreenText || ""),
+        }))
+      : [
+          {
+            step: 1,
+            duration: "full",
+            whatToFilm: `Film ${productName} — face, hands, product`,
+            whatToSay: fullAudioScript,
+            onScreenText: onScreenCaption,
+          },
+        ];
 
     return {
       id: randomUUID(),
@@ -477,6 +504,10 @@ Return ONLY valid JSON (no markdown outside the JSON block):
       summary: String(raw.summary || ""),
       referenceLibraryId: null,
       hookType: String(raw.hookType || "pattern interrupt"),
+      funnelCategory,
+      fullAudioScript,
+      onScreenCaption,
+      tiktokCaption,
       clips,
     };
   });
@@ -557,6 +588,10 @@ export function generateDailyPlanLocal(store: JsonStore, req: GeneratePlanReques
             : `Conversion post — push ${slot.product.product_name} with urgency and orange cart CTA.`,
       referenceLibraryId: ref?.libraryId || null,
       hookType: ref?.hookType || "pattern interrupt",
+      funnelCategory: funnelBucketLabel(slot.bucket),
+      fullAudioScript: clips.map((c) => c.whatToSay).filter(Boolean).join(" "),
+      onScreenCaption: clips.map((c) => c.onScreenText).find(Boolean) || "",
+      tiktokCaption: "",
       clips,
     };
   });

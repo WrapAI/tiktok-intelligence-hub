@@ -6,6 +6,8 @@ import { buildLibraryInsights } from "./libraryPerformance.js";
 import { buildMemorySummary } from "./memoryInsights.js";
 import { listProductSales } from "./salesImport.js";
 import { formatInspirationRules } from "./referenceAdaptation.js";
+import { buildLibraryContextBlock } from "./libraryContext.js";
+import { PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 
 export type HubMemoryDocument = {
   path: string;
@@ -29,7 +31,10 @@ You assist a UK TikTok Shop affiliate creator using the **TikTok Intelligence Hu
 - Import and store competitor video analyses from the **TikTok Hook Analyzer** Chrome extension
 - Track **products**, **28-day sales**, **positive memory** (what worked on their account), Studio/Compass syncs
 - **Daily Planner**: funnel post mix (top/middle/bottom, max 30/day) + shot lists per product
-- **Script Writer**: voiceover scripts + ElevenLabs SSML from library performance stats
+- **Script Writer**: voiceover scripts + ElevenLabs MP3 + on-screen & TikTok captions
+- **Library analyses** (from TikTok Hook Analyzer): each video has SEPARATE fields — \`hooks.on_screen_text\`, \`hooks.audio_spoken\`, \`hooks.visual_action\`, \`hooks.caption_text\`, \`cta\`, \`timeline\`, \`duration_seconds\`, views/likes/comments/saves
+
+${PACKAGING_KNOWLEDGE}
 
 ## Critical rules (always follow)
 
@@ -106,11 +111,21 @@ export function buildHubMemoryDocuments(store: JsonStore, dataDir: string, dbDir
 - Period days: ${planner.salesPeriodDays}
 `);
 
-  const productsDoc = clip(`# Products (${products.length})
+  const productsList = store.list<Record<string, unknown>>("products");
+  const productsDoc = clip(`# Products (${productsList.length})
 
-${products
+${productsList
   .slice(0, 80)
-  .map((p, i) => `${i + 1}. **${p.name}**${p.brand ? ` (${p.brand})` : ""}${p.price ? ` · ${p.price}` : ""}`)
+  .map((p, i) => {
+    let nouns = "";
+    try {
+      const parsed = JSON.parse(String(p.container_nouns || "[]")) as string[];
+      if (parsed.length) nouns = ` · containers: ${parsed.join(", ")}`;
+    } catch {
+      /* skip */
+    }
+    return `${i + 1}. **${p.name}**${p.brand ? ` (${p.brand})` : ""}${p.price ? ` · ${p.price}` : ""}${p.packaging_type ? ` · ${p.packaging_type}` : ""}${nouns}${p.research_notes ? `\n   Research: ${String(p.research_notes).slice(0, 120)}` : ""}`;
+  })
   .join("\n")}
 `);
 
@@ -126,18 +141,11 @@ ${sales
   .join("\n\n")}
 `);
 
-  const libraryDoc = clip(`# Library — top analysed videos
+  const libraryDoc = clip(`# Library — analysed competitor videos (separated hooks)
 
-${library
-  .slice(0, 12)
-  .map(
-    (v, i) =>
-      `${i + 1}. ${v.hookType} · ${v.funnelCategory || "—"} · ${v.views.toLocaleString()} views\n` +
-      `   Hook: ${v.hookText.slice(0, 100)}\n` +
-      `   Visual: ${v.visualHook.slice(0, 120)}\n` +
-      `   Why: ${(v.primaryReason || v.replicationNotes).slice(0, 140)}`
-  )
-  .join("\n\n")}
+Each entry from TikTok Hook Analyzer has distinct on-screen, audio, visual, and caption hooks plus CTA and stats.
+
+${buildLibraryContextBlock(store, 20)}
 
 ## Funnel library counts
 - Top: ${funnel.top.length}

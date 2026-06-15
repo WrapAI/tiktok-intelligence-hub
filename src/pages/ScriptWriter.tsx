@@ -73,6 +73,9 @@ export default function ScriptWriter() {
     }
     setResult(res.result);
     setLastCost(res.cost || res.result.cost || null);
+    if (res.result.audioPath) {
+      setAudioPath(res.result.audioPath);
+    }
   }
 
   async function handleAudio() {
@@ -96,7 +99,8 @@ export default function ScriptWriter() {
     <div>
       <h2 className="page-title">Script Writer</h2>
       <p className="page-desc">
-        Search your product, then generate. Your TikTok agent reads library stats and writes the script + SSML pacing.
+        Search your product, then generate. Your TikTok agent reads separated library hooks, researches packaging
+        (tub/bottle/can/bag), writes the full audio script + SSML, and auto-generates ElevenLabs MP3 when configured.
       </p>
 
       <div className="grid-2">
@@ -237,22 +241,69 @@ export default function ScriptWriter() {
           <div className="card-title">{result.title}</div>
           <p className="muted" style={{ marginBottom: 12 }}>
             Inferred from library stats: {result.hookType} · {new Date(result.createdAt).toLocaleString()}
+            {result.audioPath ? " · ElevenLabs MP3 ready" : ""}
           </p>
+
+          <div className="card-title" style={{ fontSize: "0.95rem" }}>
+            Full audio script
+          </div>
           <div className="script-output">{result.script}</div>
+
+          {result.onScreenCaption ? (
+            <>
+              <div className="card-title" style={{ marginTop: 16, fontSize: "0.95rem" }}>
+                On-screen caption
+              </div>
+              <div className="script-output">{result.onScreenCaption}</div>
+            </>
+          ) : null}
+
+          {result.tiktokCaption ? (
+            <>
+              <div className="card-title" style={{ marginTop: 16, fontSize: "0.95rem" }}>
+                TikTok caption
+              </div>
+              <div className="script-output">{result.tiktokCaption}</div>
+            </>
+          ) : null}
+
           <div className="btn-row" style={{ marginTop: 12 }}>
             <button type="button" className="btn btn-secondary" onClick={() => copyText(result.script)}>
               Copy script
             </button>
+            {result.onScreenCaption && (
+              <button type="button" className="btn btn-secondary" onClick={() => copyText(result.onScreenCaption)}>
+                Copy on-screen text
+              </button>
+            )}
+            {result.tiktokCaption && (
+              <button type="button" className="btn btn-secondary" onClick={() => copyText(result.tiktokCaption)}>
+                Copy TikTok caption
+              </button>
+            )}
             {result.ssml && (
               <button type="button" className="btn btn-secondary" onClick={() => copyText(result.ssml)}>
                 Copy SSML
               </button>
             )}
-            <button type="button" className="btn btn-primary" disabled={audioLoading} onClick={handleAudio}>
-              {audioLoading ? "Generating audio…" : "Generate ElevenLabs audio"}
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={audioLoading}
+              onClick={handleAudio}
+            >
+              {audioLoading
+                ? "Generating audio…"
+                : result.audioPath
+                  ? "Regenerate ElevenLabs audio"
+                  : "Generate ElevenLabs audio"}
             </button>
-            {audioPath && (
-              <button type="button" className="btn btn-secondary" onClick={() => window.hub.openAudioFile(audioPath)}>
+            {(audioPath || result.audioPath) && (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => window.hub.openAudioFile(audioPath || result.audioPath!)}
+              >
                 Show audio file
               </button>
             )}

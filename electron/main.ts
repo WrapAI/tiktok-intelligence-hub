@@ -11,6 +11,7 @@ import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerfo
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
+import { scheduleProductResearch } from "./services/productResearch.js";
 import {
   generateDailyPlan,
   getDailyPlan,
@@ -304,22 +305,28 @@ ipcMain.handle("hub:list-products", () =>
 ipcMain.handle("hub:save-product", (_e, product: Record<string, string>) => {
   const now = new Date().toISOString();
   const id = product.id || randomUUID();
+  const existing = store.list<Record<string, unknown>>("products").find((p) => p.id === id);
+  const isNew = !existing;
   store.upsertById("products", {
+    ...(existing || {}),
     id,
     name: product.name,
     brand: product.brand || "",
     price: product.price || "",
     description: product.description || "",
     image_url: product.image_url || "",
-    source: "manual",
+    source: existing ? String(existing.source || "manual") : "manual",
     raw_json: JSON.stringify(product),
-    created_at: now,
+    created_at: String(existing?.created_at || now),
     updated_at: now,
   });
   notifyHubDataChanged({
     kind: "product_edit",
     summary: `Product saved: ${product.name}`,
   });
+  if (isNew || !existing?.research_completed_at) {
+    scheduleProductResearch(store, id);
+  }
   return { ok: true, id };
 });
 
