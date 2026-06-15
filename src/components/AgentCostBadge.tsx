@@ -38,10 +38,16 @@ export default function AgentCostBadge({
   const cost = actualCost || estimate;
   if (!cost) return null;
 
+  const usdStr = cost.totalUsd < 0.01
+    ? `$${cost.totalUsd.toFixed(3)}`
+    : `$${cost.totalUsd.toFixed(2)}`;
+
   return (
-    <span className="agent-cost-badge" title={`Anthropic API pricing as of ${cost.pricingAsOf}. Includes memory context read.`}>
-      {actualCost ? "Cost: " : "Est. "}
-      {cost.totalUsd < 0.01 ? `$${cost.totalUsd.toFixed(3)}` : `$${cost.totalUsd.toFixed(2)}`}
+    <span
+      className="agent-cost-badge"
+      title={`${actualCost ? "Actual" : "Estimated"} Anthropic API cost · pricing as of ${cost.pricingAsOf} · includes memory context read`}
+    >
+      {actualCost ? usdStr : `Est. ${usdStr}`}
       <span className="muted"> · {cost.modelLabel}</span>
     </span>
   );

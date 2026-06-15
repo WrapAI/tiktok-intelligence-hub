@@ -11,8 +11,9 @@ function parseContainerNouns(raw?: string): string[] {
   }
 }
 
-function researchStatusFor(product: Product): ProductResearchStatus | "done" {
+function researchStatusFor(product: Product): ProductResearchStatus | "done" | "skipped" {
   if (product.research_completed_at) return "done";
+  if (product.research_status === "skipped" || product.source === "library") return "skipped";
   return product.research_status || "pending";
 }
 
@@ -28,10 +29,18 @@ function ResearchBadge({ product }: { product: Product }) {
     );
   }
 
+  if (status === "skipped") {
+    return (
+      <span className="research-pill pending" title="Competitor product — not researched">
+        Competitor
+      </span>
+    );
+  }
+
   if (status === "pending") {
     return (
-      <span className="research-pill pending" title="Queued for one-time packaging research">
-        Queued
+      <span className="research-pill pending" title="Queued for one-time packaging research when used in a script">
+        Waiting
       </span>
     );
   }
@@ -73,11 +82,7 @@ export default function Products() {
   }, [products, query]);
 
   const activeResearch = useMemo(
-    () =>
-      products.filter((p) => {
-        const status = researchStatusFor(p);
-        return status === "researching" || status === "pending";
-      }),
+    () => products.filter((p) => researchStatusFor(p) === "researching"),
     [products]
   );
 

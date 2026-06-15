@@ -33,7 +33,7 @@ export type ScriptInsights = {
   recommendedHookType: string;
 };
 
-export type ProductResearchStatus = "pending" | "researching" | "complete" | "error";
+export type ProductResearchStatus = "pending" | "researching" | "complete" | "error" | "skipped";
 
 export type Product = {
   id: string;
@@ -339,6 +339,7 @@ export type HubApi = {
   listAgentChatHistory: () => Promise<AgentMessage[]>;
   resetAgentSession: () => Promise<{ ok: boolean; sessionId?: string; error?: string }>;
   onAgentSessionStatus: (callback: (status: AgentSessionLiveStatus) => void) => () => void;
+  importPersonalLibrary: () => Promise<{ ok: boolean; count?: number; message?: string; error?: string }>;
   listMyVideos: () => Promise<MyVideo[]>;
   saveMyVideo: (submission: Partial<MyVideo>) => Promise<{ ok: boolean; id?: string; error?: string }>;
   deleteMyVideo: (id: string) => Promise<{ ok: boolean; error?: string }>;

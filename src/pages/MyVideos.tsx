@@ -46,7 +46,25 @@ export default function MyVideos() {
     setVideos(list);
   }
 
-  useEffect(() => { void load(); }, []);
+  async function syncFromExtension() {
+    setSaving(true);
+    setError("");
+    setNotice("");
+    const res = await window.hub.importPersonalLibrary();
+    setSaving(false);
+    if (!res.ok) { setError(res.error || "Sync failed"); return; }
+    if (res.count === 0) {
+      setNotice(res.message || "No new videos — save some from the extension first.");
+    } else {
+      setNotice(`Synced ${res.count} video${res.count !== 1 ? "s" : ""} from extension.`);
+    }
+    void load();
+  }
+
+  // Auto-import on mount so hub picks up anything already in data folder
+  useEffect(() => {
+    window.hub.importPersonalLibrary().then(() => load());
+  }, []);
 
   function field(key: keyof FormState, label: string, type = "text", placeholder = "") {
     return (
@@ -141,8 +159,16 @@ export default function MyVideos() {
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
         <h2 className="page-title" style={{ margin: 0 }}>My Videos</h2>
         <button
+          className="btn btn-secondary"
+          style={{ marginLeft: "auto", fontSize: 12 }}
+          disabled={saving}
+          onClick={() => void syncFromExtension()}
+          title="Pull any videos saved to Personal Library in the extension"
+        >
+          ↓ Sync from extension
+        </button>
+        <button
           className="btn btn-primary"
-          style={{ marginLeft: "auto" }}
           onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(EMPTY_FORM); setError(""); }}
         >
           {showForm ? "Cancel" : "+ Add Video"}

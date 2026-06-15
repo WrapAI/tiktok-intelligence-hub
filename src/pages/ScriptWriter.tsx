@@ -200,13 +200,13 @@ export default function ScriptWriter() {
           <textarea
             className="field-input"
             rows={3}
-            placeholder="e.g. I can't show my face today, keep it product-only. Mention the bundle deal. Avoid the word 'cheap'."
+            placeholder="e.g. No face on camera today. Mention the bundle deal. Avoid the word 'cheap'."
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
-            style={{ resize: "vertical", fontFamily: "inherit" }}
+            style={{ resize: "vertical", fontFamily: "inherit", width: "100%", boxSizing: "border-box", display: "block" }}
           />
-          <p className="muted" style={{ fontSize: 11, marginTop: 3 }}>
-            Anything you want the agent to know, do, or avoid for this specific script.
+          <p className="muted" style={{ fontSize: 11, marginTop: 4, marginBottom: 16 }}>
+            Anything specific to do, avoid, or focus on for this script.
           </p>
 
           <div className="btn-row" style={{ alignItems: "center", gap: 12, flexWrap: "wrap" }}>

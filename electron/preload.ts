@@ -59,6 +59,7 @@ contextBridge.exposeInMainWorld("hub", {
   }) => ipcRenderer.invoke("hub:request-agent-task", req),
   listAgentChatHistory: () => ipcRenderer.invoke("hub:list-agent-chat-history"),
   resetAgentSession: () => ipcRenderer.invoke("hub:reset-agent-session"),
+  importPersonalLibrary: () => ipcRenderer.invoke("hub:import-personal-library"),
   listMyVideos: () => ipcRenderer.invoke("hub:list-my-videos"),
   saveMyVideo: (submission: Record<string, unknown>) => ipcRenderer.invoke("hub:save-my-video", submission),
   deleteMyVideo: (id: string) => ipcRenderer.invoke("hub:delete-my-video", id),

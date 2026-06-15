@@ -27,6 +27,7 @@ function parseResearchJson(raw: string): Partial<ProductResearch> {
 
 export function productNeedsResearch(product: Record<string, unknown>): boolean {
   if (product.research_completed_at) return false;
+  if (product.research_status === "skipped") return false;
   // Only research products the user actually sells — not competitor products extracted from library videos
   if (product.source === "library") return false;
   return true;

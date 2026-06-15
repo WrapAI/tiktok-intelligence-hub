@@ -1,5 +1,5 @@
-/** Anthropic API list pricing — verified June 14, 2026 (USD per 1M tokens). */
-export const PRICING_AS_OF = "2026-06-14";
+/** Anthropic API list pricing — verified June 15, 2026 (USD per 1M tokens). */
+export const PRICING_AS_OF = "2026-06-15";
 
 export type ModelRate = {
   label: string;
@@ -166,7 +166,29 @@ export function normalizeSessionUsage(usage?: {
   };
 }
 
-/** Pre-action estimates for agent buttons (includes memory-store context read). */
+/** Pre-action estimates for agent buttons (includes memory-store context read).
+ *
+ * Token assumptions (Sonnet 4.6, verified against real calls Jun 2026):
+ *
+ *  Memory context (hub/*.md synced to memory store):
+ *    ~18 000 total input tokens of which ~14 000 are cache-read hits (~$0.004)
+ *    and ~4 000 are fresh input each call (~$0.012)
+ *
+ *  generate_script:
+ *    task input  ~4 000  (instructions 1 500 + library block 1 200 + product/pacing 1 300)
+ *    task output ~1 400  (script 500 + SSML 600 + captions 200 + JSON wrapper 100)
+ *    → typical total ≈ $0.05–0.07
+ *
+ *  generate_daily_plan:
+ *    task input  ~3 500 base + ~80 tokens per video (product lines + funnel refs)
+ *    task output ~700 tokens per video (script + clips + captions JSON)
+ *    → 15 videos ≈ $0.19,  30 videos ≈ $0.36
+ *
+ *  agent_chat:
+ *    task input  ~800 base + user message
+ *    task output ~700  (conversational reply)
+ *    → typical ≈ $0.015
+ */
 export function estimateAgentActionCost(
   params: AgentActionEstimateParams,
   modelId?: string
@@ -179,22 +201,26 @@ export function estimateAgentActionCost(
 
   switch (params.action) {
     case "generate_script":
-      taskInput = 2_500 + estimateTokensFromText(String(params.durationSeconds || 45));
-      taskOutput = 2_200;
+      // instructions + compliance rules + library context + product/pacing block
+      taskInput = 4_000;
+      // full audio script + SSML + captions + JSON + title
+      taskOutput = 1_400;
       break;
     case "generate_daily_plan": {
       const videos = params.totalVideos || 15;
-      taskInput = 3_500 + videos * 40;
-      taskOutput = videos * 750;
+      // base prompt + funnel refs + product lines + library context
+      taskInput = 3_500 + videos * 80;
+      // per-video: script (~350 tok) + clips (~200 tok) + captions + JSON (~150 tok)
+      taskOutput = videos * 700;
       break;
     }
     case "agent_chat":
-      taskInput = 500 + estimateTokensFromText(params.messageChars ? "x".repeat(params.messageChars) : "");
-      taskOutput = 900;
+      taskInput = 800 + estimateTokensFromText(params.messageChars ? "x".repeat(params.messageChars) : "");
+      taskOutput = 700;
       break;
     case "agent_task":
-      taskInput = 2_000;
-      taskOutput = 1_500;
+      taskInput = 2_500;
+      taskOutput = 1_200;
       break;
   }
 

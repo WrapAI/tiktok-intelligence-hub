@@ -4,7 +4,7 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { JsonStore, resolvePaths } from "./db.js";
-import { ingestIncomingFile, importFromDataFolderIfChanged, importFromDataFolder, ensureDataLayout, migrateFlatDataFolder, getDataLayoutSummary, classifyImportFile, categoryFolder, DATA_FOLDERS, type DataCategory } from "./services/importService.js";
+import { ingestIncomingFile, importFromDataFolderIfChanged, importFromDataFolder, ensureDataLayout, migrateFlatDataFolder, getDataLayoutSummary, classifyImportFile, categoryFolder, DATA_FOLDERS, importJsonFile, type DataCategory } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
 import { generateScript } from "./services/scriptWriter.js";
 import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerformance.js";
@@ -171,6 +171,17 @@ function resetStuckResearchingProducts() {
   const products = store.list<Record<string, unknown>>("products");
   let fixed = 0;
   for (const p of products) {
+    // Library-sourced competitor products will never be researched — mark them skipped
+    if (p.source === "library" && !p.research_completed_at) {
+      store.upsertById("products", {
+        ...(p as { id: string }),
+        research_status: "skipped",
+        research_error: "",
+      });
+      fixed++;
+      continue;
+    }
+    // Reset any that got stuck mid-research from a previous crash
     if (p.research_status === "researching" && !p.research_completed_at) {
       store.upsertById("products", {
         ...(p as { id: string }),
@@ -180,7 +191,7 @@ function resetStuckResearchingProducts() {
       fixed++;
     }
   }
-  if (fixed) console.log(`Reset ${fixed} stuck "researching" products to "pending"`);
+  if (fixed) console.log(`[Startup] Cleaned up ${fixed} product research statuses`);
 }
 
 function runBackgroundStartup() {
@@ -772,6 +783,20 @@ ipcMain.handle("hub:request-sync", async (_e, type: "ALL" | "STUDIO" | "COMPASS"
 });
 
 // ── My Videos ────────────────────────────────────────────────────────────────
+
+ipcMain.handle("hub:import-personal-library", () => {
+  ensureStore();
+  const plPath = path.join(paths.dataDir, "personal_library.json");
+  if (!fs.existsSync(plPath)) {
+    return { ok: true, count: 0, message: "No personal_library.json in data folder yet — save videos from the extension first." };
+  }
+  try {
+    const result = importJsonFile(store, plPath);
+    return { ok: true, count: result.count };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
 
 ipcMain.handle("hub:list-my-videos", () => {
   ensureStore();

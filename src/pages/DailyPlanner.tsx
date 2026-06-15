@@ -222,17 +222,17 @@ export default function DailyPlanner() {
             <textarea
               className="field-input"
               rows={3}
-              placeholder="e.g. I only have 2 hours to film today. Skip any demos that need a tripod. Focus on product-only angles."
+              placeholder="e.g. 2 hours to film. No tripod. Product-only angles only."
               value={additionalInfo}
               onChange={(e) => setAdditionalInfo(e.target.value)}
-              style={{ resize: "vertical", fontFamily: "inherit" }}
+              style={{ resize: "vertical", fontFamily: "inherit", width: "100%", boxSizing: "border-box", display: "block" }}
             />
-            <p className="muted" style={{ fontSize: 11, marginTop: 3 }}>
-              Any constraints or specifics you want the agent to factor into today's plan.
+            <p className="muted" style={{ fontSize: 11, marginTop: 4, marginBottom: 16 }}>
+              Any constraints or specifics for today's plan.
             </p>
           </div>
 
-          <div className="btn-row" style={{ marginTop: 16, alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <div className="btn-row" style={{ marginTop: 0, alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <button
               type="button"
               className="btn btn-primary"
