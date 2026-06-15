@@ -8,6 +8,12 @@ import {
   type FunnelBucket,
   type FunnelReference,
 } from "./funnelKnowledge.js";
+import {
+  adaptHookTextForProduct,
+  adaptInspiredNote,
+  adaptVisualHookForProduct,
+  adaptVisualTactic,
+} from "./referenceAdaptation.js";
 
 export const MAX_DAILY_POSTS = 30;
 
@@ -59,20 +65,40 @@ export type GeneratePlanRequest = {
   selectedProductNames?: string[];
 };
 
-function matchProductId(store: JsonStore, salesName: string, brand: string): string | null {
+function matchProductId(store: JsonStore, product: SalesRow): string | null {
   const products = store.list<{ id: string; name: string; brand?: string }>("products");
-  const key = salesName.toLowerCase();
-  const exact = products.find((p) => p.name.toLowerCase() === key);
-  if (exact) return exact.id;
-  const partial = products.find(
-    (p) => p.name.toLowerCase().includes(key.slice(0, 20)) || key.includes(p.name.toLowerCase().slice(0, 20))
-  );
-  if (partial) return partial.id;
-  if (brand) {
-    const byBrand = products.find((p) => p.brand?.toLowerCase() === brand.toLowerCase() && p.name.length > 5);
+  const candidates = [product.product_name, product.full_name, product.full_name.split("|")[0].trim()].filter(Boolean);
+  const keys = candidates.map((c) => c.toLowerCase());
+
+  for (const key of keys) {
+    const exact = products.find((p) => p.name.toLowerCase() === key);
+    if (exact) return exact.id;
+  }
+
+  for (const key of keys) {
+    const partial = products.find(
+      (p) =>
+        p.name.toLowerCase().includes(key.slice(0, Math.min(20, key.length))) ||
+        key.includes(p.name.toLowerCase().slice(0, Math.min(20, p.name.length)))
+    );
+    if (partial) return partial.id;
+  }
+
+  if (product.brand) {
+    const byBrand = products.find((p) => p.brand?.toLowerCase() === product.brand.toLowerCase() && p.name.length > 5);
     if (byBrand) return byBrand.id;
   }
   return null;
+}
+
+function salesRowMatchesQuery(row: SalesRow, query: string): boolean {
+  const q = query.toLowerCase().trim();
+  if (!q) return true;
+  return (
+    row.product_name.toLowerCase().includes(q) ||
+    row.full_name.toLowerCase().includes(q) ||
+    q.includes(row.product_name.toLowerCase())
+  );
 }
 
 function distributeCounts(total: number, weights: number[]): number[] {
@@ -102,14 +128,23 @@ function buildClipList(
 ): ClipInstruction[] {
   const productLine = product.product_name;
   const brand = product.brand ? ` (${product.brand})` : "";
+  const visualHook = ref
+    ? adaptVisualHookForProduct(ref.visualHook, productLine)
+    : `Close-up of ${productLine} — grab attention fast`;
+  const hookLine = ref
+    ? adaptHookTextForProduct(ref.hookText, productLine, ref.hookType)
+    : `Stop scrolling — here's why everyone's talking about this.`;
+  const inspiredReason = ref
+    ? adaptInspiredNote(ref.primaryReason || ref.replicationNotes, productLine)
+    : "";
 
   if (bucket === "top") {
     return [
       {
         step: 1,
         duration: "0–3 sec",
-        whatToFilm: ref?.visualHook || `Close-up of ${productLine} — grab attention fast`,
-        whatToSay: ref?.hookText || `Stop scrolling — here's why everyone's talking about this.`,
+        whatToFilm: visualHook,
+        whatToSay: hookLine,
         onScreenText: "Worth knowing 👀",
       },
       {
@@ -123,7 +158,7 @@ function buildClipList(
         step: 3,
         duration: "15–25 sec",
         whatToFilm: `Quick demo or before/after of ${productLine}${brand}`,
-        whatToSay: ref?.primaryReason.slice(0, 120) || `This is what actually helped me.`,
+        whatToSay: inspiredReason.slice(0, 140) || `This is what actually helped me.`,
         onScreenText: "",
       },
       {
@@ -141,22 +176,26 @@ function buildClipList(
       {
         step: 1,
         duration: "0–3 sec",
-        whatToFilm: ref?.visualHook || `Unbox or reveal ${productLine} on camera`,
-        whatToSay: ref?.hookText || `Let me show you what this actually does.`,
+        whatToFilm: visualHook || `Unbox or reveal ${productLine} on camera`,
+        whatToSay: hookLine || `Let me show you what this actually does.`,
         onScreenText: "Honest review",
       },
       {
         step: 2,
         duration: "3–12 sec",
-        whatToFilm: `Demo the product — show texture, application, or result`,
+        whatToFilm: `Demo ${productLine} — show texture, application, or result`,
         whatToSay: `Talk through 2–3 real benefits. Be specific.`,
-        onScreenText: ref?.visualTactics[0]?.slice(0, 40) || "",
+        onScreenText: ref?.visualTactics[0]
+          ? adaptVisualTactic(ref.visualTactics[0], productLine)
+          : "",
       },
       {
         step: 3,
         duration: "12–22 sec",
-        whatToFilm: `Show proof — your results, reviews on screen, or side-by-side`,
-        whatToSay: ref?.replicationNotes.slice(0, 140) || `This is why I keep restocking it.`,
+        whatToFilm: `Show proof — your results, reviews on screen, or side-by-side with ${productLine}`,
+        whatToSay:
+          adaptInspiredNote(ref?.replicationNotes || ref?.primaryReason || "", productLine).slice(0, 140) ||
+          `This is why I keep restocking it.`,
         onScreenText: "",
       },
       {
@@ -174,8 +213,8 @@ function buildClipList(
     {
       step: 1,
       duration: "0–2 sec",
-      whatToFilm: ref?.visualHook || `Slam ${productLine} on counter or hold to camera`,
-      whatToSay: ref?.hookText || `This sold out twice — here's why.`,
+      whatToFilm: visualHook || `Slam ${productLine} on counter or hold to camera`,
+      whatToSay: hookLine || `This sold out twice — here's why.`,
       onScreenText: "DEAL",
     },
     {
@@ -189,7 +228,7 @@ function buildClipList(
       step: 3,
       duration: "10–20 sec",
       whatToFilm: `Fast demo — 2–3 quick cuts showing it working`,
-      whatToSay: ref?.primaryReason.slice(0, 120) || `Best seller for a reason. Tap the cart.`,
+      whatToSay: inspiredReason.slice(0, 140) || `Best seller for a reason. Tap the cart.`,
       onScreenText: "",
     },
     {
@@ -214,7 +253,7 @@ function allocateVideos(
   selectedNames?: string[]
 ): { bucket: FunnelBucket; product: SalesRow; rank: number }[] {
   const filtered = selectedNames?.length
-    ? sales.filter((s) => selectedNames.some((n) => s.product_name.toLowerCase().includes(n.toLowerCase())))
+    ? sales.filter((s) => selectedNames.some((n) => salesRowMatchesQuery(s, n)))
     : sales;
 
   const pool = filtered.length ? filtered : sales;
@@ -288,7 +327,7 @@ export function generateDailyPlan(store: JsonStore, req: GeneratePlanRequest): D
 
   const productVideoCounts = new Map<string, number>();
   for (const slot of slots) {
-    const key = slot.product.product_name;
+    const key = slot.product.full_name || slot.product.product_name;
     productVideoCounts.set(key, (productVideoCounts.get(key) || 0) + 1);
   }
 
@@ -296,7 +335,7 @@ export function generateDailyPlan(store: JsonStore, req: GeneratePlanRequest): D
   const refIndex: Record<FunnelBucket, number> = { top: 0, middle: 0, bottom: 0 };
 
   const videos: PlanVideo[] = slots.map((slot) => {
-    const key = slot.product.product_name;
+    const key = slot.product.full_name || slot.product.product_name;
     const videoIndex = perProductIndex.get(key) || 0;
     perProductIndex.set(key, videoIndex + 1);
 
@@ -309,7 +348,7 @@ export function generateDailyPlan(store: JsonStore, req: GeneratePlanRequest): D
       funnelLabel: funnelBucketLabel(slot.bucket),
       productName: slot.product.product_name,
       productBrand: slot.product.brand,
-      productId: matchProductId(store, slot.product.product_name, slot.product.brand),
+      productId: matchProductId(store, slot.product),
       salesRank: slot.rank,
       videoIndex: videoIndex + 1,
       videoCountForProduct: productVideoCounts.get(key) || 1,
@@ -395,6 +434,7 @@ export function getPlannerSummary(store: JsonStore) {
     topProducts: sales.slice(0, 10).map((s, i) => ({
       rank: i + 1,
       name: s.product_name,
+      fullName: s.full_name,
       brand: s.brand,
       gmv: s.gmv,
       orders: s.orders,

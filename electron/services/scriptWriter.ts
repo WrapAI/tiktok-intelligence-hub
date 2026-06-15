@@ -3,6 +3,7 @@ import type { JsonStore } from "../db.js";
 import { findPacingReference, formatPacingBlock } from "./pacingReference.js";
 import { formatLibraryPerformanceForPrompt, getScriptInsights } from "./libraryPerformance.js";
 import { callClaude } from "./claude.js";
+import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type ScriptRequest = {
   productId: string;
@@ -50,10 +51,15 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
   const system = `You are an expert TikTok Shop affiliate scriptwriter for UK creators.
 Write spoken-word voiceover scripts optimized for ElevenLabs TTS.
 
+${formatInspirationRules()}
+
 Rules:
 - Read the library performance stats (views, likes, comments, shares, saves) and infer the best hook structure yourself.
 - Do NOT ask the creator to choose a hook type — decide from the data.
 - Mirror the reference video's speaking SPEED and pause rhythm in your SSML (same beat structure, new words).
+- Every line must be about the creator's product listed below — never products from analysed competitor videos.
+- Do NOT specify backgrounds, rooms, or sets from reference videos. Use neutral [VISUAL: show product / your face / hands] cues only.
+- Do NOT tell the creator to use props, packaging, or assets from reference videos they do not own.
 - SSML must use ElevenLabs-compatible tags: <break time="Xms"/>, <prosody rate="fast|slow|medium">, <emphasis level="strong">.
 - Match timestamp pacing from the reference when provided — same gaps between beats, same fast/slow sections.
 
@@ -85,7 +91,8 @@ ${pacingBlock ? `${pacingBlock}\n\n` : ""}## Product to sell
 ~${duration} seconds at the same speaking pace as the reference video.
 
 Write one complete script for this product using the highest-performing patterns from the library stats.
-Adapt tactics — do not copy competitor scripts verbatim.`;
+Adapt hook structure, pacing, and visual energy only — do not copy competitor products, backgrounds, props, or scripts verbatim.
+All [VISUAL: ...] cues must feature "${product.name}" or generic shots (face, hands, on-screen text) — never items from the reference video unless they are the same product.`;
 
   const model = store.getSetting("anthropicModel", "claude-sonnet-4-6");
   const raw = await callClaude(apiKey, system, user, model);

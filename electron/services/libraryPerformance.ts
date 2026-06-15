@@ -1,5 +1,6 @@
 import type { JsonStore } from "../db.js";
 import { formatMemoryForPrompt, buildMemorySummary } from "./memoryInsights.js";
+import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type LibraryVideoInsight = {
   libraryId: string;
@@ -190,10 +191,13 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
   const lines = [
     formatMemoryForPrompt(memory),
     "",
+    formatInspirationRules(),
+    "",
     "## Library performance data (use this to decide structure — do NOT ask the creator to pick a hook type)",
     "",
     "Choose hook mechanics, pacing, and CTA style from the highest-performing videos below.",
     "Weight views, likes, comments, shares, and saves together — higher engagement score = stronger signal.",
+    "Treat every hook / visual / replication note as TECHNIQUE ONLY — always apply to the creator's product, never copy competitor items.",
     "",
   ];
 
@@ -214,11 +218,14 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
         `${i + 1}. **${formatNumber(video.views)} views** · ${formatNumber(video.likes)} likes · ${formatNumber(video.comments)} comments · ${formatNumber(video.shares)} shares · ${formatNumber(video.saves)} saves`
       );
       lines.push(`   - Hook type: ${video.hookType}${video.funnelCategory ? ` · Funnel: ${video.funnelCategory}` : ""}`);
-      if (video.hookText && video.hookText !== "—") lines.push(`   - Hook: "${video.hookText}"`);
-      if (video.visualHook) lines.push(`   - Visual hook: ${video.visualHook.slice(0, 200)}`);
+      if (video.hookText && video.hookText !== "—")
+        lines.push(`   - Hook pattern (adapt, don't copy product): "${video.hookText}"`);
+      if (video.visualHook)
+        lines.push(`   - Visual technique (adapt to creator's product): ${video.visualHook.slice(0, 200)}`);
       if (video.hookMechanism) lines.push(`   - Why hook works: ${video.hookMechanism.slice(0, 220)}`);
       if (video.primaryReason) lines.push(`   - Primary reason: ${video.primaryReason.slice(0, 220)}`);
-      if (video.replicationNotes) lines.push(`   - Replication notes: ${video.replicationNotes.slice(0, 220)}`);
+      if (video.replicationNotes)
+        lines.push(`   - Style notes (not literal props): ${video.replicationNotes.slice(0, 220)}`);
       if (video.hasPacing) lines.push(`   - Has pacing transcript + SSML reference available`);
     });
     lines.push("");

@@ -127,6 +127,10 @@ export default function DailyPlanner() {
       <p className="page-desc">
         Plan up to {maxPosts} posts per day. Import 28-day sales, set your funnel mix, and get a simple shot list for
         each video based on winning competitor analyses in your library.
+        <span className="muted" style={{ display: "block", marginTop: 6 }}>
+          Shot lists borrow hook structure and visual style from analysed videos — always for your product, never their
+          products, backgrounds, or props.
+        </span>
       </p>
 
       <div className="grid-2">
@@ -185,7 +189,7 @@ export default function DailyPlanner() {
               </p>
               <div className="product-checklist">
                 {summary.topProducts.map((p) => (
-                  <label key={p.name} className="product-check-item">
+                  <label key={p.fullName || p.name} className="product-check-item" title={p.fullName}>
                     <input
                       type="checkbox"
                       checked={selectedProducts.has(p.name)}

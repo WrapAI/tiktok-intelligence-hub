@@ -1,5 +1,6 @@
 import type { JsonStore } from "../db.js";
 import { computeEngagementScore } from "./libraryPerformance.js";
+import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type PacingReference = {
   libraryId: string;
@@ -69,16 +70,18 @@ function rowToReference(row: { id: string; payload_json: string }): PacingRefere
 export function formatPacingBlock(ref: PacingReference | null): string {
   if (!ref) return "";
   return [
-    "## Reference video pacing (match this speaking SPEED and rhythm — same beat structure, not same words)",
-    `Original hook studied: "${ref.hook}"`,
+    formatInspirationRules(),
+    "",
+    "## Reference video pacing (match speaking SPEED and rhythm — same beat structure, not same words or products)",
+    `Reference hook studied for structure only: "${ref.hook}"`,
     `Performance: ${ref.views.toLocaleString()} views · ${ref.likes.toLocaleString()} likes · ${ref.comments.toLocaleString()} comments`,
     "",
     "### Timestamp pacing from winning video",
     ref.pacingTranscript || "(no pacing transcript)",
     "",
-    "### Reference SSML break pattern (mirror these pause lengths and prosody rates)",
+    "### Reference SSML break pattern (mirror pause lengths and prosody rates only)",
     ref.ssml || "(no SSML)",
     "",
-    "Your SSML must mirror the same pause lengths, prosody rate changes, and overall speaking speed at similar points in the script.",
+    "Your SSML must mirror pause lengths and speaking speed. Script content must be about the creator's product — not products from this reference video.",
   ].join("\n");
 }

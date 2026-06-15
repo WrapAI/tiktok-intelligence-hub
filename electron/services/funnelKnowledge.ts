@@ -1,5 +1,6 @@
 import type { JsonStore } from "../db.js";
 import { computeEngagementScore } from "./libraryPerformance.js";
+import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type FunnelBucket = "top" | "middle" | "bottom";
 
@@ -148,7 +149,12 @@ export function pickReference(
 }
 
 export function formatFunnelKnowledgeBlock(knowledge: Record<FunnelBucket, FunnelReference[]>): string {
-  const lines: string[] = ["## Competitor video patterns from your library analyses (by funnel)"];
+  const lines: string[] = [
+    formatInspirationRules(),
+    "",
+    "## Competitor video patterns from your library analyses (by funnel)",
+    "Use these for hook structure and visual technique only — always with YOUR product, not theirs.",
+  ];
   for (const bucket of ["top", "middle", "bottom"] as FunnelBucket[]) {
     const label = funnelBucketLabel(bucket);
     const refs = knowledge[bucket].slice(0, 4);

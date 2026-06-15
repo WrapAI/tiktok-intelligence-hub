@@ -121,6 +121,7 @@ export type PlannerSummary = {
   topProducts: Array<{
     rank: number;
     name: string;
+    fullName: string;
     brand: string;
     gmv: number;
     orders: number;
