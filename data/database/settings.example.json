@@ -1,11 +1,34 @@
 {
+  "_note": "Copy to settings.json and fill in your values. settings.json is gitignored — never commit it.",
+
   "dataFolder": "",
-  "anthropicApiKey": "",
+
+  "anthropicApiKey": "sk-ant-...",
+
+  "grokApiKey": "xai-...",
+
   "elevenLabsApiKey": "",
   "elevenLabsVoiceId": "",
-  "myTiktokHandle": "",
+  "elevenLabsModelId": "eleven_multilingual_v2",
+
+  "myTiktokHandle": "vexcile_",
+
   "tiktokAgentId": "agent_01NxQdQvuQLXgJgMgXbQ1LNz",
   "tiktokAgentEnvironmentId": "env_0139W3beYzg2rMpMX18KQ69M",
   "tiktokAgentMemoryStoreId": "memstore_01Vp97M6cAtSRivSiWnGsL67",
-  "tiktokAgentSessionId": ""
+  "tiktokAgentSessionId": "",
+  "tiktokAgentSessionCreatedAt": "",
+  "tiktokAgentLastMemorySyncAt": "",
+  "tiktokAgentChatHistory": "[]",
+
+  "agentSpendUsdTotal": "0",
+  "agentLastCostUsd": "0",
+  "agentLastCostAt": "",
+
+  "plannerLimits": "",
+  "lastSalesImportAt": "",
+  "lastSalesImportFile": "",
+  "salesPeriodDays": "28",
+
+  "importManifest": "{}"
 }
