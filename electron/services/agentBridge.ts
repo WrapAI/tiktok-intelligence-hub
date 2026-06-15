@@ -1,5 +1,5 @@
 import type { JsonStore } from "../db.js";
-import { sendAgentTask, syncHubContextToMemoryStore } from "./tiktokAgent.js";
+import { syncHubContextToMemoryStore } from "./tiktokAgent.js";
 
 export type HubDataChangeKind =
   | "library"
@@ -40,17 +40,10 @@ function agentConfigured(store: JsonStore): boolean {
   return Boolean(store.getSetting("anthropicApiKey") && store.getSetting("tiktokAgentMemoryStoreId"));
 }
 
-function formatChangeLine(change: HubDataChange): string {
-  const count = change.count != null ? ` (${change.count} records)` : "";
-  const file = change.file ? ` — ${change.file}` : "";
-  return `- **${change.kind}**: ${change.summary}${count}${file}`;
-}
-
 async function flushPending() {
   if (!ctx || syncInFlight || !pending.length) return;
 
   syncInFlight = true;
-  const batch = [...pending];
   pending = [];
   timer = null;
 
@@ -59,21 +52,10 @@ async function flushPending() {
   try {
     if (!agentConfigured(store)) return;
 
-    const result = await syncHubContextToMemoryStore(store, dataDir, dbDir);
-    const lines = batch.map(formatChangeLine).join("\n");
-
-    const notifyMessage = `[Hub auto-sync] New hub data was imported and synced to your memory store.
-
-Updated ${result.uploaded} files under /hub/*.md.
-
-Changes:
-${lines}
-
-Absorb this for future scripts, daily plans, and product strategy. Reply with a one-line acknowledgment only.`;
-
-    void sendAgentTask(store, notifyMessage, { timeoutMs: 90_000 }).catch((err) => {
-      console.error("Agent data notify failed:", err);
-    });
+    // Sync memory store only — do NOT send agent messages on auto-sync.
+    // The agent reads fresh from memory store on every user-triggered task.
+    // Sending notifications creates new sessions and wastes money.
+    await syncHubContextToMemoryStore(store, dataDir, dbDir);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Agent memory sync failed:", message);

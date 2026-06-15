@@ -1,0 +1,31 @@
+---
+description: Project structure overview — both repos are part of the same system
+alwaysApply: true
+---
+
+# TikTok Project — Two-Repo System
+
+This repo (**tiktok-intelligence-hub**) is the Electron desktop companion to the Chrome Extension in **tiktok-hook-analyzer**.
+Both are open together via `C:\Users\liamb\tiktok.code-workspace`.
+
+| Repo | Location | Role |
+|------|----------|------|
+| tiktok-hook-analyzer | `C:\Users\liamb\tiktok-hook-analyzer` | Chrome Extension — scrapes TikTok, analyses via Claude, exports `library.json` / `positive_memory.json` |
+| tiktok-intelligence-hub | `C:\Users\liamb\tiktok-intelligence-hub` | Electron app — ingests exports, Script Writer, Daily Planner, TikTok Agent chat |
+
+## Shared component
+
+`tiktok-hook-analyzer/whisper-server/` (Flask, port 5050) is used by **both**:
+- Extension: audio transcription (`POST /transcribe`)
+- Hub: Studio/Compass sync requests (`POST /sync-request`)
+
+## Cross-repo data flow
+
+Extension (Chrome) → exports JSON → Hub imports via Dashboard → Hub stores in SQLite/JSON → Hub syncs to Claude memory store (`/hub/*.md`) → TikTok Agent uses memory for Script Writer + Daily Planner
+
+## Key rules
+
+- API key stored in `chrome.storage.sync` (extension) and Hub Settings (Electron) — never hardcoded
+- Extension model: `claude-sonnet-4-6` via direct Anthropic API
+- Hub agent: managed Claude session (agent_01NxQdQvuQLXgJgMgXbQ1LNz) with attached memory store
+- Full spec for the extension is in `C:\Users\liamb\tiktok-hook-analyzer\CLAUDE.md`

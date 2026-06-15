@@ -1,0 +1,52 @@
+---
+description: Keep Cursor agent token usage low on every task
+alwaysApply: true
+---
+
+# Low-cost agent behaviour
+
+Follow these rules on every task to minimise token usage and API cost.
+
+---
+
+## Reading files
+
+- Read the **smallest useful scope** — use `offset` + `limit` when a file is large
+- Never read a file you already have full context for in this session
+- Never `cat` or read `package-lock.json`, `*.json` data files in `data/database/`, or `data/hub-data/` — they are large and rarely useful
+- Don't read `node_modules/` anything
+- Skip reading files just to confirm they exist — use `Glob` or `Grep` first
+
+## Searching
+
+- Use `Grep` with a specific pattern before reading a whole file
+- Use `Glob` to locate files before opening them
+- Prefer narrow searches (`head_limit: 10-20`) over full-file dumps
+- Do not run broad searches like `rg . -l` or search every file in a directory speculatively
+
+## Edits
+
+- Make targeted `StrReplace` edits — never rewrite an entire file unless genuinely necessary
+- Never add comments that explain what the code does — only add comments for non-obvious intent
+- Do not add console.log debugging statements unless asked
+- Do not add TODO comments
+
+## Shell commands
+
+- Never run `npm install` unless `node_modules/` is confirmed missing
+- Never run `npm run build` or `npx tsc --noEmit` just to check types unless the user asks — make targeted fixes
+- Never run git commands that could push or rewrite history without being asked
+- Do not run commands that produce megabytes of output (e.g. `dir /S`, full `git diff` on large repos)
+
+## Agent / API calls (in the hub app)
+
+- Never trigger `sendAgentMessage` or `requestAgentTask` from background/sync paths — user-triggered only
+- Never auto-research products on every list fetch — research is one-time, user-triggered
+- When adding a feature that calls the Claude agent, add cost estimate to `agentPricing.ts` and show `<AgentCostBadge>` in the UI
+
+## Responses
+
+- Do not narrate what you are about to do before doing it — just do it
+- Do not summarise changes you already showed the user in code diffs
+- Do not repeat context from CLAUDE.md back to the user
+- Stop when the task is done — do not suggest follow-up tasks unless asked

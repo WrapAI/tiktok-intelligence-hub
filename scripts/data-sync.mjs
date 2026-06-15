@@ -9,10 +9,20 @@ import os from "node:os";
 
 const APP_ROOT = path.resolve(import.meta.dirname, "..");
 const REPO_DATA = path.join(APP_ROOT, "data");
-const APPDATA_ROOT = path.join(
-  process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming"),
-  "tiktok-intelligence-hub"
-);
+
+// Electron dev mode stores userData inside chromium-cache; production uses the root.
+// Detect whichever path actually exists (chromium-cache takes priority).
+function resolveAppDataRoot() {
+  const base = path.join(
+    process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming"),
+    "tiktok-intelligence-hub"
+  );
+  const devPath = path.join(base, "chromium-cache", "tiktok-intelligence-hub");
+  if (fs.existsSync(devPath)) return devPath;
+  return base;
+}
+
+const APPDATA_ROOT = resolveAppDataRoot();
 
 const SKIP_DB_FILES = new Set(["settings.json"]);
 

@@ -16,6 +16,7 @@ export type ScriptRequest = {
   productId: string;
   durationSeconds?: number;
   referenceLibraryId?: string;
+  additionalInfo?: string;
 };
 
 export type ScriptResult = {
@@ -127,7 +128,10 @@ ${pacingBlock ? `${pacingBlock}\n\n` : ""}## Product to sell
 ${researchBlock ? `- ${researchBlock}` : ""}
 
 ## Target length
-~${duration} seconds at the same speaking pace as the reference video.`;
+~${duration} seconds at the same speaking pace as the reference video.${req.additionalInfo?.trim() ? `
+
+## Creator notes (read carefully — apply these to this script)
+${req.additionalInfo.trim()}` : ""}`;
 
   const { reply: raw, cost } = await requestAgentTask(store, "generate_script", instructions, context);
   const parsed = parseScriptResponse(raw);
@@ -138,10 +142,16 @@ ${researchBlock ? `- ${researchBlock}` : ""}
   if (store.getSetting("elevenLabsApiKey") && store.getSetting("elevenLabsVoiceId")) {
     try {
       const audioDir = path.join(app.getPath("userData"), "audio");
+      const safeTitle = parsed.title
+        .replace(/[^\w\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .slice(0, 60);
+      const dateStr = createdAt.slice(0, 10);
       const audio = await synthesizeSpeech(store, {
         text: parsed.script,
         ssml: parsed.ssml,
-        scriptId: id,
+        scriptId: `${safeTitle}_${dateStr}`,
         outputDir: audioDir,
       });
       audioPath = audio.filePath;

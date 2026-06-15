@@ -1,0 +1,46 @@
+---
+description: Code conventions and architecture rules for this project
+alwaysApply: true
+---
+
+# Project conventions
+
+## Extension (tiktok-hook-analyzer)
+
+- Vanilla JS only — no React, no build step, no npm packages
+- All analysis logic lives in `analysis-core.js` (THA object)
+- API keys always read from `chrome.storage.sync` at call time — never hardcoded
+- Funnel classification always uses `THA.formatFunnelClassificationBlock()` — never write raw funnel category strings
+- Save buttons fire only on explicit user click — no automatic analysis
+- UI colours: `#0a0a0a` background, `#fe2c55` accent, white text
+- New UI elements need a corresponding entry in `els` object at top of `sidepanel.js`
+
+## Hub (tiktok-intelligence-hub)
+
+- All IPC channels named `hub:*` and handled in `electron/main.ts`
+- New IPC channels must be exposed in `electron/preload.ts` and typed in `src/hub.d.ts`
+- Database access via `JsonStore` only — never read/write database JSON files directly
+- Product research (`productResearch.ts`) is one-time per product — check `research_completed_at` before calling
+- Agent memory sync is silent (no `sendAgentMessage`) — use `flushPending` in `agentBridge.ts` only
+- Scripts and daily plans pass `additionalInfo` from the UI through to the prompt context
+- ElevenLabs audio files named `ScriptTitle_YYYY-MM-DD.mp3` — never use UUIDs as filenames
+- Personal library imports (`personal_library.json`) go to `my_videos` table, never `library_items`
+- `pending_hub_review` is cleared when user edits + saves a My Videos entry
+
+## Whisper server
+
+- Python Flask, port 5050, shared by extension and hub
+- Never change port without updating both `analysis-core.js` and hub sync service
+- Video downloads are always to a temp directory, cleaned up after use
+
+## Compliance (non-negotiable)
+
+- Never suggest health claims or bodily effect descriptions for WildGut or Careleaf products
+- CTA must always end with: "I don't know how long this deal is gonna last but I've left the link in the yellow basket below."
+- Read `/hub/compliance.md` (or `COMPLIANCE_RULES` in `hubContextSnapshot.ts`) before writing any script content
+
+## Git / data
+
+- `settings.json` is always gitignored — never commit it
+- Run `npm run data:export` before committing hub changes that affect library/products/sales
+- `whisper-server/cookies.txt` is always gitignored

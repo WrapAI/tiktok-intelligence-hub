@@ -7,10 +7,11 @@ import Library from "./pages/Library";
 import Memory from "./pages/Memory";
 import TikTokAgent from "./pages/TikTokAgent";
 import Settings from "./pages/Settings";
+import MyVideos from "./pages/MyVideos";
 
 const ScriptWriter = lazy(() => import("./pages/ScriptWriter"));
 
-type Tab = "dashboard" | "planner" | "agent" | "scripts" | "products" | "library" | "memory" | "settings";
+type Tab = "dashboard" | "planner" | "agent" | "scripts" | "products" | "library" | "memory" | "myvideos" | "settings";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "dashboard", label: "Dashboard" },
@@ -20,6 +21,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "products", label: "My Products" },
   { id: "library", label: "Library" },
   { id: "memory", label: "Memory" },
+  { id: "myvideos", label: "My Videos" },
   { id: "settings", label: "Settings" },
 ];
 
@@ -109,6 +111,9 @@ export default function App() {
         </TabPanel>
         <TabPanel active={tab === "memory"} mounted={mountedTabs.has("memory")}>
           <Memory />
+        </TabPanel>
+        <TabPanel active={tab === "myvideos"} mounted={mountedTabs.has("myvideos")}>
+          <MyVideos />
         </TabPanel>
         <TabPanel active={tab === "settings"} mounted={mountedTabs.has("settings")}>
           <Settings onSaved={() => window.hub.checkWhisper().then(setWhisperOnline)} />

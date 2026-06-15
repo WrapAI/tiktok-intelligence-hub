@@ -67,6 +67,7 @@ export type GeneratePlanRequest = {
   planDate?: string;
   limits: FunnelLimits;
   selectedProductNames?: string[];
+  additionalInfo?: string;
 };
 
 function matchProductId(store: JsonStore, product: SalesRow): string | null {
@@ -354,7 +355,10 @@ ${productLines}
 ## Library analyses (separated hooks from TikTok Hook Analyzer)
 ${buildLibraryContextBlock(store, 12)}
 
-${formatInspirationRules()}`;
+${formatInspirationRules()}${req.additionalInfo?.trim() ? `
+
+## Creator notes (read carefully — apply these to today's plan)
+${req.additionalInfo.trim()}` : ""}`;
 }
 
 async function generateDailyPlanViaAgent(store: JsonStore, req: GeneratePlanRequest): Promise<DailyPlan> {

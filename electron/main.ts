@@ -11,7 +11,7 @@ import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerfo
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
-import { scheduleProductResearch, retryProductResearch, ensurePendingProductResearch } from "./services/productResearch.js";
+import { retryProductResearch } from "./services/productResearch.js";
 import {
   generateDailyPlan,
   getDailyPlan,
@@ -36,6 +36,7 @@ import {
   syncHubContextToMemoryStore,
 } from "./services/tiktokAgent.js";
 import { estimateAgentActionCost } from "./services/agentPricing.js";
+import { analyseMyVideo, scoreMyVideo, type MyVideo, type MyVideoSubmission } from "./services/myVideoAnalysis.js";
 import { setAgentStatusWindow } from "./services/agentSessionStatus.js";
 import {
   hubChangeFromImport,
@@ -166,7 +167,26 @@ function createWindow() {
   });
 }
 
+function resetStuckResearchingProducts() {
+  const products = store.list<Record<string, unknown>>("products");
+  let fixed = 0;
+  for (const p of products) {
+    if (p.research_status === "researching" && !p.research_completed_at) {
+      store.upsertById("products", {
+        ...(p as { id: string }),
+        research_status: "pending",
+        research_error: "",
+      });
+      fixed++;
+    }
+  }
+  if (fixed) console.log(`Reset ${fixed} stuck "researching" products to "pending"`);
+}
+
 function runBackgroundStartup() {
+  // Reset any products stuck in "researching" from a previous crash/loop
+  resetStuckResearchingProducts();
+
   void (async () => {
     try {
       await registerDataFolder(paths.dataDir);
@@ -303,7 +323,6 @@ ipcMain.handle("hub:get-dashboard", () => {
 });
 
 ipcMain.handle("hub:list-products", () => {
-  ensurePendingProductResearch(store);
   return store
     .list<Record<string, unknown>>("products")
     .sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)));
@@ -331,9 +350,6 @@ ipcMain.handle("hub:save-product", (_e, product: Record<string, string>) => {
     kind: "product_edit",
     summary: `Product saved: ${product.name}`,
   });
-  if (isNew || !existing?.research_completed_at) {
-    scheduleProductResearch(store, id);
-  }
   return { ok: true, id };
 });
 
@@ -384,6 +400,7 @@ ipcMain.handle(
       productId: string;
       durationSeconds?: number;
       referenceLibraryId?: string;
+      additionalInfo?: string;
     }
   ) => {
     try {
@@ -392,6 +409,7 @@ ipcMain.handle(
         productId: req.productId,
         durationSeconds: req.durationSeconds,
         referenceLibraryId: req.referenceLibraryId,
+        additionalInfo: req.additionalInfo,
       });
       store.appendLog("script", "ok", result.title);
       notifyHubDataChanged({
@@ -439,6 +457,7 @@ ipcMain.handle(
       planDate?: string;
       limits: { top: number; middle: number; bottom: number };
       selectedProductNames?: string[];
+      additionalInfo?: string;
     }
   ) => {
     try {
@@ -505,11 +524,23 @@ ipcMain.handle("hub:generate-audio", async (_e, scriptId: string) => {
       .find((s) => s.id === scriptId);
     if (!existing) throw new Error("Script not found");
 
+    // Build a human-readable filename: ScriptTitle_YYYY-MM-DD
+    function buildAudioName(script: Record<string, unknown>): string {
+      const title = String(script.title || script.script_text || script.id || "audio")
+        .replace(/<[^>]+>/g, "")   // strip any SSML tags
+        .replace(/[^\w\s-]/g, "")  // remove special chars
+        .trim()
+        .replace(/\s+/g, "-")
+        .slice(0, 60);
+      const date = new Date().toISOString().slice(0, 10);
+      return `${title}_${date}` || String(script.id);
+    }
+
     const audioDir = path.join(app.getPath("userData"), "audio");
     const result = await synthesizeSpeech(store, {
       text: String(existing.script_text || ""),
       ssml: String(existing.ssml || ""),
-      scriptId: String(existing.id),
+      scriptId: buildAudioName(existing),
       outputDir: audioDir,
     });
 
@@ -737,5 +768,74 @@ ipcMain.handle("hub:request-sync", async (_e, type: "ALL" | "STUDIO" | "COMPASS"
     const message = err instanceof Error ? err.message : String(err);
     store.appendLog(type, "error", message);
     return { ok: false, error: message };
+  }
+});
+
+// ── My Videos ────────────────────────────────────────────────────────────────
+
+ipcMain.handle("hub:list-my-videos", () => {
+  ensureStore();
+  return store
+    .list<MyVideo>("my_videos")
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+});
+
+ipcMain.handle("hub:save-my-video", (_e, submission: MyVideoSubmission & { id?: string }) => {
+  ensureStore();
+  const now = new Date().toISOString();
+  const id = submission.id || randomUUID();
+  const existing = store.list<MyVideo>("my_videos").find((v) => v.id === id);
+  const video: MyVideo = {
+    ...existing,
+    ...submission,
+    id,
+    analysis: existing?.analysis || null,
+    analysis_status: existing?.analysis_status || "pending",
+    analysis_error: "",
+    score: existing?.score ?? null,
+    created_at: existing?.created_at || now,
+    updated_at: now,
+    // Clear the pending flag once the user has manually saved/updated the entry
+    pending_hub_review: false,
+  };
+  video.score = scoreMyVideo(video);
+  store.upsertById("my_videos", video as unknown as typeof video);
+  return { ok: true, id };
+});
+
+ipcMain.handle("hub:delete-my-video", (_e, id: string) => {
+  ensureStore();
+  store.deleteById("my_videos", id);
+  return { ok: true };
+});
+
+ipcMain.handle("hub:analyse-my-video", async (_e, videoId: string) => {
+  try {
+    ensureStore();
+    const videos = store.list<MyVideo>("my_videos");
+    const video = videos.find((v) => v.id === videoId);
+    if (!video) return { ok: false, error: "Video not found" };
+
+    store.upsertById("my_videos", { ...video, analysis_status: "analysing", analysis_error: "" });
+
+    const analysis = await analyseMyVideo(store, videoId);
+
+    const updated: MyVideo = {
+      ...video,
+      analysis,
+      analysis_status: "complete",
+      analysis_error: "",
+      updated_at: new Date().toISOString(),
+    };
+    updated.score = scoreMyVideo(updated);
+    store.upsertById("my_videos", updated);
+
+    return { ok: true, analysis, score: updated.score };
+  } catch (err) {
+    ensureStore();
+    const msg = err instanceof Error ? err.message : String(err);
+    const video = store.list<MyVideo>("my_videos").find((v) => v.id === videoId);
+    if (video) store.upsertById("my_videos", { ...video, analysis_status: "error", analysis_error: msg });
+    return { ok: false, error: msg };
   }
 });

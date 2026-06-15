@@ -73,6 +73,7 @@ const KNOWN_JSON: Record<string, DataCategory> = {
   "products.json": "products",
   "my_studio_data.json": "studio",
   "my_compass_data.json": "compass",
+  "personal_library.json": "library",
 };
 
 const SKIP_SCAN = new Set(["sync_request.json", ".ds_store", "thumbs.db"]);

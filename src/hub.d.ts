@@ -285,6 +285,7 @@ export type HubApi = {
     productId: string;
     durationSeconds?: number;
     referenceLibraryId?: string;
+    additionalInfo?: string;
   }) => Promise<{ ok: boolean; result?: ScriptResult; cost?: AgentCostBreakdown; error?: string }>;
   listElevenLabsVoices: () => Promise<{ ok: boolean; voices?: Array<{ voice_id: string; name: string }>; error?: string }>;
   generateAudio: (scriptId: string) => Promise<{ ok: boolean; filePath?: string; alignmentPath?: string | null; error?: string }>;
@@ -317,6 +318,7 @@ export type HubApi = {
     planDate?: string;
     limits: FunnelLimits;
     selectedProductNames?: string[];
+    additionalInfo?: string;
   }) => Promise<{ ok: boolean; plan?: DailyPlan; cost?: AgentCostBreakdown; error?: string }>;
   listDailyPlans: () => Promise<Array<{ id: string; planDate: string; totalVideos: number; createdAt: string }>>;
   getDailyPlan: (id: string) => Promise<DailyPlan | null>;
@@ -337,6 +339,47 @@ export type HubApi = {
   listAgentChatHistory: () => Promise<AgentMessage[]>;
   resetAgentSession: () => Promise<{ ok: boolean; sessionId?: string; error?: string }>;
   onAgentSessionStatus: (callback: (status: AgentSessionLiveStatus) => void) => () => void;
+  listMyVideos: () => Promise<MyVideo[]>;
+  saveMyVideo: (submission: Partial<MyVideo>) => Promise<{ ok: boolean; id?: string; error?: string }>;
+  deleteMyVideo: (id: string) => Promise<{ ok: boolean; error?: string }>;
+  analyseMyVideo: (id: string) => Promise<{ ok: boolean; analysis?: MyVideoAnalysis; score?: number; error?: string }>;
+};
+
+export type MyVideoAnalysis = {
+  transcript: string;
+  onscreen_hook: string | null;
+  video_structure: string;
+  cta_timestamps: number[];
+  hook_type: string | null;
+  funnel_category: string | null;
+  timeline: Array<{ timestamp: number; visual: string; audio: string; on_screen_text: string | null }>;
+  pacing_notes: string;
+  detailed_analysis: string;
+  raw_json: string;
+};
+
+export type MyVideo = {
+  id: string;
+  url: string;
+  views: number | null;
+  likes: number | null;
+  comments: number | null;
+  watch_time_pct: number | null;
+  sales: number | null;
+  gmv: number | null;
+  commission: number | null;
+  audience_male_pct: number | null;
+  audience_female_pct: number | null;
+  audience_other_pct: number | null;
+  upload_date: string;
+  submitted_at: string;
+  analysis: MyVideoAnalysis | null;
+  analysis_status: "pending" | "analysing" | "complete" | "error";
+  analysis_error: string;
+  score: number | null;
+  pending_hub_review?: boolean;
+  created_at: string;
+  updated_at: string;
 };
 
 declare global {

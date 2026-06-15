@@ -16,6 +16,88 @@ export type HubMemoryDocument = {
 
 const MAX_DOC_CHARS = 95_000;
 
+const COMPLIANCE_RULES = `# TikTok Shop Affiliate — Compliance & Script Rules
+
+These rules are ABSOLUTE. Apply them to every script, daily plan, and content suggestion. Violations risk account bans.
+
+---
+
+## VIOLATIONS — NEVER DO THESE
+
+### Health & Body Claims (Instant Ban Risk)
+- NEVER make promises about bodily function or health outcomes
+- NEVER say what a product does to the body (e.g. "helps digestion", "boosts energy", "improves sleep")
+- NEVER use medical or quasi-medical language
+- WildGut Capsules — NEVER describe what they do to the body. Name only: "the WildGut Capsules"
+- Careleaf Gummies — NEVER describe effects. Name only: "the Collagen Gummies", "the Beetroot Gummies", "the Good Sleep Gummies"
+
+### Fake Urgency / Misleading Claims
+- NEVER invent stock levels or countdown timers unless confirmed
+- NEVER claim a price is limited if you don't know it is
+- Use "I don't know how long this deal is gonna last" — this is honest urgency, not fabricated
+
+### Competitor Misrepresentation
+- NEVER name a competitor product negatively
+- NEVER make direct price comparisons that could be inaccurate
+
+---
+
+## SCRIPT STRUCTURE (always follow)
+
+1. **HOOK** — Don't Buy This OR Not 1 Not 2 counting hook
+2. **RELATABLE MISTAKE** — personal confession the viewer recognises in themselves
+3. **DISCOUNT REVEAL + URGENCY** — TikTok Shop deal, honest urgency
+4. **PRODUCT DETAILS** — full proper names, never shortened
+5. **CTA** — always exactly: "I don't know how long this deal is gonna last but I've left the link in the yellow basket below."
+
+---
+
+## PRODUCT NAMING RULES
+
+- Always say "the" before a product name
+- Always use the FULL proper product name — never shorten
+- WildGut → always "the WildGut Capsules"
+- Careleaf → always name each individually: "the Collagen Gummies", "the Beetroot Gummies", "the Good Sleep Gummies"
+
+---
+
+## HOOK RULES
+
+### Don't Buy This
+- Say ONCE only: "Don't buy the [Full Product Name]."
+- Then STOP — never reveal why in the same line
+- Curiosity gap — viewer thinks "wait, why?"
+
+### Not 1, Not 2, Not X, But X (Ragebait)
+- Count UP to the total number of items
+- Repeat the SAME number after "but" — that's the ragebait
+- e.g. 3 items = "Not 1, Not 2, Not 3, But 3"
+
+---
+
+## BANNED PHRASES
+
+- "not a single [x] — not yet" — retired, never use
+- Any bodily function claim or health outcome promise
+- Describing WildGut's purpose or mechanism
+- Revealing the "why" of Don't Buy This in the same line as the hook
+- Repeating "don't buy" more than once in the hook
+- Shortened or half-formed product names
+
+---
+
+## SAFE DISCOUNT LANGUAGE
+
+Triple discount · Half price · Third of the price · Flash sale · For basically nothing · 2 for the price of 1 · Massive discount · Slashed the price
+
+---
+
+## CTA — EXACT LINE ALWAYS
+
+"I don't know how long this deal is gonna last but I've left the link in the yellow basket below."
+`;
+
+
 function clip(text: string, max = MAX_DOC_CHARS): string {
   if (text.length <= max) return text;
   return `${text.slice(0, max)}\n\n…(truncated)`;
@@ -78,6 +160,10 @@ The hub app automatically syncs all new data to this memory store when:
 - Products are edited manually
 
 Always treat \`/hub/*.md\` as the live source of truth.
+
+## Compliance
+
+\`/hub/compliance.md\` contains ABSOLUTE script rules and TikTok Shop violation risks. Read it before every script, plan, or content suggestion. Health claims = account ban. Never skip this file.
 `);
 }
 
@@ -252,8 +338,29 @@ ${compassSnaps[0] ? `- Synced: ${compassSnaps[0].synced_at || compassSnaps[0].im
 - Total: ${store.list("daily_plans").length}
 `);
 
+  const myVideos = store.list<Record<string, unknown>>("my_videos")
+    .filter((v) => v.analysis_status === "complete")
+    .sort((a, b) => Number(b.score ?? 0) - Number(a.score ?? 0));
+
+  const myVideosDoc = clip(`# My Videos — performance library (${myVideos.length} analysed)
+
+Scored videos from the creator's own TikTok account. Use these to learn what hook types, structures, and CTAs convert for THIS creator.
+
+${myVideos.slice(0, 20).map((v, i) => {
+    const a = v.analysis as Record<string, unknown> | null;
+    return `## ${i + 1}. Score ${v.score ?? "—"}/100 · ${String(v.upload_date || "").slice(0, 10)}
+- Views: ${v.views ?? "—"} · Likes: ${v.likes ?? "—"} · Watch time: ${v.watch_time_pct ?? "—"}%
+- GMV: £${v.gmv ?? "—"} · Commission: £${v.commission ?? "—"} · Sales: ${v.sales ?? "—"} units
+- Audience: ${v.audience_male_pct ?? "—"}% M / ${v.audience_female_pct ?? "—"}% F
+${a ? `- Hook type: ${a.hook_type ?? "—"} · Funnel: ${a.funnel_category ?? "—"}
+- Onscreen hook: ${String(a.onscreen_hook || "—").slice(0, 100)}
+- Analysis: ${String(a.detailed_analysis || "").slice(0, 200)}` : "- Not yet analysed"}`;
+  }).join("\n\n")}
+`);
+
   return [
     { path: "/hub/SKILL.md", content: buildSkillMarkdown() },
+    { path: "/hub/compliance.md", content: COMPLIANCE_RULES },
     { path: "/hub/overview.md", content: overview },
     { path: "/hub/products.md", content: productsDoc },
     { path: "/hub/sales.md", content: salesDoc },
@@ -263,6 +370,7 @@ ${compassSnaps[0] ? `- Synced: ${compassSnaps[0].synced_at || compassSnaps[0].im
     { path: "/hub/data_layout.md", content: layoutDoc },
     { path: "/hub/import_history.md", content: importDoc },
     { path: "/hub/analytics.md", content: analyticsDoc },
+    { path: "/hub/my_videos.md", content: myVideosDoc },
   ];
 }
 
@@ -270,4 +378,62 @@ export function buildHubContextBundle(store: JsonStore, dataDir: string, dbDir: 
   return buildHubMemoryDocuments(store, dataDir, dbDir)
     .map((doc) => `# ${doc.path}\n\n${doc.content}`)
     .join("\n\n---\n\n");
+}
+
+const RAW_SYNC_TABLES = [
+  "library_items",
+  "products",
+  "positive_memory",
+  "product_sales",
+  "scripts",
+  "daily_plans",
+  "my_videos",
+] as const;
+
+const MAX_RAW_CHARS = 90_000;
+
+export function buildRawDataDocuments(store: JsonStore): HubMemoryDocument[] {
+  const docs: HubMemoryDocument[] = [];
+
+  for (const table of RAW_SYNC_TABLES) {
+    const rows = store.list<unknown>(table);
+    if (!rows.length) continue;
+
+    const json = JSON.stringify(rows);
+    if (json.length <= MAX_RAW_CHARS) {
+      docs.push({ path: `/hub/raw/${table}.json`, content: json });
+    } else {
+      let chunk: unknown[] = [];
+      let chunkStr = "[]";
+      let chunkIdx = 0;
+
+      for (const row of rows) {
+        const candidate = [...chunk, row];
+        const candidateStr = JSON.stringify(candidate);
+        if (candidateStr.length > MAX_RAW_CHARS && chunk.length > 0) {
+          docs.push({ path: `/hub/raw/${table}_${chunkIdx}.json`, content: chunkStr });
+          chunkIdx++;
+          chunk = [row];
+          chunkStr = JSON.stringify(chunk);
+        } else {
+          chunk = candidate;
+          chunkStr = candidateStr;
+        }
+      }
+      if (chunk.length) {
+        docs.push({
+          path: chunkIdx === 0 ? `/hub/raw/${table}.json` : `/hub/raw/${table}_${chunkIdx}.json`,
+          content: chunkStr,
+        });
+      }
+    }
+  }
+
+  const index = RAW_SYNC_TABLES.map((t) => ({
+    table: t,
+    paths: docs.filter((d) => d.path.includes(`/${t}`)).map((d) => d.path),
+  }));
+  docs.unshift({ path: "/hub/raw/_index.json", content: JSON.stringify(index) });
+
+  return docs;
 }

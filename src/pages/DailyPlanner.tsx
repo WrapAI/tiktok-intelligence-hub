@@ -21,6 +21,7 @@ export default function DailyPlanner() {
   const [selectedProducts, setSelectedProducts] = useState<Set<string>>(new Set());
   const [plan, setPlan] = useState<DailyPlan | null>(null);
   const [expandedVideo, setExpandedVideo] = useState<string | null>(null);
+  const [additionalInfo, setAdditionalInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState("");
@@ -91,6 +92,7 @@ export default function DailyPlanner() {
     const res = await window.hub.generateDailyPlan({
       limits,
       selectedProductNames: Array.from(selectedProducts),
+      additionalInfo: additionalInfo.trim() || undefined,
     });
     setLoading(false);
     if (!res.ok || !res.plan) {
@@ -214,6 +216,21 @@ export default function DailyPlanner() {
               </div>
             </>
           ) : null}
+
+          <div style={{ marginTop: 16 }}>
+            <label className="field-label">Additional information (optional)</label>
+            <textarea
+              className="field-input"
+              rows={3}
+              placeholder="e.g. I only have 2 hours to film today. Skip any demos that need a tripod. Focus on product-only angles."
+              value={additionalInfo}
+              onChange={(e) => setAdditionalInfo(e.target.value)}
+              style={{ resize: "vertical", fontFamily: "inherit" }}
+            />
+            <p className="muted" style={{ fontSize: 11, marginTop: 3 }}>
+              Any constraints or specifics you want the agent to factor into today's plan.
+            </p>
+          </div>
 
           <div className="btn-row" style={{ marginTop: 16, alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <button

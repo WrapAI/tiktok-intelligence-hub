@@ -104,6 +104,71 @@ function saveCompassSnapshot(store: JsonStore, data: Record<string, unknown>, no
   });
 }
 
+function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
+  const now = new Date().toISOString();
+  const existing = store.list<{ id: string }>( "my_videos");
+  const existingIds = new Set(existing.map((v) => v.id));
+
+  let added = 0;
+  for (const item of items) {
+    const row = item as Record<string, unknown>;
+    const id = String(row.id || randomUUID());
+    if (existingIds.has(id)) continue; // already in hub, never overwrite (hub has richer data)
+
+    const analysis = row.analysis as Record<string, unknown> | null ?? null;
+    const videoData = row.videoData as Record<string, unknown> | null ?? null;
+    const stats = videoData?.stats as Record<string, unknown> | null ?? null;
+    const grokStats = row.video_stats as Record<string, unknown> | null ?? null;
+
+    // Pull URL from wherever it may be
+    const url = String(row.url || videoData?.url || row.videoUrl || "");
+
+    const entry = {
+      id,
+      url,
+      views: Number(stats?.views || grokStats?.views || row.views || 0) || null,
+      likes: Number(stats?.likes || grokStats?.likes || row.likes || 0) || null,
+      comments: Number(stats?.comments || grokStats?.comments || row.comments || 0) || null,
+      watch_time_pct: null,
+      sales: null,
+      gmv: null,
+      commission: null,
+      audience_male_pct: null,
+      audience_female_pct: null,
+      audience_other_pct: null,
+      upload_date: String(row.upload_date || row.uploadDate || row.savedAt || "").slice(0, 10),
+      submitted_at: now,
+      // Build analysis from the extension's Grok output
+      analysis: url ? {
+        transcript: String(row.transcript || (analysis as Record<string, unknown> | null)?.transcript || ""),
+        onscreen_hook: String((row.hooks as Record<string, unknown> | null)?.on_screen_text || row.onscreen_hook || "") || null,
+        video_structure: String(row.detailed_analysis || ""),
+        cta_timestamps: Array.isArray((row.cta as Record<string, unknown> | null)?.timestamps)
+          ? ((row.cta as Record<string, unknown>).timestamps as number[])
+          : [],
+        hook_type: String(row.hook_type || (row.hooks as Record<string, unknown> | null)?.hook_type || "") || null,
+        funnel_category: String(row.funnel_category || row.funnel_class || "") || null,
+        timeline: Array.isArray(row.timeline) ? row.timeline as [] : [],
+        pacing_notes: String((row.watch_time_psychology as Record<string, unknown> | null)?.pacing_notes || ""),
+        detailed_analysis: String(row.detailed_analysis || ""),
+        raw_json: JSON.stringify(row),
+      } : null,
+      analysis_status: url ? "complete" as const : "pending" as const,
+      analysis_error: "",
+      // Flag for hub UI to prompt for missing performance data
+      pending_hub_review: row.pending_hub_review === true,
+      score: null,
+      created_at: String(row.saved_at || row.savedAt || now),
+      updated_at: now,
+    };
+
+    store.upsertById("my_videos", entry as unknown as { id: string });
+    existingIds.add(id);
+    added++;
+  }
+  return added;
+}
+
 function detectJsonImport(store: JsonStore, data: unknown, filePath: string): ImportResult {
   const now = new Date().toISOString();
   const base = path.basename(filePath);
@@ -148,6 +213,10 @@ function detectJsonImport(store: JsonStore, data: unknown, filePath: string): Im
       const items = (obj.positiveMemory || obj.positive_memory) as unknown[];
       return { type: "positive_memory", count: upsertMemory(store, items), category: "memory" };
     }
+
+    if (Array.isArray(obj.personalLibrary)) {
+      return { type: "personal_library", count: upsertPersonalLibrary(store, obj.personalLibrary), category: "library" };
+    }
   }
 
   throw new Error(`${base}: unrecognized JSON — expected library, memory, studio, compass, or products data`);
@@ -168,6 +237,9 @@ export function importJsonFile(store: JsonStore, filePath: string): ImportResult
   if (base === "my_studio_data.json" && data && typeof data === "object") {
     saveStudioSnapshot(store, data as Record<string, unknown>, now);
     return { type: "studio", count: 1, category: "studio" };
+  }
+  if (base === "personal_library.json" && Array.isArray(data)) {
+    return { type: "personal_library", count: upsertPersonalLibrary(store, data), category: "library" };
   }
   if (base === "my_compass_data.json" && data && typeof data === "object") {
     saveCompassSnapshot(store, data as Record<string, unknown>, now);

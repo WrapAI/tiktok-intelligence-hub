@@ -4,6 +4,7 @@ type Voice = { voice_id: string; name: string };
 
 export default function Settings({ onSaved }: { onSaved?: () => void }) {
   const [apiKey, setApiKey] = useState("");
+  const [grokKey, setGrokKey] = useState("");
   const [elevenKey, setElevenKey] = useState("");
   const [voiceId, setVoiceId] = useState("");
   const [voices, setVoices] = useState<Voice[]>([]);
@@ -19,6 +20,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
   useEffect(() => {
     window.hub.getSettings().then((s) => {
       setApiKey(s.anthropicApiKey || "");
+      setGrokKey(s.grokApiKey || "");
       setElevenKey(s.elevenLabsApiKey || "");
       setVoiceId(s.elevenLabsVoiceId || "");
       setHandle(s.myTiktokHandle || "");
@@ -50,6 +52,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
     e.preventDefault();
     await window.hub.saveSettings({
       anthropicApiKey: apiKey,
+      grokApiKey: grokKey,
       elevenLabsApiKey: elevenKey,
       elevenLabsVoiceId: voiceId,
       myTiktokHandle: handle,
@@ -81,6 +84,22 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           placeholder="sk-ant-..."
           autoComplete="off"
         />
+
+        <div className="card-title" style={{ marginTop: 16 }}>
+          Grok / xAI (My Videos analysis)
+        </div>
+        <label className="field-label">Grok API key</label>
+        <input
+          type="password"
+          className="field-input"
+          value={grokKey}
+          onChange={(e) => setGrokKey(e.target.value)}
+          placeholder="xai-..."
+          autoComplete="off"
+        />
+        <p className="muted" style={{ marginTop: 4, fontSize: 12 }}>
+          Used to analyse your own TikTok videos via Grok vision. Get your key at console.x.ai
+        </p>
 
         <div className="card-title" style={{ marginTop: 16 }}>
           ElevenLabs (script → audio)

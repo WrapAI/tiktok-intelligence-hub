@@ -27,6 +27,7 @@ export default function ScriptWriter() {
   const [productSearchOpen, setProductSearchOpen] = useState(true);
   const [referenceLibraryId, setReferenceLibraryId] = useState("");
   const [duration, setDuration] = useState(45);
+  const [additionalInfo, setAdditionalInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [audioLoading, setAudioLoading] = useState(false);
   const [error, setError] = useState("");
@@ -66,6 +67,7 @@ export default function ScriptWriter() {
       productId,
       durationSeconds: duration,
       referenceLibraryId: referenceLibraryId || undefined,
+      additionalInfo: additionalInfo.trim() || undefined,
     });
     setLoading(false);
     if (!res.ok || !res.result) {
@@ -193,6 +195,19 @@ export default function ScriptWriter() {
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value) || 45)}
           />
+
+          <label className="field-label" style={{ marginTop: 14 }}>Additional information (optional)</label>
+          <textarea
+            className="field-input"
+            rows={3}
+            placeholder="e.g. I can't show my face today, keep it product-only. Mention the bundle deal. Avoid the word 'cheap'."
+            value={additionalInfo}
+            onChange={(e) => setAdditionalInfo(e.target.value)}
+            style={{ resize: "vertical", fontFamily: "inherit" }}
+          />
+          <p className="muted" style={{ fontSize: 11, marginTop: 3 }}>
+            Anything you want the agent to know, do, or avoid for this specific script.
+          </p>
 
           <div className="btn-row" style={{ alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <button type="button" className="btn btn-primary" disabled={loading} onClick={handleGenerate}>
