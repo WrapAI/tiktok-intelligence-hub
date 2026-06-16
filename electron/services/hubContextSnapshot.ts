@@ -358,9 +358,49 @@ ${a ? `- Hook type: ${a.hook_type ?? "—"} · Funnel: ${a.funnel_category ?? "�
   }).join("\n\n")}
 `);
 
+  const agentRulesDoc = `# Agent Behaviour Rules
+
+These rules govern how this agent operates. Follow them on every task.
+
+## Cost & session safety
+
+- NEVER call sendAgentMessage or create a new session from background or automatic tasks — only respond when the user explicitly sends a message or triggers a script/plan
+- NEVER auto-research products in bulk. Product packaging research runs ONE TIME per product, only when that product is first used in a script. Do not loop or retry unless the user asks.
+- NEVER trigger repeated API calls in response to data imports or syncs. Memory store updates are handled silently by the hub — you do not need to acknowledge them.
+- If you are asked to do something that would create many API calls in a loop, refuse and explain why.
+
+## What triggers a valid task
+
+Valid user-triggered tasks:
+- Generate a script (Script Writer)
+- Generate a daily plan (Daily Planner)
+- User sends a message in Agent Chat
+- User explicitly requests product research
+- User explicitly requests a memory sync
+
+NOT valid triggers (do not act on these):
+- A product being imported or updated
+- A library file being imported
+- A sales file being imported
+- Any background startup event
+
+## Session management
+
+- One session is reused across all tasks. Do not create a new session unless the user resets it in Settings.
+- The session ID is managed by the hub — never suggest creating a new session unless the current one has expired.
+
+## Response style
+
+- Be direct and practical — the user is a TikTok affiliate creator, not a developer
+- Always follow /hub/compliance.md rules before generating any script or content idea
+- Use data from /hub/sales.md and /hub/products.md when recommending products — never invent figures
+- Keep responses concise unless a detailed plan or script is requested
+`;
+
   return [
     { path: "/hub/SKILL.md", content: buildSkillMarkdown() },
     { path: "/hub/compliance.md", content: COMPLIANCE_RULES },
+    { path: "/hub/agent-rules.md", content: agentRulesDoc },
     { path: "/hub/overview.md", content: overview },
     { path: "/hub/products.md", content: productsDoc },
     { path: "/hub/sales.md", content: salesDoc },
