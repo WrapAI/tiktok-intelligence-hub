@@ -70,6 +70,31 @@ export type AgentCostBreakdown = {
   estimated: boolean;
 };
 
+export type ScriptSection = "audio" | "on_screen_caption" | "tiktok_caption" | "pace";
+export type ScriptSectionRating = "liked" | "disliked" | "keep_with_notes";
+
+export type ScriptSectionFeedbackEntry = {
+  rating: ScriptSectionRating;
+  reason?: string;
+  notes?: string;
+  rated_at: string;
+};
+
+export type ScriptDetail = {
+  id: string;
+  title: string;
+  script_text: string;
+  ssml: string;
+  on_screen_caption: string;
+  tiktok_caption: string;
+  audio_path: string;
+  hook_type: string;
+  product_id: string;
+  created_at: string;
+  section_feedback: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
+  awaiting_feedback: boolean;
+};
+
 export type ScriptResult = {
   id: string;
   title: string;
@@ -82,6 +107,7 @@ export type ScriptResult = {
   onScreenCaption: string;
   tiktokCaption: string;
   audioPath?: string;
+  sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
   cost?: AgentCostBreakdown;
 };
 
@@ -244,8 +270,26 @@ export type HubApi = {
     tiktokAgentEnvironmentId: string;
     tiktokAgentMemoryStoreId: string;
     tiktokAgentSessionId: string;
+    googleDriveClientId: string;
+    googleDriveClientSecret: string;
+    googleDriveRootFolder: string;
   }>;
   saveSettings: (settings: Record<string, string>) => Promise<{ ok: boolean }>;
+  getGoogleDriveStatus: () => Promise<{
+    ok: boolean;
+    connected?: boolean;
+    hasClientSecret?: boolean;
+    error?: string;
+  }>;
+  connectGoogleDrive: () => Promise<{ ok: boolean; error?: string }>;
+  uploadVoiceoverToDrive: (scriptId: string) => Promise<{
+    ok: boolean;
+    folderPath?: string;
+    mp4Path?: string;
+    fileName?: string;
+    pendingAnalysisId?: string;
+    error?: string;
+  }>;
   getDashboard: () => Promise<{
     libraryCount: number;
     memoryCount: number;
@@ -266,7 +310,30 @@ export type HubApi = {
   listLibrary: () => Promise<unknown[]>;
   listMemory: () => Promise<unknown[]>;
   listScripts: () => Promise<Array<{ id: string; title: string; hook_type: string; created_at: string }>>;
-  getScript: (id: string) => Promise<{ script_text: string; ssml: string; title: string } | undefined>;
+  getScript: (id: string) => Promise<ScriptDetail | null>;
+  rateScriptSectionFeedback: (req: {
+    scriptId: string;
+    section: ScriptSection;
+    rating: ScriptSectionRating;
+    reason?: string;
+    notes?: string;
+  }) => Promise<{
+    ok: boolean;
+    id?: string;
+    sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
+    error?: string;
+  }>;
+  updateScriptContent: (req: {
+    scriptId: string;
+    pendingAnalysisId?: string;
+    updates: {
+      title?: string;
+      script_text?: string;
+      ssml?: string;
+      on_screen_caption?: string;
+      tiktok_caption?: string;
+    };
+  }) => Promise<{ ok: boolean; script?: ScriptDetail; pendingReset?: boolean; error?: string }>;
   refreshProductsFromLibrary: () => Promise<{ ok: boolean; count: number }>;
   getScriptInsights: () => Promise<ScriptInsights>;
   listPacingReferences: () => Promise<
@@ -287,6 +354,18 @@ export type HubApi = {
     referenceLibraryId?: string;
     additionalInfo?: string;
   }) => Promise<{ ok: boolean; result?: ScriptResult; cost?: AgentCostBreakdown; error?: string }>;
+  rateScriptFeedback: (req: {
+    scriptId: string;
+    feedback: "liked" | "disliked";
+    reason?: string;
+  }) => Promise<{
+    ok: boolean;
+    id?: string;
+    feedback?: "liked" | "disliked";
+    feedbackAt?: string;
+    feedbackReason?: string;
+    error?: string;
+  }>;
   listElevenLabsVoices: () => Promise<{ ok: boolean; voices?: Array<{ voice_id: string; name: string }>; error?: string }>;
   generateAudio: (scriptId: string) => Promise<{ ok: boolean; filePath?: string; alignmentPath?: string | null; error?: string }>;
   openAudioFile: (filePath: string) => Promise<{ ok: boolean }>;
@@ -344,6 +423,83 @@ export type HubApi = {
   saveMyVideo: (submission: Partial<MyVideo>) => Promise<{ ok: boolean; id?: string; error?: string }>;
   deleteMyVideo: (id: string) => Promise<{ ok: boolean; error?: string }>;
   analyseMyVideo: (id: string) => Promise<{ ok: boolean; analysis?: MyVideoAnalysis; score?: number; error?: string }>;
+  listPendingAnalysis: () => Promise<PendingAnalysis[]>;
+  batchPendingFromToday: (dateTag?: string) => Promise<{ ok: boolean; added?: number; skipped?: number; total?: number; error?: string }>;
+  setPendingAnalysisUrl: (req: { id: string; url: string }) => Promise<{ ok: boolean; entry?: PendingAnalysis; error?: string }>;
+  pullPendingAnalysis: (id: string) => Promise<{ ok: boolean; entry?: PendingAnalysis; error?: string }>;
+  submitPendingAnalysis: (req: {
+    id: string;
+    data: PendingAnalysisSubmit;
+  }) => Promise<{
+    ok: boolean;
+    pending?: PendingAnalysis;
+    myVideoId?: string;
+    memoryId?: string;
+    score?: number;
+    error?: string;
+  }>;
+  deletePendingAnalysis: (req: { id: string; deleteScript?: boolean }) => Promise<{ ok: boolean; error?: string }>;
+};
+
+export type TikTokStatsSnapshot = {
+  views: number | null;
+  likes: number | null;
+  comments: number | null;
+  reposts: number | null;
+  saves: number | null;
+  views_text?: string;
+  likes_text?: string;
+  comments_text?: string;
+  captured_at: string;
+};
+
+export type PendingAnalysisStatus = "awaiting_url" | "tracking" | "ready_for_review" | "complete";
+
+export type PendingAnalysisSubmit = {
+  upload_date: string;
+  watch_time_pct: number | null;
+  sales: number | null;
+  gmv: number | null;
+  commission: number | null;
+  audience_male_pct: number | null;
+  audience_female_pct: number | null;
+  audience_other_pct: number | null;
+};
+
+export type PendingAnalysis = {
+  id: string;
+  source_script_id: string;
+  script_title: string;
+  product_id: string;
+  product_name: string;
+  drive_mp4_path: string;
+  drive_uploaded_at: string;
+  drive_folder_path: string;
+  tiktok_url: string;
+  url_added_at: string | null;
+  initial_stats: TikTokStatsSnapshot | null;
+  latest_stats: TikTokStatsSnapshot | null;
+  analysis: MyVideoAnalysis | null;
+  analysis_status: "pending" | "analysing" | "complete" | "error";
+  analysis_error: string;
+  views: number | null;
+  likes: number | null;
+  comments: number | null;
+  upload_date: string;
+  watch_time_pct: number | null;
+  sales: number | null;
+  gmv: number | null;
+  commission: number | null;
+  audience_male_pct: number | null;
+  audience_female_pct: number | null;
+  audience_other_pct: number | null;
+  score: number | null;
+  status: PendingAnalysisStatus;
+  linked_my_video_id: string | null;
+  linked_memory_id: string | null;
+  created_at: string;
+  updated_at: string;
+  completed_at: string | null;
 };
 
 export type MyVideoAnalysis = {

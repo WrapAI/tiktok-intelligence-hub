@@ -4,6 +4,11 @@ import electron from "vite-plugin-electron/simple";
 
 export default defineConfig({
   base: "./",
+  server: {
+    watch: {
+      ignored: ["**/release/**", "**/node_modules/**"],
+    },
+  },
   plugins: [
     react(),
     electron({

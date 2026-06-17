@@ -1,5 +1,6 @@
 import type { JsonStore } from "../db.js";
-import { requestAgentTask } from "./tiktokAgent.js";
+import type { AgentCostBreakdown } from "./agentPricing.js";
+import { callClaudeDirect } from "./claude.js";
 import { guessPackagingFromName, PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 
 export type ProductResearchStatus = "pending" | "researching" | "complete" | "error";
@@ -10,6 +11,11 @@ export type ProductResearch = {
   category: string;
   research_notes: string;
   researched_at: string;
+};
+
+export type ProductResearchResult = {
+  research: ProductResearch;
+  cost: AgentCostBreakdown;
 };
 
 function parseResearchJson(raw: string): Partial<ProductResearch> {
@@ -53,7 +59,10 @@ function setProductResearchStatus(
   } as Record<string, unknown> & { id: string });
 }
 
-export async function researchProduct(store: JsonStore, productId: string): Promise<ProductResearch | null> {
+export async function researchProduct(
+  store: JsonStore,
+  productId: string
+): Promise<ProductResearchResult | null> {
   if (!store.getSetting("anthropicApiKey")) {
     setProductResearchStatus(store, productId, "error", "Add your Anthropic API key in Settings first.");
     return null;
@@ -85,7 +94,10 @@ Description: ${product.description || "—"}
 Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
 
   try {
-    const { reply } = await requestAgentTask(store, "analyze_data", instructions, context, 120_000);
+    const { reply, cost } = await callClaudeDirect(store, PACKAGING_KNOWLEDGE, `${instructions}\n\n---\n\n${context}`, {
+      task: "analyze_data",
+      maxTokens: 1024,
+    });
     const parsed = parseResearchJson(reply);
     const researched_at = new Date().toISOString();
 
@@ -113,7 +125,7 @@ Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
     } as Record<string, unknown> & { id: string });
 
     store.appendLog("product_research", "ok", `Researched ${product.name}`);
-    return research;
+    return { research, cost };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     setProductResearchStatus(store, productId, "error", msg);

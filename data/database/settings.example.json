@@ -1,11 +1,17 @@
 {
   "dataFolder": "",
   "anthropicApiKey": "",
+  "grokApiKey": "",
   "elevenLabsApiKey": "",
-  "elevenLabsVoiceId": "",
-  "myTiktokHandle": "",
+  "elevenLabsVoiceId": "RiK8PTtVIeKKoFFTk9fg",
+  "myTiktokHandle": "vexcile_",
   "tiktokAgentId": "agent_01NxQdQvuQLXgJgMgXbQ1LNz",
   "tiktokAgentEnvironmentId": "env_0139W3beYzg2rMpMX18KQ69M",
   "tiktokAgentMemoryStoreId": "memstore_01Vp97M6cAtSRivSiWnGsL67",
-  "tiktokAgentSessionId": ""
+  "tiktokAgentSessionId": "",
+  "googleDriveClientId": "609584253079-uvigalsnk0118tbn7s51ecrgh87atf6o.apps.googleusercontent.com",
+  "googleDriveClientSecret": "",
+  "googleDriveRootFolder": "TikTok - Voiceovers",
+  "plannerLimits": "{\"top\":5,\"middle\":5,\"bottom\":20}",
+  "salesPeriodDays": "28"
 }

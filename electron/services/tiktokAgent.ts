@@ -441,7 +441,15 @@ export async function requestAgentTask(
   context?: string,
   timeoutMs = 180_000
 ) {
-  const header = `[Hub task: ${task}]
+  const noTools = task === "generate_script" || task === "generate_daily_plan";
+  const header = noTools
+    ? `[Hub task: ${task}]
+You are the TikTok Intelligence Hub managed agent.
+
+CRITICAL — do NOT run bash, grep, or any shell/file tools. All product, sales, library, and performance data you need is in the message below. Reply in ONE turn with the requested JSON only — no research steps, no confirmation messages.
+
+`
+    : `[Hub task: ${task}]
 You are the TikTok Intelligence Hub managed agent. Read /hub/*.md in the attached memory store for current products, sales, library, and performance data before responding.
 
 `;

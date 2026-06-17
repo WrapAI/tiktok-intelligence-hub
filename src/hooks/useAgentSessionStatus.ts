@@ -15,8 +15,8 @@ export function useAgentSessionStatus(active: boolean, tasks?: string[]) {
   }, [tasks?.join("|")]);
 
   useEffect(() => {
-    if (!active) setLive(null);
-  }, [active]);
+    if (!active && live?.phase !== "error") setLive(null);
+  }, [active, live?.phase]);
 
   return live;
 }

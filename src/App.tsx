@@ -8,16 +8,18 @@ import Memory from "./pages/Memory";
 import TikTokAgent from "./pages/TikTokAgent";
 import Settings from "./pages/Settings";
 import MyVideos from "./pages/MyVideos";
+import PendingAnalysis from "./pages/PendingAnalysis";
 
 const ScriptWriter = lazy(() => import("./pages/ScriptWriter"));
 
-type Tab = "dashboard" | "planner" | "agent" | "scripts" | "products" | "library" | "memory" | "myvideos" | "settings";
+type Tab = "dashboard" | "planner" | "agent" | "scripts" | "pending" | "products" | "library" | "memory" | "myvideos" | "settings";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "dashboard", label: "Dashboard" },
   { id: "planner", label: "Daily Planner" },
   { id: "agent", label: "TikTok Agent" },
   { id: "scripts", label: "Script Writer" },
+  { id: "pending", label: "Pending Analysis" },
   { id: "products", label: "My Products" },
   { id: "library", label: "Library" },
   { id: "memory", label: "Memory" },
@@ -102,6 +104,9 @@ export default function App() {
           <Suspense fallback={<p className="muted">Loading Script Writer…</p>}>
             <ScriptWriter />
           </Suspense>
+        </TabPanel>
+        <TabPanel active={tab === "pending"} mounted={mountedTabs.has("pending")}>
+          <PendingAnalysis />
         </TabPanel>
         <TabPanel active={tab === "products"} mounted={mountedTabs.has("products")}>
           <Products />

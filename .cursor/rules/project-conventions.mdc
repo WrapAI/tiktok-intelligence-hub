@@ -32,6 +32,7 @@ alwaysApply: true
 - Python Flask, port 5050, shared by extension and hub
 - Never change port without updating both `analysis-core.js` and hub sync service
 - Video downloads are always to a temp directory, cleaned up after use
+- **Hub launch:** `start.bat` opens whisper in its own window first; Electron also calls `ensureWhisperServerRunning()` on startup if :5050 is down
 
 ## Compliance (non-negotiable)
 

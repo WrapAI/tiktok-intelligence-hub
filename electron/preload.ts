@@ -21,10 +21,28 @@ contextBridge.exposeInMainWorld("hub", {
     productId: string;
     durationSeconds?: number;
     referenceLibraryId?: string;
+    additionalInfo?: string;
   }) => ipcRenderer.invoke("hub:generate-script", req),
+  rateScriptFeedback: (req: { scriptId: string; feedback: "liked" | "disliked"; reason?: string }) =>
+    ipcRenderer.invoke("hub:rate-script-feedback", req),
+  rateScriptSectionFeedback: (req: {
+    scriptId: string;
+    section: "audio" | "on_screen_caption" | "tiktok_caption" | "pace";
+    rating: "liked" | "disliked" | "keep_with_notes";
+    reason?: string;
+    notes?: string;
+  }) => ipcRenderer.invoke("hub:rate-script-section-feedback", req),
+  updateScriptContent: (req: {
+    scriptId: string;
+    pendingAnalysisId?: string;
+    updates: Record<string, string | undefined>;
+  }) => ipcRenderer.invoke("hub:update-script-content", req),
   listElevenLabsVoices: () => ipcRenderer.invoke("hub:list-elevenlabs-voices"),
   generateAudio: (scriptId: string) => ipcRenderer.invoke("hub:generate-audio", scriptId),
   openAudioFile: (filePath: string) => ipcRenderer.invoke("hub:open-audio-file", filePath),
+  getGoogleDriveStatus: () => ipcRenderer.invoke("hub:google-drive-status"),
+  connectGoogleDrive: () => ipcRenderer.invoke("hub:google-drive-connect"),
+  uploadVoiceoverToDrive: (scriptId: string) => ipcRenderer.invoke("hub:upload-voiceover-to-drive", scriptId),
   getMemorySummary: () => ipcRenderer.invoke("hub:get-memory-summary"),
   importFiles: () => ipcRenderer.invoke("hub:import-files"),
   rescanDataFolder: () => ipcRenderer.invoke("hub:rescan-data-folder"),
@@ -64,6 +82,15 @@ contextBridge.exposeInMainWorld("hub", {
   saveMyVideo: (submission: Record<string, unknown>) => ipcRenderer.invoke("hub:save-my-video", submission),
   deleteMyVideo: (id: string) => ipcRenderer.invoke("hub:delete-my-video", id),
   analyseMyVideo: (id: string) => ipcRenderer.invoke("hub:analyse-my-video", id),
+  listPendingAnalysis: () => ipcRenderer.invoke("hub:list-pending-analysis"),
+  batchPendingFromToday: (dateTag?: string) => ipcRenderer.invoke("hub:batch-pending-from-today", dateTag),
+  setPendingAnalysisUrl: (req: { id: string; url: string }) =>
+    ipcRenderer.invoke("hub:set-pending-analysis-url", req),
+  pullPendingAnalysis: (id: string) => ipcRenderer.invoke("hub:pull-pending-analysis", id),
+  submitPendingAnalysis: (req: { id: string; data: Record<string, unknown> }) =>
+    ipcRenderer.invoke("hub:submit-pending-analysis", req),
+  deletePendingAnalysis: (req: { id: string; deleteScript?: boolean }) =>
+    ipcRenderer.invoke("hub:delete-pending-analysis", req),
   onAgentSessionStatus: (callback: (status: unknown) => void) => {
     const listener = (_event: unknown, status: unknown) => callback(status);
     ipcRenderer.on("hub:agent-session-status", listener);

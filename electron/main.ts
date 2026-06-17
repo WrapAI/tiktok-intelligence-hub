@@ -6,9 +6,10 @@ import { randomUUID } from "node:crypto";
 import { JsonStore, resolvePaths } from "./db.js";
 import { ingestIncomingFile, importFromDataFolderIfChanged, importFromDataFolder, ensureDataLayout, migrateFlatDataFolder, getDataLayoutSummary, classifyImportFile, categoryFolder, DATA_FOLDERS, importJsonFile, type DataCategory } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
-import { generateScript } from "./services/scriptWriter.js";
+import { generateScript, getScriptDetail, rateScriptFeedback, rateScriptSectionFeedback, updateScriptContent, type ScriptSection, type ScriptSectionRating } from "./services/scriptWriter.js";
 import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerformance.js";
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
+import { ensureWhisperServerRunning } from "./services/whisperServer.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
 import { retryProductResearch } from "./services/productResearch.js";
@@ -35,8 +36,21 @@ import {
   sendAgentMessage,
   syncHubContextToMemoryStore,
 } from "./services/tiktokAgent.js";
+import { connectGoogleDrive, DEFAULT_GOOGLE_DRIVE_CLIENT_ID, getGoogleDriveStatus } from "./services/googleDrive.js";
+import { uploadScriptVoiceoverToDrive } from "./services/voiceoverUpload.js";
 import { estimateAgentActionCost } from "./services/agentPricing.js";
 import { analyseMyVideo, scoreMyVideo, type MyVideo, type MyVideoSubmission } from "./services/myVideoAnalysis.js";
+import {
+  batchAddTodayScriptsToPending,
+  createPendingFromScript,
+  deletePendingAnalysis,
+  listPendingAnalysis,
+  pullPendingStatsAndAnalyse,
+  resetPendingAfterScriptEdit,
+  setPendingTikTokUrl,
+  submitPendingAnalysis,
+  type PendingAnalysisSubmit,
+} from "./services/pendingAnalysis.js";
 import { setAgentStatusWindow } from "./services/agentSessionStatus.js";
 import {
   hubChangeFromImport,
@@ -200,6 +214,12 @@ function runBackgroundStartup() {
 
   void (async () => {
     try {
+      await ensureWhisperServerRunning();
+    } catch (err) {
+      console.warn("[Whisper] Auto-start failed:", err);
+    }
+
+    try {
       await registerDataFolder(paths.dataDir);
     } catch {
       // whisper-server optional at startup
@@ -272,6 +292,9 @@ ipcMain.handle("hub:get-settings", () => ({
   tiktokAgentEnvironmentId: store.getSetting("tiktokAgentEnvironmentId", DEFAULT_ENVIRONMENT_ID),
   tiktokAgentMemoryStoreId: store.getSetting("tiktokAgentMemoryStoreId", DEFAULT_MEMORY_STORE_ID),
   tiktokAgentSessionId: store.getSetting("tiktokAgentSessionId", DEFAULT_SESSION_ID),
+  googleDriveClientId: store.getSetting("googleDriveClientId", DEFAULT_GOOGLE_DRIVE_CLIENT_ID),
+  googleDriveClientSecret: store.getSetting("googleDriveClientSecret"),
+  googleDriveRootFolder: store.getSetting("googleDriveRootFolder", "TikTok - Voiceovers"),
 }));
 
 ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
@@ -302,6 +325,15 @@ ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
   }
   if (settings.tiktokAgentSessionId != null) {
     store.setSetting("tiktokAgentSessionId", settings.tiktokAgentSessionId.trim());
+  }
+  if (settings.googleDriveClientId != null) {
+    store.setSetting("googleDriveClientId", settings.googleDriveClientId.trim() || DEFAULT_GOOGLE_DRIVE_CLIENT_ID);
+  }
+  if (settings.googleDriveClientSecret != null) {
+    store.setSetting("googleDriveClientSecret", settings.googleDriveClientSecret.trim());
+  }
+  if (settings.googleDriveRootFolder != null) {
+    store.setSetting("googleDriveRootFolder", settings.googleDriveRootFolder.trim() || "TikTok - Voiceovers");
   }
   return { ok: true };
 });
@@ -397,8 +429,69 @@ ipcMain.handle("hub:list-scripts", () =>
     .slice(0, 50)
 );
 
-ipcMain.handle("hub:get-script", (_e, id: string) =>
-  (store.list("scripts") as Array<{ id: string }>).find((s) => s.id === id)
+ipcMain.handle("hub:get-script", (_e, id: string) => {
+  ensureStore();
+  return getScriptDetail(store, id);
+});
+
+ipcMain.handle(
+  "hub:rate-script-section-feedback",
+  (
+    _e,
+    req: {
+      scriptId: string;
+      section: ScriptSection;
+      rating: ScriptSectionRating;
+      reason?: string;
+      notes?: string;
+    }
+  ) => {
+    try {
+      ensureStore();
+      const result = rateScriptSectionFeedback(
+        store,
+        req.scriptId,
+        req.section,
+        req.rating,
+        req.reason,
+        req.notes
+      );
+      return { ok: true, ...result };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+);
+
+ipcMain.handle(
+  "hub:update-script-content",
+  (
+    _e,
+    req: {
+      scriptId: string;
+      pendingAnalysisId?: string;
+      updates: {
+        title?: string;
+        script_text?: string;
+        ssml?: string;
+        on_screen_caption?: string;
+        tiktok_caption?: string;
+      };
+    }
+  ) => {
+    try {
+      ensureStore();
+      const script = updateScriptContent(store, req.scriptId, req.updates);
+      let pendingReset = false;
+      if (req.pendingAnalysisId) {
+        resetPendingAfterScriptEdit(store, req.pendingAnalysisId);
+        pendingReset = true;
+      }
+      return { ok: true, script, pendingReset };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
 );
 
 ipcMain.handle("hub:get-script-insights", () => getScriptInsights(store));
@@ -432,6 +525,20 @@ ipcMain.handle(
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       store.appendLog("script", "error", message);
+      return { ok: false, error: message };
+    }
+  }
+);
+
+ipcMain.handle(
+  "hub:rate-script-feedback",
+  (_e, req: { scriptId: string; feedback: "liked" | "disliked"; reason?: string }) => {
+    try {
+      ensureStore();
+      const result = rateScriptFeedback(store, req.scriptId, req.feedback, req.reason);
+      return { ok: true, ...result };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
       return { ok: false, error: message };
     }
   }
@@ -570,6 +677,102 @@ ipcMain.handle("hub:generate-audio", async (_e, scriptId: string) => {
 ipcMain.handle("hub:open-audio-file", (_e, filePath: string) => {
   shell.showItemInFolder(filePath);
   return { ok: true };
+});
+
+ipcMain.handle("hub:google-drive-status", async () => {
+  try {
+    ensureStore();
+    return { ok: true, ...(await getGoogleDriveStatus(store)) };
+  } catch (err) {
+    return { ok: false, connected: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:google-drive-connect", async () => {
+  try {
+    ensureStore();
+    return await connectGoogleDrive(store);
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:upload-voiceover-to-drive", async (_e, scriptId: string) => {
+  try {
+    ensureStore();
+    const result = await uploadScriptVoiceoverToDrive(store, scriptId);
+    store.appendLog("drive", "ok", `Uploaded ${result.fileName} → ${result.folderPath}`);
+    notifyHubDataChanged({
+      kind: "import",
+      summary: `Voiceover uploaded — pending analysis queued`,
+      count: 1,
+    });
+    return { ok: true, ...result };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    store.appendLog("drive", "error", message);
+    return { ok: false, error: message };
+  }
+});
+
+ipcMain.handle("hub:batch-pending-from-today", (_e, dateTag?: string) => {
+  try {
+    ensureStore();
+    const result = batchAddTodayScriptsToPending(store, dateTag);
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:list-pending-analysis", () => {
+  ensureStore();
+  return listPendingAnalysis(store);
+});
+
+ipcMain.handle("hub:set-pending-analysis-url", async (_e, req: { id: string; url: string }) => {
+  try {
+    ensureStore();
+    const entry = await setPendingTikTokUrl(store, req.id, req.url);
+    return { ok: true, entry };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:pull-pending-analysis", async (_e, id: string) => {
+  try {
+    ensureStore();
+    const entry = await pullPendingStatsAndAnalyse(store, id);
+    return { ok: true, entry };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:submit-pending-analysis", (_e, req: { id: string; data: PendingAnalysisSubmit }) => {
+  try {
+    ensureStore();
+    const result = submitPendingAnalysis(store, req.id, req.data);
+    notifyHubDataChanged({
+      kind: "import",
+      summary: `Pending analysis submitted — score ${result.score}/100`,
+      count: 1,
+    });
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:delete-pending-analysis", (_e, req: { id: string; deleteScript?: boolean }) => {
+  try {
+    ensureStore();
+    deletePendingAnalysis(store, req.id, !!req.deleteScript);
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
 });
 
 ipcMain.handle("hub:refresh-products-from-library", () => {

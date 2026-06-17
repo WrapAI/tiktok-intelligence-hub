@@ -3,7 +3,8 @@ import { getDataLayoutSummary } from "./dataFolders.js";
 import { getPlannerSummary } from "./dailyPlanner.js";
 import { buildFunnelKnowledge } from "./funnelKnowledge.js";
 import { buildLibraryInsights } from "./libraryPerformance.js";
-import { buildMemorySummary } from "./memoryInsights.js";
+import { buildMemorySummary, type WinningPattern } from "./memoryInsights.js";
+import { buildVideoOutcomesMarkdown } from "./videoOutcomes.js";
 import { listProductSales } from "./salesImport.js";
 import { formatInspirationRules } from "./referenceAdaptation.js";
 import { buildLibraryContextBlock } from "./libraryContext.js";
@@ -16,7 +17,7 @@ export type HubMemoryDocument = {
 
 const MAX_DOC_CHARS = 95_000;
 
-const COMPLIANCE_RULES = `# TikTok Shop Affiliate — Compliance & Script Rules
+export const COMPLIANCE_RULES = `# TikTok Shop Affiliate — Compliance & Script Rules
 
 These rules are ABSOLUTE. Apply them to every script, daily plan, and content suggestion. Violations risk account bans.
 
@@ -244,7 +245,7 @@ ${buildLibraryContextBlock(store, 20)}
 ${memory.topPatterns
   .slice(0, 15)
   .map(
-    (p, i) =>
+    (p: WinningPattern, i: number) =>
       `${i + 1}. [${p.source}] "${p.hook.slice(0, 80)}"` +
       (p.whatWorked ? `\n   Tactic: ${p.whatWorked.slice(0, 120)}` : "") +
       (p.myGmv ? `\n   GMV £${p.myGmv}` : "") +
@@ -254,7 +255,7 @@ ${memory.topPatterns
 
 ## Hook type wins
 ${Object.entries(memory.hookTypeWins)
-  .sort((a, b) => b[1] - a[1])
+  .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
   .slice(0, 8)
   .map(([k, v]) => `- ${k}: ${v}`)
   .join("\n")}
@@ -368,6 +369,7 @@ These rules govern how this agent operates. Follow them on every task.
 - NEVER auto-research products in bulk. Product packaging research runs ONE TIME per product, only when that product is first used in a script. Do not loop or retry unless the user asks.
 - NEVER trigger repeated API calls in response to data imports or syncs. Memory store updates are handled silently by the hub — you do not need to acknowledge them.
 - If you are asked to do something that would create many API calls in a loop, refuse and explain why.
+- For **generate_script** and **generate_daily_plan**: NEVER use bash, grep, or any shell/file tools. The hub already injects all required context in the task message. Respond in ONE turn with JSON only — no grep steps, no "confirming" sales data, no intermediate messages.
 
 ## What triggers a valid task
 
@@ -397,6 +399,8 @@ NOT valid triggers (do not act on these):
 - Keep responses concise unless a detailed plan or script is requested
 `;
 
+  const videoOutcomesDoc = clip(`# Video outcomes — posted script performance\n\n${buildVideoOutcomesMarkdown(store)}`);
+
   return [
     { path: "/hub/SKILL.md", content: buildSkillMarkdown() },
     { path: "/hub/compliance.md", content: COMPLIANCE_RULES },
@@ -411,6 +415,7 @@ NOT valid triggers (do not act on these):
     { path: "/hub/import_history.md", content: importDoc },
     { path: "/hub/analytics.md", content: analyticsDoc },
     { path: "/hub/my_videos.md", content: myVideosDoc },
+    { path: "/hub/video_outcomes.md", content: videoOutcomesDoc },
   ];
 }
 
@@ -428,6 +433,8 @@ const RAW_SYNC_TABLES = [
   "scripts",
   "daily_plans",
   "my_videos",
+  "video_outcomes",
+  "pending_analysis",
 ] as const;
 
 const MAX_RAW_CHARS = 90_000;

@@ -41,6 +41,13 @@ export type MyVideo = MyVideoSubmission & {
   score: number | null;
   created_at: string;
   updated_at: string;
+  pending_hub_review?: boolean;
+  title?: string;
+  hook?: string;
+  key_message?: string;
+  visual_tactics?: string[];
+  swipe_notes?: string[];
+  author?: string;
 };
 
 const ANALYSIS_PROMPT = `You are analysing a TikTok Shop affiliate creator's OWN video for performance insights.
@@ -67,26 +74,18 @@ Return JSON only:
   "detailed_analysis": "analysis of hook psychology, what worked, what could improve, discount delivery, CTA effectiveness"
 }`;
 
-export async function analyseMyVideo(
-  store: JsonStore,
-  videoId: string
-): Promise<MyVideoAnalysis> {
+export async function analyseTikTokUrl(store: JsonStore, url: string): Promise<MyVideoAnalysis> {
   const grokKey = store.getSetting("grokApiKey");
   if (!grokKey) throw new Error("Add your Grok (xAI) API key in Settings first.");
+  if (!url.trim()) throw new Error("Video has no URL.");
 
-  const videos = store.list<MyVideo>("my_videos");
-  const video = videos.find((v) => v.id === videoId);
-  if (!video) throw new Error("Video not found.");
-  if (!video.url) throw new Error("Video has no URL.");
-
-  // Step 1: upload to xAI via whisper-server
   let fileId: string | null = null;
   let fileUrl: string | null = null;
 
   const uploadRes = await fetch(`${WHISPER_URL}/xai/upload-video`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ api_key: grokKey, url: video.url }),
+    body: JSON.stringify({ api_key: grokKey, url: url.trim() }),
     signal: AbortSignal.timeout(300_000),
   });
   const uploadData = (await uploadRes.json()) as {
@@ -99,14 +98,13 @@ export async function analyseMyVideo(
   fileId = uploadData.file_id || null;
   fileUrl = uploadData.file_url || null;
 
-  // Step 2: call Grok with the uploaded file
   const contentInput: unknown[] = [];
   if (fileId) {
     contentInput.push({ type: "input_file", file_id: fileId });
   } else if (fileUrl) {
     contentInput.push({ type: "input_video", video_url: fileUrl });
   } else {
-    contentInput.push({ type: "input_video", video_url: { url: video.url } });
+    contentInput.push({ type: "input_video", video_url: { url: url.trim() } });
   }
   contentInput.push({ type: "input_text", text: ANALYSIS_PROMPT });
 
@@ -133,7 +131,6 @@ export async function analyseMyVideo(
     output_text?: string;
   };
 
-  // Extract text from response
   let rawText = grokData.output_text || "";
   if (!rawText) {
     for (const item of grokData.output || []) {
@@ -150,7 +147,6 @@ export async function analyseMyVideo(
 
   if (!rawText) throw new Error("Grok returned no analysis text.");
 
-  // Clean up uploaded file (fire and forget)
   if (fileId) {
     void fetch(`https://api.x.ai/v1/files/${fileId}`, {
       method: "DELETE",
@@ -158,7 +154,6 @@ export async function analyseMyVideo(
     }).catch(() => {});
   }
 
-  // Parse JSON from response
   const fenced = rawText.match(/```(?:json)?\s*\n([\s\S]*?)```/i);
   const jsonStr = fenced ? fenced[1] : rawText;
   const start = jsonStr.indexOf("{");
@@ -193,6 +188,17 @@ export async function analyseMyVideo(
     detailed_analysis: String(parsed.detailed_analysis || ""),
     raw_json: JSON.stringify(parsed),
   };
+}
+
+export async function analyseMyVideo(
+  store: JsonStore,
+  videoId: string
+): Promise<MyVideoAnalysis> {
+  const videos = store.list<MyVideo>("my_videos");
+  const video = videos.find((v) => v.id === videoId);
+  if (!video) throw new Error("Video not found.");
+  if (!video.url) throw new Error("Video has no URL.");
+  return analyseTikTokUrl(store, video.url);
 }
 
 export function scoreMyVideo(video: MyVideo): number {

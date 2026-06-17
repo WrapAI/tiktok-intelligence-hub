@@ -31,7 +31,9 @@ type TableName =
   | "daily_plans"
   | "import_history"
   | "sync_log"
-  | "my_videos";
+  | "my_videos"
+  | "pending_analysis"
+  | "video_outcomes";
 
 const DEFAULTS: Record<TableName, unknown> = {
   settings: {},
@@ -47,6 +49,8 @@ const DEFAULTS: Record<TableName, unknown> = {
   import_history: [],
   sync_log: [],
   my_videos: [],
+  pending_analysis: [],
+  video_outcomes: [],
 };
 
 export class JsonStore {

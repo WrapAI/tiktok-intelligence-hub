@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import type { AgentCostBreakdown, Product, ScriptInsights, ScriptResult } from "../hub";
+import type { AgentCostBreakdown, Product, ScriptInsights, ScriptResult, ScriptSection } from "../hub";
 import AgentCostBadge from "../components/AgentCostBadge";
 import AgentSessionStatus from "../components/AgentSessionStatus";
+import ScriptContentCard from "../components/ScriptContentCard";
+
+const SCRIPT_SECTIONS: ScriptSection[] = ["audio", "on_screen_caption", "tiktok_caption", "pace"];
 
 type PacingRef = {
   id: string;
@@ -29,11 +32,14 @@ export default function ScriptWriter() {
   const [duration, setDuration] = useState(45);
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [loading, setLoading] = useState(false);
-  const [audioLoading, setAudioLoading] = useState(false);
+  const [driveConnected, setDriveConnected] = useState(false);
+  const [driveNotice, setDriveNotice] = useState("");
   const [error, setError] = useState("");
-  const [audioPath, setAudioPath] = useState("");
   const [result, setResult] = useState<ScriptResult | null>(null);
+  const [feedbackComplete, setFeedbackComplete] = useState(false);
   const [lastCost, setLastCost] = useState<AgentCostBreakdown | null>(null);
+
+  const needsFeedback = !!result && !feedbackComplete;
 
   const selectedProduct = products.find((p) => p.id === productId);
 
@@ -51,6 +57,7 @@ export default function ScriptWriter() {
     window.hub.listProducts().then(setProducts);
     window.hub.getScriptInsights().then(setInsights);
     window.hub.listPacingReferences().then((rows) => setPacingRefs(rows as PacingRef[]));
+    window.hub.getGoogleDriveStatus().then((s) => setDriveConnected(!!s.connected));
   }, []);
 
   async function handleGenerate() {
@@ -61,41 +68,29 @@ export default function ScriptWriter() {
     setLoading(true);
     setError("");
     setResult(null);
+    setFeedbackComplete(false);
     setLastCost(null);
-    setAudioPath("");
-    const res = await window.hub.generateScript({
-      productId,
-      durationSeconds: duration,
-      referenceLibraryId: referenceLibraryId || undefined,
-      additionalInfo: additionalInfo.trim() || undefined,
-    });
-    setLoading(false);
-    if (!res.ok || !res.result) {
-      setError(res.error || "Script generation failed");
-      return;
+    setDriveNotice("");
+    try {
+      const res = await window.hub.generateScript({
+        productId,
+        durationSeconds: duration,
+        referenceLibraryId: referenceLibraryId || undefined,
+        additionalInfo: additionalInfo.trim() || undefined,
+      });
+      if (!res?.ok || !res.result) {
+        setError(res?.error || "Script generation failed — check your Anthropic API key in Settings.");
+        return;
+      }
+      setResult(res.result);
+      const sf = res.result.sectionFeedback || {};
+      setFeedbackComplete(SCRIPT_SECTIONS.every((s) => !!sf[s]?.rating));
+      setLastCost(res.cost || res.result.cost || null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Script generation failed");
+    } finally {
+      setLoading(false);
     }
-    setResult(res.result);
-    setLastCost(res.cost || res.result.cost || null);
-    if (res.result.audioPath) {
-      setAudioPath(res.result.audioPath);
-    }
-  }
-
-  async function handleAudio() {
-    if (!result?.id) return;
-    setAudioLoading(true);
-    setError("");
-    const res = await window.hub.generateAudio(result.id);
-    setAudioLoading(false);
-    if (!res.ok) {
-      setError(res.error || "Audio generation failed");
-      return;
-    }
-    setAudioPath(res.filePath || "");
-  }
-
-  async function copyText(text: string) {
-    await navigator.clipboard.writeText(text);
   }
 
   return (
@@ -210,14 +205,28 @@ export default function ScriptWriter() {
           </p>
 
           <div className="btn-row" style={{ alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            <button type="button" className="btn btn-primary" disabled={loading} onClick={handleGenerate}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={loading || needsFeedback}
+              onClick={handleGenerate}
+              title={needsFeedback ? "Rate the current script before generating another" : undefined}
+            >
               {loading ? "Agent writing…" : "Generate script"}
             </button>
             {!loading && (
               <AgentCostBadge action="generate_script" durationSeconds={duration} actualCost={lastCost} />
             )}
           </div>
+          {needsFeedback && (
+            <p className="error" style={{ marginTop: 8 }}>
+              Rate every section below (audio, captions, pace) before generating another.
+            </p>
+          )}
           <AgentSessionStatus active={loading} tasks={["generate_script", "analyze_data"]} />
+          <p className="muted" style={{ fontSize: 11, marginTop: 8 }}>
+            Scripts use the Claude Messages API directly (not Agent Sessions). Check Usage in the Anthropic console, not Agent Sessions.
+          </p>
           {error && <p className="error">{error}</p>}
         </div>
 
@@ -261,78 +270,23 @@ export default function ScriptWriter() {
             {result.audioPath ? " · ElevenLabs MP3 ready" : ""}
           </p>
 
-          <div className="card-title" style={{ fontSize: "0.95rem" }}>
-            Full audio script
-          </div>
-          <div className="script-output">{result.script}</div>
-
-          {result.onScreenCaption ? (
-            <>
-              <div className="card-title" style={{ marginTop: 16, fontSize: "0.95rem" }}>
-                On-screen caption
-              </div>
-              <div className="script-output">{result.onScreenCaption}</div>
-            </>
-          ) : null}
-
-          {result.tiktokCaption ? (
-            <>
-              <div className="card-title" style={{ marginTop: 16, fontSize: "0.95rem" }}>
-                TikTok caption
-              </div>
-              <div className="script-output">{result.tiktokCaption}</div>
-            </>
-          ) : null}
-
-          <div className="btn-row" style={{ marginTop: 12 }}>
-            <button type="button" className="btn btn-secondary" onClick={() => copyText(result.script)}>
-              Copy script
-            </button>
-            {result.onScreenCaption && (
-              <button type="button" className="btn btn-secondary" onClick={() => copyText(result.onScreenCaption)}>
-                Copy on-screen text
-              </button>
-            )}
-            {result.tiktokCaption && (
-              <button type="button" className="btn btn-secondary" onClick={() => copyText(result.tiktokCaption)}>
-                Copy TikTok caption
-              </button>
-            )}
-            {result.ssml && (
-              <button type="button" className="btn btn-secondary" onClick={() => copyText(result.ssml)}>
-                Copy SSML
-              </button>
-            )}
-            <button
-              type="button"
-              className="btn btn-primary"
-              disabled={audioLoading}
-              onClick={handleAudio}
-            >
-              {audioLoading
-                ? "Generating audio…"
-                : result.audioPath
-                  ? "Regenerate ElevenLabs audio"
-                  : "Generate ElevenLabs audio"}
-            </button>
-            {(audioPath || result.audioPath) && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => window.hub.openAudioFile(audioPath || result.audioPath!)}
-              >
-                Show audio file
-              </button>
-            )}
-          </div>
-          {result.ssml && (
-            <>
-              <div className="card-title" style={{ marginTop: 16 }}>
-                ElevenLabs SSML
-              </div>
-              <div className="script-output">{result.ssml}</div>
-            </>
+          <ScriptContentCard
+            scriptId={result.id}
+            showSectionFeedback
+            showDriveUpload
+            driveConnected={driveConnected}
+            onError={setError}
+            onDriveUploaded={(msg) => {
+              setDriveNotice(msg + " Added to Pending Analysis — add your TikTok URL once posted.");
+            }}
+            onFeedbackChange={setFeedbackComplete}
+          />
+          {!driveConnected && (
+            <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
+              Connect Google Drive in Settings to upload voiceovers to your phone.
+            </p>
           )}
+          {driveNotice && <p className="success" style={{ marginTop: 8 }}>{driveNotice}</p>}
         </div>
       )}
     </div>

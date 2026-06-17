@@ -14,6 +14,13 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
   const [agentEnvironmentId, setAgentEnvironmentId] = useState("");
   const [agentMemoryStoreId, setAgentMemoryStoreId] = useState("");
   const [agentSessionId, setAgentSessionId] = useState("");
+  const [googleClientId, setGoogleClientId] = useState(
+    "609584253079-uvigalsnk0118tbn7s51ecrgh87atf6o.apps.googleusercontent.com"
+  );
+  const [googleClientSecret, setGoogleClientSecret] = useState("");
+  const [googleRootFolder, setGoogleRootFolder] = useState("TikTok - Voiceovers");
+  const [driveConnected, setDriveConnected] = useState(false);
+  const [driveBusy, setDriveBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
@@ -29,8 +36,33 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       setAgentEnvironmentId(s.tiktokAgentEnvironmentId || "env_0139W3beYzg2rMpMX18KQ69M");
       setAgentMemoryStoreId(s.tiktokAgentMemoryStoreId || "memstore_01Vp97M6cAtSRivSiWnGsL67");
       setAgentSessionId(s.tiktokAgentSessionId || "sesn_01PHBz1sPSVVM61oH2yzNQi9");
+      setGoogleClientId(
+        s.googleDriveClientId ||
+          "609584253079-uvigalsnk0118tbn7s51ecrgh87atf6o.apps.googleusercontent.com"
+      );
+      setGoogleClientSecret(s.googleDriveClientSecret || "");
+      setGoogleRootFolder(s.googleDriveRootFolder || "TikTok - Voiceovers");
     });
+    void window.hub.getGoogleDriveStatus().then((s) => setDriveConnected(!!s.connected));
   }, []);
+
+  async function handleConnectDrive() {
+    setDriveBusy(true);
+    setError("");
+    await window.hub.saveSettings({
+      googleDriveClientId: googleClientId.trim(),
+      googleDriveClientSecret: googleClientSecret.trim(),
+      googleDriveRootFolder: googleRootFolder.trim() || "TikTok - Voiceovers",
+    });
+    const res = await window.hub.connectGoogleDrive();
+    setDriveBusy(false);
+    if (!res.ok) {
+      setError(res.error || "Google Drive connection failed");
+      return;
+    }
+    setDriveConnected(true);
+    setStatus("Google Drive connected");
+  }
 
   async function loadVoices() {
     setError("");
@@ -61,6 +93,9 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       tiktokAgentEnvironmentId: agentEnvironmentId,
       tiktokAgentMemoryStoreId: agentMemoryStoreId,
       tiktokAgentSessionId: agentSessionId,
+      googleDriveClientId: googleClientId,
+      googleDriveClientSecret: googleClientSecret,
+      googleDriveRootFolder: googleRootFolder,
     });
     setStatus("Settings saved locally on this machine");
     onSaved?.();
@@ -141,6 +176,48 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           onChange={(e) => setHandle(e.target.value)}
           placeholder="@yourname"
         />
+
+        <div className="card-title" style={{ marginTop: 20 }}>
+          Google Drive (voiceovers → phone)
+        </div>
+        <p className="muted" style={{ marginBottom: 10, fontSize: 12 }}>
+          Client ID is pre-filled. Paste your client secret from{" "}
+          <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noreferrer">
+            Google Cloud Console → Credentials
+          </a>
+          {" "}→ your OAuth 2.0 Desktop client. Enable Google Drive API, then click Connect once.
+        </p>
+        <label className="field-label">Google Drive client ID</label>
+        <input
+          className="field-input"
+          value={googleClientId}
+          onChange={(e) => setGoogleClientId(e.target.value)}
+          autoComplete="off"
+        />
+        <label className="field-label">Google Drive client secret</label>
+        <input
+          type="password"
+          className="field-input"
+          value={googleClientSecret}
+          onChange={(e) => setGoogleClientSecret(e.target.value)}
+          placeholder="GOCSPX-..."
+          autoComplete="off"
+        />
+        <label className="field-label">Root folder on Drive</label>
+        <input
+          className="field-input"
+          value={googleRootFolder}
+          onChange={(e) => setGoogleRootFolder(e.target.value)}
+          placeholder="TikTok - Voiceovers"
+        />
+        <div className="btn-row" style={{ marginTop: 8 }}>
+          <button type="button" className="btn btn-secondary" disabled={driveBusy} onClick={() => void handleConnectDrive()}>
+            {driveBusy ? "Connecting…" : driveConnected ? "Reconnect Google Drive" : "Connect Google Drive"}
+          </button>
+          <span className="muted" style={{ fontSize: 12, alignSelf: "center" }}>
+            {driveConnected ? "✓ Connected" : "Not connected"}
+          </span>
+        </div>
 
         <div className="card-title" style={{ marginTop: 20 }}>
           TikTok Claude Agent

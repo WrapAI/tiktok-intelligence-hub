@@ -1,0 +1,130 @@
+{
+  "overview": {
+    "page": "overview",
+    "pageUrl": "https://shop.tiktok.com/streamer/compass/data-overview/view",
+    "activeDateRange": "Today",
+    "dateRanges": [
+      {
+        "label": "Today",
+        "active": true
+      },
+      {
+        "label": "Last 7 days",
+        "active": false
+      },
+      {
+        "label": "Last 28 days",
+        "active": false
+      },
+      {
+        "label": "Yesterday",
+        "active": false
+      }
+    ],
+    "metrics": {
+      "Attributed GMV": {
+        "label": "Attributed GMV",
+        "value": "£628.63",
+        "numeric": 628.63,
+        "change": {
+          "text": "+33.03%",
+          "direction": "up",
+          "value": 33.03
+        }
+      },
+      "Commission base": {
+        "label": "Commission base",
+        "value": "£714.68",
+        "numeric": 714.68,
+        "change": {
+          "text": "+39.64%",
+          "direction": "up",
+          "value": 39.64
+        }
+      },
+      "Est. commission": {
+        "label": "Est. commission",
+        "value": "£57.71",
+        "numeric": 57.71,
+        "change": {
+          "text": "-9.57%",
+          "direction": "down",
+          "value": 9.57
+        }
+      },
+      "LIVE GMV": {
+        "label": "LIVE GMV",
+        "value": "£0.00",
+        "numeric": 0,
+        "change": {
+          "text": "+0%",
+          "direction": "up",
+          "value": 0
+        }
+      },
+      "Video GMV": {
+        "label": "Video GMV",
+        "value": "£628.63",
+        "numeric": 628.63,
+        "change": {
+          "text": "+33.03%",
+          "direction": "up",
+          "value": 33.03
+        }
+      },
+      "Items sold": {
+        "label": "Items sold",
+        "value": "32",
+        "numeric": 32,
+        "change": {
+          "text": "+3.23%",
+          "direction": "up",
+          "value": 3.23
+        }
+      },
+      "Product views": {
+        "label": "Product views",
+        "value": "37,798",
+        "numeric": 37798,
+        "change": {
+          "text": "+22.00%",
+          "direction": "up",
+          "value": 22
+        }
+      },
+      "Product clicks": {
+        "label": "Product clicks",
+        "value": "1,100",
+        "numeric": 1100,
+        "change": {
+          "text": "+9.45%",
+          "direction": "up",
+          "value": 9.45
+        }
+      }
+    },
+    "scrapeStatus": "ok"
+  },
+  "products": {
+    "page": "products",
+    "pageUrl": "https://shop.tiktok.com/streamer/compass/product-analysis/view",
+    "products": [],
+    "note": "product-analysis selectors not yet confirmed"
+  },
+  "videos": {
+    "page": "videos",
+    "pageUrl": "https://shop.tiktok.com/streamer/compass/video-analysis/view",
+    "videos": [],
+    "note": "video-analysis selectors not yet confirmed"
+  },
+  "gmv": {
+    "today": 628.63,
+    "week": 628.63,
+    "month": 628.63
+  },
+  "totalOrders": 32,
+  "commission": 57.71,
+  "productViews": 37798,
+  "productClicks": 1100,
+  "syncedAt": "2026-06-14T23:26:15.485Z"
+}
