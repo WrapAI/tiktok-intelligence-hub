@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc -p tsconfig.node.json && vite build",
     "dist": "npm run build && electron-builder --win --x64",
+    "ensure-electron": "node node_modules/electron/install.js",
     "preview": "vite preview",
     "start": "electron .",
     "data:export": "node scripts/data-sync.mjs export",

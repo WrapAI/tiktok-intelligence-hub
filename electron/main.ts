@@ -86,6 +86,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Windows: blank renderer / cache crashes
 if (process.platform === "win32") {
+  app.commandLine.appendSwitch("disable-direct-composition");
   app.disableHardwareAcceleration();
 }
 
