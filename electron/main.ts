@@ -75,6 +75,33 @@ function getDialogWindow() {
   return BrowserWindow.getFocusedWindow() || mainWindow || BrowserWindow.getAllWindows()[0] || null;
 }
 
+/** Windows Electron loses keyboard routing after native dialogs / browser OAuth. */
+function restoreWindowInputFocus(win: BrowserWindow | null, afterNativeDialog = false) {
+  if (!win || win.isDestroyed()) return;
+
+  const refocus = () => {
+    if (win.isDestroyed()) return;
+    win.focus();
+    win.webContents.focus();
+  };
+
+  refocus();
+
+  if (process.platform !== "win32") return;
+
+  if (afterNativeDialog) {
+    win.hide();
+    setImmediate(() => {
+      if (win.isDestroyed()) return;
+      win.show();
+      refocus();
+    });
+    return;
+  }
+
+  setImmediate(refocus);
+}
+
 function ensureStore() {
   if (!store) throw new Error("App is still starting — try again in a moment.");
 }
@@ -176,6 +203,7 @@ function createWindow() {
 
   loadWindowContent(mainWindow);
   setAgentStatusWindow(mainWindow);
+  mainWindow.on("focus", () => restoreWindowInputFocus(mainWindow));
   mainWindow.on("closed", () => {
     setAgentStatusWindow(null);
     mainWindow = null;
@@ -609,6 +637,7 @@ ipcMain.handle("hub:import-sales-file", async () => {
         { name: "All files", extensions: ["*"] },
       ],
     });
+    restoreWindowInputFocus(win, true);
     if (result.canceled || !result.filePaths.length) {
       return { ok: false, canceled: true };
     }
@@ -692,8 +721,11 @@ ipcMain.handle("hub:google-drive-status", async () => {
 ipcMain.handle("hub:google-drive-connect", async () => {
   try {
     ensureStore();
-    return await connectGoogleDrive(store);
+    const res = await connectGoogleDrive(store);
+    restoreWindowInputFocus(mainWindow, true);
+    return res;
   } catch (err) {
+    restoreWindowInputFocus(mainWindow, true);
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
 });
@@ -797,6 +829,7 @@ ipcMain.handle("hub:import-files", async () => {
     const result = await dialog.showOpenDialog(win, {
       properties: ["openFile", "multiSelections"],
     });
+    restoreWindowInputFocus(win, true);
     if (result.canceled || !result.filePaths.length) {
       return { ok: false, canceled: true };
     }

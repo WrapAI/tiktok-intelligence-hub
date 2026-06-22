@@ -1,6 +1,5 @@
 import type { JsonStore } from "../db.js";
 import { computeEngagementScore } from "./libraryPerformance.js";
-import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type PacingReference = {
   libraryId: string;
@@ -69,19 +68,25 @@ function rowToReference(row: { id: string; payload_json: string }): PacingRefere
 
 export function formatPacingBlock(ref: PacingReference | null): string {
   if (!ref) return "";
+  const pacing = clipPromptText(ref.pacingTranscript, 1800);
+  const ssml = clipPromptText(ref.ssml, 1200);
   return [
-    formatInspirationRules(),
-    "",
     "## Reference video pacing (match speaking SPEED and rhythm — same beat structure, not same words or products)",
     `Reference hook studied for structure only: "${ref.hook}"`,
     `Performance: ${ref.views.toLocaleString()} views · ${ref.likes.toLocaleString()} likes · ${ref.comments.toLocaleString()} comments`,
     "",
     "### Timestamp pacing from winning video",
-    ref.pacingTranscript || "(no pacing transcript)",
+    pacing || "(no pacing transcript)",
     "",
     "### Reference SSML break pattern (mirror pause lengths and prosody rates only)",
-    ref.ssml || "(no SSML)",
+    ssml || "(no SSML)",
     "",
     "Your SSML must mirror pause lengths and speaking speed. Script content must be about the creator's product — not products from this reference video.",
   ].join("\n");
+}
+
+function clipPromptText(text: string, max: number): string {
+  const trimmed = text.trim();
+  if (trimmed.length <= max) return trimmed;
+  return `${trimmed.slice(0, max)}\n…(truncated)`;
 }

@@ -1,6 +1,5 @@
 import type { JsonStore } from "../db.js";
 import { formatMemoryForPrompt, buildMemorySummary } from "./memoryInsights.js";
-import { formatInspirationRules } from "./referenceAdaptation.js";
 
 export type LibraryVideoInsight = {
   libraryId: string;
@@ -194,8 +193,6 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
   const lines = [
     formatMemoryForPrompt(memory),
     "",
-    formatInspirationRules(),
-    "",
     "## Library performance data (use this to decide structure — do NOT ask the creator to pick a hook type)",
     "",
     "Choose hook mechanics, pacing, and CTA style from the highest-performing videos below.",
@@ -217,19 +214,19 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
 
   if (insights.topVideos.length) {
     lines.push("### Top performing library videos (study these)");
-    insights.topVideos.slice(0, 10).forEach((video, i) => {
+    insights.topVideos.slice(0, 7).forEach((video, i) => {
       lines.push(
         `${i + 1}. **${formatNumber(video.views)} views** · ${formatNumber(video.likes)} likes · ${formatNumber(video.comments)} comments · ${formatNumber(video.shares)} shares · ${formatNumber(video.saves)} saves`
       );
       lines.push(`   - Hook type: ${video.hookType}${video.funnelCategory ? ` · Funnel: ${video.funnelCategory}` : ""}`);
       if (video.hookText && video.hookText !== "—")
-        lines.push(`   - On-screen / audio hook pattern (adapt, don't copy product): "${video.hookText}"`);
+        lines.push(`   - On-screen / audio hook pattern (adapt, don't copy product): "${video.hookText.slice(0, 140)}"`);
       if (video.visualHook)
-        lines.push(`   - Visual technique (adapt to creator's product): ${video.visualHook.slice(0, 200)}`);
-      if (video.hookMechanism) lines.push(`   - Why hook works: ${video.hookMechanism.slice(0, 220)}`);
-      if (video.primaryReason) lines.push(`   - Primary reason: ${video.primaryReason.slice(0, 220)}`);
+        lines.push(`   - Visual technique (adapt to creator's product): ${video.visualHook.slice(0, 140)}`);
+      if (video.hookMechanism) lines.push(`   - Why hook works: ${video.hookMechanism.slice(0, 140)}`);
+      if (video.primaryReason) lines.push(`   - Primary reason: ${video.primaryReason.slice(0, 140)}`);
       if (video.replicationNotes)
-        lines.push(`   - Style notes (not literal props): ${video.replicationNotes.slice(0, 220)}`);
+        lines.push(`   - Style notes (not literal props): ${video.replicationNotes.slice(0, 140)}`);
       if (video.hasPacing) lines.push(`   - Has pacing transcript + SSML reference available`);
     });
     lines.push("");

@@ -108,7 +108,11 @@ export function formatLibraryItemForAgent(item: ParsedLibraryItem, index: number
    Why it worked: ${(item.primaryReason || item.replicationNotes).slice(0, 160)}`;
 }
 
-export function buildLibraryContextBlock(store: JsonStore, limit = 15): string {
+export function buildLibraryContextBlock(
+  store: JsonStore,
+  limit = 15,
+  excludeIds: Set<string> = new Set()
+): string {
   const rows = store
     .list<{ id: string; payload_json: string; hook_type?: string; funnel_category?: string }>(
       "library_items"
@@ -117,6 +121,7 @@ export function buildLibraryContextBlock(store: JsonStore, limit = 15): string {
 
   const parsed = rows
     .map((r) => parseLibraryItem(r))
+    .filter((v) => !excludeIds.has(v.id))
     .filter((v) => v.views > 0 || v.replicationScore >= 6)
     .sort((a, b) => b.views - a.views || b.replicationScore - a.replicationScore)
     .slice(0, limit);
@@ -125,5 +130,7 @@ export function buildLibraryContextBlock(store: JsonStore, limit = 15): string {
     return "No library analyses imported yet. Import library.json from TikTok Hook Analyzer.";
   }
 
-  return parsed.map((item, i) => formatLibraryItemForAgent(item, i)).join("\n\n");
+  return `## Additional library hook examples (technique only — not already listed above)\n\n${parsed
+    .map((item, i) => formatLibraryItemForAgent(item, i))
+    .join("\n\n")}`;
 }

@@ -311,7 +311,11 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
   const pacingRef = findPacingReference(store, referenceId);
   const performanceBlock = formatLibraryPerformanceForPrompt(store);
   const pacingBlock = formatPacingBlock(pacingRef);
-  const libraryBlock = buildLibraryContextBlock(store, 10);
+  const excludeLibraryIds = new Set([
+    ...insights.topVideos.slice(0, 8).map((v) => v.libraryId),
+    ...(pacingRef?.libraryId ? [pacingRef.libraryId] : []),
+  ]);
+  const libraryBlock = buildLibraryContextBlock(store, 5, excludeLibraryIds);
   const packagingBlock = formatProductPackagingForPrompt(product);
   const researchBlock = getProductResearchContext(store, req.productId);
   const duration = req.durationSeconds || 45;
