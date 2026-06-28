@@ -38,7 +38,11 @@ export function buildMemorySummary(store: JsonStore, limit = 12): MemorySummary 
     rating: number | null;
     my_views: number | null;
     my_gmv: number | null;
+    my_commission?: number | null;
+    my_sales?: number | null;
     what_i_took: string | null;
+    hook_type?: string | null;
+    funnel_category?: string | null;
   }>("positive_memory");
 
   const libraryRows = store.list<{
@@ -76,20 +80,35 @@ export function buildMemorySummary(store: JsonStore, limit = 12): MemorySummary 
       gmvCount += 1;
     }
 
-    if (rating >= 4 || myGmv >= 50 || myViews >= 5000) {
+    const entryType = String(payload.entry_type || "");
+    const myCommission = Number(row.my_commission ?? payload.my_commission) || 0;
+    const mySales = Number(row.my_sales ?? payload.my_sales) || 0;
+    const isOwnConverter =
+      entryType === "own_video" && (myCommission > 0 || mySales > 0 || myGmv > 0);
+
+    if (rating >= 4 || myGmv >= 50 || myViews >= 5000 || isOwnConverter) {
+      const videoAnalysis = (payload.video_analysis as Record<string, unknown>) || {};
       const hook =
+        (payload.title as string) ||
+        (videoAnalysis.onscreen_hook as string) ||
         (payload.source_hook as string) ||
         (payload.hook as string) ||
         row.what_i_took ||
         "";
+      const hookType = String(row.hook_type || videoAnalysis.hook_type || payload.hook_type || "");
+      const funnel = String(row.funnel_category || videoAnalysis.funnel_category || payload.funnel_category || "");
+      if (hookType) hookTypeWins[hookType] = (hookTypeWins[hookType] || 0) + 1;
+      if (funnel) funnelWins[funnel] = (funnelWins[funnel] || 0) + 1;
       patterns.push({
         source: "positive_memory",
         hook,
         whatWorked: row.what_i_took || (payload.what_i_took as string) || "",
+        hookType: hookType || undefined,
+        funnel: funnel || undefined,
         myViews,
         myGmv,
         rating: rating || undefined,
-        sourceProfile: (payload.source_profile as string) || "",
+        sourceProfile: (payload.source_profile as string) || entryType || "",
       });
     }
   }

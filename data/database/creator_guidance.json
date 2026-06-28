@@ -1,0 +1,38 @@
+[
+  {
+    "id": "49af201a-3d42-4dd2-8035-f93773e158ce",
+    "kind": "rule",
+    "text": "Don't repeat yourself too much. Don't use complicated wording. \n\nNote: Audience is UK based",
+    "created_at": "2026-06-19T13:02:07.496Z"
+  },
+  {
+    "id": "175a6c44-cbb5-4a13-8ac2-85f7c3385a6b",
+    "kind": "rule",
+    "text": "Never include the words \"free\", \"price\", \"discount\", \"sale\" or anything sale or price related in the on screen caption",
+    "created_at": "2026-06-18T14:31:34.634Z"
+  },
+  {
+    "id": "c15d25af-b084-4e10-9557-313bdc8b020b",
+    "kind": "rule",
+    "text": "Make sure to check the last script generated before generating a new script to ensure the same hook isn't reused.",
+    "created_at": "2026-06-18T14:04:26.021Z"
+  },
+  {
+    "id": "4f2b6d3b-4755-4aef-972b-aa728cc77fc4",
+    "kind": "rule",
+    "text": "Never say anything is free or \"basically free\"",
+    "created_at": "2026-06-18T13:56:04.383Z"
+  },
+  {
+    "id": "cac0def3-d8ba-45a2-85f9-b24a934f555a",
+    "kind": "rule",
+    "text": "Competitor Brand Prohibition\n\nNever reference, name, or allude to competitor brands in any content. This includes direct mentions, comparisons, or implied references.\n\nCaption Reuse Policy\n\nDo not use the same on-screen caption in consecutive videos. A minimum gap of 2 videos must separate any repeated caption. Reusing a caption before this gap is met is not permitted, regardless of context.\n\nBottom-Funnel Sale Disclosure\n\nAll bottom-funnel videos must surface the promotional offer (discount, flash sale, limited-time deal, etc.) within the first 10 seconds. The offer should be explicit and clearly communicated — do not bury it mid-video.",
+    "created_at": "2026-06-18T12:23:40.865Z"
+  },
+  {
+    "id": "b40a9ef8-cb3c-4e1d-bf0f-bb820ac604de",
+    "kind": "rule",
+    "text": "never reuse the same script - word for word. Scripts must always be different. If scripts are too similar, the risk of violations for 'low quality video' or 'unoriginal content' gets higher",
+    "created_at": "2026-06-18T12:18:44.505Z"
+  }
+]

@@ -42,6 +42,8 @@ export type Product = {
   price?: string;
   description?: string;
   image_url?: string;
+  shop_url?: string;
+  tiktok_product_id?: string;
   source?: string;
   packaging_type?: string;
   container_nouns?: string;
@@ -109,6 +111,9 @@ export type ScriptResult = {
   audioPath?: string;
   sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
   cost?: AgentCostBreakdown;
+  validationBlocked?: boolean;
+  validationViolations?: string[];
+  validationLessonSaved?: boolean;
 };
 
 export type MemorySummary = {
@@ -231,6 +236,26 @@ export type AgentStatus = {
   hasApiKey: boolean;
 };
 
+export type AgentBudgetStatus = {
+  circuitBreakerActive: boolean;
+  circuitBreakerUntil: string | null;
+  circuitBreakerReason: string | null;
+  managedAgent: { hour: number; hourLimit: number; day: number; dayLimit: number };
+  directApi: { hour: number; hourLimit: number; day: number; dayLimit: number };
+  memorySync: { hour: number; hourLimit: number; day: number; dayLimit: number };
+  spendTodayUsd: number;
+  spendDayLimitUsd: number;
+};
+
+export type CreatorGuidanceKind = "rule" | "idea";
+
+export type CreatorGuidanceEntry = {
+  id: string;
+  kind: CreatorGuidanceKind;
+  text: string;
+  created_at: string;
+};
+
 export type AgentMessage = {
   role: "user" | "assistant";
   text: string;
@@ -262,6 +287,7 @@ export type HubApi = {
   checkWhisper: () => Promise<boolean>;
   getSettings: () => Promise<{
     anthropicApiKey: string;
+    grokApiKey: string;
     elevenLabsApiKey: string;
     elevenLabsVoiceId: string;
     myTiktokHandle: string;
@@ -282,12 +308,27 @@ export type HubApi = {
     error?: string;
   }>;
   connectGoogleDrive: () => Promise<{ ok: boolean; error?: string }>;
+  getTodaysDriveFolderStatus: () => Promise<{
+    ok: boolean;
+    connected?: boolean;
+    ready?: boolean;
+    dateFolder?: string;
+    rootName?: string;
+    folderPath?: string;
+    error?: string;
+  }>;
+  createTodaysDriveFolders: () => Promise<{
+    ok: boolean;
+    alreadySetup?: boolean;
+    dateFolder?: string;
+    folderPath?: string;
+    error?: string;
+  }>;
   uploadVoiceoverToDrive: (scriptId: string) => Promise<{
     ok: boolean;
     folderPath?: string;
     mp4Path?: string;
     fileName?: string;
-    pendingAnalysisId?: string;
     error?: string;
   }>;
   getDashboard: () => Promise<{
@@ -306,23 +347,19 @@ export type HubApi = {
   listProducts: () => Promise<Product[]>;
   saveProduct: (product: Record<string, string>) => Promise<{ ok: boolean; id: string }>;
   retryProductResearch: (productId: string) => Promise<{ ok: boolean }>;
+  importProductFromShopLink: (url: string) => Promise<{
+    ok: boolean;
+    id?: string;
+    isNew?: boolean;
+    product?: Product;
+    error?: string;
+  }>;
   deleteProduct: (id: string) => Promise<{ ok: boolean }>;
   listLibrary: () => Promise<unknown[]>;
   listMemory: () => Promise<unknown[]>;
   listScripts: () => Promise<Array<{ id: string; title: string; hook_type: string; created_at: string }>>;
   getScript: (id: string) => Promise<ScriptDetail | null>;
-  rateScriptSectionFeedback: (req: {
-    scriptId: string;
-    section: ScriptSection;
-    rating: ScriptSectionRating;
-    reason?: string;
-    notes?: string;
-  }) => Promise<{
-    ok: boolean;
-    id?: string;
-    sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
-    error?: string;
-  }>;
+  getPendingScriptFeedback: () => Promise<ScriptDetail | null>;
   updateScriptContent: (req: {
     scriptId: string;
     pendingAnalysisId?: string;
@@ -334,6 +371,8 @@ export type HubApi = {
       tiktok_caption?: string;
     };
   }) => Promise<{ ok: boolean; script?: ScriptDetail; pendingReset?: boolean; error?: string }>;
+  dismissScriptFeedback: (scriptId: string) => Promise<{ ok: boolean; error?: string }>;
+  dismissBlockingScriptFeedback: () => Promise<{ ok: boolean; scriptId?: string; error?: string }>;
   refreshProductsFromLibrary: () => Promise<{ ok: boolean; count: number }>;
   getScriptInsights: () => Promise<ScriptInsights>;
   listPacingReferences: () => Promise<
@@ -353,19 +392,25 @@ export type HubApi = {
     durationSeconds?: number;
     referenceLibraryId?: string;
     additionalInfo?: string;
-  }) => Promise<{ ok: boolean; result?: ScriptResult; cost?: AgentCostBreakdown; error?: string }>;
-  rateScriptFeedback: (req: {
-    scriptId: string;
-    feedback: "liked" | "disliked";
-    reason?: string;
+    skipDuplicateCheck?: boolean;
+    bypassApiLimits?: boolean;
+    generationNonce?: number;
   }) => Promise<{
     ok: boolean;
-    id?: string;
-    feedback?: "liked" | "disliked";
-    feedbackAt?: string;
-    feedbackReason?: string;
+    result?: ScriptResult;
+    cost?: AgentCostBreakdown;
     error?: string;
+    validationBlocked?: boolean;
+    validationViolations?: string[];
+  validationLessonSaved?: boolean;
   }>;
+  rateScriptSectionFeedback: (req: {
+    scriptId: string;
+    section: ScriptSection;
+    rating: ScriptSectionRating;
+    reason?: string;
+    notes?: string;
+  }) => Promise<{ ok: boolean; sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>; error?: string }>;
   listElevenLabsVoices: () => Promise<{ ok: boolean; voices?: Array<{ voice_id: string; name: string }>; error?: string }>;
   generateAudio: (scriptId: string) => Promise<{ ok: boolean; filePath?: string; alignmentPath?: string | null; error?: string }>;
   openAudioFile: (filePath: string) => Promise<{ ok: boolean }>;
@@ -402,7 +447,15 @@ export type HubApi = {
   listDailyPlans: () => Promise<Array<{ id: string; planDate: string; totalVideos: number; createdAt: string }>>;
   getDailyPlan: (id: string) => Promise<DailyPlan | null>;
   getAgentStatus: () => Promise<AgentStatus>;
-  syncAgentMemory: () => Promise<{ ok: boolean; uploaded?: number; paths?: string[]; error?: string }>;
+  getAgentBudget: () => Promise<AgentBudgetStatus>;
+  resetAgentGuardrails: () => Promise<{ ok: boolean; budget: AgentBudgetStatus }>;
+  syncAgentMemory: (req?: { bypassLimits?: boolean }) => Promise<{
+    ok: boolean;
+    uploaded?: number;
+    skipped?: number;
+    paths?: string[];
+    error?: string;
+  }>;
   sendAgentMessage: (message: string) => Promise<{ ok: boolean; reply?: string; sessionId?: string; cost?: AgentCostBreakdown; error?: string }>;
   estimateAgentCost: (params: {
     action: "generate_script" | "generate_daily_plan" | "agent_chat";
@@ -416,6 +469,12 @@ export type HubApi = {
     context?: string;
   }) => Promise<{ ok: boolean; reply?: string; sessionId?: string; cost?: AgentCostBreakdown; error?: string }>;
   listAgentChatHistory: () => Promise<AgentMessage[]>;
+  listCreatorGuidance: () => Promise<CreatorGuidanceEntry[]>;
+  addCreatorGuidance: (req: {
+    kind: CreatorGuidanceKind;
+    text: string;
+  }) => Promise<{ ok: boolean; entry?: CreatorGuidanceEntry; error?: string }>;
+  deleteCreatorGuidance: (id: string) => Promise<{ ok: boolean; error?: string }>;
   resetAgentSession: () => Promise<{ ok: boolean; sessionId?: string; error?: string }>;
   onAgentSessionStatus: (callback: (status: AgentSessionLiveStatus) => void) => () => void;
   importPersonalLibrary: () => Promise<{ ok: boolean; count?: number; message?: string; error?: string }>;
@@ -424,9 +483,30 @@ export type HubApi = {
   deleteMyVideo: (id: string) => Promise<{ ok: boolean; error?: string }>;
   analyseMyVideo: (id: string) => Promise<{ ok: boolean; analysis?: MyVideoAnalysis; score?: number; error?: string }>;
   listPendingAnalysis: () => Promise<PendingAnalysis[]>;
-  batchPendingFromToday: (dateTag?: string) => Promise<{ ok: boolean; added?: number; skipped?: number; total?: number; error?: string }>;
+  batchPendingFromToday: (dateTag?: string) => Promise<{
+    ok: boolean;
+    added?: number;
+    skipped?: number;
+    dismissed?: number;
+    total?: number;
+    error?: string;
+  }>;
+  batchPendingScripts: (req?: { daysBack?: number; dateTag?: string }) => Promise<{
+    ok: boolean;
+    added?: number;
+    skipped?: number;
+    dismissed?: number;
+    total?: number;
+    orphanAdded?: number;
+    scriptsCreated?: number;
+    error?: string;
+  }>;
   setPendingAnalysisUrl: (req: { id: string; url: string }) => Promise<{ ok: boolean; entry?: PendingAnalysis; error?: string }>;
   pullPendingAnalysis: (id: string) => Promise<{ ok: boolean; entry?: PendingAnalysis; error?: string }>;
+  updatePendingPerformance: (req: {
+    id: string;
+    data: PendingAnalysisSubmit;
+  }) => Promise<{ ok: boolean; entry?: PendingAnalysis; error?: string }>;
   submitPendingAnalysis: (req: {
     id: string;
     data: PendingAnalysisSubmit;
@@ -464,6 +544,9 @@ export type PendingAnalysisSubmit = {
   audience_male_pct: number | null;
   audience_female_pct: number | null;
   audience_other_pct: number | null;
+  views?: number | null;
+  likes?: number | null;
+  comments?: number | null;
 };
 
 export type PendingAnalysis = {
@@ -472,6 +555,9 @@ export type PendingAnalysis = {
   script_title: string;
   product_id: string;
   product_name: string;
+  script_created_at: string;
+  on_screen_caption: string;
+  tiktok_caption: string;
   drive_mp4_path: string;
   drive_uploaded_at: string;
   drive_folder_path: string;
@@ -502,6 +588,12 @@ export type PendingAnalysis = {
   completed_at: string | null;
 };
 
+export type FunnelBreakdownStage = {
+  label: string;
+  time_range: string;
+  what_happens: string;
+};
+
 export type MyVideoAnalysis = {
   transcript: string;
   onscreen_hook: string | null;
@@ -509,6 +601,8 @@ export type MyVideoAnalysis = {
   cta_timestamps: number[];
   hook_type: string | null;
   funnel_category: string | null;
+  funnel_category_reason: string | null;
+  funnel_breakdown: FunnelBreakdownStage[] | null;
   timeline: Array<{ timestamp: number; visual: string; audio: string; on_screen_text: string | null }>;
   pacing_notes: string;
   detailed_analysis: string;
@@ -518,6 +612,7 @@ export type MyVideoAnalysis = {
 export type MyVideo = {
   id: string;
   url: string;
+  thumbnail_url: string | null;
   views: number | null;
   likes: number | null;
   comments: number | null;

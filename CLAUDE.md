@@ -40,10 +40,19 @@ Electron Hub (tiktok-intelligence-hub)
     │  syncs to Claude managed-agent memory store (/hub/*.md)
     │
     ▼
-Claude Managed Agent (Anthropic)
-    │  reads /hub/*.md memory documents
-    │  powers: Script Writer, Daily Planner, Agent Chat
+Claude (Anthropic) — two paths
+    │  DIRECT API (Script Writer) — full prompt built locally, no memory store read
+    │  MANAGED AGENT (Daily Planner, Agent Chat) — reads /hub/*.md memory documents
 ```
+
+### End-to-end data flow
+
+1. **Browse TikTok** → extension analyses competitor videos on demand (Grok vision) → saves to local library.
+2. **Export** → `library.json`, `positive_memory.json`, `personal_library.json` dropped into hub `hub-data/` (or auto-sync via whisper server).
+3. **Hub imports** → JSON/XLSX parsed into `%APPDATA%/tiktok-intelligence-hub/database/*.json`.
+4. **Script Writer** → reads database locally, builds one big prompt, calls Claude **direct API** → saves script + optional ElevenLabs MP3.
+5. **Send to Google Drive** → MP3→MP4 via whisper server → uploads to `Root / YYYY-MM-DD / Product/` on Drive.
+6. **Memory sync** (silent) → hub snapshots written to `/hub/*.md` for the managed agent (Daily Planner, Agent chat) — Script Writer does **not** depend on this sync.
 
 ---
 
@@ -142,7 +151,13 @@ Desktop companion app. Imports extension exports, builds a product/sales knowled
 | `electron/main.ts` | All IPC handlers — 50+ `hub:*` channels |
 | `electron/preload.ts` | Bridges `window.hub.*` to IPC |
 | `electron/db.ts` | JsonStore class + all table definitions |
-| `electron/services/scriptWriter.ts` | Script generation via Claude agent |
+| `electron/services/scriptWriter.ts` | Script generation via Claude **direct API** + `validateScript()` |
+| `electron/services/scriptSystemPrompt.ts` | **Full Script Writer system prompt** — compliance, hook/repetition rules, banned example, SSML skeleton |
+| `electron/services/scriptFeedback.ts` | Section ratings → prompt + `/hub/script_feedback.md` |
+| `electron/services/creatorGuidance.ts` | Rules/ideas from Agent tab → prompt + `/hub/creator-guidance.md` |
+| `electron/services/scriptVariety.ts` | Weighted hook/pacing rotation + anti-repetition block |
+| `electron/services/pendingAnalysis.ts` | Post-upload workflow — TikTok URL → stats → finalize |
+| `electron/services/googleDrive.ts` | OAuth, daily date folders, voiceover upload |
 | `electron/services/dailyPlanner.ts` | Daily plan generation via Claude agent |
 | `electron/services/tiktokAgent.ts` | Agent session management, memory sync/pull |
 | `electron/services/hubContextSnapshot.ts` | Builds /hub/*.md documents for memory store |
@@ -153,6 +168,7 @@ Desktop companion app. Imports extension exports, builds a product/sales knowled
 | `electron/services/elevenlabs.ts` | Text-to-speech synthesis |
 | `electron/services/agentPricing.ts` | Cost estimation for agent actions |
 | `electron/services/agentBridge.ts` | Auto-sync to memory store (silent, no agent messages) |
+| `src/pages/PendingAnalysis.tsx` | Post-film analysis queue |
 | `src/pages/ScriptWriter.tsx` | Script Writer UI |
 | `src/pages/DailyPlanner.tsx` | Daily Planner UI |
 | `src/pages/MyVideos.tsx` | My Videos — import + Grok analysis + scoring |
@@ -177,6 +193,10 @@ Desktop companion app. Imports extension exports, builds a product/sales knowled
 | `my_videos` | Creator's own videos with Grok analysis + performance scores |
 | `sync_log` | Import/sync event log |
 | `import_history` | File import audit trail |
+| `pending_analysis` | Voiceovers uploaded to Drive awaiting TikTok URL + performance |
+| `pending_dismissals` | Durable deletes from pending queue |
+| `creator_guidance` | Rules & ideas from TikTok Agent tab |
+| `video_outcomes` | Finalized pending analysis performance records |
 | `predictions` | (reserved) |
 
 ### Data Folder Layout (%APPDATA%/tiktok-intelligence-hub/)
@@ -211,20 +231,27 @@ Memory documents synced to `/hub/` path in the memory store:
 | `/hub/library.md` | Top library analyses — hooks, funnel, tactics |
 | `/hub/products.md` | Full product list with packaging research |
 | `/hub/my_videos.md` | Creator's own video performance data |
+| `/hub/creator-guidance.md` | Rules & ideas from TikTok Agent tab |
+| `/hub/script_feedback.md` | Script section ratings (liked/disliked/notes) |
 | `/hub/compliance.md` | Absolute script rules + violation risks |
 | `/hub/raw/_index.json` | Raw JSON chunks for full data recovery |
 
 **Auto-sync**: Any import silently syncs memory documents within ~2s. Does NOT send agent messages (prevents session spam).
 
 ### Script Writer
-1. User searches product catalog, selects product
-2. Optionally picks pacing reference video from library
-3. Optionally fills "Additional information" field (constraints, specifics)
-4. Calls `requestAgentTask("generate_script", instructions, context)`
-5. Claude reads memory store + context block → returns JSON with `fullAudioScript`, `ssml`, `onScreenCaption`, `tiktokCaption`
-6. If ElevenLabs key configured → auto-generates MP3 with human-readable filename
+1. User selects product, optional pacing reference, duration, optional "Additional information"
+2. User clicks **Generate script** → IPC `hub:generate-script` → `generateScript()` in `scriptWriter.ts`
+3. Hub reads **local JSON database** (not the managed agent memory store) and assembles prompt blocks
+4. Calls **`callClaudeDirect()`** in `claude.ts` — model `claude-sonnet-4-6`, `max_tokens: 4096`
+5. Parses JSON response → saves to `scripts` table with `section_feedback: {}`, `awaiting_feedback: true`
+6. Optional ElevenLabs auto-generates MP3 → `ScriptTitle_YYYY-MM-DD.mp3`
+7. User rates sections → stored in `scripts.json` → injected into **next** script's system prompt
+8. **Send to Google Drive** → requires today's date folder → creates product subfolder on upload
+
+See **[Script Writer — Claude API prompt](#script-writer--claude-api-prompt)** below for the exact request shape.
 
 ### Daily Planner
+Uses the **managed agent** (`requestAgentTask`) — reads synced `/hub/*.md` memory.
 1. Import 28-day sales XLSX from TikTok Shop / Affiliate Centre
 2. Set funnel limits (top/middle/bottom, total ≤ 30)
 3. Tick focus products
@@ -285,17 +312,152 @@ Stored in `hubContextSnapshot.ts → COMPLIANCE_RULES` and synced to `/hub/compl
 - Fabricate price claims
 
 ### Script structure (always follow):
-1. Hook — "Don't Buy This" or counting hook
-2. Relatable Mistake — personal confession viewer recognises
-3. Discount Reveal + Urgency — honest urgency only
+1. Hook — max **7 words** (countdown hooks starting with "Not" exempt); pattern interrupt only
+2. Relatable Mistake — personal confession viewer recognises; product name once, pronouns after
+3. Discount Reveal + Urgency — honest urgency only; discount phrase once only
 4. Product Details — full proper names, always "the [Product Name]"
 5. CTA — exactly: *"I don't know how long this deal is gonna last but I've left the link in the yellow basket below."*
 
+**Repetition bans:** no dramatic stutter ("Every. Single. Time."), no filler restatement ("I had to say that out loud…"), no repeating product name more than twice, no duplicate 4+ word phrases.
+
+Full rules + banned output example live in `electron/services/scriptSystemPrompt.ts` (Script Writer) and `COMPLIANCE_RULES` in `hubContextSnapshot.ts` (synced to `/hub/compliance.md` for Daily Planner / agent).
+
 ---
 
-## Session Log — Jun 15 2026
+---
 
-- Personal Library — saves from extension auto-push to hub via whisper server `/personal-library` endpoint
+## Script Writer — Claude API prompt
+
+Script Writer does **not** use the managed agent. All context is assembled in `electron/services/scriptWriter.ts` and sent in one shot via `callClaudeDirect()` (`electron/services/claude.ts`).
+
+### Call site
+
+```typescript
+// scriptWriter.ts
+const raw = await callClaudeDirect(
+  store,
+  system,                                          // → API `system` param
+  `${instructions}\n\n---\n\n${context}`,          // → API messages[0].content
+  undefined,                                       // model default: claude-sonnet-4-6
+  "generate_script",
+  { skipDuplicateCheck, skipDirectApiLimit }
+);
+
+// claude.ts
+await client.messages.create({
+  model: "claude-sonnet-4-6",
+  max_tokens: 4096,
+  system,
+  messages: [{ role: "user", content: user }],
+});
+```
+
+Guardrails run first via `assertAgentCallAllowed(store, "direct_api", …)` — hourly/daily caps, payload size, duplicate detection.
+
+### What gets built (in order)
+
+| Piece | Source function | Goes into |
+|-------|-----------------|-----------|
+| Full system prompt | `buildScriptWriterSystemPrompt(store)` in `scriptSystemPrompt.ts` | **system** |
+| — compliance + hook/repetition rules | inline in `scriptSystemPrompt.ts` | **system** |
+| — creator rules & ideas | `formatCreatorGuidanceRulesInject()` ← `creator_guidance.json` | **system** |
+| — disliked / keep feedback | `formatDislikedFeedbackInject()` + `formatKeepNotesInject()` ← `scripts.json` | **system** |
+| Library performance stats | `formatLibraryPerformanceForPrompt()` | **user** (context) |
+| Library hook examples | `buildLibraryContextBlock()` | **user** |
+| Pacing reference SSML/transcript | `formatPacingBlock()` | **user** |
+| Variety assignment | `buildVarietyDirectiveBlock()` + `SCRIPT_VARIETY_INSTRUCTIONS` | **user** |
+| Product + packaging + research | product row + `formatProductPackagingForPrompt()` | **user** |
+| Per-script notes | `req.additionalInfo` from UI textarea | **user** |
+
+**Priority (mandated in system prompt):** Compliance → creator rules & disliked feedback → section notes → variety rotation → library/pacing.
+
+### Data files that feed the prompt
+
+| Data | Path | Used for |
+|------|------|----------|
+| Creator rules/ideas | `database/creator_guidance.json` | System — TikTok Agent → Add rule / Add idea |
+| Section feedback | `database/scripts.json` → `section_feedback` | System — Script Writer like/dislike buttons |
+| Library analyses | `database/library_items.json` | User context — performance + hook examples |
+| Products | `database/products.json` | User context — product block + packaging |
+| Positive memory | `database/positive_memory.json` | User context — via memory summary in performance block |
+| Recent scripts | `database/scripts.json` (same product) | User context — variety anti-repetition |
+
+Memory sync to `/hub/*.md` is for the **managed agent** (Daily Planner, chat). Script Writer reads the JSON files directly at generate time.
+
+---
+
+### Example API request (exact shape)
+
+Below is a **representative** request as sent to `POST https://api.anthropic.com/v1/messages`. Compliance and library blocks are abbreviated; real requests are ~15–30k chars.
+
+```json
+{
+  "model": "claude-sonnet-4-6",
+  "max_tokens": 4096,
+  "system": "# TikTok Shop Affiliate — Compliance & Script Rules\n\nThese rules are ABSOLUTE...\n\n[full COMPLIANCE_RULES from hubContextSnapshot.ts]\n\n# CREATOR MANDATES (highest priority after compliance)\n\n## CREATOR RULES & IDEAS — MANDATORY\n\nSaved by the creator in TikTok Agent. Rules MUST be followed on every script.\nIf library stats, pacing reference, or variety assignment conflict with a rule, the rule wins.\n\n### Rules (always follow — non-negotiable)\n\n- Never say anything is free or \"basically free\"\n- Do not use the same on-screen caption in consecutive videos...\n- never reuse the same script - word for word...\n\n## SCRIPT SECTION FEEDBACK — MANDATORY\n\nCreator ratings from Script Writer. These override library patterns and variety suggestions.\n\n### NEVER repeat (disliked — highest priority)\n\n- **Audio script** (WildGut Bottom Funnel): Said \"basically free\" — never use free language\n  Was: \"This is basically free on the TikTok shop right now...\"\n\n### Techniques that worked (vary execution — do not copy verbatim)\n\n- **On-screen caption** (Hydreau Curiosity Gap): HOW IS THIS LEGAL\n\nPriority when writing this script:\n1. Compliance rules (above)\n2. Creator rules & disliked script feedback\n3. Section notes (keep with notes)\n4. Variety rotation for this script\n5. Library performance & pacing reference\n\n[inspiration rules from referenceAdaptation.ts]\n\n[PACKAGING_KNOWLEDGE from productPackaging.ts]",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are an expert TikTok Shop affiliate scriptwriter for UK creators.\n\nVariety rules (apply only where they do NOT conflict with creator rules or disliked script feedback above):\n- Performance data guides WHICH families work — rotate hook types...\n- Never produce the same \"don't buy this\" / bundle / countdown script with swapped product words.\n\nRules:\n- Do NOT use bash, grep, or file tools — all context is in this message. Reply with JSON in one turn only.\n- Creator rules and disliked feedback in the system prompt are mandatory — they override library hooks and variety assignment.\n- Read library stats and SEPARATED hooks (on-screen, audio, visual) — adapt structure only.\n- Mirror top-performing speaking PACE in SSML (breaks, prosody) from reference pacing data.\n- Use correct container nouns (tub, bottle, can, bag) for this product when showing/holding it.\n- Never copy competitor products, backgrounds, or props from library videos.\n\nReturn JSON only:\n{\n  \"title\": \"Script title\",\n  \"fullAudioScript\": \"Complete spoken voiceover word-for-word\",\n  \"ssml\": \"<speak>...ElevenLabs SSML with <break time=\\\"300ms\\\"/> pacing from top performers...</speak>\",\n  \"onScreenCaption\": \"On-screen text overlay for the video (or empty string)\",\n  \"tiktokCaption\": \"Full TikTok post caption with hashtags, ready to paste\"\n}\n\n---\n\n## Library performance data (use this to decide structure — do NOT ask the creator to pick a hook type)\n\n### Hook types ranked by total engagement in library\n1. **curiosity gap** — 42 videos · avg 85.2K views...\n\n**Assigned hook approach for this script:** \"curiosity gap\" — performance-weighted pick with rotation (not always #1).\n\n[library context — top 5 competitor analyses with separated hooks]\n\n## Reference video pacing (match speaking SPEED and rhythm — same beat structure, not same words or products)\nReference hook studied for structure only: \"DON'T BUY THIS\"\n### Timestamp pacing from winning video\n[0.0s] Don't buy this...\n### Reference SSML break pattern\n<speak><prosody rate=\"medium\">Don't buy this<break time=\"400ms\"/>...\n\n## THIS SCRIPT — variety assignment (mandatory)\n\n**Hook approach for this script:** \"curiosity gap\" (picked from 6 performance-weighted options — not always the #1 stat).\n\n### Do NOT repeat from recent scripts for this product\n**Recent audio openings (do not echo):**\n1. \"Stop scrolling if you've been paying full price for...\"\n\n## Product to sell\n- Name: WildGut Colon Reset\n- Brand: WildGut\n- Price: £24.99\n- Notes: —\n- Container: tub · show/hold the tub\n\n## Target length\n~45 seconds at the same speaking pace as the reference video.\n\n## Creator notes (read carefully — apply these to this script)\nno face on camera, bottom funnel style"
+    }
+  ]
+}
+```
+
+### Example response (expected JSON in assistant message)
+
+```json
+{
+  "title": "WildGut Colon Reset Curiosity Gap Hook No Face Bottom Funnel",
+  "fullAudioScript": "Don't buy the WildGut Colon Reset tub from TikTok Shop until you've seen this deal...",
+  "ssml": "<speak><prosody rate=\"medium\">Don't buy the WildGut Colon Reset tub<break time=\"400ms\"/>from TikTok Shop until you've seen this deal...</speak>",
+  "onScreenCaption": "DON'T BUY THIS (until you see the deal)",
+  "tiktokCaption": "WildGut Colon Reset on TikTok Shop #tiktokshop #wildgut"
+}
+```
+
+Parsed by `parseScriptResponse()` in `scriptWriter.ts` → **`validateScript()`** runs before save. If violations found, script is returned with `validationBlocked: true` (preview only — not saved to `scripts.json`, no ElevenLabs, no Drive upload).
+
+### Script validation (`validateScript` in `scriptWriter.ts`)
+
+Runs on generate, manual edit save, ElevenLabs generate, and Google Drive upload.
+
+| Check | Rule |
+|-------|------|
+| Banned phrases | `BANNED_PHRASES` list — free language, health claims, stutter/filler phrases |
+| Hook length | First sentence max 7 words (countdown hooks starting with "not" exempt) |
+| Product name | Full product name mentioned >2 times |
+| Phrase duplication | Same 4-word sequence appearing twice |
+| "don't buy this" | More than once in script |
+
+Pass `productName` from `products.json` for product repetition check.
+
+---
+
+### curl equivalent (for manual testing)
+
+```bash
+curl https://api.anthropic.com/v1/messages \
+  -H "content-type: application/json" \
+  -H "x-api-key: $ANTHROPIC_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "claude-sonnet-4-6",
+    "max_tokens": 4096,
+    "system": "...",
+    "messages": [{"role": "user", "content": "...instructions...\n\n---\n\n...context..."}]
+  }'
+```
+
+---
+
+## Session log (recent)
+
+- **Jun 27 2026** — TikTok Shop product import (`/shop-product` + My Products UI); Pending Analysis performance form (GMV, watch time, audience); Script Writer loop fixes (context trim, dual-call revoke, bypass duplicate+API, generation nonce); `npm run data:export` backs up database + audio to repo
+- **Jun 21 2026** — Validation auto-lessons (`validation_lessons.json`); API bypass checkbox + spend-cap skip; validator rejects don't count toward hourly limit
+- **Jun 20 2026** — Dedicated `scriptSystemPrompt.ts`; hook max 7 words + repetition rules (rules 12–13); Umberto Giannini banned-output example; `validateScript()` blocks save/audio/Drive; `COMPLIANCE_RULES` updated; commits `11aef33`, `28e5c8b`, `c25c63a`
+- **Jun 18 2026** — Script variety rotation; creator rules + section feedback moved to system prompt; Google Drive daily date folders; Pending Analysis tab; API limit bypass on Script Writer
+- **Jun 16 2026** — Script section feedback; creator guidance (Agent rules/ideas); force sync bypass
 - Product research loop — 608 library products marked "Competitor/skipped", banner cleared on restart
 - Additional information field — Script Writer + Daily Planner (optional textarea, injected into Claude prompt)
 - Grok funnel classification — explicit definitions + real examples injected into every Grok prompt via `formatFunnelClassificationBlock()`

@@ -18,6 +18,12 @@ import {
 } from "./productExtractor.js";
 import { importXlsxFile } from "./xlsxImport.js";
 import { importSalesFile } from "./salesImport.js";
+import {
+  backfillMyVideoThumbnail,
+  extractThumbnailFromLibraryRow,
+  type FunnelBreakdownStage,
+  type MyVideo,
+} from "./myVideoAnalysis.js";
 
 export type ImportResult = {
   type: string;
@@ -71,15 +77,24 @@ function upsertMemory(store: JsonStore, items: unknown[]) {
   const now = new Date().toISOString();
   const rows = items.map((item) => {
     const row = item as Record<string, unknown>;
+    const payload = { ...row };
     return {
       id: String(row.id || randomUUID()),
-      payload_json: JSON.stringify(row),
+      payload_json: JSON.stringify(payload),
       rating: Number(row.rating) || 0,
       my_views: Number(row.my_views) || 0,
       my_gmv: Number(row.my_gmv) || 0,
-      what_i_took: String(row.what_i_took || ""),
-      date_used: String(row.date_used || ""),
+      what_i_took: String(row.what_i_took || row.title || row.summary || ""),
+      date_used: String(row.date_used || row.upload_date || ""),
       imported_at: now,
+      entry_type: String(row.entry_type || "imported"),
+      source: String(row.source || "extension"),
+      my_video_id: String(row.my_video_id || ""),
+      title: String(row.title || row.what_i_took || ""),
+      hook_type: String(row.hook_type || ""),
+      funnel_category: String(row.funnel_category || row.funnel_class || ""),
+      my_commission: Number(row.my_commission) || 0,
+      my_sales: Number(row.my_sales) || 0,
     };
   });
   store.upsertManyById("positive_memory", rows);
@@ -104,16 +119,50 @@ function saveCompassSnapshot(store: JsonStore, data: Record<string, unknown>, no
   });
 }
 
+function parseFunnelBreakdownFromRow(row: Record<string, unknown>): FunnelBreakdownStage[] | null {
+  const raw = row.funnel_breakdown;
+  if (!raw || typeof raw !== "object") return null;
+  const obj = raw as Record<string, unknown>;
+  const stages = Array.isArray(obj.stages) ? obj.stages : Array.isArray(raw) ? raw : null;
+  if (!stages?.length) return null;
+  const parsed = stages
+    .map((stage) => {
+      if (!stage || typeof stage !== "object") return null;
+      const s = stage as Record<string, unknown>;
+      const label = String(s.label || s.stage || s.funnel || "").trim();
+      const time_range = String(s.time_range || s.timeRange || s.timestamps || "").trim();
+      const what_happens = String(s.what_happens || s.whatHappens || s.description || "").trim();
+      if (!label && !what_happens) return null;
+      return { label, time_range, what_happens };
+    })
+    .filter((s): s is { label: string; time_range: string; what_happens: string } => s != null);
+  return parsed.length ? parsed : null;
+}
+
 function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
   const now = new Date().toISOString();
-  const existing = store.list<{ id: string }>( "my_videos");
-  const existingIds = new Set(existing.map((v) => v.id));
+  const existingVideos = store.list<MyVideo>("my_videos");
+  const existingIds = new Set(existingVideos.map((v) => v.id));
 
   let added = 0;
   for (const item of items) {
     const row = item as Record<string, unknown>;
     const id = String(row.id || randomUUID());
-    if (existingIds.has(id)) continue; // already in hub, never overwrite (hub has richer data)
+    const thumbnail_url = extractThumbnailFromLibraryRow(row);
+
+    if (existingIds.has(id)) {
+      if (thumbnail_url) {
+        const existingVideo = existingVideos.find((v) => v.id === id);
+        if (existingVideo && !existingVideo.thumbnail_url) {
+          store.upsertById("my_videos", {
+            ...existingVideo,
+            thumbnail_url,
+            updated_at: now,
+          } as unknown as { id: string });
+        }
+      }
+      continue;
+    }
 
     const analysis = row.analysis as Record<string, unknown> | null ?? null;
     const videoData = row.videoData as Record<string, unknown> | null ?? null;
@@ -126,6 +175,7 @@ function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
     const entry = {
       id,
       url,
+      thumbnail_url,
       views: Number(stats?.views || grokStats?.views || row.views || 0) || null,
       likes: Number(stats?.likes || grokStats?.likes || row.likes || 0) || null,
       comments: Number(stats?.comments || grokStats?.comments || row.comments || 0) || null,
@@ -148,6 +198,8 @@ function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
           : [],
         hook_type: String(row.hook_type || (row.hooks as Record<string, unknown> | null)?.hook_type || "") || null,
         funnel_category: String(row.funnel_category || row.funnel_class || "") || null,
+        funnel_category_reason: String(row.funnel_category_reason || row.funnel_class_reason || "") || null,
+        funnel_breakdown: parseFunnelBreakdownFromRow(row),
         timeline: Array.isArray(row.timeline) ? row.timeline as [] : [],
         pacing_notes: String((row.watch_time_psychology as Record<string, unknown> | null)?.pacing_notes || ""),
         detailed_analysis: String(row.detailed_analysis || ""),

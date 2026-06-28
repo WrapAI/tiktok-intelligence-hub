@@ -9,10 +9,8 @@ import {
   type FunnelReference,
 } from "./funnelKnowledge.js";
 import { formatInspirationRules, adaptHookTextForProduct, adaptInspiredNote, adaptVisualHookForProduct, adaptVisualTactic } from "./referenceAdaptation.js";
-import { callClaudeDirect } from "./claude.js";
-import { mergeCosts, type AgentCostBreakdown } from "./agentPricing.js";
-import { COMPLIANCE_RULES } from "./hubContextSnapshot.js";
-import { buildLibraryContextBlock } from "./libraryContext.js";
+import { requestAgentTask } from "./tiktokAgent.js";
+import type { AgentCostBreakdown } from "./agentPricing.js";
 import { parseDailyPlanAgentReply } from "./agentJson.js";
 
 export const MAX_DAILY_POSTS = 30;
@@ -353,9 +351,6 @@ ${productLines}
 - Middle funnel refs: ${knowledge.middle.length}
 - Bottom funnel refs: ${knowledge.bottom.length}
 
-## Library analyses (separated hooks from TikTok Hook Analyzer)
-${buildLibraryContextBlock(store, 12)}
-
 ${formatInspirationRules()}${req.additionalInfo?.trim() ? `
 
 ## Creator notes (read carefully — apply these to today's plan)
@@ -380,9 +375,8 @@ async function generateDailyPlanViaAgent(store: JsonStore, req: GeneratePlanRequ
 
   const instructions = `Create a complete daily TikTok Shop filming plan for a UK affiliate creator.
 
-All library, sales, and product data is in the context below — do NOT use bash, grep, or file tools. Reply with JSON in one turn only.
-
-Library entries have SEPARATE fields: on-screen hook, audio hook, visual hook, caption hook, CTA, funnel category, views/likes/comments.
+Read /hub/library.md and /hub/*.md in the memory store. Library entries have SEPARATE fields:
+on-screen hook, audio hook, visual hook, caption hook, CTA, funnel category, views/likes/comments.
 
 Rules:
 - Allocate exactly ${req.limits.bottom} bottom-funnel, ${req.limits.middle} middle-funnel, and ${req.limits.top} top-funnel videos (${expectedTotal} total).
@@ -424,15 +418,12 @@ Return ONLY valid JSON:
   let reply: string;
   let cost: AgentCostBreakdown | undefined;
 
-  const planSystem = `${COMPLIANCE_RULES}
-
-${formatInspirationRules()}`;
-
-  const first = await callClaudeDirect(
+  const first = await requestAgentTask(
     store,
-    planSystem,
-    `${instructions}\n\n---\n\n${context}`,
-    { task: "generate_daily_plan", maxTokens: 16384 }
+    "generate_daily_plan",
+    instructions,
+    context,
+    300_000
   );
   reply = first.reply;
   cost = first.cost;
@@ -441,20 +432,9 @@ ${formatInspirationRules()}`;
   try {
     parsed = parseDailyPlanAgentReply(reply);
   } catch {
-    const retry = await callClaudeDirect(
-      store,
-      planSystem,
-      `Your last reply was not valid JSON. Return ONLY a JSON object: {"videos":[...]} with exactly ${expectedTotal} video object(s).
-No markdown, no explanation. Escape newlines in strings as \\n.
-Required fields per video: funnel, funnelCategory, productName, title, fullAudioScript, onScreenCaption, tiktokCaption, hookType.
-
-Broken reply to fix:
-${reply.slice(0, 4000)}`,
-      { task: "generate_daily_plan", maxTokens: 16384 }
+    throw new Error(
+      "Agent returned invalid JSON — click Generate again (auto-retry is disabled to protect your API budget)."
     );
-    reply = retry.reply;
-    cost = cost && retry.cost ? mergeCosts(cost, retry.cost) : retry.cost || cost;
-    parsed = parseDailyPlanAgentReply(reply);
   }
 
   if (!parsed.videos?.length) {

@@ -1,5 +1,33 @@
 [
   {
+    "id": "c121d241334ff868",
+    "name": "Dr. Melaxin Calcium bundle",
+    "brand": "Dr. Melaxin",
+    "price": "$300 value on huge discount",
+    "description": "Dr. Melaxin Calcium bundle",
+    "image_url": "",
+    "source": "library",
+    "raw_json": "{\"name\":\"Dr. Melaxin Calcium bundle\",\"brand\":\"Dr. Melaxin\",\"price\":\"$300 value on huge discount\",\"description\":\"Dr. Melaxin Calcium bundle\",\"source\":\"library\"}",
+    "research_status": "skipped",
+    "created_at": "2026-06-17T10:56:52.740Z",
+    "updated_at": "2026-06-27T14:12:24.110Z",
+    "research_error": ""
+  },
+  {
+    "id": "753da0a737026b9b",
+    "name": "Dr.Melaxin full skincare bundle",
+    "brand": "Dr.Melaxin",
+    "price": "under $200 (sale)",
+    "description": "Dr.Melaxin full skincare bundle",
+    "image_url": "",
+    "source": "library",
+    "raw_json": "{\"name\":\"Dr.Melaxin full skincare bundle\",\"brand\":\"Dr.Melaxin\",\"price\":\"under $200 (sale)\",\"description\":\"Dr.Melaxin full skincare bundle\",\"source\":\"library\"}",
+    "research_status": "skipped",
+    "created_at": "2026-06-17T10:56:52.736Z",
+    "updated_at": "2026-06-27T14:12:24.105Z",
+    "research_error": ""
+  },
+  {
     "id": "a3472e0bc9638633",
     "name": "Cotta Stubby Gun snow foam attachment",
     "brand": "Cotta",
@@ -9,7 +37,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Cotta Stubby Gun snow foam attachment\",\"brand\":\"Cotta\",\"price\":\"£13 (was £30)\",\"description\":\"Cotta Stubby Gun snow foam attachment\",\"source\":\"library\"}",
     "created_at": "2026-06-15T20:42:46.879Z",
-    "updated_at": "2026-06-15T20:49:51.457Z",
+    "updated_at": "2026-06-27T14:12:24.101Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -23,9 +51,14 @@
     "source": "library",
     "raw_json": "{\"name\":\"Hydreau Sports Hydration\",\"brand\":\"EHP Labs\",\"price\":\"\",\"description\":\"Hydreau Sports Hydration\",\"source\":\"library\"}",
     "created_at": "2026-06-15T20:42:46.849Z",
-    "updated_at": "2026-06-15T20:49:51.421Z",
-    "research_status": "skipped",
-    "research_error": ""
+    "updated_at": "2026-06-27T14:12:24.096Z",
+    "research_status": "complete",
+    "research_error": "",
+    "packaging_type": "tub",
+    "container_nouns": "[\"tub\",\"scoop\"]",
+    "product_category": "general",
+    "research_notes": "",
+    "research_completed_at": "2026-06-17T11:17:31.303Z"
   },
   {
     "id": "9ddefa8590f42f6a",
@@ -37,9 +70,14 @@
     "source": "library",
     "raw_json": "{\"name\":\"WildGut Colon Reset\",\"brand\":\"WildGut\",\"price\":\"2 for 1 (90 capsules each)\",\"description\":\"WildGut Colon Reset\",\"source\":\"library\"}",
     "created_at": "2026-06-15T20:42:45.966Z",
-    "updated_at": "2026-06-15T20:49:51.407Z",
-    "research_status": "skipped",
-    "research_error": ""
+    "updated_at": "2026-06-27T14:12:24.092Z",
+    "research_status": "complete",
+    "research_error": "",
+    "packaging_type": "container",
+    "container_nouns": "[\"product\",\"packaging\"]",
+    "product_category": "general",
+    "research_notes": "",
+    "research_completed_at": "2026-06-18T13:51:59.663Z"
   },
   {
     "id": "f1e9d300ddee9961",
@@ -51,9 +89,14 @@
     "source": "library",
     "raw_json": "{\"name\":\"Umberto Giannini Curl Jelly collection + brushes\",\"brand\":\"Umberto Giannini\",\"price\":\"over 80 pounds worth for more than half\",\"description\":\"Umberto Giannini Curl Jelly collection + brushes\",\"source\":\"library\"}",
     "created_at": "2026-06-15T20:42:45.937Z",
-    "updated_at": "2026-06-15T20:49:51.373Z",
-    "research_status": "skipped",
-    "research_error": ""
+    "updated_at": "2026-06-27T14:12:24.086Z",
+    "research_status": "complete",
+    "research_error": "",
+    "packaging_type": "container",
+    "container_nouns": "[\"product\",\"packaging\"]",
+    "product_category": "general",
+    "research_notes": "",
+    "research_completed_at": "2026-06-18T12:11:28.660Z"
   },
   {
     "id": "f59d49c3887ddeea",
@@ -65,7 +108,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Cotta Stubby Gun attachment / snow foam cannon\",\"brand\":\"\",\"price\":\"£13\",\"description\":\"Cotta Stubby Gun attachment / snow foam cannon\",\"source\":\"library\"}",
     "created_at": "2026-06-15T20:21:05.734Z",
-    "updated_at": "2026-06-15T20:49:51.357Z",
+    "updated_at": "2026-06-27T14:12:24.070Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -79,7 +122,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Sea Salt Spray – Santal Sandalwood, 200ml / 6.8oz\",\"brand\":\"BASED\",\"price\":\"Not shown in frame — deal price implied via caption\",\"description\":\"Sea Salt Spray – Santal Sandalwood, 200ml / 6.8oz\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.267Z",
-    "updated_at": "2026-06-15T20:49:51.321Z",
+    "updated_at": "2026-06-27T14:12:24.065Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -93,7 +136,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Perfect Hair Styling Bundle (6-piece set including sea salt spray, conditioner, hair clay, shampoo, texture powder, pomade)\",\"brand\":\"Unknown — likely a mid-tier men's or unisex hair care brand (possibly Beardbrand, Hims, or similar based on product lineup)\",\"price\":\"$200+ value implied, discounted sale price not explicitly stated\",\"description\":\"Perfect Hair Styling Bundle (6-piece set including sea salt spray, conditioner, hair clay, shampoo, texture powder, pomade)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.257Z",
-    "updated_at": "2026-06-15T20:49:51.287Z",
+    "updated_at": "2026-06-27T14:12:24.060Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -107,7 +150,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"PDRN Imasks\",\"brand\":\"MediCube\",\"price\":\"null (discount mentioned, no specific price stated)\",\"description\":\"PDRN Imasks\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.248Z",
-    "updated_at": "2026-06-15T20:49:51.253Z",
+    "updated_at": "2026-06-27T14:12:24.055Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -121,7 +164,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube Body Care Bundle (Kojic Acid Turmeric Toner Pads, Hypochlorous Acid Peel Shot, Kojic Acid Brightening Body Wash, Kojic Jelly Mist Serum, Kojic Acid Resurfacing Toner)\",\"brand\":\"Medicube\",\"price\":\"Implied significant discount vs $200+ individual cost — exact bundle price not visible in frame\",\"description\":\"Medicube Body Care Bundle (Kojic Acid Turmeric Toner Pads, Hypochlorous Acid Peel Shot, Kojic Acid Brightening Body Wash, Kojic Jelly Mist Serum, Kojic Acid Resurfacing Toner)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.239Z",
-    "updated_at": "2026-06-15T20:49:51.221Z",
+    "updated_at": "2026-06-27T14:12:24.050Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -135,7 +178,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Carrot Intensive Tanning Gel\",\"brand\":\"Velvetix\",\"price\":\"discounted (original price not specified, sale price not stated)\",\"description\":\"Carrot Intensive Tanning Gel\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.231Z",
-    "updated_at": "2026-06-15T20:49:51.179Z",
+    "updated_at": "2026-06-27T14:12:24.046Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -149,7 +192,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Collagen Glow Sunscreen\",\"brand\":\"Medicube\",\"price\":\"Discounted price not specified — full price referenced as negative, sale price used as urgency trigger\",\"description\":\"Collagen Glow Sunscreen\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.222Z",
-    "updated_at": "2026-06-15T20:49:51.133Z",
+    "updated_at": "2026-06-27T14:12:24.041Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -163,7 +206,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"PDRN Hydrating UV Serum Sunscreen SPF 50 (No Cast, Just Dew)\",\"brand\":\"Medicube\",\"price\":\"Discounted from full price — exact price not stated\",\"description\":\"PDRN Hydrating UV Serum Sunscreen SPF 50 (No Cast, Just Dew)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.214Z",
-    "updated_at": "2026-06-15T20:49:51.096Z",
+    "updated_at": "2026-06-27T14:12:24.037Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -177,7 +220,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"PetPivot Self-Cleaning Litter Box (appears to be 'Scooper' model)\",\"brand\":\"PetPivot\",\"price\":\"\",\"description\":\"PetPivot Self-Cleaning Litter Box (appears to be 'Scooper' model)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.205Z",
-    "updated_at": "2026-06-15T20:49:51.063Z",
+    "updated_at": "2026-06-27T14:12:24.032Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -191,7 +234,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Navy sparkle jacket + navy floral rhinestone top (two-piece set or separates)\",\"brand\":\"Unknown — price tags visible but text unreadable\",\"price\":\"Price tags present but not legible in frame\",\"description\":\"Navy sparkle jacket + navy floral rhinestone top (two-piece set or separates)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.197Z",
-    "updated_at": "2026-06-15T20:49:51.040Z",
+    "updated_at": "2026-06-27T14:12:24.027Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -205,7 +248,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin Peel Shot PS — Exfoliating Kojic Acid Turmeric Spray (shown), plus 7 additional products in bundle\",\"brand\":\"Dr. Melaxin\",\"price\":\"$200+ value implied, discounted price not stated explicitly\",\"description\":\"Dr. Melaxin Peel Shot PS — Exfoliating Kojic Acid Turmeric Spray (shown), plus 7 additional products in bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.189Z",
-    "updated_at": "2026-06-15T20:49:51.004Z",
+    "updated_at": "2026-06-27T14:12:24.022Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -219,7 +262,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube Triple Collagen Toner (shown); full bundle includes PDRN Caffeine Collagen Eyepatches, Volufaline Collagen Bomb, Triple Collagen Cream, NAD Firming Serum\",\"brand\":\"Medicube\",\"price\":\"$200+ value (discounted, exact price not stated)\",\"description\":\"Medicube Triple Collagen Toner (shown); full bundle includes PDRN Caffeine Collagen Eyepatches, Volufaline Collagen Bomb, Triple Collagen Cream, NAD Firming Serum\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.180Z",
-    "updated_at": "2026-06-15T20:49:50.972Z",
+    "updated_at": "2026-06-27T14:12:24.017Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -233,7 +276,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin Calcium Volume Stick (+ full bundle: Intense Calcium Cream, Calcium Volume Eye Patches, Pink Spicule Serum, Picotonic Pigmentation Serum)\",\"brand\":\"Dr. Melaxin\",\"price\":\"Bundle implied under $200 (individual products implied ~$200+ total)\",\"description\":\"Dr. Melaxin Calcium Volume Stick (+ full bundle: Intense Calcium Cream, Calcium Volume Eye Patches, Pink Spicule Serum, Picotonic Pigmentation Serum)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.172Z",
-    "updated_at": "2026-06-15T20:49:50.938Z",
+    "updated_at": "2026-06-27T14:12:24.012Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -247,7 +290,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Group 4-Piece Hair Care Set (Hair Thickening Conditioner, Roll-On Hair & Scalp Serum, Scalp Revitalizing Shampoo, Miracle in the Shower Treatment)\",\"brand\":\"Dr. Group\",\"price\":\"$200+ retail value (discounted sale price not specified)\",\"description\":\"Dr. Group 4-Piece Hair Care Set (Hair Thickening Conditioner, Roll-On Hair & Scalp Serum, Scalp Revitalizing Shampoo, Miracle in the Shower Treatment)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.164Z",
-    "updated_at": "2026-06-15T20:49:50.912Z",
+    "updated_at": "2026-06-27T14:12:24.007Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -261,7 +304,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Calcium B12 Spicule Serum (Cemenrete Cyano Pink Spicule line)\",\"brand\":\"Dr. Melaxin\",\"price\":\"$200+ value implied (discounted sale price not stated explicitly)\",\"description\":\"Calcium B12 Spicule Serum (Cemenrete Cyano Pink Spicule line)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.156Z",
-    "updated_at": "2026-06-15T20:49:50.878Z",
+    "updated_at": "2026-06-27T14:12:24.003Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -275,7 +318,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin Cemenrete CX Calcium Volume Eye Patch (+ bundle)\",\"brand\":\"Dr. Melaxin\",\"price\":\"Bundle implied to be under $200 (exact price not visible in frame)\",\"description\":\"Dr. Melaxin Cemenrete CX Calcium Volume Eye Patch (+ bundle)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.148Z",
-    "updated_at": "2026-06-15T20:49:50.843Z",
+    "updated_at": "2026-06-27T14:12:23.999Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -289,7 +332,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr.Melaxin Peel Shot PS — Exfoliating Kojic Acid Turmeric Spray\",\"brand\":\"Dr.Melaxin\",\"price\":\"$200 worth of products (bundle discount implied, exact sale price not stated)\",\"description\":\"Dr.Melaxin Peel Shot PS — Exfoliating Kojic Acid Turmeric Spray\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.141Z",
-    "updated_at": "2026-06-15T20:49:50.810Z",
+    "updated_at": "2026-06-27T14:12:23.994Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -303,7 +346,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin 7-Product Skincare Bundle (Calcium Volume Eye Patches, Kojic Acid Peel Shot Spray, Calcium Volume Bomb Stick, Black Rice Peel Shot Ampoule, Makeup Melting Bubble Cleanser, Hink Spicule Serum, Picotonic Pigmentation Serum)\",\"brand\":\"Dr. Melaxin\",\"price\":\"$200 worth of full-size products (bundle discount price not explicitly stated)\",\"description\":\"Dr. Melaxin 7-Product Skincare Bundle (Calcium Volume Eye Patches, Kojic Acid Peel Shot Spray, Calcium Volume Bomb Stick, Black Rice Peel Shot Ampoule, Makeup Melting Bubble Cleanser, Hink Spicule Serum, Picotonic Pigmentation Serum)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.134Z",
-    "updated_at": "2026-06-15T20:49:50.769Z",
+    "updated_at": "2026-06-27T14:12:23.990Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -317,7 +360,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin 7-Product Skincare Bundle (Calcium Volume Eye Patches, Kojic Acid Peel Shot Spray, Calcium Volume Bomb Stick, Black Rice Peel Shot Ampule, Makeup Melting Bubble Cleanser, Spicule Serum, Picotonic Pigmentation Serum)\",\"brand\":\"Dr. Melaxin\",\"price\":\"$200 worth of products (bundle sale price not stated verbally — click required)\",\"description\":\"Dr. Melaxin 7-Product Skincare Bundle (Calcium Volume Eye Patches, Kojic Acid Peel Shot Spray, Calcium Volume Bomb Stick, Black Rice Peel Shot Ampule, Makeup Melting Bubble Cleanser, Spicule Serum, Picotonic Pigmentation Serum)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.126Z",
-    "updated_at": "2026-06-15T20:49:50.738Z",
+    "updated_at": "2026-06-27T14:12:23.985Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -331,7 +374,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube Anti-Aging Bundle (PDRN Volufilline Balm, EGF NAD Serum, Collagen Caffeine Eye Patches, Triple Collagen Cream, Triple Collagen Toner)\",\"brand\":\"Medicube\",\"price\":\"under $200 (exact bundle price not specified verbally but referenced visually in orange cart)\",\"description\":\"Medicube Anti-Aging Bundle (PDRN Volufilline Balm, EGF NAD Serum, Collagen Caffeine Eye Patches, Triple Collagen Cream, Triple Collagen Toner)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.118Z",
-    "updated_at": "2026-06-15T20:49:50.707Z",
+    "updated_at": "2026-06-27T14:12:23.980Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -345,7 +388,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr.Melaxin Calcium Volume bundle (eye patches + multi balm + 4 other full-size items)\",\"brand\":\"Dr.Melaxin\",\"price\":\"\",\"description\":\"Dr.Melaxin Calcium Volume bundle (eye patches + multi balm + 4 other full-size items)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.110Z",
-    "updated_at": "2026-06-15T20:49:50.673Z",
+    "updated_at": "2026-06-27T14:12:23.976Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -359,7 +402,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube discounted anti-aging bundle\",\"brand\":\"Medicube\",\"price\":\"over $200 full sized products\",\"description\":\"Medicube discounted anti-aging bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.103Z",
-    "updated_at": "2026-06-15T20:49:50.641Z",
+    "updated_at": "2026-06-27T14:12:23.970Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -373,7 +416,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube 8-product skincare bundle\",\"brand\":\"Medicube\",\"price\":\"over $200 value\",\"description\":\"Medicube 8-product skincare bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.095Z",
-    "updated_at": "2026-06-15T20:49:50.617Z",
+    "updated_at": "2026-06-27T14:12:23.965Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -387,7 +430,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube full anti-aging skincare set\",\"brand\":\"Medicube\",\"price\":\"over $200 value at discount\",\"description\":\"Medicube full anti-aging skincare set\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.087Z",
-    "updated_at": "2026-06-15T20:49:50.582Z",
+    "updated_at": "2026-06-27T14:12:23.960Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -401,7 +444,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube full skincare set (8+ products)\",\"brand\":\"medicube\",\"price\":\"over $250\",\"description\":\"Medicube full skincare set (8+ products)\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.080Z",
-    "updated_at": "2026-06-15T20:49:50.557Z",
+    "updated_at": "2026-06-27T14:12:23.956Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -415,7 +458,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Dent Whitening Strips\",\"brand\":\"Dr. Dent\",\"price\":\"\",\"description\":\"Dr. Dent Whitening Strips\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.072Z",
-    "updated_at": "2026-06-15T20:49:50.519Z",
+    "updated_at": "2026-06-27T14:12:23.952Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -429,7 +472,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Philips OneBlade 360\",\"brand\":\"Philips\",\"price\":\"£49.99 (on sale)\",\"description\":\"Philips OneBlade 360\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.064Z",
-    "updated_at": "2026-06-15T20:49:50.486Z",
+    "updated_at": "2026-06-27T14:12:23.947Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -443,7 +486,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Portable misting cooling fan\",\"brand\":\"\",\"price\":\"\",\"description\":\"Portable misting cooling fan\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.056Z",
-    "updated_at": "2026-06-15T20:49:50.464Z",
+    "updated_at": "2026-06-27T14:12:23.942Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -457,7 +500,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Modern Dimmable E27 Ceiling Fan Light\",\"brand\":\"\",\"price\":\"£13.99\",\"description\":\"Modern Dimmable E27 Ceiling Fan Light\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.049Z",
-    "updated_at": "2026-06-15T20:49:50.441Z",
+    "updated_at": "2026-06-27T14:12:23.937Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -471,7 +514,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Cotta Stubby Gun snow foam attachment\",\"brand\":\"\",\"price\":\"£13 (was £30)\",\"description\":\"Cotta Stubby Gun snow foam attachment\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.040Z",
-    "updated_at": "2026-06-15T20:49:50.405Z",
+    "updated_at": "2026-06-27T14:12:23.933Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -485,7 +528,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Curl Jelly kit\",\"brand\":\"Umberto Giannini\",\"price\":\"\",\"description\":\"Curl Jelly kit\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.032Z",
-    "updated_at": "2026-06-15T20:49:50.366Z",
+    "updated_at": "2026-06-27T14:12:23.928Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -499,7 +542,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"5-in-1 snow foam cannon attachment\",\"brand\":\"\",\"price\":\"£13 (sale from £30)\",\"description\":\"5-in-1 snow foam cannon attachment\",\"source\":\"library\"}",
     "created_at": "2026-06-15T18:36:12.023Z",
-    "updated_at": "2026-06-15T20:49:50.334Z",
+    "updated_at": "2026-06-27T14:12:23.924Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -513,7 +556,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube Anti-Aging Bundle\",\"brand\":\"medicube\",\"price\":\"under $80\",\"description\":\"Medicube Anti-Aging Bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-15T16:57:07.224Z",
-    "updated_at": "2026-06-15T20:49:50.305Z",
+    "updated_at": "2026-06-27T14:12:23.920Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -527,7 +570,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Zero Pore Blackhead Mud Mask + Capsule Cleansing Foam + Deep Cleansing Oil + Scrub Brush set\",\"brand\":\"Medicube\",\"price\":\"$200 value (discounted)\",\"description\":\"Zero Pore Blackhead Mud Mask + Capsule Cleansing Foam + Deep Cleansing Oil + Scrub Brush set\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.197Z",
-    "updated_at": "2026-06-15T20:49:50.268Z",
+    "updated_at": "2026-06-27T14:12:23.915Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -541,7 +584,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Fresh That Lasts Deodorant\",\"brand\":\"medicube\",\"price\":\"two-pack at price of one + free keychain holder\",\"description\":\"Fresh That Lasts Deodorant\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.184Z",
-    "updated_at": "2026-06-15T20:49:50.221Z",
+    "updated_at": "2026-06-27T14:12:23.911Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -555,7 +598,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Rosemary PDRN Damage Care Hair Mask + Scalp Serum + Cooling Thickening Shampoo + Hair & Scalp Conditioner\",\"brand\":\"Medicube\",\"price\":\"$200\",\"description\":\"Rosemary PDRN Damage Care Hair Mask + Scalp Serum + Cooling Thickening Shampoo + Hair & Scalp Conditioner\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.173Z",
-    "updated_at": "2026-06-15T20:49:50.182Z",
+    "updated_at": "2026-06-27T14:12:23.907Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -569,7 +612,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube anti-aging bundle (PDRN balm, EGF NAD serum, eye patches, triple collagen cream & toner)\",\"brand\":\"Medicube\",\"price\":\"not shown\",\"description\":\"Medicube anti-aging bundle (PDRN balm, EGF NAD serum, eye patches, triple collagen cream & toner)\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.161Z",
-    "updated_at": "2026-06-15T20:49:50.147Z",
+    "updated_at": "2026-06-27T14:12:23.903Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -583,7 +626,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Zero Pore Blackhead Mud Mask + Deep Cleansing Oil + SA Clear Capsule Cleansing Foam + Facial Scrub Brush\",\"brand\":\"Medicube\",\"price\":\"$200 worth\",\"description\":\"Zero Pore Blackhead Mud Mask + Deep Cleansing Oil + SA Clear Capsule Cleansing Foam + Facial Scrub Brush\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.150Z",
-    "updated_at": "2026-06-15T20:49:50.105Z",
+    "updated_at": "2026-06-27T14:12:23.899Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -597,7 +640,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube full skincare routine set\",\"brand\":\"Medicube\",\"price\":\"$200 worth\",\"description\":\"Medicube full skincare routine set\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.139Z",
-    "updated_at": "2026-06-15T20:49:50.079Z",
+    "updated_at": "2026-06-27T14:12:23.895Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -611,7 +654,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"AutoScooper 12\",\"brand\":\"PetPivot\",\"price\":\"\",\"description\":\"AutoScooper 12\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.128Z",
-    "updated_at": "2026-06-15T20:49:50.056Z",
+    "updated_at": "2026-06-27T14:12:23.891Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -625,7 +668,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Kojic Acid Turmeric Body Peel Shot + Jelly Mist Serum + Brightening Body Wash\",\"brand\":\"Medicube\",\"price\":\"$200 worth of full-size products\",\"description\":\"Kojic Acid Turmeric Body Peel Shot + Jelly Mist Serum + Brightening Body Wash\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.115Z",
-    "updated_at": "2026-06-15T20:49:50.030Z",
+    "updated_at": "2026-06-27T14:12:23.886Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -639,7 +682,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube Kojic Acid Turmeric body care set\",\"brand\":\"Medicube\",\"price\":\"$200 worth\",\"description\":\"Medicube Kojic Acid Turmeric body care set\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.106Z",
-    "updated_at": "2026-06-15T20:49:50.011Z",
+    "updated_at": "2026-06-27T14:12:23.881Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -653,7 +696,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr.Melaxin 7-product skincare bundle\",\"brand\":\"Dr.Melaxin\",\"price\":\"$200 worth\",\"description\":\"Dr.Melaxin 7-product skincare bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.093Z",
-    "updated_at": "2026-06-15T20:49:49.985Z",
+    "updated_at": "2026-06-27T14:12:23.877Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -667,7 +710,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr.Melaxin Calcium cx bundle (eye patches, balm, pink spicule serum, picotonic serum, volume firming cream)\",\"brand\":\"Dr.Melaxin\",\"price\":\"huge discount (exact price not shown)\",\"description\":\"Dr.Melaxin Calcium cx bundle (eye patches, balm, pink spicule serum, picotonic serum, volume firming cream)\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.081Z",
-    "updated_at": "2026-06-15T20:49:49.949Z",
+    "updated_at": "2026-06-27T14:12:23.873Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -681,7 +724,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"MediCube Triple Collagen Cream + PDRN Eye Cream + Milky Toner + Collagen Serum bundle\",\"brand\":\"MediCube\",\"price\":\"\",\"description\":\"MediCube Triple Collagen Cream + PDRN Eye Cream + Milky Toner + Collagen Serum bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.070Z",
-    "updated_at": "2026-06-15T20:49:49.915Z",
+    "updated_at": "2026-06-27T14:12:23.869Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -695,7 +738,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube 5-product anti-aging bundle\",\"brand\":\"Medicube\",\"price\":\"$200 value bundle\",\"description\":\"Medicube 5-product anti-aging bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.058Z",
-    "updated_at": "2026-06-15T20:49:49.875Z",
+    "updated_at": "2026-06-27T14:12:23.865Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -709,7 +752,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin Cemenrete Calcium skincare bundle\",\"brand\":\"Dr. Melaxin\",\"price\":\"\",\"description\":\"Dr. Melaxin Cemenrete Calcium skincare bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.047Z",
-    "updated_at": "2026-06-15T20:49:49.833Z",
+    "updated_at": "2026-06-27T14:12:23.861Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -723,7 +766,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube Deep Vita C Pad + AGE-R + Capsule Cream + Kojic Turmeric Mask bundle\",\"brand\":\"Medicube\",\"price\":\"\",\"description\":\"Medicube Deep Vita C Pad + AGE-R + Capsule Cream + Kojic Turmeric Mask bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.036Z",
-    "updated_at": "2026-06-15T20:49:49.798Z",
+    "updated_at": "2026-06-27T14:12:23.856Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -737,7 +780,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Bask & Lather Beard Care Bundle (Shampoo, Conditioner, Oil, Balm, Magic Serum)\",\"brand\":\"Bask & Lather\",\"price\":\"\",\"description\":\"Bask & Lather Beard Care Bundle (Shampoo, Conditioner, Oil, Balm, Magic Serum)\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.025Z",
-    "updated_at": "2026-06-15T20:49:49.777Z",
+    "updated_at": "2026-06-27T14:12:23.852Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -751,7 +794,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Zero Pore Blackhead Skincare Bundle\",\"brand\":\"Medicube\",\"price\":\"\",\"description\":\"Zero Pore Blackhead Skincare Bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:29.014Z",
-    "updated_at": "2026-06-15T20:49:49.765Z",
+    "updated_at": "2026-06-27T14:12:23.848Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -765,7 +808,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"PDRN Pink Collagen Jelly Eye Mask\",\"brand\":\"Medicube\",\"price\":\"\",\"description\":\"PDRN Pink Collagen Jelly Eye Mask\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.983Z",
-    "updated_at": "2026-06-15T20:49:49.727Z",
+    "updated_at": "2026-06-27T14:12:23.843Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -779,7 +822,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Groot Scalp Revitalizing Solution 4-piece set (conditioner, shampoo, roll-on serum, miracle treatment)\",\"brand\":\"Dr. Groot\",\"price\":\"over $200 value\",\"description\":\"Dr. Groot Scalp Revitalizing Solution 4-piece set (conditioner, shampoo, roll-on serum, miracle treatment)\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.960Z",
-    "updated_at": "2026-06-15T20:49:49.696Z",
+    "updated_at": "2026-06-27T14:12:23.839Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -793,7 +836,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube anti-aging skincare bundle (Triple Collagen Cream, PDRN Pink Collagen Balm, Caffeine Eye Patches, EGF NAD Firming Serum, Triple Collagen Toner)\",\"brand\":\"Medicube\",\"price\":\"\",\"description\":\"Medicube anti-aging skincare bundle (Triple Collagen Cream, PDRN Pink Collagen Balm, Caffeine Eye Patches, EGF NAD Firming Serum, Triple Collagen Toner)\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.934Z",
-    "updated_at": "2026-06-15T20:49:49.659Z",
+    "updated_at": "2026-06-27T14:12:23.834Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -807,7 +850,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Medicube 5-piece anti-aging skincare bundle\",\"brand\":\"Medicube\",\"price\":\"\",\"description\":\"Medicube 5-piece anti-aging skincare bundle\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.914Z",
-    "updated_at": "2026-06-15T20:49:49.626Z",
+    "updated_at": "2026-06-27T14:12:23.830Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -821,7 +864,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Calcium Dark Spot Eye Cream\",\"brand\":\"Dr.Melaxin Cemenrete CX\",\"price\":\"\",\"description\":\"Calcium Dark Spot Eye Cream\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.901Z",
-    "updated_at": "2026-06-15T20:49:49.603Z",
+    "updated_at": "2026-06-27T14:12:23.826Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -835,7 +878,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr. Melaxin Calcium Cemenrete full anti-aging set\",\"brand\":\"Dr. Melaxin\",\"price\":\"\",\"description\":\"Dr. Melaxin Calcium Cemenrete full anti-aging set\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.878Z",
-    "updated_at": "2026-06-15T20:49:49.581Z",
+    "updated_at": "2026-06-27T14:12:23.821Z",
     "research_status": "skipped",
     "research_error": ""
   },
@@ -849,7 +892,7 @@
     "source": "library",
     "raw_json": "{\"name\":\"Dr.Melaxin Anti-Aging Skincare Bundle (Cyano Pink Spicule Serum, Picotonic Pigmentation Serum, Calcium Intense Cream, Calcium Volume Multi Balm Stick, Calcium Volume Eye Patch)\",\"brand\":\"Dr.Melaxin\",\"price\":\"Over $200 value (sale price not specified)\",\"description\":\"Dr.Melaxin Anti-Aging Skincare Bundle (Cyano Pink Spicule Serum, Picotonic Pigmentation Serum, Calcium Intense Cream, Calcium Volume Multi Balm Stick, Calcium Volume Eye Patch)\",\"source\":\"library\"}",
     "created_at": "2026-06-14T23:48:28.873Z",
-    "updated_at": "2026-06-15T20:49:49.563Z",
+    "updated_at": "2026-06-27T14:12:23.817Z",
     "research_status": "skipped",
     "research_error": ""
   },

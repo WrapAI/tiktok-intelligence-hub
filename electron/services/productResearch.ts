@@ -1,9 +1,8 @@
 import type { JsonStore } from "../db.js";
-import type { AgentCostBreakdown } from "./agentPricing.js";
 import { callClaudeDirect } from "./claude.js";
 import { guessPackagingFromName, PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 
-export type ProductResearchStatus = "pending" | "researching" | "complete" | "error";
+export type ProductResearchStatus = "pending" | "researching" | "complete" | "error" | "skipped";
 
 export type ProductResearch = {
   packaging_type: string;
@@ -11,11 +10,6 @@ export type ProductResearch = {
   category: string;
   research_notes: string;
   researched_at: string;
-};
-
-export type ProductResearchResult = {
-  research: ProductResearch;
-  cost: AgentCostBreakdown;
 };
 
 function parseResearchJson(raw: string): Partial<ProductResearch> {
@@ -34,7 +28,6 @@ function parseResearchJson(raw: string): Partial<ProductResearch> {
 export function productNeedsResearch(product: Record<string, unknown>): boolean {
   if (product.research_completed_at) return false;
   if (product.research_status === "skipped") return false;
-  // Only research products the user actually sells — not competitor products extracted from library videos
   if (product.source === "library") return false;
   return true;
 }
@@ -59,10 +52,47 @@ function setProductResearchStatus(
   } as Record<string, unknown> & { id: string });
 }
 
-export async function researchProduct(
+function saveProductResearch(
   store: JsonStore,
-  productId: string
-): Promise<ProductResearchResult | null> {
+  product: Record<string, unknown>,
+  productId: string,
+  research: ProductResearch
+) {
+  store.upsertById("products", {
+    ...product,
+    id: productId,
+    packaging_type: research.packaging_type,
+    container_nouns: JSON.stringify(research.container_nouns),
+    product_category: research.category,
+    research_notes: research.research_notes,
+    research_completed_at: research.researched_at,
+    research_status: "complete",
+    research_error: "",
+    updated_at: research.researched_at,
+  } as Record<string, unknown> & { id: string });
+}
+
+/** Apply name-based packaging guess locally — no API call. */
+export function applyHeuristicProductPackaging(store: JsonStore, productId: string): ProductResearch | null {
+  const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
+  if (!product || product.research_completed_at) return null;
+
+  const guess = guessPackagingFromName(String(product.name || ""), String(product.description || ""));
+  const researched_at = new Date().toISOString();
+  const research: ProductResearch = {
+    packaging_type: guess.packaging_type,
+    container_nouns: guess.container_nouns,
+    category: "general",
+    research_notes: "",
+    researched_at,
+  };
+
+  saveProductResearch(store, product, productId, research);
+  return research;
+}
+
+/** User-triggered deep research via direct Claude API (not managed agent). */
+export async function researchProduct(store: JsonStore, productId: string): Promise<ProductResearch | null> {
   if (!store.getSetting("anthropicApiKey")) {
     setProductResearchStatus(store, productId, "error", "Add your Anthropic API key in Settings first.");
     return null;
@@ -75,11 +105,17 @@ export async function researchProduct(
 
   const guess = guessPackagingFromName(String(product.name || ""), String(product.description || ""));
 
-  const instructions = `Research this TikTok Shop product for script writing. One-time product profile.
+  const system = `You research TikTok Shop products for script writing. Return JSON only.
 
-${PACKAGING_KNOWLEDGE}
+${PACKAGING_KNOWLEDGE}`;
 
-Return JSON only:
+  const user = `Product name: ${product.name}
+Brand: ${product.brand || "—"}
+Price: ${product.price || "—"}
+Description: ${product.description || "—"}
+Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})
+
+Return JSON:
 {
   "packaging_type": "tub|bottle|can|bag|jar|tube|pouch|sachet|pack|box|container",
   "container_nouns": ["tub", "scoop"],
@@ -87,17 +123,8 @@ Return JSON only:
   "research_notes": "2-4 sentences: what it is, how it's packaged, how UK creators describe holding/showing it on camera"
 }`;
 
-  const context = `Product name: ${product.name}
-Brand: ${product.brand || "—"}
-Price: ${product.price || "—"}
-Description: ${product.description || "—"}
-Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
-
   try {
-    const { reply, cost } = await callClaudeDirect(store, PACKAGING_KNOWLEDGE, `${instructions}\n\n---\n\n${context}`, {
-      task: "analyze_data",
-      maxTokens: 1024,
-    });
+    const reply = await callClaudeDirect(store, system, user, undefined, "product_research");
     const parsed = parseResearchJson(reply);
     const researched_at = new Date().toISOString();
 
@@ -111,21 +138,9 @@ Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
       researched_at,
     };
 
-    store.upsertById("products", {
-      ...product,
-      id: productId,
-      packaging_type: research.packaging_type,
-      container_nouns: JSON.stringify(research.container_nouns),
-      product_category: research.category,
-      research_notes: research.research_notes,
-      research_completed_at: researched_at,
-      research_status: "complete",
-      research_error: "",
-      updated_at: researched_at,
-    } as Record<string, unknown> & { id: string });
-
+    saveProductResearch(store, product, productId, research);
     store.appendLog("product_research", "ok", `Researched ${product.name}`);
-    return { research, cost };
+    return research;
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     setProductResearchStatus(store, productId, "error", msg);
@@ -134,10 +149,10 @@ Heuristic guess: ${guess.packaging_type} (${guess.container_nouns.join(", ")})`;
   }
 }
 
-/** Fire-and-forget research for new products. */
+/** User-triggered only (Products page retry). Never call from import/sync paths. */
 export function scheduleProductResearch(store: JsonStore, productId: string) {
   const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
-  if (!product || product.research_completed_at) return;
+  if (!product || product.research_completed_at || !productNeedsResearch(product)) return;
   if (researchInFlight.has(productId)) return;
 
   researchInFlight.add(productId);
@@ -148,7 +163,6 @@ export function scheduleProductResearch(store: JsonStore, productId: string) {
   });
 }
 
-/** Retry research after a failure (clears error state). */
 export function retryProductResearch(store: JsonStore, productId: string) {
   const product = store.list<Record<string, unknown>>("products").find((p) => p.id === productId);
   if (!product || product.research_completed_at) return;
@@ -158,26 +172,21 @@ export function retryProductResearch(store: JsonStore, productId: string) {
     id: productId,
     research_status: "pending",
     research_error: "",
+    research_completed_at: "",
     updated_at: new Date().toISOString(),
   } as Record<string, unknown> & { id: string });
 
   scheduleProductResearch(store, productId);
 }
 
-/** Queue research for any catalog products that have never been researched. */
-export function ensurePendingProductResearch(store: JsonStore) {
+/** One-time local backfill — no API. Clears pending/researching products left from old auto-research loop. */
+export function backfillHeuristicPackagingForAllPendingProducts(store: JsonStore): number {
+  let count = 0;
   for (const product of store.list<Record<string, unknown>>("products")) {
     if (!productNeedsResearch(product)) continue;
-    if (product.research_status === "researching" || product.research_status === "pending") continue;
-    scheduleProductResearch(store, String(product.id));
+    if (applyHeuristicProductPackaging(store, String(product.id))) count += 1;
   }
-}
-
-export function scheduleResearchForNewProducts(store: JsonStore, productIds: string[]) {
-  for (const id of productIds) {
-    const p = store.list<Record<string, unknown>>("products").find((row) => row.id === id);
-    if (p && productNeedsResearch(p)) scheduleProductResearch(store, id);
-  }
+  return count;
 }
 
 export function getProductResearchContext(store: JsonStore, productId: string): string {

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "866733aa-e37d-4b82-9d3f-e8c9ae8233ec",
+    "created_at": "2026-06-27T14:32:40.848Z",
+    "product_id": "2dbcb1a086a16eb4",
+    "product_name": "Pelvic Floor & Thigh Trainer – Dual-Action Toning Device for Women | UK Home Workout Equipment | Strengthens Core, Pelvic Floor & Inner Thighs",
+    "title": "Pelvic Floor & Thigh Trainer — Transformation Hook (Social Proof Frame)",
+    "script_snippet": "This changed everything. I kept scrolling past the Pelvic Floor and Thigh Trainer thinking it was just another thing I didn't need. Then I actually looked at what it does — dual action, at home, no class, no commute. Right now on TikTok Shop it is on a massive flash sale and that is not going to stick around. You are getting the Pelvic Floor and Thigh Trainer — one product doing two jobs — at a se",
+    "violations": [
+      "REPEATED PHRASE DETECTED: \"the pelvic floor and\" — every phrase should appear once only"
+    ]
+  },
+  {
+    "id": "0be64cd8-04a5-4894-ba9e-6da1b741d09d",
+    "created_at": "2026-06-27T14:31:58.336Z",
+    "product_id": "2dbcb1a086a16eb4",
+    "product_name": "Pelvic Floor & Thigh Trainer – Dual-Action Toning Device for Women | UK Home Workout Equipment | Strengthens Core, Pelvic Floor & Inner Thighs",
+    "title": "Pelvic Floor & Thigh Trainer — Social Proof Scarcity Hook",
+    "script_snippet": "Thousands of women already have this. And I was not one of them — I kept scrolling past the Pelvic Floor and Thigh Trainer every single time it came up, thinking it was just another gimmick. Then I actually looked at the reviews and stopped dead. Right now it is sitting on TikTok Shop on a massive flash sale and it is not going to stay at that price for long. The Pelvic Floor and Thigh Trainer — t",
+    "violations": [
+      "REPEATED PHRASE DETECTED: \"the pelvic floor and\" — every phrase should appear once only"
+    ]
+  },
+  {
+    "id": "60dbed73-9892-4fc8-a091-abd77df352e6",
+    "created_at": "2026-06-27T14:30:06.319Z",
+    "product_id": "2dbcb1a086a16eb4",
+    "product_name": "Pelvic Floor & Thigh Trainer – Dual-Action Toning Device for Women | UK Home Workout Equipment | Strengthens Core, Pelvic Floor & Inner Thighs",
+    "title": "Pelvic Floor & Thigh Trainer — Curiosity Gap Hook (Retry)",
+    "script_snippet": "Still available. I genuinely could not believe it when I checked TikTok Shop this morning and the Pelvic Floor and Thigh Trainer was still sitting there in a flash sale. I bought one at full price last month — had no idea this deal even existed. Right now it is on a massive discount and that is not going to stick around. The Pelvic Floor and Thigh Trainer — Dual-Action Toning Device for Women — fo",
+    "violations": [
+      "REPEATED PHRASE DETECTED: \"the pelvic floor and\" — every phrase should appear once only"
+    ]
+  },
+  {
+    "id": "ae3e8202-42b8-41c5-b90c-49eb70a62746",
+    "created_at": "2026-06-27T14:28:45.226Z",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "title": "EHP Labs Hydreau — Curiosity Gap + Bold Claim (No Face)",
+    "script_snippet": "Nobody is talking about this. I bought the EHP Labs Hydreau Sports Hydration at full price and then found it sitting on TikTok Shop on a massive flash sale the very same week. That stung. Right now the tub is on a flash sale and I genuinely do not know how much longer it is going to last. You get the full EHP Labs Hydreau Sports Hydration tub — multiple flavours, full size, with the scoop — at a s",
+    "violations": [
+      "REPEATED PHRASE DETECTED: \"ehp labs hydreau sports\" — every phrase should appear once only"
+    ]
+  },
+  {
+    "id": "63300f22-3a75-40e6-b233-d3e225a9f49c",
+    "created_at": "2026-06-27T13:11:55.804Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Capsules — Transformation Hook (No Face, Bottom Funnel)",
+    "script_snippet": "I used to spend so much on gut health every single month. Then I found the WildGut Capsules on TikTok Shop and everything changed. Right now they are running a 2 for 1 deal and it is not going to be around long. Two full containers — 90 capsules each — and you are only paying for one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "violations": [
+      "HOOK TOO LONG: \"I used to spend so much on gut health every single month\" is 12 words — maximum is 7"
+    ]
+  }
+]

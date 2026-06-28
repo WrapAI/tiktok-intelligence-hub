@@ -2,31 +2,35 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { app } from "electron";
 import type { JsonStore } from "../db.js";
-import { findPacingReference, formatPacingBlock } from "./pacingReference.js";
+import { findPacingReference, formatPacingBlock, pickPacingReferenceVaried } from "./pacingReference.js";
 import { formatLibraryPerformanceForPrompt, getScriptInsights } from "./libraryPerformance.js";
 import { callClaudeDirect } from "./claude.js";
-import { COMPLIANCE_RULES } from "./hubContextSnapshot.js";
-import { mergeCosts, type AgentCostBreakdown } from "./agentPricing.js";
-import { formatInspirationRules } from "./referenceAdaptation.js";
 import { buildLibraryContextBlock } from "./libraryContext.js";
-import { getProductResearchContext, researchProduct } from "./productResearch.js";
-import { formatProductPackagingForPrompt, PACKAGING_KNOWLEDGE } from "./productPackaging.js";
+import { getProductResearchContext, applyHeuristicProductPackaging } from "./productResearch.js";
+import { formatProductPackagingForPrompt } from "./productPackaging.js";
+import { buildScriptWriterSystemPrompt } from "./scriptSystemPrompt.js";
+import { recordValidationLesson } from "./scriptFeedback.js";
+import {
+  buildVarietyDirectiveBlock,
+  getRecentScriptContext,
+  pickHookTypeForScript,
+} from "./scriptVariety.js";
 import { synthesizeSpeech } from "./elevenlabs.js";
-import { emitAgentSessionStatus } from "./agentSessionStatus.js";
-import { extractJsonFromAgentReply } from "./agentJson.js";
+import { AGENT_GUARDRAILS, revokeScriptGenerationCalls } from "./agentGuardrails.js";
 
 export type ScriptRequest = {
   productId: string;
   durationSeconds?: number;
   referenceLibraryId?: string;
   additionalInfo?: string;
+  skipDuplicateCheck?: boolean;
+  bypassApiLimits?: boolean;
+  /** Changes payload hash per click so intentional re-generates are not blocked as duplicates. */
+  generationNonce?: number;
 };
-
-import { formatVideoOutcomesForPrompt } from "./videoOutcomes.js";
 
 export type ScriptSection = "audio" | "on_screen_caption" | "tiktok_caption" | "pace";
 export type ScriptSectionRating = "liked" | "disliked" | "keep_with_notes";
-export type ScriptFeedback = "liked" | "disliked";
 
 export const SCRIPT_SECTIONS: ScriptSection[] = [
   "audio",
@@ -78,28 +82,91 @@ export type ScriptResult = {
   audioPath?: string;
   sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
   cost?: import("./agentPricing.js").AgentCostBreakdown;
+  validationBlocked?: boolean;
+  validationViolations?: string[];
+  validationLessonSaved?: boolean;
 };
 
-type ScriptRow = ScriptDetail & {
-  feedback?: ScriptFeedback | null;
-  feedback_reason?: string;
-  feedback_at?: string;
-  drive_mp4_path?: string;
-  drive_uploaded_at?: string;
-};
+export const BANNED_PHRASES = [
+  "basically free",
+  "for free",
+  "it's free",
+  "costs nothing",
+  "for nothing",
+  "colon reset",
+  "gut cleanse",
+  "lose weight",
+  "burn fat",
+  "boost metabolism",
+  "not a single",
+  "don't buy this don't buy this",
+  "i had to say that out loud",
+  "every. single. time",
+] as const;
 
-function sectionSnippet(script: ScriptRow, section: ScriptSection): string {
-  switch (section) {
-    case "audio":
-      return String(script.script_text || "").slice(0, 400);
-    case "on_screen_caption":
-      return String(script.on_screen_caption || "").slice(0, 200);
-    case "tiktok_caption":
-      return String(script.tiktok_caption || "").slice(0, 300);
-    case "pace":
-      return String(script.ssml || "").slice(0, 400);
+export function validateScript(
+  fullAudioScript: string,
+  opts: { productName?: string } = {}
+): { valid: boolean; violations: string[] } {
+  const text = fullAudioScript.toLowerCase();
+  const violations: string[] = [];
+
+  for (const phrase of BANNED_PHRASES) {
+    if (text.includes(phrase.toLowerCase())) violations.push(phrase);
+  }
+
+  const dontBuyMatches = fullAudioScript.match(/don't buy this/gi) || [];
+  if (dontBuyMatches.length > 1) {
+    violations.push('"don\'t buy this" repeated more than once in hook');
+  }
+
+  const hookLine = fullAudioScript.split(".")[0] || "";
+  const hookWords = hookLine.trim().split(/\s+/).filter(Boolean).length;
+  const isCountdown = hookLine.trim().toLowerCase().startsWith("not");
+  if (!isCountdown && hookWords > 7) {
+    violations.push(`HOOK TOO LONG: "${hookLine.trim()}" is ${hookWords} words — maximum is 7`);
+  }
+
+  const productName = opts.productName?.trim();
+  if (productName) {
+    const escaped = productName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const productMentions = (fullAudioScript.toLowerCase().match(new RegExp(escaped, "gi")) || []).length;
+    if (productMentions > 2) {
+      violations.push(
+        `PRODUCT NAME REPEATED ${productMentions} TIMES: "${productName}" — use pronouns after first mention`
+      );
+    }
+  }
+
+  const sentences = fullAudioScript.split(/[.!?]/);
+  const seenPhrases = new Set<string>();
+  for (const sentence of sentences) {
+    const words = sentence.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    for (let i = 0; i <= words.length - 4; i++) {
+      const phrase = words.slice(i, i + 4).join(" ");
+      if (seenPhrases.has(phrase)) {
+        violations.push(`REPEATED PHRASE DETECTED: "${phrase}" — every phrase should appear once only`);
+        break;
+      }
+      seenPhrases.add(phrase);
+    }
+  }
+
+  return { valid: violations.length === 0, violations: [...new Set(violations)] };
+}
+
+export function assertScriptPassesValidation(fullAudioScript: string, productName?: string): void {
+  const { valid, violations } = validateScript(fullAudioScript, { productName });
+  if (!valid) {
+    throw new Error(`Script blocked — banned phrases: ${violations.join(", ")}`);
   }
 }
+
+type ScriptRow = ScriptDetail & {
+  feedback?: string | null;
+  feedback_reason?: string;
+  feedback_at?: string;
+};
 
 function isScriptFeedbackComplete(script: ScriptRow): boolean {
   if (script.awaiting_feedback !== true) return true;
@@ -107,51 +174,56 @@ function isScriptFeedbackComplete(script: ScriptRow): boolean {
   return SCRIPT_SECTIONS.every((s) => !!sf[s]?.rating);
 }
 
-function formatScriptFeedbackForPrompt(store: JsonStore): string {
-  const scripts = store
-    .list<ScriptRow>("scripts")
-    .filter((s) => {
-      const sf = s.section_feedback || {};
-      return SCRIPT_SECTIONS.some((sec) => sf[sec]?.rating);
-    })
-    .sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")))
-    .slice(0, 6);
-
-  if (!scripts.length) return "";
-
-  const lines: string[] = ["## Creator script section feedback (hard constraints for future scripts)"];
-
-  for (const script of scripts) {
-    const sf = script.section_feedback || {};
-    lines.push(`\n### ${script.title || "Script"} (${script.hook_type || "—"})`);
-    for (const section of SCRIPT_SECTIONS) {
-      const entry = sf[section];
-      if (!entry?.rating) continue;
-      const label = SCRIPT_SECTION_LABELS[section];
-      const snippet = sectionSnippet(script, section);
-      if (entry.rating === "liked") {
-        lines.push(`- **${label} — LIKED** (replicate): ${snippet.slice(0, 200)}`);
-      } else if (entry.rating === "disliked") {
-        lines.push(
-          `- **${label} — DISLIKED** (never repeat): ${entry.reason || "—"}\n  Was: ${snippet.slice(0, 150)}`
-        );
-      } else if (entry.rating === "keep_with_notes") {
-        lines.push(`- **${label} — KEEP but note:** ${entry.notes || "—"}\n  Current: ${snippet.slice(0, 150)}`);
-      }
-    }
+export function healScriptFeedbackFlags(store: JsonStore): number {
+  let healed = 0;
+  for (const script of store.list<ScriptRow>("scripts")) {
+    if (script.awaiting_feedback !== true) continue;
+    if (!isScriptFeedbackComplete(script)) continue;
+    store.upsertById("scripts", {
+      ...(script as { id: string }),
+      awaiting_feedback: false,
+    });
+    healed += 1;
   }
+  return healed;
+}
 
-  const outcomesBlock = formatVideoOutcomesForPrompt(store, 8);
-  return `${lines.join("\n")}\n\n${outcomesBlock}`;
+function findBlockingFeedbackScript(store: JsonStore): ScriptRow | null {
+  healScriptFeedbackFlags(store);
+  return (
+    store.list<ScriptRow>("scripts").find((s) => s.awaiting_feedback === true && !isScriptFeedbackComplete(s)) ||
+    null
+  );
 }
 
 export function assertCanGenerateScript(store: JsonStore): void {
-  const pending = store.list<ScriptRow>("scripts").find((s) => s.awaiting_feedback === true);
-  if (!pending) return;
-  if (isScriptFeedbackComplete(pending)) return;
-  throw new Error(
-    "Rate every script section (audio, on-screen caption, TikTok caption, pace) before generating another."
-  );
+  if (findBlockingFeedbackScript(store)) {
+    throw new Error(
+      "Rate every script section (audio, on-screen caption, TikTok caption, pace) before generating another."
+    );
+  }
+}
+
+export function getPendingFeedbackScript(store: JsonStore): ScriptDetail | null {
+  const pending = findBlockingFeedbackScript(store);
+  if (!pending) return null;
+  return getScriptDetail(store, pending.id);
+}
+
+export function dismissBlockingScriptFeedback(store: JsonStore): string | null {
+  const pending = findBlockingFeedbackScript(store);
+  if (!pending) return null;
+  dismissScriptFeedback(store, pending.id);
+  return pending.id;
+}
+
+export function dismissScriptFeedback(store: JsonStore, scriptId: string): void {
+  const script = store.list<ScriptRow>("scripts").find((s) => s.id === scriptId);
+  if (!script) throw new Error("Script not found.");
+  store.upsertById("scripts", {
+    ...(script as { id: string }),
+    awaiting_feedback: false,
+  });
 }
 
 export function getScriptDetail(store: JsonStore, scriptId: string): ScriptDetail | null {
@@ -186,6 +258,12 @@ export function updateScriptContent(
 ): ScriptDetail {
   const script = store.list<ScriptRow>("scripts").find((s) => s.id === scriptId);
   if (!script) throw new Error("Script not found.");
+  if (updates.script_text !== undefined) {
+    const product = store
+      .list<Record<string, unknown>>("products")
+      .find((p) => p.id === script.product_id);
+    assertScriptPassesValidation(String(updates.script_text), product?.name ? String(product.name) : undefined);
+  }
   store.upsertById("scripts", {
     ...(script as { id: string }),
     ...updates,
@@ -238,21 +316,125 @@ export function rateScriptSectionFeedback(
   return { id: scriptId, sectionFeedback };
 }
 
-/** @deprecated use rateScriptSectionFeedback */
-export function rateScriptFeedback(
-  store: JsonStore,
-  scriptId: string,
-  feedback: ScriptFeedback,
-  reason?: string
-) {
-  return rateScriptSectionFeedback(
-    store,
-    scriptId,
-    "audio",
-    feedback === "liked" ? "liked" : "disliked",
-    reason
-  );
+function assembleScriptUserContext(opts: {
+  performanceBlock: string;
+  libraryBlock: string;
+  pacingBlock: string;
+  varietyBlock: string;
+  product: Record<string, unknown>;
+  packagingBlock: string;
+  researchBlock: string;
+  duration: number;
+  additionalInfo: string;
+  fixBlock?: string;
+}): string {
+  const parts = [
+    "Reference context for this script (library performance, pacing, variety, product):",
+    "",
+    opts.performanceBlock,
+    "",
+    opts.libraryBlock,
+    "",
+    opts.pacingBlock ? `${opts.pacingBlock}\n` : "",
+    opts.varietyBlock,
+    "",
+    "## Product to sell",
+    `- Name: ${opts.product.name}`,
+    `- Brand: ${opts.product.brand || "—"}`,
+    `- Price: ${opts.product.price || "—"}`,
+    `- Notes: ${opts.product.description || "—"}`,
+    `- ${opts.packagingBlock}`,
+    opts.researchBlock ? `- ${opts.researchBlock}` : "",
+    "",
+    "## Target length",
+    `~${opts.duration} seconds at the same speaking pace as the reference video.`,
+  ];
+
+  if (opts.additionalInfo.trim()) {
+    parts.push("", "## Creator notes (read carefully — apply these to this script)", opts.additionalInfo.trim());
+  }
+
+  if (opts.fixBlock) {
+    parts.push("", opts.fixBlock);
+  }
+
+  return parts.filter((line) => line !== undefined).join("\n");
 }
+
+function trimPerformanceBlockTopVideos(block: string, maxVideos: number): string {
+  const lines = block.split("\n");
+  const out: string[] = [];
+  let videoIdx = 0;
+  let skipping = false;
+
+  for (const line of lines) {
+    if (/^\d+\. \*\*/.test(line)) {
+      videoIdx += 1;
+      skipping = videoIdx > maxVideos;
+    }
+    if (!skipping) out.push(line);
+  }
+  return out.join("\n");
+}
+
+function buildScriptUserContext(
+  store: JsonStore,
+  opts: {
+    product: Record<string, unknown>;
+    productId: string;
+    performanceBlock: string;
+    pacingBlock: string;
+    varietyBlock: string;
+    duration: number;
+    additionalInfo: string;
+    excludeLibraryIds: Set<string>;
+    libraryLimit: number;
+    topVideoLimit: number;
+    fixBlock?: string;
+  }
+): string {
+  const packagingBlock = formatProductPackagingForPrompt(opts.product);
+  const researchBlock = getProductResearchContext(store, opts.productId);
+  const performanceBlock = trimPerformanceBlockTopVideos(opts.performanceBlock, opts.topVideoLimit);
+  const libraryBlock = buildLibraryContextBlock(store, opts.libraryLimit, opts.excludeLibraryIds);
+
+  return assembleScriptUserContext({
+    performanceBlock,
+    libraryBlock,
+    pacingBlock: opts.pacingBlock,
+    varietyBlock: opts.varietyBlock,
+    product: opts.product,
+    packagingBlock,
+    researchBlock,
+    duration: opts.duration,
+    additionalInfo: opts.additionalInfo,
+    fixBlock: opts.fixBlock,
+  });
+}
+
+function fitScriptContextToLimit(
+  store: JsonStore,
+  system: string,
+  base: Omit<Parameters<typeof buildScriptUserContext>[1], "libraryLimit" | "topVideoLimit">
+): string {
+  const max = AGENT_GUARDRAILS.maxDirectPayloadChars;
+  const tiers: Array<{ libraryLimit: number; topVideoLimit: number }> = [
+    { libraryLimit: 5, topVideoLimit: 7 },
+    { libraryLimit: 3, topVideoLimit: 5 },
+    { libraryLimit: 2, topVideoLimit: 4 },
+    { libraryLimit: 1, topVideoLimit: 3 },
+    { libraryLimit: 0, topVideoLimit: 3 },
+  ];
+
+  for (const tier of tiers) {
+    const context = buildScriptUserContext(store, { ...base, ...tier });
+    if (system.length + context.length <= max) return context;
+  }
+
+  return buildScriptUserContext(store, { ...base, libraryLimit: 0, topVideoLimit: 3 });
+}
+
+import { extractJsonFromAgentReply } from "./agentJson.js";
 
 function parseScriptResponse(raw: string): {
   title: string;
@@ -292,88 +474,111 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
   const product = store.list<Record<string, unknown>>("products").find((p) => p.id === req.productId);
   if (!product) throw new Error("Product not found.");
 
-  let scriptCost: AgentCostBreakdown | undefined;
-
   if (!product.research_completed_at) {
-    emitAgentSessionStatus({
-      active: true,
-      phase: "running",
-      message: "Researching product packaging (one-time)…",
-      task: "analyze_data",
-      at: new Date().toISOString(),
-    });
-    const researched = await researchProduct(store, req.productId);
-    if (researched?.cost) scriptCost = researched.cost;
+    applyHeuristicProductPackaging(store, req.productId);
   }
 
   const insights = getScriptInsights(store);
-  const referenceId = req.referenceLibraryId || insights.recommendedReferenceId || undefined;
-  const pacingRef = findPacingReference(store, referenceId);
-  const performanceBlock = formatLibraryPerformanceForPrompt(store);
+  const recent = getRecentScriptContext(store, req.productId);
+  const { hookType: selectedHookType, poolSize: hookPoolSize } = pickHookTypeForScript(
+    insights.hookTypeStats,
+    recent.hookTypes
+  );
+  const alternateHookTypes = insights.hookTypeStats
+    .map((s) => s.hookType)
+    .filter((h) => h.toLowerCase() !== selectedHookType.toLowerCase());
+
+  const referenceId = req.referenceLibraryId || undefined;
+  const pacingRef = referenceId
+    ? findPacingReference(store, referenceId)
+    : pickPacingReferenceVaried(store, { excludeIds: recent.pacingIds });
+  const performanceBlock = formatLibraryPerformanceForPrompt(store, { selectedHookType });
+  const varietyBlock = buildVarietyDirectiveBlock({
+    selectedHookType,
+    hookPoolSize,
+    pacingRef,
+    recent,
+    alternateHookTypes,
+  });
   const pacingBlock = formatPacingBlock(pacingRef);
   const excludeLibraryIds = new Set([
     ...insights.topVideos.slice(0, 8).map((v) => v.libraryId),
     ...(pacingRef?.libraryId ? [pacingRef.libraryId] : []),
   ]);
-  const libraryBlock = buildLibraryContextBlock(store, 5, excludeLibraryIds);
-  const packagingBlock = formatProductPackagingForPrompt(product);
-  const researchBlock = getProductResearchContext(store, req.productId);
   const duration = req.durationSeconds || 45;
-  const inferredHookType = insights.recommendedHookType;
 
-  const system = `${COMPLIANCE_RULES}
+  const system = buildScriptWriterSystemPrompt(store);
 
-${formatInspirationRules()}
+  const contextBase = {
+    product,
+    productId: req.productId,
+    performanceBlock,
+    pacingBlock,
+    varietyBlock,
+    duration,
+    additionalInfo: req.additionalInfo?.trim() || "",
+    excludeLibraryIds,
+  };
 
-${PACKAGING_KNOWLEDGE}`;
+  const context = fitScriptContextToLimit(store, system, contextBase);
+  const contextWithNonce = req.generationNonce
+    ? `${context}\n\n<!-- generation:${req.generationNonce} -->`
+    : context;
 
-  const instructions = `You are an expert TikTok Shop affiliate scriptwriter for UK creators.
+  const skipGuardrails = req.skipDuplicateCheck || req.bypassApiLimits;
+  const callOpts = { skipDuplicateCheck: skipGuardrails, skipDirectApiLimit: req.bypassApiLimits };
 
-Rules:
-- Do NOT use bash, grep, or file tools — all product, sales, and library data is in this message. Reply with JSON in one turn only.
-- Read library stats and SEPARATED hooks (on-screen, audio, visual) — adapt structure only.
-- Mirror top-performing speaking PACE in SSML (breaks, prosody) from reference pacing data.
-- Use correct container nouns (tub, bottle, can, bag) for this product when showing/holding it.
-- Never copy competitor products, backgrounds, or props from library videos.
-- If creator script feedback includes disliked scripts with reasons, treat those reasons as hard constraints — do not repeat those mistakes.
+  let raw = await callClaudeDirect(store, system, contextWithNonce, undefined, "generate_script", callOpts);
+  let parsed = parseScriptResponse(raw);
+  let validation = validateScript(parsed.script, { productName: String(product.name || "") });
 
-Return JSON only:
-{
-  "title": "Script title",
-  "fullAudioScript": "Complete spoken voiceover word-for-word",
-  "ssml": "<speak>...ElevenLabs SSML with <break time=\\"300ms\\"/> pacing from top performers...</speak>",
-  "onScreenCaption": "On-screen text overlay for the video (or empty string)",
-  "tiktokCaption": "Full TikTok post caption with hashtags, ready to paste"
-}`;
+  if (!validation.valid) {
+    const fixBlock = `## VALIDATION FAILED — rewrite the entire script fixing ALL issues below
+${validation.violations.map((v) => `- ${v}`).join("\n")}
 
-  const feedbackBlock = formatScriptFeedbackForPrompt(store);
+Hook reminder: the FIRST sentence must be 1–7 words maximum. Countdown hooks starting with "Not" are exempt.
+Good hooks: "Don't buy this." / "Stop." / "Do not waste your money." / "Not one, not two, but two."
+Do NOT start with a long story sentence like "I used to spend..." — that will be rejected.`;
 
-  const context = `${performanceBlock}
+    const retryContext = fitScriptContextToLimit(store, system, { ...contextBase, fixBlock });
+    const retryWithNonce = req.generationNonce
+      ? `${retryContext}\n\n<!-- generation-retry:${req.generationNonce} -->`
+      : retryContext;
+    raw = await callClaudeDirect(store, system, retryWithNonce, undefined, "generate_script_retry", {
+      ...callOpts,
+      skipDuplicateCheck: true,
+    });
+    parsed = parseScriptResponse(raw);
+    validation = validateScript(parsed.script, { productName: String(product.name || "") });
+  }
 
-${feedbackBlock}${libraryBlock}
+  if (!validation.valid) {
+    revokeScriptGenerationCalls(store);
+    recordValidationLesson(store, {
+      productId: req.productId,
+      productName: String(product.name || ""),
+      title: parsed.title,
+      scriptText: parsed.script,
+      violations: validation.violations,
+    });
+    return {
+      id: "",
+      title: parsed.title,
+      script: parsed.script,
+      ssml: parsed.ssml,
+      hookType: selectedHookType,
+      productId: req.productId,
+      referenceLibraryId: pacingRef?.libraryId || referenceId,
+      createdAt: new Date().toISOString(),
+      onScreenCaption: parsed.onScreenCaption,
+      tiktokCaption: parsed.tiktokCaption,
+      sectionFeedback: {},
+      validationBlocked: true,
+      validationViolations: validation.violations,
+      validationLessonSaved: true,
+    };
+  }
 
-${pacingBlock ? `${pacingBlock}\n\n` : ""}## Product to sell
-- Name: ${product.name}
-- Brand: ${product.brand || "—"}
-- Price: ${product.price || "—"}
-- Notes: ${product.description || "—"}
-- ${packagingBlock}
-${researchBlock ? `- ${researchBlock}` : ""}
-
-## Target length
-~${duration} seconds at the same speaking pace as the reference video.${req.additionalInfo?.trim() ? `
-
-## Creator notes (read carefully — apply these to this script)
-${req.additionalInfo.trim()}` : ""}`;
-
-  const { reply: raw, cost: generationCost } = await callClaudeDirect(
-    store,
-    system,
-    `${instructions}\n\n---\n\n${context}`,
-    { task: "generate_script", maxTokens: 4096 }
-  );
-  const cost = scriptCost ? mergeCosts(scriptCost, generationCost) : generationCost;
-  const parsed = parseScriptResponse(raw);
   const id = randomUUID();
   const createdAt = new Date().toISOString();
 
@@ -402,8 +607,8 @@ ${req.additionalInfo.trim()}` : ""}`;
   store.upsertById("scripts", {
     id,
     product_id: req.productId,
-    hook_type: inferredHookType,
-    funnel_style: inferredHookType,
+    hook_type: selectedHookType,
+    funnel_style: selectedHookType,
     title: parsed.title,
     script_text: parsed.script,
     ssml: parsed.ssml,
@@ -411,8 +616,9 @@ ${req.additionalInfo.trim()}` : ""}`;
     tiktok_caption: parsed.tiktokCaption,
     audio_path: audioPath || "",
     prompt_context: JSON.stringify({
-      inferredHookType,
+      selectedHookType,
       referenceLibraryId: pacingRef?.libraryId || referenceId || null,
+      varietyRotation: true,
     }),
     reference_library_id: pacingRef?.libraryId || referenceId || null,
     created_at: createdAt,
@@ -425,7 +631,7 @@ ${req.additionalInfo.trim()}` : ""}`;
     title: parsed.title,
     script: parsed.script,
     ssml: parsed.ssml,
-    hookType: inferredHookType,
+    hookType: selectedHookType,
     productId: req.productId,
     referenceLibraryId: pacingRef?.libraryId || referenceId,
     createdAt,
@@ -433,6 +639,5 @@ ${req.additionalInfo.trim()}` : ""}`;
     tiktokCaption: parsed.tiktokCaption,
     audioPath,
     sectionFeedback: {},
-    cost,
   };
 }

@@ -4,11 +4,13 @@ import path from "node:path";
 import { app, shell } from "electron";
 import { google } from "googleapis";
 import type { JsonStore } from "../db.js";
+import { shortenProductName } from "./productNaming.js";
 
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
 const OAUTH_PORT = 42813;
 const OAUTH_CALLBACK_PATH = "/oauth2callback";
 const DEFAULT_ROOT_FOLDER = "TikTok - Voiceovers";
+const DAILY_FOLDERS_SETTING = "googleDriveDailyFoldersDate";
 export const DEFAULT_GOOGLE_DRIVE_CLIENT_ID =
   "609584253079-uvigalsnk0118tbn7s51ecrgh87atf6o.apps.googleusercontent.com";
 
@@ -234,14 +236,22 @@ export async function getGoogleDriveStatus(
   }
 }
 
-async function getOrCreateFolder(drive: ReturnType<typeof google.drive>, name: string, parentId?: string): Promise<string> {
+async function findFolderId(
+  drive: ReturnType<typeof google.drive>,
+  name: string,
+  parentId?: string
+): Promise<string | null> {
   const escaped = name.replace(/'/g, "\\'");
   let query = `name='${escaped}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
   if (parentId) query += ` and '${parentId}' in parents`;
 
   const existing = await drive.files.list({ q: query, fields: "files(id,name)", spaces: "drive" });
-  const hit = existing.data.files?.[0];
-  if (hit?.id) return hit.id;
+  return existing.data.files?.[0]?.id || null;
+}
+
+async function getOrCreateFolder(drive: ReturnType<typeof google.drive>, name: string, parentId?: string): Promise<string> {
+  const hit = await findFolderId(drive, name, parentId);
+  if (hit) return hit;
 
   const metadata: { name: string; mimeType: string; parents?: string[] } = {
     name,
@@ -263,23 +273,174 @@ async function deleteExistingFile(drive: ReturnType<typeof google.drive>, name: 
   }
 }
 
+export function todayDriveDateKey(date = new Date()): string {
+  return date.toISOString().slice(0, 10);
+}
+
+export function buildDriveFolderPath(rootName: string, dateKey: string, productFolder: string): string {
+  return `${rootName} / ${dateKey} / ${productFolder}`;
+}
+
+function rootFolderName(store: JsonStore): string {
+  return store.getSetting("googleDriveRootFolder", DEFAULT_ROOT_FOLDER).trim() || DEFAULT_ROOT_FOLDER;
+}
+
+export function productFolderNameFromProductName(productName: string): string {
+  const trimmed = productName.trim();
+  if (!trimmed) return "Voiceovers";
+  const { shortName } = shortenProductName(trimmed);
+  return shortName || trimmed.split("|")[0].slice(0, 48).trim() || "Voiceovers";
+}
+
+export type DailyDriveFoldersResult = {
+  ok: boolean;
+  alreadySetup?: boolean;
+  dateFolder?: string;
+  folderPath?: string;
+  error?: string;
+};
+
+export type TodaysDriveFolderStatus = {
+  connected: boolean;
+  ready: boolean;
+  dateFolder: string;
+  rootName: string;
+  folderPath: string;
+  error?: string;
+};
+
+export async function getTodaysDriveFolderStatus(store: JsonStore): Promise<TodaysDriveFolderStatus> {
+  const today = todayDriveDateKey();
+  const rootName = rootFolderName(store);
+  const folderPath = `${rootName} / ${today}`;
+
+  const status = await getGoogleDriveStatus(store);
+  if (!status.connected) {
+    return {
+      connected: false,
+      ready: false,
+      dateFolder: today,
+      rootName,
+      folderPath,
+      error: status.error || "Google Drive not connected",
+    };
+  }
+
+  try {
+    const client = await getAuthenticatedClient(store);
+    const drive = google.drive({ version: "v3", auth: client });
+    const rootId = await findFolderId(drive, rootName);
+    if (!rootId) {
+      return { connected: true, ready: false, dateFolder: today, rootName, folderPath };
+    }
+    const dateId = await findFolderId(drive, today, rootId);
+    return {
+      connected: true,
+      ready: !!dateId,
+      dateFolder: today,
+      rootName,
+      folderPath,
+    };
+  } catch (err) {
+    return {
+      connected: true,
+      ready: false,
+      dateFolder: today,
+      rootName,
+      folderPath,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
+}
+
+export async function createTodaysDriveFolders(store: JsonStore): Promise<DailyDriveFoldersResult> {
+  const status = await getGoogleDriveStatus(store);
+  if (!status.connected) {
+    return { ok: false, error: status.error || "Google Drive not connected — open Settings and connect first." };
+  }
+
+  const wasReady = (await getTodaysDriveFolderStatus(store)).ready;
+
+  const client = await getAuthenticatedClient(store);
+  const drive = google.drive({ version: "v3", auth: client });
+  const rootName = rootFolderName(store);
+  const today = todayDriveDateKey();
+  const rootId = await getOrCreateFolder(drive, rootName);
+  await getOrCreateFolder(drive, today, rootId);
+
+  store.setSetting(DAILY_FOLDERS_SETTING, today);
+  const folderPath = `${rootName} / ${today}`;
+  store.appendLog("drive", "ok", `Today's Drive date folder ready: ${folderPath}`);
+
+  return {
+    ok: true,
+    alreadySetup: wasReady,
+    dateFolder: today,
+    folderPath,
+  };
+}
+
+export async function ensureDailyDriveFolders(store: JsonStore): Promise<DailyDriveFoldersResult> {
+  const check = await getTodaysDriveFolderStatus(store);
+  if (check.ready) {
+    return { ok: true, alreadySetup: true, dateFolder: check.dateFolder, folderPath: check.folderPath };
+  }
+  return createTodaysDriveFolders(store);
+}
+
+async function resolveProductUploadFolder(
+  drive: ReturnType<typeof google.drive>,
+  store: JsonStore,
+  productFolderName: string
+): Promise<{ productFolderId: string; folderPath: string }> {
+  const rootName = rootFolderName(store);
+  const dateKey = todayDriveDateKey();
+  const rootId = await findFolderId(drive, rootName);
+  if (!rootId) {
+    throw new Error(`Drive root folder not found: ${rootName}`);
+  }
+  const dateId = await findFolderId(drive, dateKey, rootId);
+  if (!dateId) {
+    throw new Error(
+      `Today's Drive folder not found (${rootName} / ${dateKey}). Click "Create today's folder" on Script Writer first.`
+    );
+  }
+  const productFolderId = await getOrCreateFolder(drive, productFolderName, dateId);
+  return {
+    productFolderId,
+    folderPath: buildDriveFolderPath(rootName, dateKey, productFolderName),
+  };
+}
+
 export async function uploadMp4ToDrive(
   store: JsonStore,
   opts: { mp4Path: string; productFolderName: string; fileName: string }
 ): Promise<{ driveFileId: string; folderPath: string }> {
   if (!fs.existsSync(opts.mp4Path)) throw new Error("MP4 file not found on disk.");
 
+  const folderStatus = await getTodaysDriveFolderStatus(store);
+  if (!folderStatus.connected) {
+    throw new Error(folderStatus.error || "Google Drive not connected — open Settings and connect first.");
+  }
+  if (!folderStatus.ready) {
+    throw new Error(
+      `Today's Drive folder not found (${folderStatus.folderPath}). Click "Create today's folder" on Script Writer first.`
+    );
+  }
+
   const client = await getAuthenticatedClient(store);
   const drive = google.drive({ version: "v3", auth: client });
 
-  const rootName = store.getSetting("googleDriveRootFolder", DEFAULT_ROOT_FOLDER).trim() || DEFAULT_ROOT_FOLDER;
-  const rootId = await getOrCreateFolder(drive, rootName);
-  const productId = await getOrCreateFolder(drive, opts.productFolderName, rootId);
+  const { productFolderId, folderPath } = await resolveProductUploadFolder(
+    drive,
+    store,
+    opts.productFolderName
+  );
 
-  await deleteExistingFile(drive, opts.fileName, productId);
+  await deleteExistingFile(drive, opts.fileName, productFolderId);
 
   const uploaded = await drive.files.create({
-    requestBody: { name: opts.fileName, parents: [productId] },
+    requestBody: { name: opts.fileName, parents: [productFolderId] },
     media: { mimeType: "video/mp4", body: fs.createReadStream(opts.mp4Path) },
     fields: "id",
   });
@@ -288,6 +449,6 @@ export async function uploadMp4ToDrive(
 
   return {
     driveFileId: uploaded.data.id,
-    folderPath: `${rootName} / ${opts.productFolderName}`,
+    folderPath,
   };
 }

@@ -10,6 +10,11 @@ import {
   type MyVideoAnalysis,
 } from "./myVideoAnalysis.js";
 import { saveVideoOutcome } from "./videoOutcomes.js";
+import {
+  buildDriveFolderPath,
+  productFolderNameFromProductName,
+  todayDriveDateKey,
+} from "./googleDrive.js";
 
 const WHISPER_URL = "http://localhost:5050";
 
@@ -37,6 +42,9 @@ export type PendingAnalysis = {
   script_title: string;
   product_id: string;
   product_name: string;
+  script_created_at: string;
+  on_screen_caption: string;
+  tiktok_caption: string;
   drive_mp4_path: string;
   drive_uploaded_at: string;
   drive_folder_path: string;
@@ -76,10 +84,78 @@ export type PendingAnalysisSubmit = {
   audience_male_pct: number | null;
   audience_female_pct: number | null;
   audience_other_pct: number | null;
+  views?: number | null;
+  likes?: number | null;
+  comments?: number | null;
 };
 
 function nowIso() {
   return new Date().toISOString();
+}
+
+type PendingDismissal = {
+  id: string;
+  script_id: string;
+  audio_basename: string;
+  dismissed_at: string;
+};
+
+function listDismissals(store: JsonStore): PendingDismissal[] {
+  return store.list<PendingDismissal>("pending_dismissals");
+}
+
+function isPendingDismissed(store: JsonStore, scriptId: string, audioBasename = ""): boolean {
+  const dismissals = listDismissals(store);
+  if (scriptId && dismissals.some((d) => d.script_id === scriptId)) return true;
+  const base = audioBasename.toLowerCase();
+  if (base && dismissals.some((d) => d.audio_basename === base)) return true;
+  return false;
+}
+
+export function recordPendingDismissal(
+  store: JsonStore,
+  scriptId: string,
+  audioPath = ""
+): void {
+  const audioBasename = audioPath ? path.basename(audioPath).toLowerCase() : "";
+  if (isPendingDismissed(store, scriptId, audioBasename)) return;
+  store.upsertById("pending_dismissals", {
+    id: scriptId || `audio:${audioBasename}`,
+    script_id: scriptId,
+    audio_basename: audioBasename,
+    dismissed_at: nowIso(),
+  });
+}
+
+function startOfDayLocal(d: Date): Date {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x;
+}
+
+function scriptInDateRange(createdAt: string, daysBack: number, dateTag?: string): boolean {
+  if (dateTag) {
+    return String(createdAt || "").startsWith(dateTag);
+  }
+  const d = new Date(createdAt);
+  if (Number.isNaN(d.getTime())) return false;
+  const cutoff = startOfDayLocal(new Date());
+  cutoff.setDate(cutoff.getDate() - Math.max(0, daysBack - 1));
+  return d >= cutoff;
+}
+
+function mp3InDateRange(mp3Path: string, daysBack: number, dateTag?: string): boolean {
+  const basename = path.basename(mp3Path);
+  const dateMatch = basename.match(/_(\d{4}-\d{2}-\d{2})\.mp3$/i);
+  if (dateMatch) {
+    if (dateTag) return dateMatch[1] === dateTag;
+    return scriptInDateRange(`${dateMatch[1]}T12:00:00`, daysBack);
+  }
+  try {
+    return scriptInDateRange(fs.statSync(mp3Path).mtime.toISOString(), daysBack, dateTag);
+  } catch {
+    return false;
+  }
 }
 
 function statsFromResponse(raw: Record<string, unknown>, capturedAt: string): TikTokStatsSnapshot {
@@ -128,10 +204,64 @@ export async function fetchTikTokStats(url: string): Promise<TikTokStatsSnapshot
   return statsFromResponse(data.tiktok_stats, nowIso());
 }
 
+function captionFieldsFromScript(script: Record<string, unknown> | undefined) {
+  return {
+    on_screen_caption: String(script?.on_screen_caption || ""),
+    tiktok_caption: String(script?.tiktok_caption || ""),
+  };
+}
+
+export function syncPendingCaptionsFromScript(
+  store: JsonStore,
+  pendingId: string,
+  overrides?: { on_screen_caption?: string; tiktok_caption?: string; script_title?: string }
+): PendingAnalysis | null {
+  const entry = store.list<PendingAnalysis>("pending_analysis").find((p) => p.id === pendingId);
+  if (!entry) return null;
+  const script = store
+    .list<Record<string, unknown>>("scripts")
+    .find((s) => s.id === entry.source_script_id);
+  const fromScript = captionFieldsFromScript(script);
+  const updated: PendingAnalysis = {
+    ...entry,
+    on_screen_caption:
+      overrides?.on_screen_caption !== undefined
+        ? overrides.on_screen_caption
+        : fromScript.on_screen_caption || entry.on_screen_caption || "",
+    tiktok_caption:
+      overrides?.tiktok_caption !== undefined
+        ? overrides.tiktok_caption
+        : fromScript.tiktok_caption || entry.tiktok_caption || "",
+    script_title:
+      overrides?.script_title !== undefined
+        ? overrides.script_title
+        : String(script?.title || entry.script_title),
+    updated_at: nowIso(),
+  };
+  store.upsertById("pending_analysis", updated);
+  return updated;
+}
+
 export function listPendingAnalysis(store: JsonStore): PendingAnalysis[] {
+  const scripts = new Map(
+    store.list<Record<string, unknown>>("scripts").map((s) => [String(s.id), s])
+  );
   return store
     .list<PendingAnalysis>("pending_analysis")
-    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+    .map((p) => {
+      const script = scripts.get(p.source_script_id);
+      const scriptCreated =
+        p.script_created_at ||
+        String(script?.created_at || p.drive_uploaded_at || p.created_at || "");
+      const fromScript = captionFieldsFromScript(script);
+      return {
+        ...p,
+        script_created_at: scriptCreated,
+        on_screen_caption: p.on_screen_caption ?? fromScript.on_screen_caption,
+        tiktok_caption: p.tiktok_caption ?? fromScript.tiktok_caption,
+      };
+    })
+    .sort((a, b) => b.script_created_at.localeCompare(a.script_created_at));
 }
 
 export function createPendingFromDriveUpload(
@@ -146,18 +276,36 @@ export function createPendingFromDriveUpload(
     uploadedAt: string;
   }
 ): PendingAnalysis {
+  if (isPendingDismissed(store, opts.scriptId)) {
+    throw new Error("This script was removed from pending analysis.");
+  }
+
+  const script = store
+    .list<Record<string, unknown>>("scripts")
+    .find((s) => s.id === opts.scriptId);
+  const scriptCreatedAt = String(script?.created_at || opts.uploadedAt || nowIso());
+  const captions = captionFieldsFromScript(script);
+
   const existing = store
     .list<PendingAnalysis>("pending_analysis")
     .find((p) => p.source_script_id === opts.scriptId && p.status !== "complete");
   if (existing) {
     store.upsertById("pending_analysis", {
       ...existing,
+      ...captions,
+      script_title: String(script?.title || existing.script_title),
       drive_mp4_path: opts.mp4Path,
       drive_uploaded_at: opts.uploadedAt,
       drive_folder_path: opts.folderPath,
       updated_at: nowIso(),
     });
-    return { ...existing, drive_mp4_path: opts.mp4Path, drive_uploaded_at: opts.uploadedAt, drive_folder_path: opts.folderPath };
+    return {
+      ...existing,
+      ...captions,
+      drive_mp4_path: opts.mp4Path,
+      drive_uploaded_at: opts.uploadedAt,
+      drive_folder_path: opts.folderPath,
+    };
   }
 
   const createdAt = nowIso();
@@ -167,6 +315,9 @@ export function createPendingFromDriveUpload(
     script_title: opts.scriptTitle,
     product_id: opts.productId,
     product_name: opts.productName,
+    script_created_at: scriptCreatedAt,
+    on_screen_caption: captions.on_screen_caption,
+    tiktok_caption: captions.tiktok_caption,
     drive_mp4_path: opts.mp4Path,
     drive_uploaded_at: opts.uploadedAt,
     drive_folder_path: opts.folderPath,
@@ -311,52 +462,68 @@ function ensureScriptFromOrphanMp3(
 
 export function batchAddOrphanAudioToPending(
   store: JsonStore,
-  dateTag?: string
-): { added: number; scriptsCreated: number; skipped: number; total: number } {
-  const today = dateTag || nowIso().slice(0, 10);
+  opts: { dateTag?: string; daysBack?: number } = {}
+): { added: number; scriptsCreated: number; skipped: number; dismissed: number; total: number } {
+  const daysBack = opts.daysBack ?? 1;
   const audioDir = path.join(app.getPath("userData"), "audio");
   if (!fs.existsSync(audioDir)) {
-    return { added: 0, scriptsCreated: 0, skipped: 0, total: 0 };
+    return { added: 0, scriptsCreated: 0, skipped: 0, dismissed: 0, total: 0 };
   }
 
-  const suffix = `_${today}.mp3`;
   const mp3Files = fs
     .readdirSync(audioDir)
-    .filter((name) => name.toLowerCase().endsWith(suffix.toLowerCase()))
-    .map((name) => path.join(audioDir, name));
+    .filter((name) => name.toLowerCase().endsWith(".mp3"))
+    .map((name) => path.join(audioDir, name))
+    .filter((p) => mp3InDateRange(p, daysBack, opts.dateTag));
 
   let added = 0;
   let scriptsCreated = 0;
   let skipped = 0;
+  let dismissed = 0;
 
   for (const mp3Path of mp3Files) {
+    const audioBase = path.basename(mp3Path).toLowerCase();
     const scriptsBefore = store.list<Record<string, unknown>>("scripts");
     const hadScript = scriptUsesAudioPath(scriptsBefore, mp3Path);
-    const script = ensureScriptFromOrphanMp3(store, mp3Path, today);
+    const script = ensureScriptFromOrphanMp3(store, mp3Path, opts.dateTag || nowIso().slice(0, 10));
     if (!hadScript) scriptsCreated += 1;
+
+    const scriptId = String(script.id);
+    if (isPendingDismissed(store, scriptId, audioBase)) {
+      dismissed += 1;
+      continue;
+    }
 
     const existing = store
       .list<PendingAnalysis>("pending_analysis")
-      .find((p) => p.source_script_id === script.id && p.status !== "complete");
+      .find((p) => p.source_script_id === scriptId && p.status !== "complete");
     if (existing) {
+      syncPendingCaptionsFromScript(store, existing.id);
       skipped += 1;
       continue;
     }
-    createPendingFromScript(store, String(script.id));
+    createPendingFromScript(store, scriptId);
     added += 1;
   }
 
-  return { added, scriptsCreated, skipped, total: mp3Files.length };
+  return { added, scriptsCreated, skipped, dismissed, total: mp3Files.length };
 }
 
 export function createPendingFromScript(store: JsonStore, scriptId: string): PendingAnalysis {
   const script = store.list<Record<string, unknown>>("scripts").find((s) => s.id === scriptId);
   if (!script) throw new Error("Script not found.");
 
+  const audioPath = String(script.audio_path || "");
+  if (isPendingDismissed(store, scriptId, audioPath)) {
+    throw new Error("This script was removed from pending analysis.");
+  }
+
   const existing = store
     .list<PendingAnalysis>("pending_analysis")
     .find((p) => p.source_script_id === scriptId && p.status !== "complete");
-  if (existing) return existing;
+  if (existing) {
+    return syncPendingCaptionsFromScript(store, existing.id) || existing;
+  }
 
   const product = store
     .list<Record<string, unknown>>("products")
@@ -364,8 +531,14 @@ export function createPendingFromScript(store: JsonStore, scriptId: string): Pen
   const productName = String(product?.name || script.title || "Voiceover");
   const mp4Path = resolveMp4PathForScript(script);
   const uploadedAt = String(script.drive_uploaded_at || script.created_at || nowIso());
+  const rootFolder =
+    store.getSetting("googleDriveRootFolder", "TikTok - Voiceovers").trim() || "TikTok - Voiceovers";
   const folderPath = mp4Path
-    ? `TikTok - Voiceovers / ${productName.split("|")[0].slice(0, 48)}`
+    ? buildDriveFolderPath(
+        rootFolder,
+        todayDriveDateKey(new Date(uploadedAt)),
+        productFolderNameFromProductName(productName)
+      )
     : "";
 
   return createPendingFromDriveUpload(store, {
@@ -379,31 +552,40 @@ export function createPendingFromScript(store: JsonStore, scriptId: string): Pen
   });
 }
 
-export function batchAddTodayScriptsToPending(
+export function batchAddScriptsToPending(
   store: JsonStore,
-  dateTag?: string
+  opts: { dateTag?: string; daysBack?: number } = {}
 ): {
   added: number;
   skipped: number;
+  dismissed: number;
   total: number;
   orphanAdded: number;
   scriptsCreated: number;
   orphanSkipped: number;
+  orphanDismissed: number;
   orphanTotal: number;
 } {
-  const today = dateTag || nowIso().slice(0, 10);
+  const daysBack = opts.daysBack ?? 1;
   const scripts = store
     .list<Record<string, unknown>>("scripts")
-    .filter((s) => String(s.created_at || "").startsWith(today));
+    .filter((s) => scriptInDateRange(String(s.created_at || ""), daysBack, opts.dateTag));
 
   let added = 0;
   let skipped = 0;
+  let dismissed = 0;
   for (const script of scripts) {
     const scriptId = String(script.id);
+    const audioPath = String(script.audio_path || "");
+    if (isPendingDismissed(store, scriptId, audioPath)) {
+      dismissed += 1;
+      continue;
+    }
     const existing = store
       .list<PendingAnalysis>("pending_analysis")
       .find((p) => p.source_script_id === scriptId && p.status !== "complete");
     if (existing) {
+      syncPendingCaptionsFromScript(store, existing.id);
       skipped += 1;
       continue;
     }
@@ -411,16 +593,35 @@ export function batchAddTodayScriptsToPending(
     added += 1;
   }
 
-  const orphan = batchAddOrphanAudioToPending(store, today);
+  const orphan = batchAddOrphanAudioToPending(store, opts);
   return {
     added: added + orphan.added,
     skipped: skipped + orphan.skipped,
+    dismissed: dismissed + orphan.dismissed,
     total: scripts.length + orphan.total,
     orphanAdded: orphan.added,
     scriptsCreated: orphan.scriptsCreated,
     orphanSkipped: orphan.skipped,
+    orphanDismissed: orphan.dismissed,
     orphanTotal: orphan.total,
   };
+}
+
+export function batchAddTodayScriptsToPending(
+  store: JsonStore,
+  dateTag?: string
+): {
+  added: number;
+  skipped: number;
+  dismissed: number;
+  total: number;
+  orphanAdded: number;
+  scriptsCreated: number;
+  orphanSkipped: number;
+  orphanDismissed: number;
+  orphanTotal: number;
+} {
+  return batchAddScriptsToPending(store, { dateTag, daysBack: 1 });
 }
 
 export async function setPendingTikTokUrl(
@@ -513,6 +714,37 @@ function scoreToRating(score: number): number {
   return 1;
 }
 
+export function updatePendingPerformanceData(
+  store: JsonStore,
+  id: string,
+  data: PendingAnalysisSubmit
+): PendingAnalysis {
+  const entry = store.list<PendingAnalysis>("pending_analysis").find((p) => p.id === id);
+  if (!entry) throw new Error("Pending analysis entry not found.");
+  if (entry.status === "complete") throw new Error("This entry is already complete.");
+  if (entry.status === "awaiting_url") {
+    throw new Error("Add a TikTok URL before entering performance data.");
+  }
+
+  const updated: PendingAnalysis = {
+    ...entry,
+    upload_date: data.upload_date?.trim() || entry.upload_date,
+    watch_time_pct: data.watch_time_pct,
+    sales: data.sales,
+    gmv: data.gmv,
+    commission: data.commission,
+    audience_male_pct: data.audience_male_pct,
+    audience_female_pct: data.audience_female_pct,
+    audience_other_pct: data.audience_other_pct,
+    views: data.views ?? entry.views,
+    likes: data.likes ?? entry.likes,
+    comments: data.comments ?? entry.comments,
+    updated_at: nowIso(),
+  };
+  store.upsertById("pending_analysis", updated);
+  return updated;
+}
+
 export function submitPendingAnalysis(
   store: JsonStore,
   id: string,
@@ -537,9 +769,10 @@ export function submitPendingAnalysis(
   const myVideo: MyVideo = {
     id: myVideoId,
     url: entry.tiktok_url,
-    views: entry.views,
-    likes: entry.likes,
-    comments: entry.comments,
+    thumbnail_url: null,
+    views: data.views ?? entry.views,
+    likes: data.likes ?? entry.likes,
+    comments: data.comments ?? entry.comments,
     watch_time_pct: data.watch_time_pct,
     sales: data.sales,
     gmv: data.gmv,
@@ -620,6 +853,7 @@ export function submitPendingAnalysis(
   const script = store
     .list<Record<string, unknown>>("scripts")
     .find((s) => s.id === entry.source_script_id);
+  const captions = captionFieldsFromScript(script);
   if (script) {
     store.upsertById("scripts", {
       ...(script as { id: string }),
@@ -630,6 +864,8 @@ export function submitPendingAnalysis(
 
   const pending: PendingAnalysis = {
     ...entry,
+    on_screen_caption: entry.on_screen_caption || captions.on_screen_caption,
+    tiktok_caption: entry.tiktok_caption || captions.tiktok_caption,
     upload_date: data.upload_date,
     watch_time_pct: data.watch_time_pct,
     sales: data.sales,
@@ -653,7 +889,11 @@ export function submitPendingAnalysis(
     score: myVideo.score ?? 0,
     myVideoId,
     memoryId,
-    script: script || undefined,
+    script: {
+      ...(script || {}),
+      on_screen_caption: pending.on_screen_caption,
+      tiktok_caption: pending.tiktok_caption,
+    },
   });
 
   return { pending, myVideoId, memoryId, score: myVideo.score ?? 0 };
@@ -687,8 +927,30 @@ export function deletePendingAnalysis(store: JsonStore, id: string, deleteScript
   const entry = store.list<PendingAnalysis>("pending_analysis").find((p) => p.id === id);
   if (!entry) throw new Error("Pending analysis entry not found.");
 
-  if (deleteScript && entry.source_script_id) {
-    store.deleteById("scripts", entry.source_script_id);
+  const script = entry.source_script_id
+    ? store.list<Record<string, unknown>>("scripts").find((s) => s.id === entry.source_script_id)
+    : null;
+  const audioPath = String(script?.audio_path || entry.drive_mp4_path || "");
+  recordPendingDismissal(store, entry.source_script_id, audioPath);
+
+  const outcomes = store
+    .list<{ id: string; pending_analysis_id: string }>("video_outcomes")
+    .filter((o) => o.pending_analysis_id === id);
+  for (const o of outcomes) {
+    store.deleteById("video_outcomes", o.id);
   }
+
+  if (deleteScript) {
+    if (entry.linked_memory_id) {
+      store.deleteById("positive_memory", entry.linked_memory_id);
+    }
+    if (entry.linked_my_video_id) {
+      store.deleteById("my_videos", entry.linked_my_video_id);
+    }
+    if (entry.source_script_id) {
+      store.deleteById("scripts", entry.source_script_id);
+    }
+  }
+
   store.deleteById("pending_analysis", id);
 }

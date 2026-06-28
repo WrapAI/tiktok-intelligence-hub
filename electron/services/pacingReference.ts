@@ -37,6 +37,38 @@ export function findPacingReference(store: JsonStore, libraryId?: string): Pacin
   return ranked[0] || null;
 }
 
+export function pickPacingReferenceVaried(
+  store: JsonStore,
+  opts: { excludeIds?: string[]; topN?: number } = {}
+): PacingReference | null {
+  const exclude = new Set(opts.excludeIds || []);
+  const topN = opts.topN ?? 12;
+
+  const ranked = store
+    .list<{ id: string; payload_json: string }>("library_items")
+    .map(rowToReference)
+    .filter((r): r is PacingReference => !!r && (!!r.pacingTranscript || !!r.ssml))
+    .sort((a, b) => b.engagementScore - a.engagementScore || b.replicationScore - a.replicationScore);
+
+  let pool = ranked.slice(0, topN).filter((r) => !exclude.has(r.libraryId));
+  if (!pool.length) pool = ranked.filter((r) => !exclude.has(r.libraryId));
+  if (!pool.length) pool = ranked;
+
+  return weightedPick(pool, (r) => Math.sqrt(Math.max(1, r.engagementScore)));
+}
+
+function weightedPick<T>(items: T[], weightFn: (item: T) => number): T | null {
+  if (!items.length) return null;
+  const weights = items.map((item) => Math.max(0.1, weightFn(item)));
+  const total = weights.reduce((a, b) => a + b, 0);
+  let roll = Math.random() * total;
+  for (let i = 0; i < items.length; i++) {
+    roll -= weights[i];
+    if (roll <= 0) return items[i];
+  }
+  return items[items.length - 1];
+}
+
 function rowToReference(row: { id: string; payload_json: string }): PacingReference | null {
   const item = parsePayload(row.payload_json);
   const wtw = (item.why_this_worked as Record<string, unknown>) || {};

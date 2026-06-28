@@ -1,9 +1,60 @@
 import { createHash, randomUUID } from "node:crypto";
 import type { JsonStore } from "../db.js";
-import { scheduleProductResearch } from "./productResearch.js";
+import { applyHeuristicProductPackaging } from "./productResearch.js";
 
 function productId(name: string, brand = ""): string {
   return createHash("sha256").update(`${brand}|${name}`.toLowerCase()).digest("hex").slice(0, 16);
+}
+
+export type CatalogProductInput = {
+  name: string;
+  brand?: string;
+  price?: string;
+  description?: string;
+  source: string;
+  image_url?: string;
+  shop_url?: string;
+  tiktok_product_id?: string;
+};
+
+export type UpsertCatalogProductResult = {
+  id: string;
+  isNew: boolean;
+};
+
+export function upsertCatalogProduct(
+  store: JsonStore,
+  row: CatalogProductInput,
+  opts: { id?: string } = {}
+): UpsertCatalogProductResult | null {
+  if (!row.name?.trim()) return null;
+  const now = new Date().toISOString();
+  const id =
+    opts.id ||
+    (row.tiktok_product_id ? `shop-${row.tiktok_product_id}` : productId(row.name, row.brand));
+  const existing = store.list<Record<string, unknown>>("products").find((p) => p.id === id);
+  const isNew = !existing;
+  const researchStatus = row.source === "library" ? "skipped" : String(existing?.research_status || "pending");
+  store.upsertById("products", {
+    ...(existing || {}),
+    id,
+    name: row.name.trim(),
+    brand: row.brand || "",
+    price: row.price || "",
+    description: row.description || "",
+    image_url: row.image_url || String(existing?.image_url || ""),
+    shop_url: row.shop_url || String(existing?.shop_url || ""),
+    tiktok_product_id: row.tiktok_product_id || String(existing?.tiktok_product_id || ""),
+    source: row.source,
+    raw_json: JSON.stringify(row),
+    research_status: isNew ? researchStatus : existing?.research_status,
+    created_at: String(existing?.created_at || now),
+    updated_at: now,
+  });
+  if (isNew && row.source !== "library") {
+    applyHeuristicProductPackaging(store, id);
+  }
+  return { id, isNew };
 }
 
 function upsertProduct(
@@ -16,28 +67,7 @@ function upsertProduct(
     source: string;
   }
 ) {
-  if (!row.name?.trim()) return false;
-  const now = new Date().toISOString();
-  const id = productId(row.name, row.brand);
-  const existing = store.list<Record<string, unknown>>("products").find((p) => p.id === id);
-  const isNew = !existing;
-  store.upsertById("products", {
-    ...(existing || {}),
-    id,
-    name: row.name.trim(),
-    brand: row.brand || "",
-    price: row.price || "",
-    description: row.description || "",
-    image_url: "",
-    source: row.source,
-    raw_json: JSON.stringify(row),
-    created_at: String(existing?.created_at || now),
-    updated_at: now,
-  });
-  if (isNew) {
-    scheduleProductResearch(store, id);
-  }
-  return true;
+  return !!upsertCatalogProduct(store, row);
 }
 
 export function extractProductsFromLibrary(store: JsonStore): number {

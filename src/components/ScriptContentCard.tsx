@@ -16,6 +16,7 @@ type Props = {
   showSectionFeedback?: boolean;
   showDriveUpload?: boolean;
   driveConnected?: boolean;
+  todaysFolderReady?: boolean;
   onUpdated?: () => void;
   onDriveUploaded?: (msg: string) => void;
   onError?: (msg: string) => void;
@@ -29,6 +30,7 @@ export default function ScriptContentCard({
   showSectionFeedback = false,
   showDriveUpload = false,
   driveConnected = false,
+  todaysFolderReady = false,
   onUpdated,
   onDriveUploaded,
   onError,
@@ -253,9 +255,15 @@ export default function ScriptContentCard({
             <button
               type="button"
               className="btn btn-primary"
-              disabled={driveLoading}
+              disabled={driveLoading || !driveConnected || !todaysFolderReady}
               onClick={() => void handleDrive()}
-              title={driveConnected ? undefined : "Connect Google Drive in Settings"}
+              title={
+                !driveConnected
+                  ? "Connect Google Drive in Settings"
+                  : !todaysFolderReady
+                    ? "Create today's folder on Script Writer first"
+                    : undefined
+              }
             >
               {driveLoading ? "Uploading…" : "Send to Google Drive"}
             </button>

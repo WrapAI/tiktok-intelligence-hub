@@ -6,13 +6,13 @@ import { randomUUID } from "node:crypto";
 import { JsonStore, resolvePaths } from "./db.js";
 import { ingestIncomingFile, importFromDataFolderIfChanged, importFromDataFolder, ensureDataLayout, migrateFlatDataFolder, getDataLayoutSummary, classifyImportFile, categoryFolder, DATA_FOLDERS, importJsonFile, type DataCategory } from "./services/importService.js";
 import { buildMemorySummary } from "./services/memoryInsights.js";
-import { generateScript, getScriptDetail, rateScriptFeedback, rateScriptSectionFeedback, updateScriptContent, type ScriptSection, type ScriptSectionRating } from "./services/scriptWriter.js";
+import { generateScript, getScriptDetail, getPendingFeedbackScript, dismissScriptFeedback, dismissBlockingScriptFeedback, healScriptFeedbackFlags, rateScriptSectionFeedback, updateScriptContent, assertScriptPassesValidation, type ScriptSection, type ScriptSectionRating } from "./services/scriptWriter.js";
 import { getScriptInsights, buildLibraryInsights } from "./services/libraryPerformance.js";
 import { checkWhisperHealth, registerDataFolder, requestExtensionSync } from "./services/syncService.js";
-import { ensureWhisperServerRunning } from "./services/whisperServer.js";
 import { listVoices, synthesizeSpeech } from "./services/elevenlabs.js";
 import { extractProductsFromLibrary } from "./services/productExtractor.js";
-import { retryProductResearch } from "./services/productResearch.js";
+import { importProductFromShopLink } from "./services/productShopImport.js";
+import { retryProductResearch, backfillHeuristicPackagingForAllPendingProducts } from "./services/productResearch.js";
 import {
   generateDailyPlan,
   getDailyPlan,
@@ -36,19 +36,23 @@ import {
   sendAgentMessage,
   syncHubContextToMemoryStore,
 } from "./services/tiktokAgent.js";
-import { connectGoogleDrive, DEFAULT_GOOGLE_DRIVE_CLIENT_ID, getGoogleDriveStatus } from "./services/googleDrive.js";
-import { uploadScriptVoiceoverToDrive } from "./services/voiceoverUpload.js";
 import { estimateAgentActionCost } from "./services/agentPricing.js";
-import { analyseMyVideo, scoreMyVideo, type MyVideo, type MyVideoSubmission } from "./services/myVideoAnalysis.js";
+import { getAgentBudgetStatus, resetAgentGuardrails } from "./services/agentGuardrails.js";
+import { analyseMyVideo, backfillMyVideoThumbnail, scoreMyVideo, type MyVideo, type MyVideoSubmission } from "./services/myVideoAnalysis.js";
+import { removeMyVideoFromPositiveMemory, syncMyVideoToPositiveMemory } from "./services/myVideoMemorySync.js";
+import { connectGoogleDrive, createTodaysDriveFolders, DEFAULT_GOOGLE_DRIVE_CLIENT_ID, getGoogleDriveStatus, getTodaysDriveFolderStatus } from "./services/googleDrive.js";
+import { uploadScriptVoiceoverToDrive } from "./services/voiceoverUpload.js";
 import {
   batchAddTodayScriptsToPending,
-  createPendingFromScript,
+  batchAddScriptsToPending,
   deletePendingAnalysis,
   listPendingAnalysis,
   pullPendingStatsAndAnalyse,
-  resetPendingAfterScriptEdit,
-  setPendingTikTokUrl,
   submitPendingAnalysis,
+  updatePendingPerformanceData,
+  setPendingTikTokUrl,
+  resetPendingAfterScriptEdit,
+  syncPendingCaptionsFromScript,
   type PendingAnalysisSubmit,
 } from "./services/pendingAnalysis.js";
 import { setAgentStatusWindow } from "./services/agentSessionStatus.js";
@@ -57,6 +61,12 @@ import {
   initAgentBridge,
   notifyHubDataChanged,
 } from "./services/agentBridge.js";
+import {
+  addCreatorGuidance,
+  deleteCreatorGuidance,
+  listCreatorGuidance,
+  type CreatorGuidanceKind,
+} from "./services/creatorGuidance.js";
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock();
 if (!gotSingleInstanceLock) {
@@ -211,30 +221,14 @@ function createWindow() {
 }
 
 function resetStuckResearchingProducts() {
-  const products = store.list<Record<string, unknown>>("products");
-  let fixed = 0;
-  for (const p of products) {
-    // Library-sourced competitor products will never be researched — mark them skipped
-    if (p.source === "library" && !p.research_completed_at) {
-      store.upsertById("products", {
-        ...(p as { id: string }),
-        research_status: "skipped",
-        research_error: "",
-      });
-      fixed++;
-      continue;
-    }
-    // Reset any that got stuck mid-research from a previous crash
-    if (p.research_status === "researching" && !p.research_completed_at) {
-      store.upsertById("products", {
-        ...(p as { id: string }),
-        research_status: "pending",
-        research_error: "",
-      });
-      fixed++;
-    }
+  const backfilled = backfillHeuristicPackagingForAllPendingProducts(store);
+  if (backfilled) console.log(`[Startup] Applied local packaging to ${backfilled} pending products`);
+
+  if (!store.getSetting("agentEphemeralTasksMigrated")) {
+    store.setSetting("tiktokAgentSessionId", "");
+    store.setSetting("agentEphemeralTasksMigrated", "1");
+    console.log("[Startup] Cleared bloated agent session from pre-fix product research loop");
   }
-  if (fixed) console.log(`[Startup] Cleaned up ${fixed} product research statuses`);
 }
 
 function runBackgroundStartup() {
@@ -242,12 +236,6 @@ function runBackgroundStartup() {
   resetStuckResearchingProducts();
 
   void (async () => {
-    try {
-      await ensureWhisperServerRunning();
-    } catch (err) {
-      console.warn("[Whisper] Auto-start failed:", err);
-    }
-
     try {
       await registerDataFolder(paths.dataDir);
     } catch {
@@ -259,9 +247,11 @@ function runBackgroundStartup() {
       const imported = results.filter((r) => r.ok);
       if (imported.length) {
         extractProductsFromLibrary(store);
-        for (const row of imported) {
-          if (row.ok) notifyHubDataChanged(hubChangeFromImport(row.type, row.count, row.file));
-        }
+        notifyHubDataChanged({
+          kind: "import",
+          summary: `Imported ${imported.length} file(s) on startup`,
+          count: imported.reduce((n, r) => n + (r.count || 0), 0),
+        });
       }
     } catch (err) {
       console.error("Background import failed:", err);
@@ -282,6 +272,7 @@ app.on("second-instance", () => {
 app.whenReady().then(() => {
   paths = resolvePaths(app.getPath("userData"));
   store = new JsonStore(paths.dbDir);
+  healScriptFeedbackFlags(store);
   seedAgentDefaults(store);
   if (!store.getSetting("dataFolder")) {
     store.setSetting("dataFolder", paths.dataDir);
@@ -313,6 +304,7 @@ ipcMain.handle("hub:check-whisper", async () => checkWhisperHealth());
 
 ipcMain.handle("hub:get-settings", () => ({
   anthropicApiKey: store.getSetting("anthropicApiKey"),
+  grokApiKey: store.getSetting("grokApiKey"),
   elevenLabsApiKey: store.getSetting("elevenLabsApiKey"),
   elevenLabsVoiceId: store.getSetting("elevenLabsVoiceId"),
   myTiktokHandle: store.getSetting("myTiktokHandle"),
@@ -328,6 +320,7 @@ ipcMain.handle("hub:get-settings", () => ({
 
 ipcMain.handle("hub:save-settings", (_e, settings: Record<string, string>) => {
   if (settings.anthropicApiKey != null) store.setSetting("anthropicApiKey", settings.anthropicApiKey.trim());
+  if (settings.grokApiKey != null) store.setSetting("grokApiKey", settings.grokApiKey.trim());
   if (settings.elevenLabsApiKey != null) {
     store.setSetting("elevenLabsApiKey", settings.elevenLabsApiKey.trim());
   }
@@ -430,6 +423,22 @@ ipcMain.handle("hub:retry-product-research", (_e, productId: string) => {
   return { ok: true };
 });
 
+ipcMain.handle("hub:import-product-from-shop-link", async (_e, url: string) => {
+  try {
+    ensureStore();
+    const result = await importProductFromShopLink(store, url);
+    notifyHubDataChanged({
+      kind: "product_edit",
+      summary: result.isNew
+        ? `Imported product: ${result.product.name}`
+        : `Updated product: ${result.product.name}`,
+    });
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
 ipcMain.handle("hub:delete-product", (_e, id: string) => {
   store.deleteById("products", id);
   notifyHubDataChanged({
@@ -464,6 +473,67 @@ ipcMain.handle("hub:get-script", (_e, id: string) => {
 });
 
 ipcMain.handle(
+  "hub:update-script-content",
+  (
+    _e,
+    req: {
+      scriptId: string;
+      pendingAnalysisId?: string;
+      updates: {
+        title?: string;
+        script_text?: string;
+        ssml?: string;
+        on_screen_caption?: string;
+        tiktok_caption?: string;
+      };
+    }
+  ) => {
+    try {
+      ensureStore();
+      const script = updateScriptContent(store, req.scriptId, req.updates);
+      let pendingReset = false;
+      if (req.pendingAnalysisId) {
+        syncPendingCaptionsFromScript(store, req.pendingAnalysisId, {
+          on_screen_caption: req.updates.on_screen_caption,
+          tiktok_caption: req.updates.tiktok_caption,
+          script_title: req.updates.title,
+        });
+        resetPendingAfterScriptEdit(store, req.pendingAnalysisId);
+        pendingReset = true;
+      }
+      return { ok: true, script, pendingReset };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+);
+
+ipcMain.handle("hub:get-pending-script-feedback", () => {
+  ensureStore();
+  return getPendingFeedbackScript(store);
+});
+
+ipcMain.handle("hub:dismiss-script-feedback", (_e, scriptId: string) => {
+  try {
+    ensureStore();
+    dismissScriptFeedback(store, scriptId);
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:dismiss-blocking-script-feedback", () => {
+  try {
+    ensureStore();
+    const scriptId = dismissBlockingScriptFeedback(store);
+    return { ok: true, scriptId };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle(
   "hub:rate-script-section-feedback",
   (
     _e,
@@ -492,37 +562,6 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle(
-  "hub:update-script-content",
-  (
-    _e,
-    req: {
-      scriptId: string;
-      pendingAnalysisId?: string;
-      updates: {
-        title?: string;
-        script_text?: string;
-        ssml?: string;
-        on_screen_caption?: string;
-        tiktok_caption?: string;
-      };
-    }
-  ) => {
-    try {
-      ensureStore();
-      const script = updateScriptContent(store, req.scriptId, req.updates);
-      let pendingReset = false;
-      if (req.pendingAnalysisId) {
-        resetPendingAfterScriptEdit(store, req.pendingAnalysisId);
-        pendingReset = true;
-      }
-      return { ok: true, script, pendingReset };
-    } catch (err) {
-      return { ok: false, error: err instanceof Error ? err.message : String(err) };
-    }
-  }
-);
-
 ipcMain.handle("hub:get-script-insights", () => getScriptInsights(store));
 
 ipcMain.handle(
@@ -534,6 +573,9 @@ ipcMain.handle(
       durationSeconds?: number;
       referenceLibraryId?: string;
       additionalInfo?: string;
+      skipDuplicateCheck?: boolean;
+      bypassApiLimits?: boolean;
+      generationNonce?: number;
     }
   ) => {
     try {
@@ -543,7 +585,20 @@ ipcMain.handle(
         durationSeconds: req.durationSeconds,
         referenceLibraryId: req.referenceLibraryId,
         additionalInfo: req.additionalInfo,
+        skipDuplicateCheck: req.skipDuplicateCheck,
+        bypassApiLimits: req.bypassApiLimits,
+        generationNonce: req.generationNonce,
       });
+      if (result.validationBlocked) {
+        store.appendLog("script", "error", `Validation blocked: ${result.validationViolations?.join(", ")}`);
+        return {
+          ok: true,
+          validationBlocked: true,
+          validationViolations: result.validationViolations,
+          validationLessonSaved: result.validationLessonSaved,
+          result,
+        };
+      }
       store.appendLog("script", "ok", result.title);
       notifyHubDataChanged({
         kind: "script",
@@ -554,20 +609,6 @@ ipcMain.handle(
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       store.appendLog("script", "error", message);
-      return { ok: false, error: message };
-    }
-  }
-);
-
-ipcMain.handle(
-  "hub:rate-script-feedback",
-  (_e, req: { scriptId: string; feedback: "liked" | "disliked"; reason?: string }) => {
-    try {
-      ensureStore();
-      const result = rateScriptFeedback(store, req.scriptId, req.feedback, req.reason);
-      return { ok: true, ...result };
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
       return { ok: false, error: message };
     }
   }
@@ -671,6 +712,13 @@ ipcMain.handle("hub:generate-audio", async (_e, scriptId: string) => {
       .list<Record<string, unknown>>("scripts")
       .find((s) => s.id === scriptId);
     if (!existing) throw new Error("Script not found");
+    const product = store
+      .list<{ id: string; name?: string }>("products")
+      .find((p) => p.id === existing.product_id);
+    assertScriptPassesValidation(
+      String(existing.script_text || ""),
+      product?.name ? String(product.name) : undefined
+    );
 
     // Build a human-readable filename: ScriptTitle_YYYY-MM-DD
     function buildAudioName(script: Record<string, unknown>): string {
@@ -730,6 +778,34 @@ ipcMain.handle("hub:google-drive-connect", async () => {
   }
 });
 
+ipcMain.handle("hub:get-todays-drive-folder-status", async () => {
+  try {
+    ensureStore();
+    return { ok: true, ...(await getTodaysDriveFolderStatus(store)) };
+  } catch (err) {
+    return {
+      ok: false,
+      connected: false,
+      ready: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
+});
+
+ipcMain.handle("hub:create-todays-drive-folders", async () => {
+  try {
+    ensureStore();
+    const result = await createTodaysDriveFolders(store);
+    if (!result.ok) return result;
+    store.appendLog("drive", "ok", `Created today's folders: ${result.folderPath}`);
+    return result;
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    store.appendLog("drive", "error", message);
+    return { ok: false, error: message };
+  }
+});
+
 ipcMain.handle("hub:upload-voiceover-to-drive", async (_e, scriptId: string) => {
   try {
     ensureStore();
@@ -758,6 +834,19 @@ ipcMain.handle("hub:batch-pending-from-today", (_e, dateTag?: string) => {
   }
 });
 
+ipcMain.handle(
+  "hub:batch-pending-scripts",
+  (_e, req?: { daysBack?: number; dateTag?: string }) => {
+    try {
+      ensureStore();
+      const result = batchAddScriptsToPending(store, req || {});
+      return { ok: true, ...result };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+);
+
 ipcMain.handle("hub:list-pending-analysis", () => {
   ensureStore();
   return listPendingAnalysis(store);
@@ -777,6 +866,16 @@ ipcMain.handle("hub:pull-pending-analysis", async (_e, id: string) => {
   try {
     ensureStore();
     const entry = await pullPendingStatsAndAnalyse(store, id);
+    return { ok: true, entry };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:update-pending-performance", (_e, req: { id: string; data: PendingAnalysisSubmit }) => {
+  try {
+    ensureStore();
+    const entry = updatePendingPerformanceData(store, req.id, req.data);
     return { ok: true, entry };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
@@ -939,10 +1038,23 @@ ipcMain.handle("hub:get-agent-status", () => {
   return getAgentStatus(store);
 });
 
-ipcMain.handle("hub:sync-agent-memory", async () => {
+ipcMain.handle("hub:get-agent-budget", () => {
+  ensureStore();
+  return getAgentBudgetStatus(store);
+});
+
+ipcMain.handle("hub:reset-agent-guardrails", () => {
+  ensureStore();
+  resetAgentGuardrails(store);
+  return { ok: true, budget: getAgentBudgetStatus(store) };
+});
+
+ipcMain.handle("hub:sync-agent-memory", async (_e, req?: { bypassLimits?: boolean }) => {
   try {
     ensureStore();
-    const result = await syncHubContextToMemoryStore(store, paths.dataDir, paths.dbDir);
+    const result = await syncHubContextToMemoryStore(store, paths.dataDir, paths.dbDir, {
+      bypassSyncLimits: req?.bypassLimits === true,
+    });
     return { ok: true, ...result };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
@@ -954,6 +1066,33 @@ ipcMain.handle("hub:estimate-agent-cost", (_e, params) => {
     ensureStore();
     const cost = estimateAgentActionCost(params);
     return { ok: true, cost };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:list-creator-guidance", () => {
+  ensureStore();
+  return listCreatorGuidance(store);
+});
+
+ipcMain.handle("hub:add-creator-guidance", (_e, req: { kind: CreatorGuidanceKind; text: string }) => {
+  try {
+    ensureStore();
+    const entry = addCreatorGuidance(store, req.kind, req.text);
+    notifyHubDataChanged({ kind: "product_edit", summary: `Added creator ${req.kind}` });
+    return { ok: true, entry };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:delete-creator-guidance", (_e, id: string) => {
+  try {
+    ensureStore();
+    deleteCreatorGuidance(store, id);
+    notifyHubDataChanged({ kind: "product_edit", summary: "Removed creator guidance" });
+    return { ok: true };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
@@ -1037,9 +1176,18 @@ ipcMain.handle("hub:import-personal-library", () => {
 
 ipcMain.handle("hub:list-my-videos", () => {
   ensureStore();
-  return store
+  const now = new Date().toISOString();
+  const videos = store
     .list<MyVideo>("my_videos")
     .sort((a, b) => b.created_at.localeCompare(a.created_at));
+
+  return videos.map((video) => {
+    const backfilled = backfillMyVideoThumbnail(video);
+    if (backfilled.thumbnail_url && backfilled.thumbnail_url !== video.thumbnail_url) {
+      store.upsertById("my_videos", { ...backfilled, updated_at: now } as unknown as typeof backfilled);
+    }
+    return backfilled;
+  });
 });
 
 ipcMain.handle("hub:save-my-video", (_e, submission: MyVideoSubmission & { id?: string }) => {
@@ -1051,6 +1199,7 @@ ipcMain.handle("hub:save-my-video", (_e, submission: MyVideoSubmission & { id?: 
     ...existing,
     ...submission,
     id,
+    thumbnail_url: submission.thumbnail_url ?? existing?.thumbnail_url ?? null,
     analysis: existing?.analysis || null,
     analysis_status: existing?.analysis_status || "pending",
     analysis_error: "",
@@ -1062,11 +1211,13 @@ ipcMain.handle("hub:save-my-video", (_e, submission: MyVideoSubmission & { id?: 
   };
   video.score = scoreMyVideo(video);
   store.upsertById("my_videos", video as unknown as typeof video);
+  syncMyVideoToPositiveMemory(store, video);
   return { ok: true, id };
 });
 
 ipcMain.handle("hub:delete-my-video", (_e, id: string) => {
   ensureStore();
+  removeMyVideoFromPositiveMemory(store, id);
   store.deleteById("my_videos", id);
   return { ok: true };
 });

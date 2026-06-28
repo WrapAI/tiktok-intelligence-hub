@@ -193,22 +193,24 @@ export function estimateAgentActionCost(
   params: AgentActionEstimateParams,
   modelId?: string
 ): AgentCostBreakdown {
-  const memoryContextInput =
-    params.action === "generate_script" || params.action === "generate_daily_plan" ? 0 : 18_000;
-  const memoryCacheRead =
-    params.action === "generate_script" || params.action === "generate_daily_plan" ? 0 : 14_000;
+  const memoryContextInput = 18_000;
+  const memoryCacheRead = 14_000;
 
   let taskInput = 0;
   let taskOutput = 0;
 
   switch (params.action) {
     case "generate_script":
-      taskInput = 5_500;
+      // instructions + compliance rules + library context + product/pacing block
+      taskInput = 4_000;
+      // full audio script + SSML + captions + JSON + title
       taskOutput = 1_400;
       break;
     case "generate_daily_plan": {
       const videos = params.totalVideos || 15;
-      taskInput = 4_000 + videos * 80;
+      // base prompt + funnel refs + product lines + library context
+      taskInput = 3_500 + videos * 80;
+      // per-video: script (~350 tok) + clips (~200 tok) + captions + JSON (~150 tok)
       taskOutput = videos * 700;
       break;
     }
@@ -232,26 +234,6 @@ export function estimateAgentActionCost(
     undefined,
     true
   );
-}
-
-export function mergeCosts(a: AgentCostBreakdown, b: AgentCostBreakdown): AgentCostBreakdown {
-  return {
-    pricingAsOf: a.pricingAsOf,
-    modelId: a.modelId,
-    modelLabel: a.modelLabel,
-    usage: {
-      inputTokens: a.usage.inputTokens + b.usage.inputTokens,
-      outputTokens: a.usage.outputTokens + b.usage.outputTokens,
-      cacheReadInputTokens: (a.usage.cacheReadInputTokens || 0) + (b.usage.cacheReadInputTokens || 0),
-      cacheCreation5mTokens: (a.usage.cacheCreation5mTokens || 0) + (b.usage.cacheCreation5mTokens || 0),
-    },
-    inputUsd: a.inputUsd + b.inputUsd,
-    outputUsd: a.outputUsd + b.outputUsd,
-    cacheReadUsd: a.cacheReadUsd + b.cacheReadUsd,
-    cacheWriteUsd: a.cacheWriteUsd + b.cacheWriteUsd,
-    totalUsd: a.totalUsd + b.totalUsd,
-    estimated: a.estimated || b.estimated,
-  };
 }
 
 export function formatUsd(amount: number): string {

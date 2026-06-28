@@ -32,6 +32,10 @@ let pending: HubDataChange[] = [];
 let timer: ReturnType<typeof setTimeout> | null = null;
 let syncInFlight = false;
 
+/** Batch rapid edits, then enforce a minimum gap between actual API syncs. */
+const DEBOUNCE_MS = 60_000;
+const MIN_SYNC_INTERVAL_MS = 15 * 60_000;
+
 export function initAgentBridge(store: JsonStore, dataDir: string, dbDir: string) {
   ctx = { store, dataDir, dbDir };
 }
@@ -40,21 +44,33 @@ function agentConfigured(store: JsonStore): boolean {
   return Boolean(store.getSetting("anthropicApiKey") && store.getSetting("tiktokAgentMemoryStoreId"));
 }
 
-async function flushPending() {
+function msSinceLastSync(store: JsonStore): number {
+  const last = store.getSetting("tiktokAgentLastMemorySyncAt");
+  if (!last) return Infinity;
+  return Date.now() - new Date(last).getTime();
+}
+
+async function flushPending(force = false) {
   if (!ctx || syncInFlight || !pending.length) return;
+
+  const { store, dataDir, dbDir } = ctx;
+  if (!agentConfigured(store)) {
+    pending = [];
+    timer = null;
+    return;
+  }
+
+  if (!force && msSinceLastSync(store) < MIN_SYNC_INTERVAL_MS) {
+    const wait = MIN_SYNC_INTERVAL_MS - msSinceLastSync(store);
+    timer = setTimeout(() => void flushPending(true), wait);
+    return;
+  }
 
   syncInFlight = true;
   pending = [];
   timer = null;
 
-  const { store, dataDir, dbDir } = ctx;
-
   try {
-    if (!agentConfigured(store)) return;
-
-    // Sync memory store only — do NOT send agent messages on auto-sync.
-    // The agent reads fresh from memory store on every user-triggered task.
-    // Sending notifications creates new sessions and wastes money.
     await syncHubContextToMemoryStore(store, dataDir, dbDir);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
@@ -63,25 +79,25 @@ async function flushPending() {
   } finally {
     syncInFlight = false;
     if (pending.length) {
-      timer = setTimeout(() => void flushPending(), 1000);
+      timer = setTimeout(() => void flushPending(), DEBOUNCE_MS);
     }
   }
 }
 
-/** Queue a memory-store sync + agent notification (debounced ~2s). */
+/** Queue a memory-store sync (debounced, rate-limited). */
 export function notifyHubDataChanged(change: HubDataChange) {
   if (!ctx) return;
   pending.push(change);
   if (timer) clearTimeout(timer);
-  timer = setTimeout(() => void flushPending(), 2000);
+  timer = setTimeout(() => void flushPending(), DEBOUNCE_MS);
 }
 
-/** Sync immediately (e.g. app startup rescan). */
+/** Sync immediately (manual rescan in Settings). */
 export function notifyHubDataChangedNow(change: HubDataChange) {
   if (!ctx) return;
   pending.push(change);
   if (timer) clearTimeout(timer);
-  void flushPending();
+  void flushPending(true);
 }
 
 export function hubChangeFromImport(type: string, count: number, file?: string): HubDataChange {

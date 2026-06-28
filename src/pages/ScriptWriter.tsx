@@ -1,10 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-import type { AgentCostBreakdown, Product, ScriptInsights, ScriptResult, ScriptSection } from "../hub";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { AgentCostBreakdown, Product, ScriptDetail, ScriptInsights, ScriptResult } from "../hub";
 import AgentCostBadge from "../components/AgentCostBadge";
 import AgentSessionStatus from "../components/AgentSessionStatus";
 import ScriptContentCard from "../components/ScriptContentCard";
-
-const SCRIPT_SECTIONS: ScriptSection[] = ["audio", "on_screen_caption", "tiktok_caption", "pace"];
 
 type PacingRef = {
   id: string;
@@ -14,6 +12,22 @@ type PacingRef = {
   likes: number;
   replicationScore: number;
 };
+
+function scriptDetailToResult(detail: ScriptDetail): ScriptResult {
+  return {
+    id: detail.id,
+    title: detail.title,
+    script: detail.script_text,
+    ssml: detail.ssml,
+    hookType: detail.hook_type,
+    productId: detail.product_id,
+    createdAt: detail.created_at,
+    onScreenCaption: detail.on_screen_caption,
+    tiktokCaption: detail.tiktok_caption,
+    audioPath: detail.audio_path || undefined,
+    sectionFeedback: detail.section_feedback,
+  };
+}
 
 function formatCount(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
@@ -34,12 +48,127 @@ export default function ScriptWriter() {
   const [loading, setLoading] = useState(false);
   const [driveConnected, setDriveConnected] = useState(false);
   const [driveNotice, setDriveNotice] = useState("");
+  const [todaysDriveFolder, setTodaysDriveFolder] = useState("");
+  const [todaysFolderReady, setTodaysFolderReady] = useState(false);
+  const [driveFolderBusy, setDriveFolderBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<ScriptResult | null>(null);
   const [feedbackComplete, setFeedbackComplete] = useState(false);
   const [lastCost, setLastCost] = useState<AgentCostBreakdown | null>(null);
+  const [bypassApiLimit, setBypassApiLimit] = useState(false);
+  const resultRef = useRef<HTMLDivElement | null>(null);
 
   const needsFeedback = !!result && !feedbackComplete;
+  const duplicateBlocked = error.includes("Duplicate agent request blocked");
+  const apiLimitBlocked = /direct API limit reached|Daily direct API limit reached|Daily spend cap reached/i.test(error);
+  const feedbackBlocked = error.includes("Rate every script section");
+
+  const restorePendingScript = useCallback(async () => {
+    const pending = await window.hub.getPendingScriptFeedback();
+    if (!pending) return false;
+    setResult(scriptDetailToResult(pending));
+    if (pending.product_id) {
+      setProductId(pending.product_id);
+      setProductSearchOpen(false);
+    }
+    const rated = ["audio", "on_screen_caption", "tiktok_caption", "pace"] as const;
+    setFeedbackComplete(rated.every((s) => !!pending.section_feedback?.[s]?.rating));
+    requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    return true;
+  }, []);
+
+  const refreshTodaysDriveFolder = useCallback(async () => {
+    const status = await window.hub.getTodaysDriveFolderStatus();
+    if (!status.ok || !status.connected) {
+      setTodaysFolderReady(false);
+      setTodaysDriveFolder("");
+      return;
+    }
+    setTodaysFolderReady(!!status.ready);
+    setTodaysDriveFolder(status.folderPath || "");
+  }, []);
+
+  useEffect(() => {
+    window.hub.listProducts().then(setProducts);
+    window.hub.getScriptInsights().then(setInsights);
+    window.hub.listPacingReferences().then((rows) => setPacingRefs(rows as PacingRef[]));
+    window.hub.getGoogleDriveStatus().then((s) => {
+      setDriveConnected(!!s.connected);
+      if (s.connected) void refreshTodaysDriveFolder();
+    });
+    void restorePendingScript();
+  }, [restorePendingScript, refreshTodaysDriveFolder]);
+
+  async function handleCreateTodaysFolder() {
+    setDriveFolderBusy(true);
+    setError("");
+    const res = await window.hub.createTodaysDriveFolders();
+    setDriveFolderBusy(false);
+    if (!res.ok) {
+      setError(res.error || "Could not create today's Drive folder");
+      return;
+    }
+    await refreshTodaysDriveFolder();
+    setDriveNotice(
+      res.alreadySetup
+        ? `Today's folder already on Drive: ${res.folderPath}`
+        : `Created today's folder: ${res.folderPath}`
+    );
+  }
+
+  async function handleDismissFeedback() {
+    let scriptId = result?.id;
+    if (!scriptId) {
+      const pending = await window.hub.getPendingScriptFeedback();
+      scriptId = pending?.id;
+    }
+    const res = scriptId
+      ? await window.hub.dismissScriptFeedback(scriptId)
+      : await window.hub.dismissBlockingScriptFeedback();
+    if (!res.ok) {
+      setError(res.error || "Could not skip ratings");
+      return;
+    }
+    setResult(null);
+    setFeedbackComplete(true);
+    setError("");
+  }
+
+  async function handleGenerate(skipDuplicateCheck = false, bypassApiLimits = bypassApiLimit) {
+    if (!productId) {
+      setError("Search and select a product first.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    const useBypass = bypassApiLimits || bypassApiLimit;
+    const res = await window.hub.generateScript({
+      productId,
+      durationSeconds: duration,
+      referenceLibraryId: referenceLibraryId || undefined,
+      additionalInfo: additionalInfo.trim() || undefined,
+      skipDuplicateCheck: skipDuplicateCheck || useBypass,
+      bypassApiLimits: useBypass,
+      generationNonce: Date.now(),
+    });
+    setLoading(false);
+    if (!res.ok || !res.result) {
+      setError(res.error || "Script generation failed");
+      if (res.error?.includes("Rate every script section")) {
+        await restorePendingScript();
+      }
+      return;
+    }
+    setResult(res.result);
+    setFeedbackComplete(res.validationBlocked ? true : false);
+    setLastCost(res.cost || res.result.cost || null);
+    setDriveNotice("");
+    if (res.validationBlocked) {
+      setError("");
+      requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+      return;
+    }
+  }
 
   const selectedProduct = products.find((p) => p.id === productId);
 
@@ -52,46 +181,6 @@ export default function ScriptWriter() {
       )
       .slice(0, 80);
   }, [products, productQuery]);
-
-  useEffect(() => {
-    window.hub.listProducts().then(setProducts);
-    window.hub.getScriptInsights().then(setInsights);
-    window.hub.listPacingReferences().then((rows) => setPacingRefs(rows as PacingRef[]));
-    window.hub.getGoogleDriveStatus().then((s) => setDriveConnected(!!s.connected));
-  }, []);
-
-  async function handleGenerate() {
-    if (!productId) {
-      setError("Search and select a product first.");
-      return;
-    }
-    setLoading(true);
-    setError("");
-    setResult(null);
-    setFeedbackComplete(false);
-    setLastCost(null);
-    setDriveNotice("");
-    try {
-      const res = await window.hub.generateScript({
-        productId,
-        durationSeconds: duration,
-        referenceLibraryId: referenceLibraryId || undefined,
-        additionalInfo: additionalInfo.trim() || undefined,
-      });
-      if (!res?.ok || !res.result) {
-        setError(res?.error || "Script generation failed — check your Anthropic API key in Settings.");
-        return;
-      }
-      setResult(res.result);
-      const sf = res.result.sectionFeedback || {};
-      setFeedbackComplete(SCRIPT_SECTIONS.every((s) => !!sf[s]?.rating));
-      setLastCost(res.cost || res.result.cost || null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Script generation failed");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <div>
@@ -193,23 +282,73 @@ export default function ScriptWriter() {
 
           <label className="field-label" style={{ marginTop: 14 }}>Additional information (optional)</label>
           <textarea
-            className="field-input"
+            className="field-textarea"
             rows={3}
             placeholder="e.g. No face on camera today. Mention the bundle deal. Avoid the word 'cheap'."
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
-            style={{ resize: "vertical", fontFamily: "inherit", width: "100%", boxSizing: "border-box", display: "block" }}
           />
           <p className="muted" style={{ fontSize: 11, marginTop: 4, marginBottom: 16 }}>
             Anything specific to do, avoid, or focus on for this script.
           </p>
+
+          {driveConnected && (
+            <div
+              style={{
+                marginBottom: 16,
+                padding: "10px 12px",
+                border: "1px solid #333",
+                borderRadius: 8,
+              }}
+            >
+              <div className="field-label" style={{ marginBottom: 6 }}>
+                Google Drive — today
+              </div>
+              {todaysFolderReady ? (
+                <p className="muted" style={{ fontSize: 12, marginBottom: 8 }}>
+                  ✓ Folder ready: <strong>{todaysDriveFolder}</strong>
+                </p>
+              ) : (
+                <p className="muted" style={{ fontSize: 12, marginBottom: 8 }}>
+                  Create today&apos;s date folder before sending voiceovers. Product subfolders are made on upload.
+                </p>
+              )}
+              <button
+                type="button"
+                className="btn btn-secondary"
+                disabled={driveFolderBusy}
+                onClick={() => void handleCreateTodaysFolder()}
+              >
+                {driveFolderBusy ? "Creating folders…" : "Create today's folder"}
+              </button>
+            </div>
+          )}
+
+          <label
+            className="muted"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 12,
+              marginBottom: 12,
+              cursor: "pointer",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={bypassApiLimit}
+              onChange={(e) => setBypassApiLimit(e.target.checked)}
+            />
+            Bypass hourly API limit and duplicate protection for this generate
+          </label>
 
           <div className="btn-row" style={{ alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <button
               type="button"
               className="btn btn-primary"
               disabled={loading || needsFeedback}
-              onClick={handleGenerate}
+              onClick={() => void handleGenerate()}
               title={needsFeedback ? "Rate the current script before generating another" : undefined}
             >
               {loading ? "Agent writing…" : "Generate script"}
@@ -219,15 +358,58 @@ export default function ScriptWriter() {
             )}
           </div>
           {needsFeedback && (
-            <p className="error" style={{ marginTop: 8 }}>
-              Rate every section below (audio, captions, pace) before generating another.
-            </p>
+            <div style={{ marginTop: 8 }}>
+              <p className="error">
+                Rate every section below (audio, captions, pace) before generating another.
+              </p>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ marginTop: 8 }}
+                onClick={() => void handleDismissFeedback()}
+              >
+                Skip ratings & generate new
+              </button>
+            </div>
           )}
           <AgentSessionStatus active={loading} tasks={["generate_script", "analyze_data"]} />
-          <p className="muted" style={{ fontSize: 11, marginTop: 8 }}>
-            Scripts use the Claude Messages API directly (not Agent Sessions). Check Usage in the Anthropic console, not Agent Sessions.
-          </p>
-          {error && <p className="error">{error}</p>}
+          {error && (
+            <div style={{ marginTop: 8 }}>
+              <p className="error">{error}</p>
+              {(duplicateBlocked || apiLimitBlocked) && (
+                <div className="btn-row" style={{ marginTop: 8, flexWrap: "wrap", gap: 8 }}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    disabled={loading}
+                    onClick={() => void handleGenerate(true, true)}
+                  >
+                    Generate anyway (bypass all limits)
+                  </button>
+                </div>
+              )}
+              {feedbackBlocked && (
+                <div className="btn-row" style={{ marginTop: 8, flexWrap: "wrap", gap: 8 }}>
+                  {!result && (
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => void restorePendingScript()}
+                    >
+                      Show script to rate
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => void handleDismissFeedback()}
+                  >
+                    Skip ratings & generate new
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="card">
@@ -237,8 +419,9 @@ export default function ScriptWriter() {
           ) : (
             <>
               <p className="muted" style={{ marginBottom: 10 }}>
-                Auto-selected approach: <strong>{insights.recommendedHookType}</strong> (highest engagement in your
-                library). No manual hook picking needed.
+                Each script rotates hook type and pacing reference by performance weight — not always{" "}
+                <strong>{insights.recommendedHookType}</strong> (#1 in library). Recent openings and discount frames
+                are avoided so you can A/B test formats.
               </p>
               {insights.hookTypeStats.slice(0, 5).map((stat) => (
                 <div key={stat.hookType} className="pattern-list-item">
@@ -263,30 +446,80 @@ export default function ScriptWriter() {
       </div>
 
       {result && (
-        <div className="card">
+        <div className="card" ref={resultRef}>
           <div className="card-title">{result.title}</div>
-          <p className="muted" style={{ marginBottom: 12 }}>
-            Inferred from library stats: {result.hookType} · {new Date(result.createdAt).toLocaleString()}
-            {result.audioPath ? " · ElevenLabs MP3 ready" : ""}
-          </p>
-
-          <ScriptContentCard
-            scriptId={result.id}
-            showSectionFeedback
-            showDriveUpload
-            driveConnected={driveConnected}
-            onError={setError}
-            onDriveUploaded={(msg) => {
-              setDriveNotice(msg + " Added to Pending Analysis — add your TikTok URL once posted.");
-            }}
-            onFeedbackChange={setFeedbackComplete}
-          />
-          {!driveConnected && (
-            <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-              Connect Google Drive in Settings to upload voiceovers to your phone.
+          {selectedProduct && (
+            <p className="muted" style={{ marginBottom: 8 }}>
+              Product: <strong>{selectedProduct.name}</strong>
             </p>
           )}
-          {driveNotice && <p className="success" style={{ marginTop: 8 }}>{driveNotice}</p>}
+
+          {result.validationBlocked ? (
+            <>
+              <div
+                style={{
+                  background: "rgba(254, 44, 85, 0.12)",
+                  border: "1px solid #fe2c55",
+                  borderRadius: 8,
+                  padding: "12px 14px",
+                  marginBottom: 14,
+                }}
+              >
+                <p className="error" style={{ margin: 0, fontWeight: 600 }}>
+                  Script rejected — not saved to library.
+                  {result.validationLessonSaved !== false
+                    ? " Saved as a lesson — the next generate will avoid this."
+                    : " Regenerate to try again."}
+                </p>
+                <ul style={{ margin: "10px 0 0", paddingLeft: 18, fontSize: 13 }}>
+                  {(result.validationViolations || []).map((v) => (
+                    <li key={v}>{v}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="field-label">Preview (not saved)</div>
+              <div className="script-output" style={{ marginBottom: 10 }}>{result.script}</div>
+              {result.onScreenCaption && (
+                <>
+                  <div className="field-label">On-screen caption</div>
+                  <div className="script-output" style={{ marginBottom: 10 }}>{result.onScreenCaption}</div>
+                </>
+              )}
+              {result.tiktokCaption && (
+                <>
+                  <div className="field-label">TikTok caption</div>
+                  <div className="script-output">{result.tiktokCaption}</div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="muted" style={{ marginBottom: 12 }}>
+                {result.hookType} · {new Date(result.createdAt).toLocaleString()}
+                {result.audioPath ? " · MP3 ready" : " · No audio yet"}
+              </p>
+
+              <ScriptContentCard
+                scriptId={result.id}
+                showSectionFeedback
+                showDriveUpload
+                driveConnected={driveConnected}
+                todaysFolderReady={todaysFolderReady}
+                onError={setError}
+                onDriveUploaded={(msg) => {
+                  setDriveNotice(msg);
+                  void refreshTodaysDriveFolder();
+                }}
+                onFeedbackChange={setFeedbackComplete}
+              />
+              {!driveConnected && (
+                <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
+                  Connect Google Drive in Settings to upload voiceovers to your phone.
+                </p>
+              )}
+              {driveNotice && <p className="success" style={{ marginTop: 8 }}>{driveNotice}</p>}
+            </>
+          )}
         </div>
       )}
     </div>

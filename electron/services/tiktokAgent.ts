@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { createHash } from "node:crypto";
 import type { JsonStore } from "../db.js";
 import { buildHubMemoryDocuments } from "./hubContextSnapshot.js";
 import {
@@ -13,8 +14,37 @@ import {
   emitAgentSessionStatus,
   type AgentSessionPhase,
 } from "./agentSessionStatus.js";
+import {
+  assertAgentCallAllowed,
+  checkPostCallAnomaly,
+  hashAgentPayload,
+  recordAgentCall,
+} from "./agentGuardrails.js";
 
 const MANAGED_AGENTS_BETA = "managed-agents-2026-04-01" as const;
+
+let agentCallChain: Promise<unknown> = Promise.resolve();
+
+function withAgentLock<T>(fn: () => Promise<T>): Promise<T> {
+  const run = agentCallChain.then(fn, fn);
+  agentCallChain = run.then(
+    () => undefined,
+    () => undefined
+  );
+  return run;
+}
+
+function hashDocContent(content: string): string {
+  return createHash("sha256").update(content).digest("hex").slice(0, 16);
+}
+
+function readDocHashes(store: JsonStore): Record<string, string> {
+  try {
+    return JSON.parse(store.getSetting("agentMemoryDocHashes", "{}")) as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
 
 export const DEFAULT_AGENT_ID = "agent_01NxQdQvuQLXgJgMgXbQ1LNz";
 export const DEFAULT_ENVIRONMENT_ID = "env_0139W3beYzg2rMpMX18KQ69M";
@@ -118,25 +148,7 @@ export async function createAgentSession(store: JsonStore, forceNew = false) {
   }
 
   const client = createClient(apiKey);
-  const resources = config.memoryStoreId
-    ? [
-        {
-          type: "memory_store" as const,
-          memory_store_id: config.memoryStoreId,
-          access: "read_write" as const,
-          instructions:
-            "TikTok Intelligence Hub context lives under /hub/*.md. Read these before planning scripts, daily posts, or product strategy. They mirror the creator's local database.",
-        },
-      ]
-    : undefined;
-
-  const session = await client.beta.sessions.create({
-    agent: config.agentId,
-    environment_id: config.environmentId,
-    title: "TikTok Intelligence Hub",
-    resources,
-    betas: [MANAGED_AGENTS_BETA],
-  });
+  const session = await createManagedSession(client, config, "TikTok Intelligence Hub");
 
   store.setSetting("tiktokAgentSessionId", session.id);
   store.setSetting("tiktokAgentSessionCreatedAt", new Date().toISOString());
@@ -144,15 +156,67 @@ export async function createAgentSession(store: JsonStore, forceNew = false) {
   return { sessionId: session.id, status: session.status, reused: false };
 }
 
-export async function syncHubContextToMemoryStore(store: JsonStore, dataDir: string, dbDir: string) {
+function memoryStoreResources(config: AgentConfig) {
+  if (!config.memoryStoreId) return undefined;
+  return [
+    {
+      type: "memory_store" as const,
+      memory_store_id: config.memoryStoreId,
+      access: "read_write" as const,
+      instructions:
+        "TikTok Intelligence Hub context lives under /hub/*.md. Read these before planning scripts, daily posts, or product strategy. They mirror the creator's local database.",
+    },
+  ];
+}
+
+async function createManagedSession(client: Anthropic, config: AgentConfig, title: string) {
+  return client.beta.sessions.create({
+    agent: config.agentId,
+    environment_id: config.environmentId,
+    title,
+    resources: memoryStoreResources(config),
+    betas: [MANAGED_AGENTS_BETA],
+  });
+}
+
+/** Fresh session per hub task — avoids 200k+ token history accumulation from session reuse. */
+async function createEphemeralAgentSession(store: JsonStore) {
+  const apiKey = requireApiKey(store);
+  const config = getConfig(store);
+  if (!config.agentId) throw new Error("Set your TikTok Agent ID in Settings.");
+  if (!config.environmentId) throw new Error("Set your Agent environment ID in Settings.");
+
+  const client = createClient(apiKey);
+  const session = await createManagedSession(client, config, "TikTok Hub task");
+  return { sessionId: session.id, status: session.status, reused: false };
+}
+
+export async function syncHubContextToMemoryStore(
+  store: JsonStore,
+  dataDir: string,
+  dbDir: string,
+  options?: { bypassSyncLimits?: boolean }
+) {
   const apiKey = requireApiKey(store);
   const config = getConfig(store);
   if (!config.memoryStoreId) {
     throw new Error("Set your Agent memory store ID in Settings (memstore_…).");
   }
 
-  const client = createClient(apiKey);
   const docs = buildHubMemoryDocuments(store, dataDir, dbDir);
+  const docHashes = readDocHashes(store);
+  const changedDocs = docs.filter((doc) => docHashes[doc.path] !== hashDocContent(doc.content));
+
+  if (!changedDocs.length) {
+    store.appendLog("agent_memory", "ok", `Memory sync skipped — ${docs.length} docs unchanged`);
+    return { uploaded: 0, skipped: docs.length, paths: docs.map((d) => d.path) };
+  }
+
+  assertAgentCallAllowed(store, "memory_sync", {
+    skipMemorySyncLimit: options?.bypassSyncLimits === true,
+  });
+
+  const client = createClient(apiKey);
   const existing = new Map<string, string>();
 
   for await (const item of client.beta.memoryStores.memories.list(config.memoryStoreId, {
@@ -162,7 +226,9 @@ export async function syncHubContextToMemoryStore(store: JsonStore, dataDir: str
   }
 
   let uploaded = 0;
-  for (const doc of docs) {
+  const skipped = docs.length - changedDocs.length;
+  for (const doc of changedDocs) {
+    const hash = hashDocContent(doc.content);
     const memoryId = existing.get(doc.path);
     if (memoryId) {
       await client.beta.memoryStores.memories.update(memoryId, {
@@ -177,13 +243,23 @@ export async function syncHubContextToMemoryStore(store: JsonStore, dataDir: str
         betas: [MANAGED_AGENTS_BETA],
       });
     }
+    docHashes[doc.path] = hash;
     uploaded += 1;
   }
 
-  store.setSetting("tiktokAgentLastMemorySyncAt", new Date().toISOString());
-  store.appendLog("agent_memory", "ok", `Synced ${uploaded} hub context files to memory store`);
+  store.setSetting("agentMemoryDocHashes", JSON.stringify(docHashes));
 
-  return { uploaded, paths: docs.map((d) => d.path) };
+  recordAgentCall(store, {
+    at: new Date().toISOString(),
+    kind: "memory_sync",
+    task: "memory_sync",
+    payloadHash: hashAgentPayload(changedDocs.map((d) => d.path).join("|")),
+  });
+
+  store.setSetting("tiktokAgentLastMemorySyncAt", new Date().toISOString());
+  store.appendLog("agent_memory", "ok", `Synced ${uploaded} hub context files (${skipped} unchanged)`);
+
+  return { uploaded, skipped, paths: docs.map((d) => d.path) };
 }
 
 async function collectNewAgentReplies(
@@ -341,82 +417,106 @@ async function deliverAgentMessage(
   message: string,
   options: {
     recordInChat?: boolean;
+    ephemeral?: boolean;
     timeoutMs?: number;
     waitForJson?: boolean | "plan";
     task?: string;
   } = {}
 ): Promise<AgentCallResult> {
-  const apiKey = requireApiKey(store);
-  const client = createClient(apiKey);
-  const timeoutMs = options.timeoutMs ?? 120_000;
-  const task = options.task;
-
-  try {
-    publishSessionStatus("", task, "connecting", "Connecting to agent session…");
-
-    const session = await createAgentSession(store);
-    const sessionId = session.sessionId;
-    publishSessionStatus(
-      sessionId,
+  return withAgentLock(async () => {
+    const apiKey = requireApiKey(store);
+    const client = createClient(apiKey);
+    const timeoutMs = options.timeoutMs ?? 120_000;
+    const task = options.task;
+    const payloadHash = hashAgentPayload(`${task || "agent"}|${message.slice(0, 4000)}`);
+    assertAgentCallAllowed(store, "managed_agent", {
       task,
-      "connecting",
-      session.reused ? "Reusing agent session…" : "Agent session created…",
-      session.status
-    );
-
-    const usageBefore = await readSessionMeta(client, sessionId);
-
-    const before = new Set<string>();
-    for await (const event of client.beta.sessions.events.list(sessionId, { betas: [MANAGED_AGENTS_BETA] })) {
-      before.add(event.id);
-    }
-
-    publishSessionStatus(sessionId, task, "sending", "Sending request to agent…", session.status);
-
-    await client.beta.sessions.events.send(sessionId, {
-      events: [
-        {
-          type: "user.message",
-          content: [{ type: "text", text: message }],
-        },
-      ],
-      betas: [MANAGED_AGENTS_BETA],
+      payloadHash,
+      payloadChars: message.length,
     });
 
-    publishSessionStatus(sessionId, task, "running", "Agent received request — working…", "running");
+    try {
+      publishSessionStatus("", task, "connecting", "Connecting to agent session…");
 
-    const assistantText = await waitForAgentReply(client, sessionId, before, {
-      timeoutMs,
-      waitForJson: options.waitForJson,
-      task,
-      sessionId,
-    });
+      const session = options.ephemeral
+        ? await createEphemeralAgentSession(store)
+        : await createAgentSession(store);
+      const sessionId = session.sessionId;
+      publishSessionStatus(
+        sessionId,
+        task,
+        "connecting",
+        options.ephemeral ? "Fresh task session…" : session.reused ? "Reusing agent session…" : "Agent session created…",
+        session.status
+      );
 
-    publishSessionStatus(sessionId, task, "finalizing", "Response complete — saving…", "idle");
+      const usageBefore = await readSessionMeta(client, sessionId);
 
-    const usageAfter = await readSessionMeta(client, sessionId);
-    const delta = diffUsage(usageBefore.usage, usageAfter.usage);
-    const cost = calculateUsageCost(delta, usageAfter.modelId, usageAfter.speed, false);
+      const before = new Set<string>();
+      for await (const event of client.beta.sessions.events.list(sessionId, { betas: [MANAGED_AGENTS_BETA] })) {
+        before.add(event.id);
+      }
 
-    if (options.recordInChat !== false) {
-      const history = readChatHistory(store);
-      history.push({ role: "user", text: message, at: new Date().toISOString() });
-      history.push({ role: "assistant", text: assistantText, at: new Date().toISOString(), cost });
-      writeChatHistory(store, history.slice(-40));
+      publishSessionStatus(sessionId, task, "sending", "Sending request to agent…", session.status);
+
+      await client.beta.sessions.events.send(sessionId, {
+        events: [
+          {
+            type: "user.message",
+            content: [{ type: "text", text: message }],
+          },
+        ],
+        betas: [MANAGED_AGENTS_BETA],
+      });
+
+      publishSessionStatus(sessionId, task, "running", "Agent received request — working…", "running");
+
+      const assistantText = await waitForAgentReply(client, sessionId, before, {
+        timeoutMs,
+        waitForJson: options.waitForJson,
+        task,
+        sessionId,
+      });
+
+      publishSessionStatus(sessionId, task, "finalizing", "Response complete — saving…", "idle");
+
+      const usageAfter = await readSessionMeta(client, sessionId);
+      const delta = diffUsage(usageBefore.usage, usageAfter.usage);
+      const cost = calculateUsageCost(delta, usageAfter.modelId, usageAfter.speed, false);
+      const totalInput =
+        delta.inputTokens + (delta.cacheReadInputTokens || 0) + (delta.cacheCreation5mTokens || 0);
+
+      recordAgentCall(store, {
+        at: new Date().toISOString(),
+        kind: "managed_agent",
+        task,
+        inputTokens: totalInput,
+        outputTokens: delta.outputTokens,
+        costUsd: cost.totalUsd,
+        payloadHash,
+      });
+      checkPostCallAnomaly(store, totalInput, "managed_agent", task);
+
+      if (options.recordInChat !== false) {
+        const history = readChatHistory(store);
+        history.push({ role: "user", text: message, at: new Date().toISOString() });
+        history.push({ role: "assistant", text: assistantText, at: new Date().toISOString(), cost });
+        writeChatHistory(store, history.slice(-40));
+      }
+
+      accumulateAgentSpend(store, cost);
+
+      publishSessionStatus(sessionId, task, "done", "Done", "idle");
+
+      return { sessionId, reply: assistantText, cost };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      publishSessionStatus("", task, "error", msg);
+      throw err;
+    } finally {
+      clearAgentSessionStatus(task);
     }
-
-    accumulateAgentSpend(store, cost);
-
-    publishSessionStatus(sessionId, task, "done", "Done", "idle");
-
-    return { sessionId, reply: assistantText, cost };
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    publishSessionStatus("", task, "error", msg);
-    throw err;
-  } finally {
-    clearAgentSessionStatus(task);
-  }
+  });
 }
 
 /** Internal hub tasks (scripts, auto-sync notices) — not shown in TikTok Agent chat tab. */
@@ -425,7 +525,7 @@ export async function sendAgentTask(
   message: string,
   options: { timeoutMs?: number; waitForJson?: boolean | "plan"; task?: string } = {}
 ) {
-  return deliverAgentMessage(store, message, { recordInChat: false, ...options });
+  return deliverAgentMessage(store, message, { recordInChat: false, ephemeral: true, ...options });
 }
 
 export type AgentTaskType =
@@ -441,16 +541,8 @@ export async function requestAgentTask(
   context?: string,
   timeoutMs = 180_000
 ) {
-  const noTools = task === "generate_script" || task === "generate_daily_plan";
-  const header = noTools
-    ? `[Hub task: ${task}]
-You are the TikTok Intelligence Hub managed agent.
-
-CRITICAL — do NOT run bash, grep, or any shell/file tools. All product, sales, library, and performance data you need is in the message below. Reply in ONE turn with the requested JSON only — no research steps, no confirmation messages.
-
-`
-    : `[Hub task: ${task}]
-You are the TikTok Intelligence Hub managed agent. Read /hub/*.md in the attached memory store for current products, sales, library, and performance data before responding.
+  const header = `[Hub task: ${task}]
+Read /hub/*.md in the attached memory store for products, sales, library stats, and performance data. Do not ask for data that is already in those files.
 
 `;
   const body = context ? `${instructions}\n\n---\n\n${context}` : instructions;

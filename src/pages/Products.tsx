@@ -39,8 +39,8 @@ function ResearchBadge({ product }: { product: Product }) {
 
   if (status === "pending") {
     return (
-      <span className="research-pill pending" title="Queued for one-time packaging research when used in a script">
-        Waiting
+      <span className="research-pill pending" title="Local packaging guess — click Retry for deep research">
+        Local guess
       </span>
     );
   }
@@ -68,6 +68,9 @@ export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
+  const [shopLink, setShopLink] = useState("");
+  const [shopImportLoading, setShopImportLoading] = useState(false);
+  const [whisperOk, setWhisperOk] = useState<boolean | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -92,6 +95,7 @@ export default function Products() {
 
   useEffect(() => {
     void refresh();
+    window.hub.checkWhisper().then(setWhisperOk);
   }, [refresh]);
 
   useEffect(() => {
@@ -127,13 +131,41 @@ export default function Products() {
     await refresh();
   }
 
+  async function importFromShopLink() {
+    const url = shopLink.trim();
+    if (!url) {
+      setMessage("Paste a TikTok Shop product link first.");
+      return;
+    }
+    if (whisperOk === false) {
+      setMessage("Whisper server is offline — start tiktok-hook-analyzer/whisper-server/start.bat, then try again.");
+      return;
+    }
+    setShopImportLoading(true);
+    setMessage("");
+    const res = await window.hub.importProductFromShopLink(url);
+    setShopImportLoading(false);
+    if (!res.ok) {
+      setMessage(res.error || "Import failed");
+      return;
+    }
+    setShopLink("");
+    setMessage(
+      res.isNew
+        ? `Imported ${res.product?.name || "product"} from TikTok Shop.`
+        : `Updated ${res.product?.name || "product"} from TikTok Shop.`
+    );
+    await refresh();
+  }
+
   return (
     <div>
       <h2 className="page-title">My Products</h2>
       <p className="page-desc">
         Products are imported automatically from extension JSON, TikTok Shop/Affiliate <strong>XLSX</strong>{" "}
-        exports, or <code>products.json</code> / <code>library.json</code>. New products get one-time packaging
-        research (tub, bottle, can, bag) for script writing.
+        exports, <code>products.json</code> / <code>library.json</code>, or paste a{" "}
+        <strong>TikTok Shop product link</strong> below. Packaging words (tub, bottle, can, bag) are guessed locally
+        from the product name — use <strong>Retry research</strong> only for a deeper Claude lookup.
       </p>
 
       {activeResearch.length > 0 && (
@@ -154,6 +186,40 @@ export default function Products() {
         </div>
       )}
 
+      <div className="card" style={{ marginBottom: 14 }}>
+        <div className="card-title">Import from TikTok Shop link</div>
+        <p className="muted" style={{ fontSize: 12, marginBottom: 10 }}>
+          Paste a product page URL from TikTok Shop — e.g.{" "}
+          <code>https://www.tiktok.com/shop/pdp/…</code> or <code>…/view/product/…</code>. Requires whisper-server
+          with fresh <code>cookies.txt</code> if TikTok blocks the fetch.
+        </p>
+        {whisperOk === false && (
+          <p className="error" style={{ fontSize: 12, marginBottom: 10 }}>
+            Whisper server is offline — start <code>tiktok-hook-analyzer/whisper-server/start.bat</code> first.
+          </p>
+        )}
+        <label className="field-label" htmlFor="shop-link-import">
+          TikTok Shop product URL
+        </label>
+        <input
+          id="shop-link-import"
+          className="field-input"
+          placeholder="https://www.tiktok.com/shop/pdp/…"
+          value={shopLink}
+          onChange={(e) => setShopLink(e.target.value)}
+        />
+        <div className="btn-row" style={{ marginTop: 10 }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={shopImportLoading || whisperOk === false}
+            onClick={() => void importFromShopLink()}
+          >
+            {shopImportLoading ? "Fetching product…" : "Import product"}
+          </button>
+        </div>
+      </div>
+
       <div className="card">
         <div className="btn-row">
           <button type="button" className="btn btn-primary" onClick={importFiles}>
@@ -166,7 +232,11 @@ export default function Products() {
             Open data folder
           </button>
         </div>
-        {message && <p className="success">{message}</p>}
+        {message && (
+          <p className={message.toLowerCase().includes("failed") || message.includes("offline") ? "error" : "success"}>
+            {message}
+          </p>
+        )}
       </div>
 
       <div className="card">

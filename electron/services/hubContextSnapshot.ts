@@ -3,12 +3,15 @@ import { getDataLayoutSummary } from "./dataFolders.js";
 import { getPlannerSummary } from "./dailyPlanner.js";
 import { buildFunnelKnowledge } from "./funnelKnowledge.js";
 import { buildLibraryInsights } from "./libraryPerformance.js";
-import { buildMemorySummary, type WinningPattern } from "./memoryInsights.js";
-import { buildVideoOutcomesMarkdown } from "./videoOutcomes.js";
+import { buildMemorySummary } from "./memoryInsights.js";
 import { listProductSales } from "./salesImport.js";
 import { formatInspirationRules } from "./referenceAdaptation.js";
 import { buildLibraryContextBlock } from "./libraryContext.js";
 import { PACKAGING_KNOWLEDGE } from "./productPackaging.js";
+import { formatCreatorGuidanceMarkdown } from "./creatorGuidance.js";
+import { formatScriptFeedbackForPrompt, formatValidationLessonsInject } from "./scriptFeedback.js";
+
+export { buildScriptWriterSystemPrompt } from "./scriptSystemPrompt.js";
 
 export type HubMemoryDocument = {
   path: string;
@@ -74,6 +77,19 @@ These rules are ABSOLUTE. Apply them to every script, daily plan, and content su
 - Repeat the SAME number after "but" — that's the ragebait
 - e.g. 3 items = "Not 1, Not 2, Not 3, But 3"
 
+### Hook length
+- Maximum 7 words. Minimum 1 word. Count before writing — length kills the pattern interrupt
+- GOOD: "Stop." / "Don't buy this." / "I can't believe this." / "There is no way this is legal." / "Do not waste your money."
+- BAD: "Don't buy the Umberto Giannini Curl Jelly Kit until you've seen this deal" — too long
+- Countdown hooks (Not 1, Not 2...) are the only exception — repetition IS the retention mechanic
+
+### Repetition
+- Never repeat the same word, phrase, or product name more than once unless it is the CTA line
+- Product name: say once in full, use pronouns ("it", "this", "the kit", "the bundle") after
+- Price or discount: mention once only
+- No dramatic stutter ("Every. Single. Time.") or filler restatement
+- Restating the same fact two ways — pick one, cut the other
+
 ---
 
 ## BANNED PHRASES
@@ -83,7 +99,17 @@ These rules are ABSOLUTE. Apply them to every script, daily plan, and content su
 - Describing WildGut's purpose or mechanism
 - Revealing the "why" of Don't Buy This in the same line as the hook
 - Repeating "don't buy" more than once in the hook
+- Hook longer than 7 words (countdown hooks starting with "Not" exempt)
+- Repeating product name more than twice — use pronouns after first mention
+- Repeating any 4+ word phrase twice in the same script
+- "I had to say that out loud because I could not believe it" — filler restatement, banned
 - Shortened or half-formed product names
+
+### Banned output example — repetition (never reproduce)
+
+Original (REJECTED): Opens with product value instead of a hook. "Umberto Giannini" ×4, "for more than half price" ×2, "Every. Single. Time." stutter, filler "I had to say that out loud because I could not believe it."
+
+Corrected: LINE 1 hook max 7 words → "Over eighty pounds. More than half price." → relatable mistake with product name once → discount reveal with "the full kit" → product details with pronouns → standard CTA.
 
 ---
 
@@ -245,7 +271,7 @@ ${buildLibraryContextBlock(store, 20)}
 ${memory.topPatterns
   .slice(0, 15)
   .map(
-    (p: WinningPattern, i: number) =>
+    (p, i) =>
       `${i + 1}. [${p.source}] "${p.hook.slice(0, 80)}"` +
       (p.whatWorked ? `\n   Tactic: ${p.whatWorked.slice(0, 120)}` : "") +
       (p.myGmv ? `\n   GMV £${p.myGmv}` : "") +
@@ -255,7 +281,7 @@ ${memory.topPatterns
 
 ## Hook type wins
 ${Object.entries(memory.hookTypeWins)
-  .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+  .sort((a, b) => b[1] - a[1])
   .slice(0, 8)
   .map(([k, v]) => `- ${k}: ${v}`)
   .join("\n")}
@@ -369,7 +395,6 @@ These rules govern how this agent operates. Follow them on every task.
 - NEVER auto-research products in bulk. Product packaging research runs ONE TIME per product, only when that product is first used in a script. Do not loop or retry unless the user asks.
 - NEVER trigger repeated API calls in response to data imports or syncs. Memory store updates are handled silently by the hub — you do not need to acknowledge them.
 - If you are asked to do something that would create many API calls in a loop, refuse and explain why.
-- For **generate_script** and **generate_daily_plan**: NEVER use bash, grep, or any shell/file tools. The hub already injects all required context in the task message. Respond in ONE turn with JSON only — no grep steps, no "confirming" sales data, no intermediate messages.
 
 ## What triggers a valid task
 
@@ -399,12 +424,24 @@ NOT valid triggers (do not act on these):
 - Keep responses concise unless a detailed plan or script is requested
 `;
 
-  const videoOutcomesDoc = clip(`# Video outcomes — posted script performance\n\n${buildVideoOutcomesMarkdown(store)}`);
-
   return [
     { path: "/hub/SKILL.md", content: buildSkillMarkdown() },
     { path: "/hub/compliance.md", content: COMPLIANCE_RULES },
     { path: "/hub/agent-rules.md", content: agentRulesDoc },
+    { path: "/hub/creator-guidance.md", content: formatCreatorGuidanceMarkdown(store) },
+    {
+      path: "/hub/script_feedback.md",
+      content: (() => {
+        const rated = formatScriptFeedbackForPrompt(store);
+        const lessons = formatValidationLessonsInject(store);
+        const parts: string[] = [];
+        if (rated) parts.push(rated);
+        if (!lessons.startsWith("(No auto-rejected")) {
+          parts.push(`## Auto-learned validation rejections\n\n${lessons}`);
+        }
+        return parts.join("\n\n") || "# Script section feedback\n\nNo section ratings yet.";
+      })(),
+    },
     { path: "/hub/overview.md", content: overview },
     { path: "/hub/products.md", content: productsDoc },
     { path: "/hub/sales.md", content: salesDoc },
@@ -415,7 +452,6 @@ NOT valid triggers (do not act on these):
     { path: "/hub/import_history.md", content: importDoc },
     { path: "/hub/analytics.md", content: analyticsDoc },
     { path: "/hub/my_videos.md", content: myVideosDoc },
-    { path: "/hub/video_outcomes.md", content: videoOutcomesDoc },
   ];
 }
 
@@ -431,10 +467,9 @@ const RAW_SYNC_TABLES = [
   "positive_memory",
   "product_sales",
   "scripts",
+  "creator_guidance",
   "daily_plans",
   "my_videos",
-  "video_outcomes",
-  "pending_analysis",
 ] as const;
 
 const MAX_RAW_CHARS = 90_000;

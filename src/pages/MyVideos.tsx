@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MyVideo } from "../hub";
 
 const EMPTY_FORM = {
@@ -30,16 +30,192 @@ function scoreColor(score: number | null) {
   return "#f44336";
 }
 
+function videoThumbnail(video: MyVideo): string | null {
+  if (video.thumbnail_url) return video.thumbnail_url;
+  if (!video.analysis?.raw_json) return null;
+  try {
+    const row = JSON.parse(video.analysis.raw_json) as Record<string, unknown>;
+    const direct = row.frameDataUrl ?? row.thumbnail_url;
+    return typeof direct === "string" && direct.trim() ? direct.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+function videoToForm(v: MyVideo): FormState {
+  return {
+    url: v.url || "",
+    views: v.views != null ? String(v.views) : "",
+    likes: v.likes != null ? String(v.likes) : "",
+    comments: v.comments != null ? String(v.comments) : "",
+    watch_time_pct: v.watch_time_pct != null ? String(v.watch_time_pct) : "",
+    sales: v.sales != null ? String(v.sales) : "",
+    gmv: v.gmv != null ? String(v.gmv) : "",
+    commission: v.commission != null ? String(v.commission) : "",
+    audience_male_pct: v.audience_male_pct != null ? String(v.audience_male_pct) : "",
+    audience_female_pct: v.audience_female_pct != null ? String(v.audience_female_pct) : "",
+    audience_other_pct: v.audience_other_pct != null ? String(v.audience_other_pct) : "",
+    upload_date: v.upload_date?.slice(0, 10) || new Date().toISOString().slice(0, 10),
+  };
+}
+
+type VideoEditFormProps = {
+  form: FormState;
+  onChange: (next: FormState) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  onCancel: () => void;
+  saving: boolean;
+  title: string;
+  submitLabel: string;
+  thumbnailUrl: string | null;
+};
+
+function VideoEditForm({
+  form,
+  onChange,
+  onSubmit,
+  onCancel,
+  saving,
+  title,
+  submitLabel,
+  thumbnailUrl,
+}: VideoEditFormProps) {
+  const set = (key: keyof FormState, value: string) => onChange({ ...form, [key]: value });
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      style={{ marginTop: 12, borderTop: "1px solid #222", paddingTop: 12 }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="card-title" style={{ marginBottom: 10 }}>{title}</div>
+
+          <label className="field-label">TikTok Video URL *</label>
+          <input
+            className="field-input"
+            type="text"
+            autoComplete="off"
+            placeholder="https://www.tiktok.com/@..."
+            value={form.url}
+            onChange={(e) => set("url", e.target.value)}
+          />
+
+          <div className="card-title" style={{ marginTop: 4, fontSize: 12, color: "#aaa", fontWeight: 400 }}>
+            PERFORMANCE
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            {(["views", "likes", "comments"] as const).map((key) => (
+              <div key={key}>
+                <label className="field-label">{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                <input
+                  className="field-input"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="0"
+                  value={form[key]}
+                  onChange={(e) => set(key, e.target.value)}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 4 }}>
+            <label className="field-label">Watch Time %</label>
+            <input
+              className="field-input"
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              placeholder="e.g. 65"
+              value={form.watch_time_pct}
+              onChange={(e) => set("watch_time_pct", e.target.value)}
+            />
+            <p className="muted" style={{ fontSize: 11, marginTop: -8, marginBottom: 8 }}>
+              Average % of video watched (from TikTok Studio)
+            </p>
+          </div>
+
+          <div className="card-title" style={{ fontSize: 12, color: "#aaa", fontWeight: 400 }}>SALES</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            <div>
+              <label className="field-label">Sales (units)</label>
+              <input className="field-input" type="text" inputMode="numeric" autoComplete="off" placeholder="0" value={form.sales} onChange={(e) => set("sales", e.target.value)} />
+            </div>
+            <div>
+              <label className="field-label">GMV (£)</label>
+              <input className="field-input" type="text" inputMode="decimal" autoComplete="off" placeholder="0.00" value={form.gmv} onChange={(e) => set("gmv", e.target.value)} />
+            </div>
+            <div>
+              <label className="field-label">Commission (£)</label>
+              <input className="field-input" type="text" inputMode="decimal" autoComplete="off" placeholder="0.00" value={form.commission} onChange={(e) => set("commission", e.target.value)} />
+            </div>
+          </div>
+
+          <div className="card-title" style={{ marginTop: 4, fontSize: 12, color: "#aaa", fontWeight: 400 }}>
+            AUDIENCE SPLIT %
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            {(["audience_male_pct", "audience_female_pct", "audience_other_pct"] as const).map((key) => (
+              <div key={key}>
+                <label className="field-label">{key.includes("male") ? "Male %" : key.includes("female") ? "Female %" : "Other %"}</label>
+                <input className="field-input" type="text" inputMode="numeric" autoComplete="off" placeholder="0" value={form[key]} onChange={(e) => set(key, e.target.value)} />
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 4 }}>
+            <label className="field-label">Upload Date</label>
+            <input className="field-input" type="date" value={form.upload_date} onChange={(e) => set("upload_date", e.target.value)} />
+          </div>
+
+          <div className="btn-row" style={{ marginTop: 12 }}>
+            <button type="submit" className="btn btn-primary" disabled={saving}>
+              {saving ? "Saving…" : submitLabel}
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={onCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <div style={{ flexShrink: 0, width: 120 }}>
+          <div style={{
+            width: 120,
+            height: 160,
+            borderRadius: 8,
+            background: "#1a1a1a",
+            overflow: "hidden",
+            border: "2px solid #333",
+          }}>
+            {thumbnailUrl ? (
+              <img src={thumbnailUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            ) : (
+              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#555", fontSize: 11, textAlign: "center", padding: 8 }}>
+                No thumbnail
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
 export default function MyVideos() {
   const [videos, setVideos] = useState<MyVideo[]>([]);
-  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [addForm, setAddForm] = useState<FormState>(EMPTY_FORM);
+  const [editForm, setEditForm] = useState<FormState>(EMPTY_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [analysingId, setAnalysingId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const editFormRef = useRef<HTMLDivElement | null>(null);
 
   async function load() {
     const list = await window.hub.listMyVideos();
@@ -61,33 +237,16 @@ export default function MyVideos() {
     void load();
   }
 
-  // Auto-import on mount so hub picks up anything already in data folder
   useEffect(() => {
     window.hub.importPersonalLibrary().then(() => load());
   }, []);
 
-  function field(key: keyof FormState, label: string, type = "text", placeholder = "") {
-    return (
-      <div style={{ marginBottom: 10 }}>
-        <label className="field-label">{label}</label>
-        <input
-          className="field-input"
-          type={type}
-          placeholder={placeholder}
-          value={form[key]}
-          onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
-        />
-      </div>
-    );
-  }
-
-  async function handleSave(e: React.FormEvent) {
-    e.preventDefault();
-    if (!form.url.trim()) { setError("Video URL is required."); return; }
+  async function saveVideo(form: FormState, id?: string) {
+    if (!form.url.trim()) { setError("Video URL is required."); return false; }
     setSaving(true);
     setError("");
     const res = await window.hub.saveMyVideo({
-      ...(editingId ? { id: editingId } : {}),
+      ...(id ? { id } : {}),
       url: form.url.trim(),
       views: num(form.views),
       likes: num(form.likes),
@@ -103,36 +262,48 @@ export default function MyVideos() {
       submitted_at: new Date().toISOString(),
     });
     setSaving(false);
-    if (!res.ok) { setError(res.error || "Save failed"); return; }
-    setShowForm(false);
-    setEditingId(null);
-    setForm(EMPTY_FORM);
-    setNotice("Video saved.");
+    if (!res.ok) { setError(res.error || "Save failed"); return false; }
+    setNotice(id ? "Video updated." : "Video saved.");
+    return true;
+  }
+
+  async function handleAddSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const ok = await saveVideo(addForm);
+    if (!ok) return;
+    setShowAddForm(false);
+    setAddForm(EMPTY_FORM);
     void load();
   }
 
-  function handleEdit(v: MyVideo) {
+  async function handleEditSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editingId) return;
+    const ok = await saveVideo(editForm, editingId);
+    if (!ok) return;
+    setEditingId(null);
+    void load();
+  }
+
+  function startEdit(v: MyVideo) {
+    setShowAddForm(false);
+    setExpandedId(null);
     setEditingId(v.id);
-    setForm({
-      url: v.url || "",
-      views: v.views?.toString() || "",
-      likes: v.likes?.toString() || "",
-      comments: v.comments?.toString() || "",
-      watch_time_pct: v.watch_time_pct?.toString() || "",
-      sales: v.sales?.toString() || "",
-      gmv: v.gmv?.toString() || "",
-      commission: v.commission?.toString() || "",
-      audience_male_pct: v.audience_male_pct?.toString() || "",
-      audience_female_pct: v.audience_female_pct?.toString() || "",
-      audience_other_pct: v.audience_other_pct?.toString() || "",
-      upload_date: v.upload_date?.slice(0, 10) || new Date().toISOString().slice(0, 10),
-    });
-    setShowForm(true);
+    setEditForm(videoToForm(v));
+    setError("");
+    setTimeout(() => {
+      editFormRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 50);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
     setError("");
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this video?")) return;
+    if (editingId === id) setEditingId(null);
     await window.hub.deleteMyVideo(id);
     void load();
   }
@@ -163,15 +334,19 @@ export default function MyVideos() {
           style={{ marginLeft: "auto", fontSize: 12 }}
           disabled={saving}
           onClick={() => void syncFromExtension()}
-          title="Pull any videos saved to Personal Library in the extension"
         >
           ↓ Sync from extension
         </button>
         <button
           className="btn btn-primary"
-          onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(EMPTY_FORM); setError(""); }}
+          onClick={() => {
+            setShowAddForm(!showAddForm);
+            setEditingId(null);
+            setAddForm(EMPTY_FORM);
+            setError("");
+          }}
         >
-          {showForm ? "Cancel" : "+ Add Video"}
+          {showAddForm ? "Cancel" : "+ Add Video"}
         </button>
       </div>
       <p className="page-desc">
@@ -181,86 +356,22 @@ export default function MyVideos() {
       {notice && <p className="success" style={{ marginBottom: 12 }}>{notice}</p>}
       {error && <p className="error" style={{ marginBottom: 12 }}>{error}</p>}
 
-      {showForm && (
-        <form className="card" style={{ maxWidth: 640, marginBottom: 20 }} onSubmit={handleSave}>
-          <div className="card-title">{editingId ? "Edit Video" : "Add Video"}</div>
-
-          {field("url", "TikTok Video URL *", "url", "https://www.tiktok.com/@...")}
-
-          <div className="card-title" style={{ marginTop: 12, fontSize: 12, color: "#aaa", fontWeight: 400 }}>
-            PERFORMANCE
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-            <div>
-              <label className="field-label">Views</label>
-              <input className="field-input" type="number" placeholder="0" value={form.views} onChange={(e) => setForm((f) => ({ ...f, views: e.target.value }))} />
-            </div>
-            <div>
-              <label className="field-label">Likes</label>
-              <input className="field-input" type="number" placeholder="0" value={form.likes} onChange={(e) => setForm((f) => ({ ...f, likes: e.target.value }))} />
-            </div>
-            <div>
-              <label className="field-label">Comments</label>
-              <input className="field-input" type="number" placeholder="0" value={form.comments} onChange={(e) => setForm((f) => ({ ...f, comments: e.target.value }))} />
-            </div>
-          </div>
-
-          <div style={{ marginTop: 10 }}>
-            <label className="field-label">Watch Time %</label>
-            <input className="field-input" type="number" min="0" max="100" placeholder="e.g. 65" value={form.watch_time_pct} onChange={(e) => setForm((f) => ({ ...f, watch_time_pct: e.target.value }))} />
-            <p className="muted" style={{ fontSize: 11, marginTop: 3 }}>Average % of video watched (from TikTok Studio)</p>
-          </div>
-
-          <div className="card-title" style={{ marginTop: 12, fontSize: 12, color: "#aaa", fontWeight: 400 }}>
-            SALES
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-            <div>
-              <label className="field-label">Sales (units)</label>
-              <input className="field-input" type="number" placeholder="0" value={form.sales} onChange={(e) => setForm((f) => ({ ...f, sales: e.target.value }))} />
-            </div>
-            <div>
-              <label className="field-label">GMV (£)</label>
-              <input className="field-input" type="number" step="0.01" placeholder="0.00" value={form.gmv} onChange={(e) => setForm((f) => ({ ...f, gmv: e.target.value }))} />
-            </div>
-            <div>
-              <label className="field-label">Commission (£)</label>
-              <input className="field-input" type="number" step="0.01" placeholder="0.00" value={form.commission} onChange={(e) => setForm((f) => ({ ...f, commission: e.target.value }))} />
-            </div>
-          </div>
-
-          <div className="card-title" style={{ marginTop: 12, fontSize: 12, color: "#aaa", fontWeight: 400 }}>
-            AUDIENCE SPLIT %
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-            <div>
-              <label className="field-label">Male %</label>
-              <input className="field-input" type="number" min="0" max="100" placeholder="0" value={form.audience_male_pct} onChange={(e) => setForm((f) => ({ ...f, audience_male_pct: e.target.value }))} />
-            </div>
-            <div>
-              <label className="field-label">Female %</label>
-              <input className="field-input" type="number" min="0" max="100" placeholder="0" value={form.audience_female_pct} onChange={(e) => setForm((f) => ({ ...f, audience_female_pct: e.target.value }))} />
-            </div>
-            <div>
-              <label className="field-label">Other %</label>
-              <input className="field-input" type="number" min="0" max="100" placeholder="0" value={form.audience_other_pct} onChange={(e) => setForm((f) => ({ ...f, audience_other_pct: e.target.value }))} />
-            </div>
-          </div>
-
-          <div style={{ marginTop: 10 }}>
-            <label className="field-label">Upload Date</label>
-            <input className="field-input" type="date" value={form.upload_date} onChange={(e) => setForm((f) => ({ ...f, upload_date: e.target.value }))} />
-          </div>
-
-          <div className="btn-row" style={{ marginTop: 16 }}>
-            <button type="submit" className="btn btn-primary" disabled={saving}>
-              {saving ? "Saving…" : editingId ? "Update Video" : "Save Video"}
-            </button>
-          </div>
-        </form>
+      {showAddForm && (
+        <div className="card" style={{ marginBottom: 20 }}>
+          <VideoEditForm
+            form={addForm}
+            onChange={setAddForm}
+            onSubmit={handleAddSubmit}
+            onCancel={() => { setShowAddForm(false); setAddForm(EMPTY_FORM); }}
+            saving={saving}
+            title="Add Video"
+            submitLabel="Save Video"
+            thumbnailUrl={null}
+          />
+        </div>
       )}
 
-      {videos.length === 0 && !showForm && (
+      {videos.length === 0 && !showAddForm && (
         <div className="card" style={{ color: "#666", textAlign: "center", padding: 40 }}>
           No videos yet. Add your first video to start building your performance library.
         </div>
@@ -268,41 +379,63 @@ export default function MyVideos() {
 
       {videos.some((v) => (v as MyVideo & { pending_hub_review?: boolean }).pending_hub_review) && (
         <div style={{ background: "#1a0a0a", border: "1px solid #fe2c55", borderRadius: 8, padding: "10px 14px", marginBottom: 16, fontSize: 13, color: "#fe2c55" }}>
-          ⭐ You have videos imported from the extension that need performance data filled in — they're marked below.
+          ⭐ You have videos imported from the extension that need performance data filled in — click Edit on each one below.
         </div>
       )}
 
       {videos.map((v) => {
         const isPending = (v as MyVideo & { pending_hub_review?: boolean }).pending_hub_review;
         const isExpanded = expandedId === v.id;
+        const isEditing = editingId === v.id;
         const isAnalysing = analysingId === v.id;
+        const thumb = videoThumbnail(v);
         return (
-          <div key={v.id} className="card" style={{ marginBottom: 12, borderColor: isPending ? "#fe2c55" : undefined }}>
-            {isPending && (
+          <div
+            key={v.id}
+            ref={isEditing ? editFormRef : undefined}
+            className="card"
+            style={{ marginBottom: 12, borderColor: isPending ? "#fe2c55" : undefined }}
+          >
+            {isPending && !isEditing && (
               <div style={{ fontSize: 11, color: "#fe2c55", marginBottom: 8, fontWeight: 700 }}>
                 ⭐ FROM EXTENSION — fill in GMV, Commission &amp; performance data below
               </div>
             )}
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-              {/* Score badge */}
-              <div style={{
-                minWidth: 52,
-                height: 52,
-                borderRadius: 8,
-                background: "#1a1a1a",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                border: `2px solid ${scoreColor(v.score)}`,
-              }}>
-                <span style={{ fontSize: 18, fontWeight: 700, color: scoreColor(v.score), lineHeight: 1 }}>
-                  {v.score ?? "—"}
-                </span>
-                <span style={{ fontSize: 9, color: "#666", marginTop: 2 }}>SCORE</span>
+              <div style={{ position: "relative", flexShrink: 0 }}>
+                <div style={{
+                  width: 72,
+                  height: 96,
+                  borderRadius: 8,
+                  background: "#1a1a1a",
+                  overflow: "hidden",
+                  border: `2px solid ${isPending ? "#fe2c55" : "#333"}`,
+                }}>
+                  {thumb ? (
+                    <img src={thumb} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  ) : (
+                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#555", fontSize: 11 }}>
+                      No frame
+                    </div>
+                  )}
+                </div>
+                <div style={{
+                  position: "absolute",
+                  bottom: 4,
+                  right: 4,
+                  minWidth: 28,
+                  padding: "2px 4px",
+                  borderRadius: 4,
+                  background: "rgba(0,0,0,0.75)",
+                  border: `1px solid ${scoreColor(v.score)}`,
+                  textAlign: "center",
+                }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: scoreColor(v.score), lineHeight: 1 }}>
+                    {v.score ?? "—"}
+                  </span>
+                </div>
               </div>
 
-              {/* Main info */}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 13, color: "#fe2c55", fontFamily: "monospace", marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {shortUrl(v.url)}
@@ -312,9 +445,9 @@ export default function MyVideos() {
                   {v.likes != null && <span>❤️ {v.likes.toLocaleString()}</span>}
                   {v.comments != null && <span>💬 {v.comments.toLocaleString()}</span>}
                   {v.watch_time_pct != null && <span>⏱ {v.watch_time_pct}% watch time</span>}
-                  {v.gmv != null && <span>💰 £{v.gmv.toFixed(2)} GMV</span>}
-                  {v.commission != null && <span>🤑 £{v.commission.toFixed(2)} comm.</span>}
-                  {v.sales != null && <span>📦 {v.sales} sales</span>}
+                  {v.gmv != null && v.gmv > 0 && <span>💰 £{v.gmv.toFixed(2)} GMV</span>}
+                  {v.commission != null && v.commission > 0 && <span>🤑 £{v.commission.toFixed(2)} comm.</span>}
+                  {v.sales != null && v.sales > 0 && <span>📦 {v.sales} sales</span>}
                 </div>
                 {v.upload_date && (
                   <div style={{ fontSize: 11, color: "#555", marginTop: 4 }}>
@@ -323,49 +456,48 @@ export default function MyVideos() {
                 )}
               </div>
 
-              {/* Actions */}
               <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                {v.analysis_status !== "complete" && (
-                  <button
-                    className="btn btn-secondary"
-                    style={{ fontSize: 12, padding: "4px 10px" }}
-                    disabled={isAnalysing}
-                    onClick={() => void handleAnalyse(v.id)}
-                  >
+                {v.analysis_status !== "complete" && !isEditing && (
+                  <button className="btn btn-secondary" style={{ fontSize: 12, padding: "4px 10px" }} disabled={isAnalysing} onClick={() => void handleAnalyse(v.id)}>
                     {isAnalysing ? "Analysing…" : "Analyse"}
                   </button>
                 )}
-                {v.analysis_status === "complete" && (
-                  <button
-                    className="btn btn-secondary"
-                    style={{ fontSize: 12, padding: "4px 10px" }}
-                    onClick={() => setExpandedId(isExpanded ? null : v.id)}
-                  >
+                {v.analysis_status === "complete" && !isEditing && (
+                  <button className="btn btn-secondary" style={{ fontSize: 12, padding: "4px 10px" }} onClick={() => setExpandedId(isExpanded ? null : v.id)}>
                     {isExpanded ? "Hide" : "View"}
                   </button>
                 )}
                 <button
                   className="btn btn-secondary"
-                  style={{ fontSize: 12, padding: "4px 10px" }}
-                  onClick={() => handleEdit(v)}
+                  style={{ fontSize: 12, padding: "4px 10px", ...(isEditing ? { borderColor: "#fe2c55", color: "#fe2c55" } : {}) }}
+                  onClick={() => (isEditing ? cancelEdit() : startEdit(v))}
                 >
-                  Edit
+                  {isEditing ? "Close" : "Edit"}
                 </button>
-                <button
-                  className="btn btn-secondary"
-                  style={{ fontSize: 12, padding: "4px 10px", color: "#f44" }}
-                  onClick={() => void handleDelete(v.id)}
-                >
+                <button className="btn btn-secondary" style={{ fontSize: 12, padding: "4px 10px", color: "#f44" }} onClick={() => void handleDelete(v.id)}>
                   ✕
                 </button>
               </div>
             </div>
 
+            {isEditing && (
+              <VideoEditForm
+                form={editForm}
+                onChange={setEditForm}
+                onSubmit={handleEditSubmit}
+                onCancel={cancelEdit}
+                saving={saving}
+                title="Edit performance data"
+                submitLabel="Update Video"
+                thumbnailUrl={thumb}
+              />
+            )}
+
             {v.analysis_status === "error" && (
               <p className="error" style={{ marginTop: 8, fontSize: 12 }}>{v.analysis_error}</p>
             )}
 
-            {isExpanded && v.analysis && (
+            {isExpanded && !isEditing && v.analysis && (
               <div style={{ marginTop: 16, borderTop: "1px solid #222", paddingTop: 12 }}>
                 {v.analysis.onscreen_hook && (
                   <div style={{ marginBottom: 10 }}>
@@ -397,11 +529,28 @@ export default function MyVideos() {
                     <div style={{ fontSize: 12, color: "#ccc" }}>{v.analysis.detailed_analysis}</div>
                   </div>
                 )}
+                {(v.analysis.funnel_category || v.analysis.hook_type) && (
+                  <div style={{ marginBottom: 10 }}>
+                    <div style={{ fontSize: 11, color: "#fe2c55", fontWeight: 700, marginBottom: 4 }}>🎯 FUNNEL</div>
+                    <div style={{ fontSize: 12, color: "#ccc" }}>
+                      {v.analysis.funnel_category && <div>{v.analysis.funnel_category}</div>}
+                      {v.analysis.funnel_category_reason && (
+                        <div style={{ color: "#aaa", marginTop: 4 }}>{v.analysis.funnel_category_reason}</div>
+                      )}
+                      {v.analysis.funnel_breakdown?.map((stage, i) => (
+                        <div key={i} style={{ marginTop: 6, paddingLeft: 8, borderLeft: "2px solid #333" }}>
+                          <strong>{stage.label}</strong>
+                          {stage.time_range ? ` (${stage.time_range})` : ""}
+                          {stage.what_happens ? ` — ${stage.what_happens}` : ""}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {v.analysis.cta_timestamps.length > 0 && (
                   <div style={{ fontSize: 12, color: "#aaa" }}>
                     CTA at: {v.analysis.cta_timestamps.map((t) => `${t}s`).join(", ")}
                     {v.analysis.hook_type && ` · Hook: ${v.analysis.hook_type}`}
-                    {v.analysis.funnel_category && ` · ${v.analysis.funnel_category}`}
                   </div>
                 )}
               </div>

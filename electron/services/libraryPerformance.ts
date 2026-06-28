@@ -186,7 +186,10 @@ function formatNumber(n: number): string {
   return String(n);
 }
 
-export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
+export function formatLibraryPerformanceForPrompt(
+  store: JsonStore,
+  opts?: { selectedHookType?: string }
+): string {
   const insights = getScriptInsights(store);
   const memory = buildMemorySummary(store);
 
@@ -230,9 +233,12 @@ export function formatLibraryPerformanceForPrompt(store: JsonStore): string {
       if (video.hasPacing) lines.push(`   - Has pacing transcript + SSML reference available`);
     });
     lines.push("");
-    lines.push(
-      `**Auto-selected winning approach:** "${insights.recommendedHookType}" based on library engagement stats.`
-    );
+    if (opts?.selectedHookType) {
+      lines.push(
+        `**Assigned hook approach for this script:** "${opts.selectedHookType}" — performance-weighted pick with rotation (not always #1).`
+      );
+      lines.push("Use other ranked hook types on future scripts — variety across videos is required for testing.");
+    }
   } else {
     lines.push("No library engagement stats yet — import library.json from the extension.");
   }

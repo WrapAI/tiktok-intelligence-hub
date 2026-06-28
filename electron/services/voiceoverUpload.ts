@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { JsonStore } from "../db.js";
-import { uploadMp4ToDrive } from "./googleDrive.js";
+import { uploadMp4ToDrive, productFolderNameFromProductName } from "./googleDrive.js";
 import { createPendingFromDriveUpload } from "./pendingAnalysis.js";
-import { shortenProductName } from "./productNaming.js";
+import { assertScriptPassesValidation } from "./scriptWriter.js";
 
 const WHISPER_URL = "http://localhost:5050";
 
@@ -38,16 +38,21 @@ export async function uploadScriptVoiceoverToDrive(
   const script = store.list<Record<string, unknown>>("scripts").find((s) => s.id === scriptId);
   if (!script) throw new Error("Script not found.");
 
+  const product = store
+    .list<Record<string, unknown>>("products")
+    .find((p) => p.id === script.product_id);
+  assertScriptPassesValidation(
+    String(script.script_text || ""),
+    product?.name ? String(product.name) : undefined
+  );
+
   const mp3Path = String(script.audio_path || "").trim();
   if (!mp3Path || !fs.existsSync(mp3Path)) {
     throw new Error("Generate ElevenLabs audio first, then send to Google Drive.");
   }
 
-  const product = store
-    .list<Record<string, unknown>>("products")
-    .find((p) => p.id === script.product_id);
   const productName = String(product?.name || script.title || "Voiceovers");
-  const folderName = shortenProductName(productName).shortName || productName.slice(0, 48);
+  const folderName = productFolderNameFromProductName(productName);
 
   const mp4Dir = path.join(path.dirname(mp3Path), "mp4");
   fs.mkdirSync(mp4Dir, { recursive: true });

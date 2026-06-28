@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { AgentBudgetStatus } from "../hub";
 
 type Voice = { voice_id: string; name: string };
 
@@ -21,8 +22,12 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
   const [googleRootFolder, setGoogleRootFolder] = useState("TikTok - Voiceovers");
   const [driveConnected, setDriveConnected] = useState(false);
   const [driveBusy, setDriveBusy] = useState(false);
+  const [agentBudget, setAgentBudget] = useState<AgentBudgetStatus | null>(null);
+  const [confirmResetGuardrails, setConfirmResetGuardrails] = useState(false);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
+  const loadedRef = useRef(false);
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     window.hub.getSettings().then((s) => {
@@ -42,9 +47,27 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
       );
       setGoogleClientSecret(s.googleDriveClientSecret || "");
       setGoogleRootFolder(s.googleDriveRootFolder || "TikTok - Voiceovers");
+      loadedRef.current = true;
     });
-    void window.hub.getGoogleDriveStatus().then((s) => setDriveConnected(!!s.connected));
+    void refreshDriveStatus();
+    void refreshAgentBudget();
   }, []);
+
+  async function refreshAgentBudget() {
+    setAgentBudget(await window.hub.getAgentBudget());
+  }
+
+  async function handleResetGuardrails() {
+    const res = await window.hub.resetAgentGuardrails();
+    setConfirmResetGuardrails(false);
+    setAgentBudget(res.budget);
+    setStatus("Agent budget protection reset");
+  }
+
+  async function refreshDriveStatus() {
+    const res = await window.hub.getGoogleDriveStatus();
+    setDriveConnected(!!res.connected);
+  }
 
   async function handleConnectDrive() {
     setDriveBusy(true);
@@ -62,6 +85,17 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
     }
     setDriveConnected(true);
     setStatus("Google Drive connected");
+  }
+
+  function scheduleAutoSave(patch: Record<string, string>) {
+    if (!loadedRef.current) return;
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(async () => {
+      await window.hub.saveSettings(patch);
+      setStatus("Saved");
+      onSaved?.();
+      saveTimerRef.current = null;
+    }, 600);
   }
 
   async function loadVoices() {
@@ -82,6 +116,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     await window.hub.saveSettings({
       anthropicApiKey: apiKey,
       grokApiKey: grokKey,
@@ -105,7 +140,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
     <div>
       <h2 className="page-title">Settings</h2>
       <p className="page-desc">
-        API keys are stored only on your computer (never in the repo). Paste keys here once, then Save.
+        API keys are stored only on your computer (never in the repo). Keys auto-save as you type.
       </p>
 
       <form className="card" style={{ maxWidth: 560 }} onSubmit={save}>
@@ -115,7 +150,10 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           type="password"
           className="field-input"
           value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
+          onChange={(e) => {
+            setApiKey(e.target.value);
+            scheduleAutoSave({ anthropicApiKey: e.target.value });
+          }}
           placeholder="sk-ant-..."
           autoComplete="off"
         />
@@ -128,7 +166,10 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           type="password"
           className="field-input"
           value={grokKey}
-          onChange={(e) => setGrokKey(e.target.value)}
+          onChange={(e) => {
+            setGrokKey(e.target.value);
+            scheduleAutoSave({ grokApiKey: e.target.value });
+          }}
           placeholder="xai-..."
           autoComplete="off"
         />
@@ -144,7 +185,10 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           type="password"
           className="field-input"
           value={elevenKey}
-          onChange={(e) => setElevenKey(e.target.value)}
+          onChange={(e) => {
+            setElevenKey(e.target.value);
+            scheduleAutoSave({ elevenLabsApiKey: e.target.value });
+          }}
           placeholder="Your ElevenLabs key"
           autoComplete="off"
         />
@@ -159,7 +203,10 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
         <select
           className="field-select"
           value={voiceId}
-          onChange={(e) => setVoiceId(e.target.value)}
+          onChange={(e) => {
+            setVoiceId(e.target.value);
+            scheduleAutoSave({ elevenLabsVoiceId: e.target.value });
+          }}
         >
           <option value="">— Select voice —</option>
           {voices.map((v) => (
@@ -173,7 +220,10 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
         <input
           className="field-input"
           value={handle}
-          onChange={(e) => setHandle(e.target.value)}
+          onChange={(e) => {
+            setHandle(e.target.value);
+            scheduleAutoSave({ myTiktokHandle: e.target.value });
+          }}
           placeholder="@yourname"
         />
 
@@ -185,13 +235,16 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noreferrer">
             Google Cloud Console → Credentials
           </a>
-          {" "}→ your OAuth 2.0 Desktop client. Enable Google Drive API, then click Connect once.
+          {" "}→ your OAuth 2.0 Desktop client. Enable Google Drive API on the project, then click Connect once.
         </p>
         <label className="field-label">Google Drive client ID</label>
         <input
           className="field-input"
           value={googleClientId}
-          onChange={(e) => setGoogleClientId(e.target.value)}
+          onChange={(e) => {
+            setGoogleClientId(e.target.value);
+            scheduleAutoSave({ googleDriveClientId: e.target.value });
+          }}
           autoComplete="off"
         />
         <label className="field-label">Google Drive client secret</label>
@@ -199,7 +252,10 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           type="password"
           className="field-input"
           value={googleClientSecret}
-          onChange={(e) => setGoogleClientSecret(e.target.value)}
+          onChange={(e) => {
+            setGoogleClientSecret(e.target.value);
+            scheduleAutoSave({ googleDriveClientSecret: e.target.value });
+          }}
           placeholder="GOCSPX-..."
           autoComplete="off"
         />
@@ -207,9 +263,16 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
         <input
           className="field-input"
           value={googleRootFolder}
-          onChange={(e) => setGoogleRootFolder(e.target.value)}
+          onChange={(e) => {
+            setGoogleRootFolder(e.target.value);
+            scheduleAutoSave({ googleDriveRootFolder: e.target.value });
+          }}
           placeholder="TikTok - Voiceovers"
         />
+        <p className="muted" style={{ fontSize: 11, marginTop: 4 }}>
+          Each new day, click Create today&apos;s folder on Script Writer — only the date folder is created. Product
+          subfolders are added when you send a voiceover.
+        </p>
         <div className="btn-row" style={{ marginTop: 8 }}>
           <button type="button" className="btn btn-secondary" disabled={driveBusy} onClick={() => void handleConnectDrive()}>
             {driveBusy ? "Connecting…" : driveConnected ? "Reconnect Google Drive" : "Connect Google Drive"}
@@ -220,6 +283,49 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
         </div>
 
         <div className="card-title" style={{ marginTop: 20 }}>
+          Agent API budget
+        </div>
+        <p className="muted" style={{ marginBottom: 10, fontSize: 12 }}>
+          Hard limits prevent runaway loops (like 30 agent calls in one hour). Normal day: a few scripts + one daily plan.
+        </p>
+        {agentBudget && (
+          <div style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 10 }}>
+            <div>
+              Agent calls: {agentBudget.managedAgent.hour}/{agentBudget.managedAgent.hourLimit} this hour ·{" "}
+              {agentBudget.managedAgent.day}/{agentBudget.managedAgent.dayLimit} today
+            </div>
+            <div>
+              Spend today: ${agentBudget.spendTodayUsd.toFixed(2)} / ${agentBudget.spendDayLimitUsd.toFixed(2)}
+            </div>
+            {agentBudget.circuitBreakerActive && (
+              <p className="error" style={{ marginTop: 8 }}>
+                API locked until {agentBudget.circuitBreakerUntil ? new Date(agentBudget.circuitBreakerUntil).toLocaleString() : "—"}
+                {agentBudget.circuitBreakerReason ? ` — ${agentBudget.circuitBreakerReason}` : ""}
+              </p>
+            )}
+          </div>
+        )}
+        <div className="btn-row">
+          <button type="button" className="btn btn-secondary" onClick={() => void refreshAgentBudget()}>
+            Refresh budget
+          </button>
+          {!confirmResetGuardrails ? (
+            <button type="button" className="btn btn-secondary" onClick={() => setConfirmResetGuardrails(true)}>
+              Reset protection
+            </button>
+          ) : (
+            <>
+              <button type="button" className="btn btn-primary" onClick={() => void handleResetGuardrails()}>
+                Confirm reset
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={() => setConfirmResetGuardrails(false)}>
+                Cancel
+              </button>
+            </>
+          )}
+        </div>
+
+        <div className="card-title" style={{ marginTop: 20 }}>
           TikTok Claude Agent
         </div>
         <p className="muted" style={{ marginBottom: 10 }}>
@@ -227,33 +333,13 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
           the Anthropic Console.
         </p>
         <label className="field-label">Agent ID</label>
-        <input
-          className="field-input"
-          value={agentId}
-          onChange={(e) => setAgentId(e.target.value)}
-          placeholder="agent_01NxQdQvuQLXgJgMgXbQ1LNz"
-        />
+        <input className="field-input" value={agentId} onChange={(e) => setAgentId(e.target.value)} placeholder="agent_01NxQdQvuQLXgJgMgXbQ1LNz" />
         <label className="field-label">Environment ID</label>
-        <input
-          className="field-input"
-          value={agentEnvironmentId}
-          onChange={(e) => setAgentEnvironmentId(e.target.value)}
-          placeholder="env_0139W3beYzg2rMpMX18KQ69M"
-        />
+        <input className="field-input" value={agentEnvironmentId} onChange={(e) => setAgentEnvironmentId(e.target.value)} placeholder="env_0139W3beYzg2rMpMX18KQ69M" />
         <label className="field-label">Memory store ID</label>
-        <input
-          className="field-input"
-          value={agentMemoryStoreId}
-          onChange={(e) => setAgentMemoryStoreId(e.target.value)}
-          placeholder="memstore_01Vp97M6cAtSRivSiWnGsL67"
-        />
+        <input className="field-input" value={agentMemoryStoreId} onChange={(e) => setAgentMemoryStoreId(e.target.value)} placeholder="memstore_01Vp97M6cAtSRivSiWnGsL67" />
         <label className="field-label">Session ID (optional — reuse existing session)</label>
-        <input
-          className="field-input"
-          value={agentSessionId}
-          onChange={(e) => setAgentSessionId(e.target.value)}
-          placeholder="sesn_01PHBz1sPSVVM61oH2yzNQi9"
-        />
+        <input className="field-input" value={agentSessionId} onChange={(e) => setAgentSessionId(e.target.value)} placeholder="sesn_01PHBz1sPSVVM61oH2yzNQi9" />
 
         <label className="field-label">Data folder (extension sync + imports)</label>
         <input className="field-input" value={dataFolder} onChange={(e) => setDataFolder(e.target.value)} />
@@ -263,7 +349,7 @@ export default function Settings({ onSaved }: { onSaved?: () => void }) {
         </p>
 
         <button type="submit" className="btn btn-primary">
-          Save settings
+          Save all settings
         </button>
         {status && <p className="success">{status}</p>}
         {error && <p className="error">{error}</p>}
