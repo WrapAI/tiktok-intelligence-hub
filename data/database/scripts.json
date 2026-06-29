@@ -1,5 +1,555 @@
 [
   {
+    "id": "d24c02ae-650d-4ec4-99a6-55b95afbdde0",
+    "product_id": "929e10b59e93a4cc",
+    "hook_type": "pattern interrupt",
+    "funnel_style": "pattern interrupt",
+    "title": "Careleaf Beetroot Gummies — Pattern Interrupt (Bottom Funnel)",
+    "script_text": "I can't believe this. I had been grabbing beetroot supplements at full price for months without once checking TikTok Shop. Right now the Careleaf Beet Root Gummies — 500mg L-Citrulline and Hawthorn Extract, Peach Flavor, 60 Count, Vegan, Non-GMO — are in a flash sale and it is not sticking around. Sixty gummies, fully stacked, slashed in price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>I can't believe</prosody> this.\n<prosody rate='fast'>I had been grabbing</prosody> beetroot supplements <prosody rate='fast'>at full price for</prosody> months <prosody rate='fast'>without once checking</prosody> TikTok Shop.\n<prosody rate='fast'>Right now</prosody> the Careleaf Beet Root Gummies —\n<prosody rate='fast'>five hundred milligram</prosody> L-Citrulline <prosody rate='fast'>and</prosody> Hawthorn Extract,\n<prosody rate='fast'>Peach</prosody> Flavor,\n<prosody rate='fast'>sixty</prosody> Count,\n<prosody rate='fast'>Vegan,</prosody> Non-GMO —\n<prosody rate='fast'>are in a</prosody> flash sale\n<prosody rate='fast'>and it is</prosody> not sticking around.\n<prosody rate='fast'>Sixty</prosody> gummies, <prosody rate='fast'>fully stacked,</prosody> slashed <prosody rate='fast'>in</prosody> price.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "I can't believe this is still here 😳",
+    "tiktok_caption": "Did not expect to still see this available 😳 the link is in the yellow basket if you want it 🧡 #careleaf #beetrootgummies #tiktokshop #tiktokshopmademebuyit #healthygummies #veganuk #supplementsuk #flashsale",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Careleaf-Beetroot-Gummies-Pattern-Interrupt-Bottom-Funnel_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"pattern interrupt\",\"referenceLibraryId\":\"bc4ee05a-b886-4ae6-b9da-230a26cb57ac\",\"varietyRotation\":true,\"performanceAssignReason\":\"top performer match — GMV £105.50 from 5 sales\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Close-up of hands picking up the Careleaf Beetroot Gummies container from a flat surface, turning it face-forward toward camera in one smooth motion.\",\"humanInteraction\":true,\"notes\":\"No face. Product label must be fully visible and in focus within the first 2 seconds. Natural lighting, plain or light-coloured background.\"},{\"timing\":\"0:03–0:10\",\"description\":\"Hands rotate the container slowly, showing the full label front and back while the voiceover delivers the relatable mistake line.\",\"humanInteraction\":true,\"notes\":\"Keep motion deliberate — no shaking. Let the gummy count and product name on the label stay readable.\"},{\"timing\":\"0:10–0:25\",\"description\":\"Container placed down on surface, then hand taps the lid twice as the discount reveal and product details are spoken. Cut to a slightly wider shot showing the full packaging sitting on the surface.\",\"humanInteraction\":true,\"notes\":\"Tap gesture reinforces urgency without needing a face. Keep background clean and uncluttered.\"},{\"timing\":\"0:25–0:35\",\"description\":\"Hand lifts the container once more and points it directly at camera as the CTA line plays. Hold steady for the final two seconds.\",\"humanInteraction\":true,\"notes\":\"End frame should feel like a clear product moment — label forward, steady hand, no movement on the last word.\"}],\"styleNotes\":\"No face at any point. Hands-only, close-up product interaction throughout. Plain, bright surface — white or light wood works best. Natural or softbox lighting to make the packaging pop. Energy matches the fast-cut, high-confidence style of the top GMV reference videos.\",\"watchTimeHook\":\"Hands confidently lifting and turning the Careleaf container face-forward in the first 2 seconds — label fully visible, motion purposeful and scroll-stopping.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "bc4ee05a-b886-4ae6-b9da-230a26cb57ac",
+    "created_at": "2026-06-29T17:14:59.434Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:15:05.568Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:15:06.977Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:15:07.582Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:15:08.372Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Careleaf-Beetroot-Gummies-Pattern-Interrupt-Bottom-Funnel_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:15:14.294Z"
+  },
+  {
+    "id": "c774e277-4ace-44f2-8fec-47f29d7bf8b4",
+    "product_id": "929e10b59e93a4cc",
+    "hook_type": "pattern interrupt",
+    "funnel_style": "pattern interrupt",
+    "title": "Careleaf Beetroot Gummies — Pattern Interrupt (Bottom Funnel)",
+    "script_text": "Stop. I kept grabbing beetroot supplements elsewhere every single month and quietly spent way more than I needed to. Right now TikTok Shop has the Careleaf Beet Root Gummies on a massive discount and it is not going to last. Sixty peach-flavour vegan gummies — five hundred milligrams, L-Citrulline and Hawthorn Extract — all in one container at a slashed price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>Stop.</prosody>\n<break time=\"400ms\"/>\n<prosody rate='fast'>I</prosody> kept grabbing beetroot supplements elsewhere <prosody rate='fast'>every single</prosody> month and quietly spent <prosody rate='fast'>way more than</prosody> I needed to.\n<break time=\"300ms\"/>\n<prosody rate='fast'>Right now</prosody> TikTok Shop has <prosody rate='fast'>the</prosody> Careleaf Beet Root Gummies <prosody rate='fast'>on a</prosody> massive discount <prosody rate='fast'>and it is</prosody> not going to last.\n<break time=\"280ms\"/>\n<prosody rate='fast'>Sixty</prosody> peach-flavour vegan gummies — <prosody rate='fast'>five hundred</prosody> milligrams, <prosody rate='fast'>L-Citrulline and</prosody> Hawthorn Extract — <prosody rate='fast'>all in</prosody> one container <prosody rate='fast'>at a</prosody> slashed price.\n<break time=\"300ms\"/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "I can't believe I missed this 😳",
+    "tiktok_caption": "Stopped scrolling for a reason 👀 the Careleaf Beetroot Gummies are on TikTok Shop right now and this kind of deal never hangs around long. Link in the yellow basket 🧺 #careleaf #beetrootgummies #tiktokshop #tiktokshopmademebuyit #supplementsoftiktok #veganuk #ukdeals",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Careleaf-Beetroot-Gummies-Pattern-Interrupt-Bottom-Funnel_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"pattern interrupt\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\",\"varietyRotation\":true,\"performanceAssignReason\":\"top performer match — GMV £105.50 from 5 sales\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Single Careleaf Beetroot Gummies container placed flat on a clean light surface. One hand slaps down firmly next to it — matching the 'Stop.' audio beat. No face visible.\",\"humanInteraction\":true,\"notes\":\"The hand slap is the scroll-stop moment. Keep the surface plain and bright. Container label must be fully readable from the first frame.\"},{\"timing\":\"0:03–0:10\",\"description\":\"Hand picks up the container slowly, rotates it so the label faces the camera directly. Hold steady for 3 seconds so viewers can read the product name clearly.\",\"humanInteraction\":true,\"notes\":\"No zooming. Keep motion smooth and deliberate — mirrors the slow product-hold technique from top GMV winners.\"},{\"timing\":\"0:10–0:22\",\"description\":\"Container set back down. Hand taps the lid twice on the 'massive discount' line. Then fingers point at the label as the gummy details are spoken — peach colour, 60 count, ingredient callouts on packaging.\",\"humanInteraction\":true,\"notes\":\"Keep camera angle consistent. If the packaging shows the 500mg or L-Citrulline text, point directly at that area as those words are spoken.\"},{\"timing\":\"0:22–0:35\",\"description\":\"Container placed centrally in frame. Index finger points downward twice toward the bottom of the screen — landing exactly on the CTA line about the yellow basket. Hold the downward point for the final 3 seconds.\",\"humanInteraction\":true,\"notes\":\"Downward point is a proven converter from top GMV videos. Keep it confident and on-beat with 'yellow basket below.'\"}],\"styleNotes\":\"Clean, minimal, bright surface — no clutter. No face at any point. Hands lead every shot. Energy is calm but purposeful — not hyper. Product label always legible. Colour tone should feel fresh and light to complement the peach branding.\",\"watchTimeHook\":\"Hand slapping down flat next to the Careleaf container in the first 1 second — the physical motion forces a second look before the viewer can scroll away.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
+    "created_at": "2026-06-29T17:13:39.945Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:14:02.193Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:14:03.056Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:14:03.821Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:14:04.840Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Careleaf-Beetroot-Gummies-Pattern-Interrupt-Bottom-Funnel_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:14:10.545Z"
+  },
+  {
+    "id": "765bac21-a19d-4ad9-9c63-7f00aa22237a",
+    "product_id": "f1e9d300ddee9961",
+    "hook_type": "dont_buy",
+    "funnel_style": "dont_buy",
+    "title": "Umberto Giannini Curl Jelly Collection + Brushes — Don't Buy Hook (Bottom Funnel)",
+    "script_text": "Don't buy these. I grabbed every curl product I needed one at a time, paid way over eighty pounds, and felt like an absolute mug when I found out. Right now on TikTok Shop the Umberto Giannini Curl Jelly Collection with the brushes is in a flash sale and it is not sticking around. You get the full collection — the curl jelly, the brushes, everything — at more than half the normal price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>Don't buy</prosody> these.\n<prosody rate='fast'>I grabbed every curl product I needed</prosody> one at a time,\n<prosody rate='fast'>paid way over</prosody> eighty pounds,\n<prosody rate='fast'>and felt like an absolute mug when I</prosody> found out.\n<prosody rate='fast'>Right now on TikTok Shop</prosody> the Umberto Giannini Curl Jelly Collection\n<prosody rate='fast'>with the</prosody> brushes\n<prosody rate='fast'>is in a</prosody> flash sale\n<prosody rate='fast'>and it is</prosody> not sticking around.\n<prosody rate='fast'>You get the</prosody> full collection —\n<prosody rate='fast'>the</prosody> curl jelly,\n<prosody rate='fast'>the</prosody> brushes,\n<prosody rate='fast'>everything — at more than</prosody> half the normal price.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "why did nobody tell me sooner 😭",
+    "tiktok_caption": "Genuinely cannot believe I was doing this the hard way 😭 the link is in the yellow basket if you want it 🧴🪮 #UmbertoGiannini #CurlJelly #CurlyHair #CurlyHairTips #TikTokShopUK #HairCare #CurlyCommunity #TikTokMadeMeBuyIt",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Umberto-Giannini-Curl-Jelly-Collection-Brushes-Dont-Buy-Hook_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"dont_buy\",\"referenceLibraryId\":\"c9869266-5554-4040-a3e2-e8d17aaf6c53\",\"varietyRotation\":true,\"performanceAssignReason\":\"top performer match — GMV £178.83 from 9 sales\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Close-up of both hands holding one product from the Umberto Giannini Curl Jelly Collection, label facing camera. No face. Static and centred against a plain light background.\",\"humanInteraction\":true,\"notes\":\"Scroll-stop moment — product fills the frame immediately. No movement in first second, then a single slow turn to show the label clearly.\"},{\"timing\":\"0:03–0:10\",\"description\":\"One hand sets that product down next to a second product from the collection, then slides both apart slightly to show they are separate items. Hands only visible.\",\"humanInteraction\":true,\"notes\":\"Slow, deliberate separation of items reinforces the 'one at a time' confessional line in the audio.\"},{\"timing\":\"0:10–0:22\",\"description\":\"Both hands bring the full bundle together — curl jelly products and brushes — arranging them as a complete set on a flat surface. Camera stays overhead or slightly angled. No zoom beyond 10%.\",\"humanInteraction\":true,\"notes\":\"The full set landing together visualises the deal reveal. Keep it tidy and satisfying — products lined up neatly, labels forward.\"},{\"timing\":\"0:22–0:35\",\"description\":\"One hand taps the top of the hero product twice, then points downward off-screen toward the yellow basket. Static hold on the full product lineup for final seconds.\",\"humanInteraction\":true,\"notes\":\"Downward point at end mirrors top GMV video mechanic. End frame shows the complete set clearly — no movement, clean and confident close.\"}],\"styleNotes\":\"Clean, minimal background — white or very light neutral. No props, no competitor products, no face. Hands interact with products throughout. Lighting should be flat and bright so labels are fully readable.\",\"watchTimeHook\":\"Single product held close to camera, label fully legible, both hands visible — static and deliberate to force a second look before the audio lands.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "c9869266-5554-4040-a3e2-e8d17aaf6c53",
+    "created_at": "2026-06-29T17:12:11.067Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:13:01.014Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:13:01.875Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:13:02.597Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:13:03.644Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Collection-Brushes-Dont-Buy-Hook_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:13:09.202Z"
+  },
+  {
+    "id": "d97f01bf-8419-42b9-8392-0e6002b5ea80",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "pattern interrupt",
+    "funnel_style": "pattern interrupt",
+    "title": "EHP Labs Hydreau Sports Hydration — Pattern Interrupt (Bottom Funnel)",
+    "script_text": "Stop. I was grabbing the EHP Labs Hydreau Sports Hydration in store every single month, and the whole time TikTok Shop had it on a massive discount that I completely missed. Right now there is a flash sale running and it is not going to stick around. You get the full tub — proper serving size, the scoop included — at a slashed price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>Stop.</prosody>\n<prosody rate='fast'>I was grabbing</prosody> the EHP Labs Hydreau Sports Hydration <prosody rate='fast'>in store every single month, and the whole time</prosody> TikTok Shop <prosody rate='fast'>had it on a</prosody> massive discount <prosody rate='fast'>that I completely</prosody> missed.\n<prosody rate='fast'>Right now there is a</prosody> flash sale <prosody rate='fast'>running and it is</prosody> not going to stick around.\n<prosody rate='fast'>You get the</prosody> full tub — <prosody rate='fast'>proper serving size,</prosody> the scoop included — <prosody rate='fast'>at a</prosody> slashed price.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "I was paying too much the whole time 😳",
+    "tiktok_caption": "Genuinely could not believe this was sitting there the whole time 😩 the EHP Labs Hydreau Sports Hydration is in a flash sale on TikTok Shop right now — link in the yellow basket 🛒 #EHPLabs #HydreauSportsHydration #TikTokShop #SportsSupplement #HydrationDrink #TikTokMadeMeBuyIt #FlashSale #UKFitness",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Sports-Hydration-Pattern-Interrupt-Bottom-F_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"pattern interrupt\",\"referenceLibraryId\":\"bc4ee05a-b886-4ae6-b9da-230a26cb57ac\",\"varietyRotation\":true,\"performanceAssignReason\":\"no personal sales data for this product yet — library variety\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:02\",\"description\":\"Single tub of EHP Labs Hydreau Sports Hydration placed firmly down on a plain white or light kitchen surface — hands release it and pull back. No face. Clean and sharp.\",\"humanInteraction\":true,\"notes\":\"The 'Stop' audio hits exactly as the tub lands. Scroll-stopping slam-down moment.\"},{\"timing\":\"0:02–0:10\",\"description\":\"Hand picks up the tub and rotates it slowly, showing the front label clearly. Other hand points to the label mid-rotate.\",\"humanInteraction\":true,\"notes\":\"Keep motion steady — no fast spinning. Label must be fully legible at least once during this window.\"},{\"timing\":\"0:10–0:22\",\"description\":\"Tub set back down. Hand lifts lid off and places it beside the tub. Scoop pulled out and held up briefly toward camera, then placed back in.\",\"humanInteraction\":true,\"notes\":\"No face. Hands only. Natural lighting. Demonstrates product authentically without opening further.\"},{\"timing\":\"0:22–0:35\",\"description\":\"Tub placed centre frame, lid off beside it. One hand points down toward the tub, then index finger points down toward the bottom of the screen for the yellow basket CTA.\",\"humanInteraction\":true,\"notes\":\"Final point downward must be held for at least 2 seconds to drive the basket tap. Keep it clean — no clutter in background.\"}],\"styleNotes\":\"Clean, minimal setting — white or light neutral surface only. No props other than the product. All shots from above or slight angle, no face. Lighting should be bright and even to make the tub label pop.\",\"watchTimeHook\":\"Tub slammed down firmly on a white surface in the first half second — hands release and pull away sharply as the word 'Stop' hits.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "bc4ee05a-b886-4ae6-b9da-230a26cb57ac",
+    "created_at": "2026-06-29T17:11:17.180Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:11:26.327Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:11:27.365Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:11:28.451Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:11:29.007Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Sports-Hydration-Pattern-Interrupt-Bottom-F_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:11:34.024Z"
+  },
+  {
+    "id": "66e96522-f2c0-4d8a-83bc-bf72d19a753f",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "story",
+    "funnel_style": "story",
+    "title": "EHP Labs Hydreau Sports Hydration — Story Hook (Bottom Funnel)",
+    "script_text": "No way. I was stood in a sports shop last month, tub of the EHP Labs Hydreau Sports Hydration in my hand, paying full price without a second thought. Someone in the comments told me TikTok Shop had it at a massive discount and I genuinely did not believe them. Went and checked. They were right. It is sitting there right now in a flash sale and it is not going to be there forever. Three tubs, three scoops, all the flavours — everything you need stocked up at a fraction of what I paid in store. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\nNo <prosody rate='fast'>way.</prosody>\n<prosody rate='fast'>I was stood in a</prosody> sports shop last month,\n<prosody rate='fast'>tub of the</prosody> EHP Labs Hydreau Sports Hydration\n<prosody rate='fast'>in my hand,</prosody> paying full price\n<prosody rate='fast'>without a</prosody> second thought.\n<prosody rate='fast'>Someone in the</prosody> comments told me\n<prosody rate='fast'>TikTok Shop had it at a</prosody> massive discount\n<prosody rate='fast'>and I</prosody> genuinely did not believe them.\n<prosody rate='fast'>Went and</prosody> checked.\n<prosody rate='fast'>They were</prosody> right.\n<prosody rate='fast'>It is</prosody> sitting there right now\n<prosody rate='fast'>in a</prosody> flash sale\n<prosody rate='fast'>and it is</prosody> not going to be there forever.\n<prosody rate='fast'>Three tubs,</prosody> three scoops,\n<prosody rate='fast'>all the</prosody> flavours —\n<prosody rate='fast'>everything you need</prosody> stocked up\n<prosody rate='fast'>at a</prosody> fraction of what I paid in store.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "I actually could not believe it 😳",
+    "tiktok_caption": "The moment someone told me and I had to go check for myself 😭 link in the yellow basket if you want it before it goes #EHPLabs #HydreauSportsHydration #TikTokShop #SportsDrink #HydrationTok #GymTok #UKFitness #TikTokMadeMeBuyIt",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Sports-Hydration-Story-Hook-Bottom-Funnel_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"story\",\"referenceLibraryId\":\"eaad7a6e-29ce-4868-9788-672d110dbdf1\",\"varietyRotation\":true,\"performanceAssignReason\":\"no personal sales data for this product yet — library variety\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Close-up hand holding a tub of EHP Labs Hydreau Sports Hydration at chest height — fingers wrapped around the tub, slight tilt as if mid-grab. Still and confident. No face.\",\"humanInteraction\":true,\"notes\":\"This is the scroll-stop moment. The tub must fill at least 60% of the frame. Neutral background — no clutter.\"},{\"timing\":\"0:03–0:10\",\"description\":\"Hand sets the tub down slowly on a flat surface — kitchen counter or gym floor. Camera stays fixed. Hand taps the lid once as if making a point.\",\"humanInteraction\":true,\"notes\":\"Slow deliberate placement reinforces the 'paid full price' confession moment. Keep it human and candid.\"},{\"timing\":\"0:10–0:20\",\"description\":\"Hand picks the tub back up, turns it to show the label clearly. Other hand enters frame and points at the tub — two-hand shot showing the product from the front.\",\"humanInteraction\":true,\"notes\":\"Mirror the two-bottle side-by-side style from top GMV winner. Here: one tub, two hands — same energy. Label must be fully readable.\"},{\"timing\":\"0:20–0:35\",\"description\":\"Three tubs arranged in a row on a flat surface. One hand sweeps across all three from left to right, then comes back and taps the closest tub. Final shot holds on all three tubs with a scoop resting in the open one.\",\"humanInteraction\":true,\"notes\":\"The three-tub reveal is the payoff shot. Scoop in the open tub adds texture and realness. Hold this shot until the CTA ends.\"}],\"styleNotes\":\"Clean, minimal, no face. Neutral surface — matt white or dark gym floor. Lighting is bright and even — product label must be legible in every shot. Energy is calm-but-urgent, like someone sharing a tip with a friend rather than performing for a camera.\",\"watchTimeHook\":\"A single tub of EHP Labs Hydreau Sports Hydration held firmly in one hand, front label facing camera, shot from below chest height — instant product recognition in under 2 seconds.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "eaad7a6e-29ce-4868-9788-672d110dbdf1",
+    "created_at": "2026-06-29T17:10:04.066Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "disliked",
+        "reason": "way too long of a script",
+        "rated_at": "2026-06-29T17:10:47.878Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:10:48.915Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:10:50.186Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:10:52.294Z"
+      }
+    }
+  },
+  {
+    "id": "cbd314a8-5adf-4283-8410-e0bd1f54d1cf",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "fear",
+    "funnel_style": "fear",
+    "title": "EHP Labs Hydreau Sports Hydration — Fear Hook (Bottom Funnel)",
+    "script_text": "Do not waste your money. I was picking up the EHP Labs Hydreau Sports Hydration one tub at a time in store and quietly spending way more than I needed to. Right now TikTok Shop has it on a flash sale and it is not going to be sitting there much longer. Three tubs stacked up for a fraction of what I was paying individually — that is a genuinely painful thing to realise you missed. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>Do not</prosody> waste your money.\n<prosody rate='fast'>I was picking up the</prosody> EHP Labs Hydreau Sports Hydration\n<prosody rate='fast'>one tub at a time in store and quietly spending</prosody> way more than I needed to.\n<prosody rate='fast'>Right now TikTok Shop has it on a</prosody> flash sale\n<prosody rate='fast'>and it is</prosody> not going to be sitting there much longer.\n<prosody rate='fast'>Three tubs stacked up for</prosody> a fraction of what I was paying individually —\n<prosody rate='fast'>that is a genuinely</prosody> painful thing to realise you missed.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "you're spending too much 😬",
+    "tiktok_caption": "Don't make the same mistake I did 😬 TikTok Shop has the EHP Labs Hydreau Sports Hydration on a flash sale right now — link in the yellow basket below before it's gone. #EHPLabs #Hydreau #SportsHydration #TikTokShop #HydrationDrink #GymSupplements #UKFitness #FlashSale #TikTokShopUK #SupplementsUK",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Sports-Hydration-Fear-Hook-Bottom-Funnel_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"fear\",\"referenceLibraryId\":\"9623b485-09af-4da1-87b3-3c541da66874\",\"varietyRotation\":true,\"performanceAssignReason\":\"no personal sales data for this product yet — library variety\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Close-up of a hand firmly placing a single tub of Hydreau Sports Hydration down on a flat surface with a solid thud — front label facing camera, no face visible\",\"humanInteraction\":true,\"notes\":\"The thud and deliberate placement is the scroll-stop moment — make it feel like a warning. Natural light, plain background.\"},{\"timing\":\"0:03–0:10\",\"description\":\"Hand pulls the tub back slightly and tilts it toward camera so the label fills the frame — slow rotate to show the full product clearly\",\"humanInteraction\":true,\"notes\":\"Keep movement slow here to let the product land. No zoom beyond 10%.\"},{\"timing\":\"0:10–0:22\",\"description\":\"Hand lifts a scoop out of the open tub and holds it steady near camera — product name clearly visible on tub behind it\",\"humanInteraction\":true,\"notes\":\"This is the deal reveal moment — keep energy calm but deliberate. Let the scoop and tub speak visually.\"},{\"timing\":\"0:22–0:35\",\"description\":\"Three tubs arranged side by side on the surface — hand taps each one in sequence left to right, then points down toward the basket CTA area at the end\",\"humanInteraction\":true,\"notes\":\"Final downward point to yellow basket should land clean and clear on the CTA line. No face. Keep background plain and uncluttered.\"}],\"styleNotes\":\"Plain, clean background throughout — no props, no clutter. Hands only, no face. Lighting is natural and even. Tone is urgent but composed — not chaotic. Mirror the deliberate hand-product interaction style from the top GMV winner.\",\"watchTimeHook\":\"A single tub slammed down on a flat surface in close-up — front label facing camera, hand still gripping it. Immediate and jarring without being aggressive.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "9623b485-09af-4da1-87b3-3c541da66874",
+    "created_at": "2026-06-29T17:09:07.276Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:09:14.187Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:09:15.698Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:09:16.129Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:09:18.560Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Sports-Hydration-Fear-Hook-Bottom-Funnel_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:09:23.670Z"
+  },
+  {
+    "id": "0261d1cc-a8ec-46ec-ad0f-607622a088e4",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "transformation",
+    "funnel_style": "transformation",
+    "title": "EHP Labs Hydreau Sports Hydration — Transformation Hook (Bottom Funnel)",
+    "script_text": "Not one, not two, not three, but three. I had been buying the EHP Labs Hydreau Sports Hydration one tub at a time and spending way more than I ever needed to. Right now on TikTok Shop they have got a triple discount running on it and that is not going to be there for long. You are getting three full tubs — each one with a scoop — all stacked up for a fraction of what I was paying before. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='x-fast'>Not</prosody> one,\n<prosody rate='x-fast'>not</prosody> two,\n<prosody rate='x-fast'>not</prosody> three,\n<prosody rate='x-fast'>but</prosody> three.\n<prosody rate='fast'>I had been buying</prosody> the EHP Labs Hydreau Sports Hydration\n<prosody rate='fast'>one tub at a time and spending</prosody> way more than I ever needed to.\n<prosody rate='fast'>Right now on TikTok Shop they have got a</prosody> triple discount\n<prosody rate='fast'>running on it and that is</prosody> not going to be there for long.\n<prosody rate='fast'>You are getting</prosody> three full tubs —\n<prosody rate='fast'>each one with a</prosody> scoop —\n<prosody rate='fast'>all stacked up for</prosody> a fraction of what I was paying before.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "three tubs. one deal. 😳",
+    "tiktok_caption": "I was doing this the expensive way for way too long 😭 TikTok Shop has the EHP Labs Hydreau Sports Hydration on a massive deal right now — link in the yellow basket before it's gone 🛒 #ehplabs #hydreausportshydration #tiktokshop #hydration #sportsnutrition #gymgirl #gymuk #fitnessmotivation #uktiktok #tiktokmademebuyit",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Sports-Hydration-Transformation-Hook-Bottom_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"transformation\",\"referenceLibraryId\":\"ddd4d0ef-f4b9-4c85-a2f7-740c03aa6838\",\"varietyRotation\":true,\"performanceAssignReason\":\"no personal sales data for this product yet — library variety\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:04\",\"description\":\"Hands slowly count out three tubs of the product on a flat surface, placing each one down in a line as the countdown plays — one, two, three\",\"humanInteraction\":true,\"notes\":\"No face. Clean neutral background. Tubs land on beat with each number spoken. Deliberate, satisfying placement.\"},{\"timing\":\"0:04–0:12\",\"description\":\"Hand picks up one tub and turns it slowly so the label faces the camera. Then sets it back down next to the others. All three tubs visible in frame together.\",\"humanInteraction\":true,\"notes\":\"Keep movement slow and intentional here — contrast against the fast countdown pace. Reinforce the three-tub quantity visually.\"},{\"timing\":\"0:12–0:28\",\"description\":\"Hand lifts the lid off one tub and pulls out the scoop, holding it up briefly before resting it across the open tub. Camera stays close on the product.\",\"humanInteraction\":true,\"notes\":\"Tactile, hands-on feel. No zoom in more than 10%. Keep it natural and product-focused.\"},{\"timing\":\"0:28–0:45\",\"description\":\"Pull back slightly to show all three tubs lined up together. Hand taps the front tub twice, then points downward toward the basket CTA area. Hold on the three tubs as audio finishes.\",\"humanInteraction\":true,\"notes\":\"Downward point toward yellow basket should land cleanly on the final CTA line. Keep hands in frame throughout.\"}],\"styleNotes\":\"Clean, minimal set — plain light surface, no clutter. All energy comes from the hands and the product. No face, no distractions. Lighting should be bright and even so the tub labels read clearly on camera.\",\"watchTimeHook\":\"First 2 seconds: a single hand placing the first tub down mid-countdown — the deliberate placement with the fast voiceover creates instant pattern interrupt.\"},\"hookFallbackApplied\":null}",
+    "reference_library_id": "ddd4d0ef-f4b9-4c85-a2f7-740c03aa6838",
+    "created_at": "2026-06-29T17:07:47.732Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:07:55.387Z"
+      },
+      "on_screen_caption": {
+        "rating": "disliked",
+        "reason": "dont speak about deals in on screen caption",
+        "rated_at": "2026-06-29T17:08:06.129Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:08:08.487Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:08:08.952Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Sports-Hydration-Transformation-Hook-Bottom_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:08:21.897Z"
+  },
+  {
+    "id": "95f5980c-fa42-43f3-b6cd-55ed0a1060d7",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "EHP Labs Hydreau Sports Hydration — Curiosity Gap Hook (Bottom Funnel)",
+    "script_text": "I can't believe this. I had been buying the EHP Labs Hydreau Sports Hydration at full price for months and it never once crossed my mind to check TikTok Shop. Right now they have it on a massive discount and it is genuinely not going to stick around. You are getting the full tub — the same scoop, the same formula — at a slashed price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>I can't believe</prosody> this.\n<break time=\"300ms\"/>\n<prosody rate='fast'>I had been buying</prosody> the EHP Labs Hydreau Sports Hydration <prosody rate='fast'>at full price for</prosody> months <prosody rate='fast'>and it</prosody> never once <prosody rate='fast'>crossed my mind to</prosody> check TikTok Shop.\n<break time=\"420ms\"/>\n<prosody rate='fast'>Right now</prosody> they have it <prosody rate='fast'>on a</prosody> massive discount <prosody rate='fast'>and it is genuinely</prosody> not going to stick around.\n<break time=\"300ms\"/>\n<prosody rate='fast'>You are getting</prosody> the full tub — <prosody rate='fast'>the same</prosody> scoop, <prosody rate='fast'>the same</prosody> formula — <prosody rate='fast'>at a</prosody> slashed price.\n<break time=\"420ms\"/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "did you even check TikTok Shop? 👀",
+    "tiktok_caption": "I genuinely cannot believe I was paying full price this whole time 😭 the EHP Labs Hydreau Sports Hydration is sitting on TikTok Shop right now and the deal is not going to last — link is in the yellow basket 🧺 #ehplabs #hydreau #sportshydration #tiktokshop #hydration #gymgirl #gymuk #fitnessmotivation #uktiktok",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Sports-Hydration-Curiosity-Gap-Hook-Bottom-_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\",\"varietyRotation\":true,\"performanceAssignReason\":\"no personal sales data for this product yet — library variety\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Hands pick up the Hydreau tub from a flat surface and rotate it slowly to face the camera — label clearly visible. No face shown.\",\"humanInteraction\":true,\"notes\":\"This is the scroll-stop moment. The tub must fill at least 60% of frame. Keep it sharp and bright.\"},{\"timing\":\"0:03–0:12\",\"description\":\"Hand sets the tub back down, then a finger taps the lid twice as if emphasising a point. Camera stays fixed, no zoom.\",\"humanInteraction\":true,\"notes\":\"Gesture matches the confession tone — casual and relatable. Keep lighting clean and consistent.\"},{\"timing\":\"0:12–0:28\",\"description\":\"Hand lifts the lid off the tub and pulls out the scoop, holding it up to camera. Then places scoop back in and replaces lid. Shot stays tight on hands and tub.\",\"humanInteraction\":true,\"notes\":\"Tactile product interaction builds desire. No face. Keep motion smooth and deliberate — mirrors the pacing of the voiceover.\"},{\"timing\":\"0:28–0:45\",\"description\":\"Both hands cradle the tub from underneath and tilt it gently toward camera — full label facing viewer. Hold steady for the CTA. One hand slowly points downward toward the bottom of the screen on the final line.\",\"humanInteraction\":true,\"notes\":\"The downward point on 'yellow basket below' is a proven conversion cue from top GMV videos. Keep it natural, not performative.\"}],\"styleNotes\":\"Clean, minimal background — white or light grey surface. Bright natural lighting with no shadows on the tub. Hands-only, no face. The tone is calm and genuine, not hyped — the deal does the work.\",\"watchTimeHook\":\"Hands lifting the Hydreau tub into frame with label facing camera — clean bright shot, immediate product recognition within the first second.\"},\"hookFallbackApplied\":\"I can't believe this.\"}",
+    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
+    "created_at": "2026-06-29T17:06:47.124Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:07:03.754Z"
+      },
+      "on_screen_caption": {
+        "rating": "disliked",
+        "reason": "bad on screen caption",
+        "rated_at": "2026-06-29T17:07:12.175Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:07:13.655Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:07:14.564Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Sports-Hydration-Curiosity-Gap-Hook-Bottom-_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:07:22.778Z"
+  },
+  {
+    "id": "9e1fb786-b9f1-4704-9d16-0fde172f57c7",
+    "product_id": "9ddefa8590f42f6a",
+    "hook_type": "question",
+    "funnel_style": "question",
+    "title": "WildGut Capsules — Question Hook (Bottom Funnel) — Honest Scarcity Frame",
+    "script_text": "Don't buy this. I was grabbing the WildGut Capsules one at a time for months without ever thinking to check TikTok Shop. Right now they have a 2 for 1 deal running and it is genuinely not going to stick around. Two containers, ninety capsules each — at half the cost I was paying before. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='x-fast'>Don't</prosody> buy this.\n<prosody rate='fast'>I was grabbing</prosody> the WildGut Capsules\n<prosody rate='fast'>one at a time for</prosody> months\n<prosody rate='fast'>without ever thinking to</prosody> check TikTok Shop.\n<prosody rate='fast'>Right now they have a</prosody> 2 for 1 deal running\n<prosody rate='fast'>and it is genuinely</prosody> not going to stick around.\n<prosody rate='fast'>Two</prosody> containers,\n<prosody rate='fast'>ninety</prosody> capsules each —\n<prosody rate='fast'>at half the cost</prosody> I was paying before.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "still paying full price for this? 😭",
+    "tiktok_caption": "Been buying these one at a time this whole time 😭 TikTok Shop has a 2 for 1 right now and I genuinely cannot believe I missed it for so long — link in the yellow basket 🧺 #WildGut #TikTokShop #GutHealth #TikTokMadeMeBuyIt #UKTikTok #HealthyHabits #DealAlert",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Capsules-Question-Hook-Bottom-Funnel-Honest-Scarcity_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"question\",\"referenceLibraryId\":\"ff27e182-d099-4193-b70e-dec3436a7b91\",\"varietyRotation\":true,\"performanceAssignReason\":\"top performer match — GMV £120.91 from 7 sales\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Single WildGut container held up in one hand against a plain light background. The label faces the camera clearly.\",\"humanInteraction\":true,\"notes\":\"No face. Hand enters from the bottom of frame holding the product upright. Keep still — this is the scroll-stop moment.\"},{\"timing\":\"0:03–0:10\",\"description\":\"Hand sets the single container down on a flat surface, then slides a second identical container into frame beside it. Both sit side by side.\",\"humanInteraction\":true,\"notes\":\"The slide-in of the second container should land on the words 'check TikTok Shop' — visual payoff for the relatable mistake line.\"},{\"timing\":\"0:10–0:25\",\"description\":\"Both containers remain on the flat surface. Hand taps or lightly points to each one in turn as the 2 for 1 deal and urgency line is spoken.\",\"humanInteraction\":true,\"notes\":\"Keep hands active but not frantic. Slight angle shift — move the camera slightly to the left to show both labels at once.\"},{\"timing\":\"0:25–0:45\",\"description\":\"Hands pick up both containers together, holding them as a pair facing the camera. Hold steady through the product details and CTA. On the final CTA line, one hand drops out of frame and a finger points downward toward the basket.\",\"humanInteraction\":true,\"notes\":\"The downward point on 'yellow basket below' is the conversion signal — make it deliberate and slow. No face. No zoom beyond 10%.\"}],\"styleNotes\":\"Clean, minimal background — white or light neutral surface. No props or competitor packaging visible. Hands-only throughout. Lighting should be bright and even to keep the product label legible. Energy is calm but direct — this is a deal reveal, not a hype reel.\",\"watchTimeHook\":\"One container held up in frame at 0:00 — the second one sliding in at 0:03 forces the viewer to wait and watch.\"},\"hookFallbackApplied\":\"Don't buy this.\"}",
+    "reference_library_id": "ff27e182-d099-4193-b70e-dec3436a7b91",
+    "created_at": "2026-06-29T17:05:32.249Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:05:41.307Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:05:41.870Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:05:42.559Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:05:43.895Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Capsules-Question-Hook-Bottom-Funnel-Honest-Scarcity_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:05:49.542Z"
+  },
+  {
+    "id": "d97a4bac-98ed-41db-aa4f-ec34b7464f56",
+    "product_id": "9ddefa8590f42f6a",
+    "hook_type": "question",
+    "funnel_style": "question",
+    "title": "WildGut Capsules — Question Hook (Honest Scarcity Frame) Bottom Funnel",
+    "script_text": "Don't buy this. I was grabbing the WildGut Capsules one at a time every single month — the whole time TikTok Shop had a 2 for 1 sitting right there and I had absolutely no idea. Right now they have slashed the price and it is not going to hang around. You get two full containers — 90 capsules each — for the price of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='x-fast'>Don't</prosody> buy this.\n<prosody rate='fast'>I was grabbing the</prosody> WildGut Capsules <prosody rate='fast'>one at a time every single</prosody> month — <prosody rate='fast'>the whole time</prosody> TikTok Shop <prosody rate='fast'>had a</prosody> 2 for 1 <prosody rate='fast'>sitting right there and I had</prosody> absolutely no idea.\n<prosody rate='fast'>Right now they have</prosody> slashed the price <prosody rate='fast'>and it is</prosody> not going to hang around.\n<prosody rate='fast'>You get</prosody> two full containers — <prosody rate='fast'>ninety capsules</prosody> each — <prosody rate='fast'>for the</prosody> price of one.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "how is this even allowed 😳",
+    "tiktok_caption": "Did NOT expect to find this on TikTok Shop 😳 the WildGut Capsules deal is actually unreal right now — link in the yellow basket 🧡 #wildgut #tiktokshop #guthealth #tiktokshopmademe #dealsontiktok",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Capsules-Question-Hook-Honest-Scarcity-Frame-Bottom-_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"question\",\"referenceLibraryId\":\"a1caa2aa-4def-4146-878f-0dfa4233a72a\",\"varietyRotation\":true,\"performanceAssignReason\":\"top performer match — GMV £120.91 from 7 sales\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Close-up of two WildGut containers sitting side by side on a plain white surface. One hand taps the top of one container firmly, drawing the eye to the packaging.\",\"humanInteraction\":true,\"notes\":\"No face. The double container reveal is the scroll-stop — both products must be fully visible within the first second.\"},{\"timing\":\"0:03–0:12\",\"description\":\"Hand lifts one container and holds it up, then places it back down and lifts both together — one in each hand — to visually represent the 2 for 1 deal. Held steady for 3–4 seconds.\",\"humanInteraction\":true,\"notes\":\"Keep motion deliberate and slow here to let the visual math land. No zooming — keep it flat and clean.\"},{\"timing\":\"0:12–0:28\",\"description\":\"One container laid on its side with the label facing camera. Finger slowly traces along the product name on the label. Cut to a top-down shot of both containers flat on the surface.\",\"humanInteraction\":true,\"notes\":\"Label must be sharp and legible throughout. Lighting should be consistent and bright — no shadows across the text.\"},{\"timing\":\"0:28–0:45\",\"description\":\"Both containers pushed together into a neat pair, one hand resting on top. Hold for the CTA. Final frame is a clean overhead two-shot of the packaging with the hand pointing down toward the bottom of frame — mimicking the yellow basket gesture.\",\"humanInteraction\":true,\"notes\":\"The downward point at the end should feel natural and unhurried. This mirrors the yellow basket direction used in top GMV videos for this product.\"}],\"styleNotes\":\"Minimal, clean, no-face aesthetic. White or neutral surface throughout. All shots are hand-and-product only — no props, no backgrounds with branding. Lighting should be flat and bright to make the packaging pop without overexposing the label.\",\"watchTimeHook\":\"Two WildGut containers placed side by side with a single hand tap on one — the double-product reveal in the first frame forces a second look before a word is spoken.\"},\"hookFallbackApplied\":\"Don't buy this.\"}",
+    "reference_library_id": "a1caa2aa-4def-4146-878f-0dfa4233a72a",
+    "created_at": "2026-06-29T17:02:15.704Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:02:36.984Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:02:37.676Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:02:38.367Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:02:39.183Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Capsules-Question-Hook-Honest-Scarcity-Frame-Bottom-_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:02:45.176Z"
+  },
+  {
+    "id": "e0850919-7c80-4301-83c4-7e3dfe12d559",
+    "product_id": "9ddefa8590f42f6a",
+    "hook_type": "question",
+    "funnel_style": "question",
+    "title": "WildGut Colon Reset — Question Hook (Honest Scarcity Frame, Bottom Funnel)",
+    "script_text": "Don't buy this. I had the WildGut Capsules in my routine for months and paid full price every single time. Right now on TikTok Shop they have a 2 for 1 deal running and it is genuinely not going to stick around. Two containers. Ninety capsules each. Both of them for the price you used to pay for just one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='x-fast'>Don't</prosody> buy this.\n<break time=\"400ms\"/>\n<prosody rate='fast'>I had</prosody> the WildGut Capsules <prosody rate='fast'>in my routine for months and</prosody> paid full price <prosody rate='fast'>every single time.</prosody>\n<break time=\"300ms\"/>\n<prosody rate='fast'>Right now on TikTok Shop</prosody> they have a 2 for 1 deal running <prosody rate='fast'>and it is genuinely</prosody> not going to stick around.\n<break time=\"400ms\"/>\n<prosody rate='slow'>Two containers.</prosody>\n<prosody rate='fast'>Ninety capsules</prosody> each.\n<break time=\"300ms\"/>\n<prosody rate='fast'>Both of them for the price you used to pay for</prosody> just one.\n<break time=\"500ms\"/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "why did nobody tell me about this 😭",
+    "tiktok_caption": "I genuinely cannot believe I paid full price that many times 😭 the WildGut Capsules are currently 2 for 1 on TikTok Shop — link is in the yellow basket before this goes 👇 #WildGut #TikTokShop #GutHealth #TikTokMadeMeBuyIt #HealthyHabits #WellnessUK",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Question-Hook-Honest-Scarcity-Frame-Bott_2026-06-29.mp3",
+    "prompt_context": "{\"selectedHookType\":\"question\",\"referenceLibraryId\":\"2275149d-38fc-4325-8808-4a2206646dde\",\"varietyRotation\":true,\"performanceAssignReason\":\"top performer match — GMV £120.91 from 7 sales\",\"visualDirector\":{\"shots\":[{\"timing\":\"0:00–0:03\",\"description\":\"Close-up of a single WildGut container held in one hand, with a second container sat visibly on the surface next to it. The contrast between one held and one waiting is immediate.\",\"humanInteraction\":true,\"notes\":\"No face. Hand in shot holding one container. Second container clearly in frame from the first frame. This visual contrast sells the 'why only one' hook instantly.\"},{\"timing\":\"0:03–0:12\",\"description\":\"Hand places the first container down next to the second. Both containers side by side on a plain light surface. Fingers tap the two containers one at a time — left, then right — emphasising the pair.\",\"humanInteraction\":true,\"notes\":\"Tapping motion should be deliberate and slow on each container to match the spoken rhythm. Keep both labels facing the camera clearly.\"},{\"timing\":\"0:12–0:28\",\"description\":\"Hand picks up both containers together, cradling them in two hands to visually show the bundle. Hold steady for a beat, then slowly rotate so both labels are fully visible to camera.\",\"humanInteraction\":true,\"notes\":\"This is the deal reveal moment — both containers together in hands. Keep the shot tight. No zoom beyond 10%.\"},{\"timing\":\"0:28–0:45\",\"description\":\"Set both containers back down side by side. One hand points downward toward the bottom of the frame on the CTA line. Hold the two-container shot steady until the end.\",\"humanInteraction\":true,\"notes\":\"Downward point should be clear and deliberate. Matches the yellow basket CTA gesture seen in top-performing reference videos.\"}],\"styleNotes\":\"Clean, minimal setting — plain light surface, no busy background. No face in any shot. All energy comes from the hands and the two containers. Lighting should be bright and even so both product labels are sharp and readable. Fast energy in the opening shot, settling into steady close-ups through the deal reveal.\",\"watchTimeHook\":\"Close-up of one hand holding a single WildGut container with a second container visible beside it — the visual question of 'why only one' is answered before a word is spoken.\"},\"hookFallbackApplied\":\"Don't buy this.\"}",
+    "reference_library_id": "2275149d-38fc-4325-8808-4a2206646dde",
+    "created_at": "2026-06-29T16:59:37.792Z",
+    "awaiting_feedback": false,
+    "section_feedback": {
+      "audio": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:00:52.748Z"
+      },
+      "on_screen_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:00:53.208Z"
+      },
+      "tiktok_caption": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:00:54.087Z"
+      },
+      "pace": {
+        "rating": "liked",
+        "rated_at": "2026-06-29T17:00:54.814Z"
+      }
+    },
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Question-Hook-Honest-Scarcity-Frame-Bott_2026-06-29.mp4",
+    "drive_uploaded_at": "2026-06-29T17:01:13.163Z"
+  },
+  {
+    "id": "179c27de-755f-481b-8eb4-de8a924d31ac",
+    "product_id": "f1e9d300ddee9961",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "Umberto Giannini Curl Jelly Collection Curiosity Gap Hook No",
+    "script_text": "I don't believe this is actually worth it. More than half price on TikTok Shop right now — and I genuinely did not expect there to be this much in the collection. The Umberto Giannini Curl Jelly collection — we're talking the full range of Curl Jellies plus the brushes — over eighty pounds worth of product for more than half price. I paid full price for mine and I am gutted. Because right now on TikTok Shop you are getting all of this for basically nothing. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>More than half price</prosody> on TikTok Shop right now — <break time=\"200ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='slow'>this much</prosody> in the collection. <break time=\"350ms\"/> <prosody rate='fast'>The</prosody> Umberto Giannini Curl Jelly collection — <break time=\"200ms\"/> <prosody rate='fast'>we're talking the full range of</prosody> Curl Jellies <prosody rate='fast'>plus the</prosody> brushes — <break time=\"250ms\"/> <prosody rate='slow'>over eighty pounds worth</prosody> <prosody rate='fast'>of product</prosody> for more than half price. <break time=\"420ms\"/> I paid <prosody rate='fast'>full price</prosody> for mine <prosody rate='fast'>and I am</prosody> <prosody rate='slow'>gutted.</prosody> <break time=\"350ms\"/> Because <prosody rate='fast'>right now on TikTok Shop</prosody> you are getting <prosody rate='slow'>all of this</prosody> <prosody rate='fast'>for basically</prosody> nothing. <break time=\"300ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link in the yellow basket below.</speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Umberto-Giannini-Curl-Jelly-Collection-Curiosity-Gap-Hook-No_2026-06-18.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-18T13:51:34.355Z",
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Collection-Curiosity-Gap-Hook-No_2026-06-18.mp4",
+    "drive_uploaded_at": "2026-06-18T13:51:34.355Z"
+  },
+  {
+    "id": "7392055c-ee00-4983-88a7-809cd183d5d8",
+    "product_id": "2dbcb1a086a16eb4",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "Pelvic Floor Trainer Curiosity Gap Hook No Face Bottom Funne",
+    "script_text": "I don't believe this is actually gonna work. I thought this was just another gimmick. But this is the Pelvic Floor and Thigh Trainer — a dual-action toning device, and it is on a massive discount on TikTok Shop right now. You just open it out, position it between your thighs, and squeeze. That is literally it. The LED display tracks every single rep so you are never guessing. It targets your pelvic floor, your inner thighs, your hips, and your core — all in one go. I genuinely did not expect it to feel this effective. And the fact that it is this cheap right now is kind of unbelievable. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually gonna</prosody> work. <break time=\"420ms\"/> I thought this was <prosody rate='fast'>just</prosody> another <prosody rate='fast'>gimmick.</prosody> <break time=\"540ms\"/> But this is <prosody rate='fast'>the</prosody> Pelvic Floor <prosody rate='fast'>and</prosody> Thigh Trainer — <prosody rate='fast'>a dual-action</prosody> toning device, <prosody rate='fast'>and it is on a</prosody> massive discount <prosody rate='fast'>on TikTok Shop</prosody> right now. <prosody rate='fast'>You just</prosody> open it out, <prosody rate='fast'>position it</prosody> between your thighs, <prosody rate='fast'>and</prosody> squeeze. <prosody rate='fast'>That is</prosody> literally it. <break time=\"420ms\"/> The LED display <prosody rate='fast'>tracks every single</prosody> rep <prosody rate='fast'>so you are</prosody> never <prosody rate='fast'>guessing.</prosody> It targets your <prosody rate='fast'>pelvic floor,</prosody> your inner thighs, <prosody rate='fast'>your hips,</prosody> and your core — <prosody rate='fast'>all in</prosody> one go. <break time=\"540ms\"/> <prosody rate='fast'>I genuinely did not</prosody> expect it <prosody rate='fast'>to feel this</prosody> effective. <prosody rate='fast'>And the fact that it is</prosody> this cheap <prosody rate='fast'>right now is</prosody> kind of <prosody rate='fast'>unbelievable.</prosody> <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long this</prosody> deal <prosody rate='fast'>is gonna last but I've left the</prosody> link <prosody rate='fast'>in the yellow</prosody> basket <prosody rate='fast'>below.</prosody></speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Pelvic-Floor-Trainer-Curiosity-Gap-Hook-No-Face-Bottom-Funne_2026-06-16.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-16T19:08:42.621Z",
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Pelvic-Floor-Trainer-Curiosity-Gap-Hook-No-Face-Bottom-Funne_2026-06-16.mp4",
+    "drive_uploaded_at": "2026-06-16T19:08:42.621Z"
+  },
+  {
+    "id": "fee3f7be-8c86-405d-b34a-88f3b2da3341",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "Hydreau Sports Hydration Curiosity Gap I Did Not Expect Hook",
+    "script_text": "I did not expect there to be this much in one tub. Not one scoop. Not two scoops. Not three scoops. Not four scoops. Not five scoops. Not six scoops. Not seven scoops. But thirty scoops. In one tub. On TikTok Shop right now the Hydreau Sports Hydration by EHP Labs is on a massive discount and I cannot believe they've slashed the price like this. One tub. Thirty servings. Sitting right here on my desk and I've been going through it every single day. I genuinely don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak><prosody rate='fast'>I did not expect</prosody> there to be <prosody rate='fast'>this much</prosody> in one tub. <break time=\"420ms\"/> <prosody rate='fast'>Not one</prosody> scoop. <prosody rate='fast'>Not two</prosody> scoops. <prosody rate='fast'>Not three</prosody> scoops. <prosody rate='fast'>Not four</prosody> scoops. <prosody rate='fast'>Not five</prosody> scoops. <prosody rate='fast'>Not six</prosody> scoops. <prosody rate='fast'>Not seven</prosody> scoops. <break time=\"540ms\"/> <prosody rate='slow'>But</prosody> <prosody rate='fast'>thirty scoops.</prosody> <break time=\"880ms\"/> In one tub. <break time=\"420ms\"/> On TikTok Shop right now <prosody rate='fast'>the Hydreau Sports Hydration</prosody> by <prosody rate='fast'>EHP Labs</prosody> is on a <prosody rate='fast'>massive discount</prosody> and I cannot believe <prosody rate='fast'>they've slashed the price</prosody> like this. <break time=\"300ms\"/> <prosody rate='fast'>One tub.</prosody> Thirty servings. <prosody rate='fast'>Sitting right here</prosody> on my desk <prosody rate='fast'>and I've been going through it</prosody> every single day. <break time=\"420ms\"/> I genuinely <prosody rate='fast'>don't know how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link</prosody> in the yellow basket below.</speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Hydreau-Sports-Hydration-Curiosity-Gap-I-Did-Not-Expect-Hook_2026-06-17.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-17T11:33:01.973Z",
+    "drive_mp4_path": "",
+    "drive_uploaded_at": "2026-06-17T11:33:01.973Z"
+  },
+  {
+    "id": "94818d74-ed58-4956-bfa1-1bb8457c15c6",
+    "product_id": "a08e21b6961d10ed",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "Hydreau Bottom Funnel One Scoop Discovery No Face 45s",
+    "script_text": "I did not think one scoop from this tub was going to make that much of a difference. But apparently you just grab the tub, drop one scoop into your water, and that&#x27;s it. Wait — it actually dissolved that quick? This is the EHPlabs Hydreau electrolyte formula — coconut water, Aquamin, magnesium. Not just salt and sugar like everything else. And I&#x27;ve been hitting this every single morning. No crash. No bloating. Energy actually levels out for the whole day. The only problem is it keeps selling out on TikTok Shop. But in this video only, you can actually grab it for a serious discount with free fast shipping. If you want to finally sort your hydration out then I&#x27;ll leave a link below but it&#x27;s probably gonna be gone.",
+    "ssml": "<speak><prosody rate='fast'>I did not think</prosody> one scoop from this tub <prosody rate='fast'>was going to make that</prosody> much of a difference. <prosody rate='fast'>But apparently you just</prosody> grab the tub, <prosody rate='fast'>drop one</prosody> scoop into your water, <prosody rate='fast'>and that&#x27;s it.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Wait —</prosody> <prosody rate='slow'>it actually</prosody> <prosody rate='fast'>dissolved</prosody> that quick? <prosody rate='fast'>This is the</prosody> EHPlabs Hydreau <prosody rate='fast'>electrolyte formula —</prosody> coconut water, Aquamin, magnesium. <prosody rate='fast'>Not just</prosody> salt and sugar <prosody rate='fast'>like everything else.</prosody> <break time=\"540ms\"/> <prosody rate='fast'>And I&#x27;ve been hitting this</prosody> every single morning. <prosody rate='fast'>No crash.</prosody> No bloating. <prosody rate='fast'>Energy actually levels</prosody> out for the whole day. <prosody rate='fast'>The only</prosody> problem is <prosody rate='fast'>it keeps</prosody> selling out <prosody rate='fast'>on TikTok Shop.</prosody> <prosody rate='fast'>But in this</prosody> video only, <prosody rate='fast'>you can actually grab it</prosody> for a serious discount with free fast shipping. <prosody rate='fast'>If you want to finally</prosody> sort your hydration out <prosody rate='fast'>then I&#x27;ll leave a</prosody> link below <prosody rate='fast'>but it&#x27;s probably</prosody> gonna be <prosody rate='fast'>gone.</prosody></speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Hydreau-Bottom-Funnel-One-Scoop-Discovery-No-Face-45s_2026-06-17.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-17T10:58:53.645Z",
+    "drive_mp4_path": "",
+    "drive_uploaded_at": "2026-06-17T10:58:53.645Z"
+  },
+  {
+    "id": "19202819-c4e9-477e-895b-89e92ee2ccc6",
+    "product_id": "c58759e415540d14",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "DENSE Hair Vitamins Curiosity Gap HOW IS THIS LEGAL Bottle R",
+    "script_text": "I don't believe this is actually gonna work. I picked up the DENSE Hair Vitamins off TikTok Shop and honestly I was so sceptical. But look at this bottle. And the price they've got it at right now — I genuinely don't know how this is even allowed. On TikTok Shop right now these are at a massive discount. Like I'm actually annoyed because I paid full price before and now they've just slashed it. One bottle. That's it. That's all it takes. And it keeps selling out every single time they run a deal like this — every single time. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this is actually <prosody rate='fast'>gonna</prosody> work. <break time=\"420ms\"/> I picked up <prosody rate='fast'>the</prosody> DENSE Hair Vitamins <prosody rate='fast'>off TikTok Shop and</prosody> honestly <prosody rate='fast'>I was</prosody> so sceptical. <break time=\"300ms\"/> But look at <prosody rate='fast'>this</prosody> bottle. <prosody rate='fast'>And the price they've got it at</prosody> right now — <break time=\"540ms\"/> I genuinely <prosody rate='fast'>don't know how</prosody> this is even <prosody rate='fast'>allowed.</prosody> <break time=\"300ms\"/> On TikTok Shop <prosody rate='fast'>right now</prosody> these are at <prosody rate='fast'>a</prosody> massive discount. <prosody rate='fast'>Like I'm actually</prosody> annoyed <prosody rate='fast'>because I</prosody> paid full price <prosody rate='fast'>before and now</prosody> they've just <prosody rate='fast'>slashed</prosody> it. <break time=\"420ms\"/> <prosody rate='slow'>One bottle.</prosody> <break time=\"300ms\"/> <prosody rate='fast'>That's it.</prosody> That's all <prosody rate='fast'>it</prosody> takes. <break time=\"300ms\"/> <prosody rate='fast'>And it keeps</prosody> selling out <prosody rate='fast'>every single time</prosody> they run <prosody rate='fast'>a deal like</prosody> this — <prosody rate='fast'>every single</prosody> time. <break time=\"540ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal <prosody rate='fast'>is gonna</prosody> last <prosody rate='fast'>but I've left the link in the</prosody> yellow basket <prosody rate='fast'>below.</prosody></speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\DENSE-Hair-Vitamins-Curiosity-Gap-HOW-IS-THIS-LEGAL-Bottle-R_2026-06-16.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-16T18:44:45.474Z",
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\DENSE-Hair-Vitamins-Curiosity-Gap-HOW-IS-THIS-LEGAL-Bottle-R_2026-06-16.mp4",
+    "drive_uploaded_at": "2026-06-16T18:44:45.474Z"
+  },
+  {
+    "id": "206d4433-6ab8-4a8f-bc33-c4c7c2e7450d",
+    "product_id": "6ae65fc1196da550",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "Careleaf Beetroot Gummies Curiosity Gap Hook No Face Bottom",
+    "script_text": "I don't believe this is actually on sale right now. There is a massive discount on TikTok Shop — and when I checked the listing, I had to stop and look twice. You get the Careleaf Beetroot Gummies — sixty vegan, non-GMO gummies in a single pack — peach flavour, five hundred milligrams of L-Citrulline and Hawthorn Extract. Sixty gummies, slashed price, on TikTok Shop right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> on sale right now. <break time=\"400ms\"/> <prosody rate='fast'>There is a</prosody> massive discount <prosody rate='fast'>on TikTok Shop</prosody> — and when I <prosody rate='fast'>checked the</prosody> listing, <prosody rate='fast'>I had to</prosody> stop <prosody rate='fast'>and look</prosody> twice. <break time=\"300ms\"/> <prosody rate='fast'>You get</prosody> the Careleaf Beetroot Gummies — <prosody rate='fast'>sixty</prosody> vegan, <prosody rate='fast'>non-GMO</prosody> gummies <prosody rate='fast'>in a</prosody> single pack — <break time=\"280ms\"/> peach flavour, <prosody rate='fast'>five hundred milligrams of</prosody> L-Citrulline <prosody rate='fast'>and</prosody> Hawthorn Extract. <break time=\"420ms\"/> <prosody rate='fast'>Sixty gummies,</prosody> slashed price, <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time=\"540ms\"/> I don't know <prosody rate='fast'>how long this deal is gonna last but</prosody> I've left the link <prosody rate='fast'>in the</prosody> yellow basket below.</speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Careleaf-Beetroot-Gummies-Curiosity-Gap-Hook-No-Face-Bottom-_2026-06-18.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-18T14:22:00.215Z",
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Careleaf-Beetroot-Gummies-Curiosity-Gap-Hook-No-Face-Bottom-_2026-06-18.mp4",
+    "drive_uploaded_at": "2026-06-18T14:22:00.215Z"
+  },
+  {
+    "id": "2ea1fbb2-7029-4ead-8b59-53c7ad235fa1",
+    "product_id": "25d97566f4b78716",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "C4 Ultimate Bundle Curiosity Gap How Is This Legal Hook No F",
+    "script_text": "I don't believe this deal is even real. I am looking at the C4 Ultimate Performance Bundle right now — you get the tub of C4 Ultimate Pre-Workout, the tub of C4 Smart Energy Powder, and the C4 shaker, all in one stack. Like, how is this even on TikTok Shop right now for this price? Every time something this good drops, it sells out. I grabbed a scoop from the pre-workout tub this morning and I actually cannot believe what you are getting for basically nothing. The tubs are massive, the shaker is proper gym quality, and this whole bundle is sitting on a flash sale right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak> <prosody rate='fast'>I</prosody> don't believe this deal is even real. <break time=\"420ms\"/> <prosody rate='fast'>I am looking at</prosody> the C4 Ultimate Performance Bundle <prosody rate='fast'>right now —</prosody> you get <prosody rate='fast'>the</prosody> tub <prosody rate='fast'>of C4 Ultimate</prosody> Pre-Workout, <prosody rate='fast'>the</prosody> tub <prosody rate='fast'>of C4 Smart Energy</prosody> Powder, <prosody rate='fast'>and the</prosody> C4 shaker, <prosody rate='fast'>all in one</prosody> stack. <break time=\"540ms\"/> <prosody rate='fast'>Like, how is this</prosody> even on TikTok Shop <prosody rate='fast'>right now</prosody> for this price? <prosody rate='fast'>Every time something</prosody> this good drops, <prosody rate='fast'>it</prosody> sells out. <break time=\"420ms\"/> <prosody rate='fast'>I grabbed a</prosody> scoop <prosody rate='fast'>from the</prosody> pre-workout tub <prosody rate='fast'>this morning and I</prosody> actually cannot believe <prosody rate='fast'>what you are</prosody> getting <prosody rate='fast'>for basically</prosody> nothing. <prosody rate='fast'>The tubs are</prosody> massive, <prosody rate='fast'>the shaker is</prosody> proper gym quality, <prosody rate='fast'>and this whole</prosody> bundle <prosody rate='fast'>is sitting on a</prosody> flash sale <prosody rate='fast'>right</prosody> now. <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\C4-Ultimate-Bundle-Curiosity-Gap-How-Is-This-Legal-Hook-No-F_2026-06-16.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-16T18:54:28.778Z",
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\C4-Ultimate-Bundle-Curiosity-Gap-How-Is-This-Legal-Hook-No-F_2026-06-16.mp4",
+    "drive_uploaded_at": "2026-06-16T18:54:28.778Z"
+  },
+  {
+    "id": "f19782d0-cceb-41e6-8adf-3b2f54d3f1ac",
+    "product_id": "f618685611567f3e",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "Belgrave 9 Seater Rattan Garden Set Story Hook I Paid Full P",
+    "script_text": "I'm a little mad at myself. Because I spent way more than I needed to — bought outdoor furniture somewhere else at full price, and the cushion covers weren't even washable. Right now on TikTok Shop, the Belgrave 9 Seater Rattan Garden Set with Washable Cushion Covers is on a massive discount. Nine seats. Water resistant. Weather resistant. Washable covers included. That deal is not going to hang around. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "ssml": "<speak>\n<prosody rate='fast'>I'm a little mad</prosody> at myself.\n<break time='400ms'/>\n<prosody rate='fast'>Because I spent way more</prosody> than I needed to —\n<break time='300ms'/>\nbought outdoor furniture somewhere else <prosody rate='fast'>at full price,</prosody>\n<break time='300ms'/>\nand the cushion covers <prosody rate='fast'>weren't even</prosody> washable.\n<break time='500ms'/>\n<prosody rate='fast'>Right now on</prosody> TikTok Shop,\n<break time='200ms'/>\nthe Belgrave 9 Seater Rattan Garden Set <prosody rate='fast'>with</prosody> Washable Cushion Covers\n<break time='300ms'/>\nis on a <prosody rate='fast'>massive</prosody> discount.\n<break time='400ms'/>\nNine seats.\n<break time='300ms'/>\nWater resistant.\n<break time='300ms'/>\nWeather resistant.\n<break time='300ms'/>\n<prosody rate='fast'>Washable covers</prosody> included.\n<break time='500ms'/>\n<prosody rate='fast'>That deal is</prosody> not going to hang around.\n<break time='400ms'/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Belgrave-9-Seater-Rattan-Garden-Set-Story-Hook-I-Paid-Full-P_2026-06-20.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-20T07:01:45.978Z",
+    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Belgrave-9-Seater-Rattan-Garden-Set-Story-Hook-I-Paid-Full-P_2026-06-20.mp4",
+    "drive_uploaded_at": "2026-06-20T07:01:45.978Z"
+  },
+  {
+    "id": "d34be217-7d37-401f-9c9c-625f3e051552",
+    "product_id": "",
+    "hook_type": "curiosity gap",
+    "funnel_style": "curiosity gap",
+    "title": "52a9e2a9 E86f 470a A23a C0d2ddb66d48",
+    "script_text": "Not eye drops, not tablets, not a nasal spray — just one pack that actually traps pollen before it gets to you. Thirty biodegradable wipes, peppermint and tea tree, wipe your face and hands and the allergens are gone. Fits in your bag, your car, your pocket. Check that price and those reviews — if you see the orange cart, grab it before it's gone.",
+    "ssml": "<speak><prosody rate='fast'>Not</prosody> eye drops, <prosody rate='fast'>not</prosody> tablets, <prosody rate='fast'>not</prosody> a nasal spray — <prosody rate='fast'>just</prosody> one pack <prosody rate='fast'>that actually traps pollen</prosody> before it gets to you. <prosody rate='fast'>Thirty</prosody> biodegradable wipes, <prosody rate='fast'>peppermint and tea tree,</prosody> wipe your face and hands <prosody rate='fast'>and the allergens are gone.</prosody> Fits in your bag, <prosody rate='fast'>your car,</prosody> your pocket. <prosody rate='fast'>Check that</prosody> price <prosody rate='fast'>and those</prosody> reviews — <prosody rate='fast'>if you see the orange</prosody> cart, grab it <prosody rate='fast'>before it's gone.</prosody></speak>",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\52a9e2a9-e86f-470a-a23a-c0d2ddb66d48.mp3",
+    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-29\"}",
+    "reference_library_id": null,
+    "created_at": "2026-06-15T17:18:47.562Z",
+    "drive_mp4_path": "",
+    "drive_uploaded_at": "2026-06-15T17:18:47.562Z"
+  },
+  {
     "id": "c73eddd7-b912-4f87-bc01-d6906cf17a53",
     "product_id": "935330cfc8f979f4",
     "hook_type": "bold claim",
@@ -1210,44 +1760,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Belgrave-9-Seater-Rattan-Garden-Set-Fear-Hook-Youre-Going-To_2026-06-20.mp4",
-    "drive_uploaded_at": "2026-06-20T07:03:16.565Z"
-  },
-  {
-    "id": "74b9733b-02e0-4ac3-8303-50e36b7a8de7",
-    "product_id": "f618685611567f3e",
-    "hook_type": "story",
-    "funnel_style": "story",
-    "title": "Belgrave 9 Seater Rattan Garden Set — Story Hook 'I Paid Full Price Somewhere Else' (No Face, Bottom Funnel)",
-    "script_text": "I'm a little mad at myself. Because I spent way more than I needed to — bought outdoor furniture somewhere else at full price, and the cushion covers weren't even washable. Right now on TikTok Shop, the Belgrave 9 Seater Rattan Garden Set with Washable Cushion Covers is on a massive discount. Nine seats. Water resistant. Weather resistant. Washable covers included. That deal is not going to hang around. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak>\n<prosody rate='fast'>I'm a little mad</prosody> at myself.\n<break time='400ms'/>\n<prosody rate='fast'>Because I spent way more</prosody> than I needed to —\n<break time='300ms'/>\nbought outdoor furniture somewhere else <prosody rate='fast'>at full price,</prosody>\n<break time='300ms'/>\nand the cushion covers <prosody rate='fast'>weren't even</prosody> washable.\n<break time='500ms'/>\n<prosody rate='fast'>Right now on</prosody> TikTok Shop,\n<break time='200ms'/>\nthe Belgrave 9 Seater Rattan Garden Set <prosody rate='fast'>with</prosody> Washable Cushion Covers\n<break time='300ms'/>\nis on a <prosody rate='fast'>massive</prosody> discount.\n<break time='400ms'/>\nNine seats.\n<break time='300ms'/>\nWater resistant.\n<break time='300ms'/>\nWeather resistant.\n<break time='300ms'/>\n<prosody rate='fast'>Washable covers</prosody> included.\n<break time='500ms'/>\n<prosody rate='fast'>That deal is</prosody> not going to hang around.\n<break time='400ms'/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
-    "on_screen_caption": "9 seats. Washable covers. TikTok Shop deal 🪑",
-    "tiktok_caption": "Wish I had checked TikTok Shop before spending full price elsewhere 😭 the Belgrave 9 Seater Rattan Garden Set is on a massive discount right now — link in the yellow basket 🧺 #gardenset #rattanfurniture #gardenfurniture #tiktokshopuk #tiktokcreatorpicks #outdoorliving #patioset",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Belgrave-9-Seater-Rattan-Garden-Set-Story-Hook-I-Paid-Full-P_2026-06-20.mp3",
-    "prompt_context": "{\"selectedHookType\":\"story\",\"referenceLibraryId\":\"9623b485-09af-4da1-87b3-3c541da66874\",\"varietyRotation\":true}",
-    "reference_library_id": "9623b485-09af-4da1-87b3-3c541da66874",
-    "created_at": "2026-06-20T07:01:00.165Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "liked",
-        "rated_at": "2026-06-20T07:01:25.273Z"
-      },
-      "on_screen_caption": {
-        "rating": "disliked",
-        "reason": "ban this on screen caption",
-        "rated_at": "2026-06-20T07:01:33.789Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-20T07:01:38.606Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-20T07:01:40.499Z"
-      }
-    },
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Belgrave-9-Seater-Rattan-Garden-Set-Story-Hook-I-Paid-Full-P_2026-06-20.mp4",
-    "drive_uploaded_at": "2026-06-20T07:01:50.483Z"
+    "drive_uploaded_at": "2026-06-20T07:03:16.565Z",
+    "linked_my_video_id": "3ae04105-1dac-479c-8d29-4a5a77a0ecfe",
+    "linked_pending_analysis_id": "648fb2c0-0cde-4b66-8e13-e4c468333d23"
   },
   {
     "id": "b65cf672-cade-458a-a51e-5b302f6cac85",
@@ -1283,7 +1798,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Collection-Brushes-Bold-Claim-I-_2026-06-20.mp4",
-    "drive_uploaded_at": "2026-06-20T06:49:38.165Z"
+    "drive_uploaded_at": "2026-06-20T06:49:38.165Z",
+    "linked_my_video_id": "26ba2204-e4c4-481a-a5b6-7292c3cacb73",
+    "linked_pending_analysis_id": "44b5bbb2-74d3-4d05-8b66-0d23526e7f94"
   },
   {
     "id": "3bdd5946-715c-407d-b986-f108536a9fc1",
@@ -1320,7 +1837,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Collection-Brushes-Pattern-Inter_2026-06-20.mp4",
-    "drive_uploaded_at": "2026-06-20T06:48:33.382Z"
+    "drive_uploaded_at": "2026-06-20T06:48:33.382Z",
+    "linked_my_video_id": "7e7987dc-08ad-48f1-a8ec-d0516e8ec347",
+    "linked_pending_analysis_id": "59969026-5bdf-408d-aed7-443483c0cf44"
   },
   {
     "id": "e3240f79-c522-4705-8204-48dd55a2d09d",
@@ -2307,43 +2826,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Story-Hook-No-Face-Bottom-Funnel_2026-06-19.mp4",
-    "drive_uploaded_at": "2026-06-19T13:01:00.644Z"
-  },
-  {
-    "id": "e340d7eb-6ee4-4cb7-8281-8c13fd908170",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "fear",
-    "funnel_style": "fear",
-    "title": "EHP Labs Hydreau — Fear Hook (No Face, Bottom Funnel)",
-    "script_text": "You are wasting money on hydration right now. I genuinely could not believe it when I saw what was in this tub — the EHP Labs Hydreau Sports Hydration is on a massive flash sale on TikTok Shop right now. One scoop from this tub and you are getting a full electrolyte hit every single time. The flavours are actually incredible — Passionfruit, Watermelon, Mango. And this tub? It goes far. You are not running out of this any time soon. I'm a little annoyed because I was paying full price for this. And now it's on a massive flash sale. Whenever deals like this drop, they do not stick around. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>You are wasting money</prosody> on hydration right now. <break time='400ms'/> <prosody rate='fast'>I genuinely could not believe it</prosody> when I saw <prosody rate='fast'>what was in</prosody> this tub — <break time='300ms'/> <prosody rate='fast'>the EHP Labs Hydreau</prosody> Sports Hydration <prosody rate='fast'>is on a</prosody> massive flash sale <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time='300ms'/> <prosody rate='fast'>One scoop from</prosody> this tub <prosody rate='fast'>and you are getting</prosody> a full electrolyte hit <prosody rate='fast'>every single</prosody> time. <break time='250ms'/> <prosody rate='fast'>The flavours are</prosody> actually incredible — <prosody rate='slow'>Passionfruit,</prosody> <prosody rate='slow'>Watermelon,</prosody> <prosody rate='slow'>Mango.</prosody> <break time='350ms'/> <prosody rate='fast'>And this tub?</prosody> It goes far. <prosody rate='fast'>You are not running out</prosody> of this <prosody rate='fast'>any time</prosody> soon. <break time='400ms'/> I'm a little annoyed <prosody rate='slow'>because I was paying</prosody> <prosody rate='fast'>full price</prosody> for this. <break time='300ms'/> <prosody rate='fast'>And now it's on a</prosody> massive flash sale. <prosody rate='fast'>Whenever deals like this drop,</prosody> they do not <prosody rate='fast'>stick around.</prosody> <break time='300ms'/> I don't know how long this deal is gonna last <prosody rate='fast'>but I've left the link</prosody> in the yellow basket below.</speak>",
-    "on_screen_caption": "you are throwing money away 😬",
-    "tiktok_caption": "stop wasting money on hydration 😬👇 #tiktokcreatorpicks #dealdrops #ehplabs #hydreau #hydration #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Fear-Hook-No-Face-Bottom-Funnel_2026-06-19.mp3",
-    "prompt_context": "{\"selectedHookType\":\"fear\",\"referenceLibraryId\":\"9623b485-09af-4da1-87b3-3c541da66874\",\"varietyRotation\":true}",
-    "reference_library_id": "9623b485-09af-4da1-87b3-3c541da66874",
-    "created_at": "2026-06-19T12:59:12.921Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "disliked",
-        "reason": "terrible hook",
-        "rated_at": "2026-06-19T12:59:33.691Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-19T12:59:36.073Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-19T12:59:39.851Z"
-      },
-      "pace": {
-        "rating": "disliked",
-        "reason": "bad hook",
-        "rated_at": "2026-06-19T12:59:48.639Z"
-      }
-    }
+    "drive_uploaded_at": "2026-06-19T13:01:00.644Z",
+    "linked_my_video_id": "96b4f565-00f6-403b-be4f-1decd35e2933",
+    "linked_pending_analysis_id": "93e978df-0c0a-4da8-bdea-0213be56e9e6"
   },
   {
     "id": "537a2777-697f-4dba-aaeb-f4bb98ec21e1",
@@ -2380,7 +2865,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Transformation-Hook-No-Face-Bottom-Funnel_2026-06-19.mp4",
-    "drive_uploaded_at": "2026-06-19T12:58:46.788Z"
+    "drive_uploaded_at": "2026-06-19T12:58:46.788Z",
+    "linked_my_video_id": "d89a5558-301d-4216-900c-075fd8bea76b",
+    "linked_pending_analysis_id": "d58f2ed1-155f-461d-88a9-65d6d74749a5"
   },
   {
     "id": "d2a1d8bc-fac0-43a9-9be9-cf77222ef011",
@@ -2418,7 +2905,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Transformation-Hook-No-Face-Bottom-Funne_2026-06-19.mp4",
-    "drive_uploaded_at": "2026-06-19T12:56:37.965Z"
+    "drive_uploaded_at": "2026-06-19T12:56:37.965Z",
+    "linked_my_video_id": "905bf510-88e7-4428-8318-433ffd383151",
+    "linked_pending_analysis_id": "3710db9c-65cb-4335-a4a1-f0702c66984a"
   },
   {
     "id": "37953911-2d75-43a3-9e16-e9766bac284c",
@@ -2455,7 +2944,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Controversy-Hook-No-Face-Bottom-Funnel_2026-06-19.mp4",
-    "drive_uploaded_at": "2026-06-19T12:54:58.844Z"
+    "drive_uploaded_at": "2026-06-19T12:54:58.844Z",
+    "linked_my_video_id": "34bcce71-ca0c-4a66-8746-5e146578eb37",
+    "linked_pending_analysis_id": "de74d851-425c-4bf7-a915-76ae30f72c85"
   },
   {
     "id": "d0458114-8592-4c69-bfa4-255c66dc6866",
@@ -2491,135 +2982,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Pelvic-Floor-Thigh-Trainer-Bold-Claim-Hook-No-Face-Bottom-Fu_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T14:30:58.742Z"
-  },
-  {
-    "id": "876a892e-dfa6-456d-8d84-c86e20458990",
-    "product_id": "2dbcb1a086a16eb4",
-    "hook_type": "story",
-    "funnel_style": "story",
-    "title": "Pelvic Floor & Thigh Trainer — Story Hook (No Face, Bottom Funnel)",
-    "script_text": "I genuinely thought I was just going to live with it. You know that feeling when you've just accepted something is never going to change? That was me. And then I found the Pelvic Floor and Thigh Trainer on TikTok Shop — and there is a flash sale on right now. This thing works your pelvic floor and your inner thighs at the same time — dual-action, at home, no gym, no equipment, nothing else needed. You squeeze, it does the work. And right now on TikTok Shop it is massively discounted — I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='medium'>I genuinely thought</prosody> <break time='200ms'/> <prosody rate='fast'>I was just going to</prosody> live with it. <break time='400ms'/> <prosody rate='fast'>You know that feeling</prosody> when you've just <prosody rate='fast'>accepted something is</prosody> never going to change? <break time='400ms'/> <prosody rate='medium'>That was me.</prosody> <break time='500ms'/> <prosody rate='fast'>And then I found</prosody> the Pelvic Floor and Thigh Trainer <prosody rate='fast'>on TikTok Shop —</prosody> <break time='300ms'/> <prosody rate='fast'>and there is a</prosody> flash sale <prosody rate='fast'>on right now.</prosody> <break time='400ms'/> <prosody rate='fast'>This thing works your</prosody> pelvic floor <prosody rate='fast'>and your</prosody> inner thighs <prosody rate='fast'>at the same time —</prosody> <break time='200ms'/> dual-action, <prosody rate='fast'>at home,</prosody> no gym, <prosody rate='fast'>no equipment,</prosody> nothing else needed. <break time='300ms'/> <prosody rate='fast'>You squeeze,</prosody> it does the work. <break time='400ms'/> <prosody rate='fast'>And right now on TikTok Shop</prosody> it is <prosody rate='fast'>massively</prosody> discounted — <break time='300ms'/> <prosody rate='fast'>I don't know how long this deal is gonna last but</prosody> I've left the link <prosody rate='fast'>in the yellow basket below.</prosody></speak>",
-    "on_screen_caption": "I thought I was just going to live with it 😔",
-    "tiktok_caption": "thought this wasn't for me… until I actually tried it 😔👇 #tiktokcreatorpicks #dealdrops #pelvicfloor #thighworkout #homeworkout #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Pelvic-Floor-Thigh-Trainer-Story-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"selectedHookType\":\"story\",\"referenceLibraryId\":\"ff27e182-d099-4193-b70e-dec3436a7b91\",\"varietyRotation\":true}",
-    "reference_library_id": "ff27e182-d099-4193-b70e-dec3436a7b91",
-    "created_at": "2026-06-18T14:29:44.121Z",
-    "awaiting_feedback": false,
-    "section_feedback": {}
-  },
-  {
-    "id": "6c739190-92c5-4ea8-8d42-87a917c7bb09",
-    "product_id": "2dbcb1a086a16eb4",
-    "hook_type": "pattern interrupt",
-    "funnel_style": "pattern interrupt",
-    "title": "Pelvic Floor & Thigh Trainer — Pattern Interrupt Counting Hook (No Face, Bottom Funnel)",
-    "script_text": "Not one. Not two. Not three. But three. Have you seen what you get with the Pelvic Floor and Thigh Trainer on TikTok Shop right now? There is a massive discount on right now — and honestly, when I saw the deal I had to stop and look again. You get the Pelvic Floor and Thigh Trainer — a dual-action toning device that targets your core, your pelvic floor, and your inner thighs. All three. In one. And right now TikTok Shop has slashed the price — I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>Not</prosody> one. <prosody rate='fast'>Not</prosody> two. <prosody rate='fast'>Not</prosody> three. <prosody rate='fast'>But</prosody> three. <break time='400ms'/> <prosody rate='fast'>Have you seen what you get with the</prosody> Pelvic Floor and Thigh Trainer <prosody rate='fast'>on TikTok Shop</prosody> right now? <break time='300ms'/> <prosody rate='fast'>There is a</prosody> massive discount <prosody rate='fast'>on right now</prosody> — <break time='300ms'/> <prosody rate='fast'>and honestly, when I saw the deal I had to</prosody> stop and look again. <break time='300ms'/> <prosody rate='fast'>You get the</prosody> Pelvic Floor and Thigh Trainer — <prosody rate='fast'>a dual-action toning device that targets</prosody> your core, <prosody rate='fast'>your</prosody> pelvic floor, <prosody rate='fast'>and your</prosody> inner thighs. <break time='250ms'/> <prosody rate='fast'>All</prosody> three. <prosody rate='fast'>In</prosody> one. <break time='350ms'/> <prosody rate='fast'>And right now TikTok Shop has</prosody> slashed the price — <break time='300ms'/> I don't know how long this deal is gonna last <prosody rate='fast'>but I've left the link in the</prosody> yellow basket below.</speak>",
-    "on_screen_caption": "Not 1. Not 2. Not 3. But 3 🤯",
-    "tiktok_caption": "all three in one and the price is actually wild 😮👇 #tiktokcreatorpicks #dealdrops #pelvicfloor #thighworkout #homeworkout #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Pelvic-Floor-Thigh-Trainer-Pattern-Interrupt-Counting-Hook-N_2026-06-18.mp3",
-    "prompt_context": "{\"selectedHookType\":\"pattern interrupt\",\"referenceLibraryId\":\"c9869266-5554-4040-a3e2-e8d17aaf6c53\",\"varietyRotation\":true}",
-    "reference_library_id": "c9869266-5554-4040-a3e2-e8d17aaf6c53",
-    "created_at": "2026-06-18T14:28:42.976Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "disliked",
-        "reason": "this does not work for this product, there is only 1 item.",
-        "rated_at": "2026-06-18T14:29:14.160Z"
-      },
-      "on_screen_caption": {
-        "rating": "disliked",
-        "reason": "never use this in onscreen captions",
-        "rated_at": "2026-06-18T14:29:14.711Z"
-      },
-      "tiktok_caption": {
-        "rating": "disliked",
-        "reason": "dont like this",
-        "rated_at": "2026-06-18T14:29:21.947Z"
-      },
-      "pace": {
-        "rating": "disliked",
-        "reason": "bad script",
-        "rated_at": "2026-06-18T14:29:27.640Z"
-      }
-    }
-  },
-  {
-    "id": "a92b3531-f6c8-4705-8c04-4e34e103c65e",
-    "product_id": "2dbcb1a086a16eb4",
-    "hook_type": "transformation",
-    "funnel_style": "transformation",
-    "title": "Pelvic Floor & Thigh Trainer — Transformation Hook (No Face, Bottom Funnel)",
-    "script_text": "I was not expecting this to be on sale. There is a massive discount on TikTok Shop right now — and when I actually saw what you get, I had to stop and look again. You get the Pelvic Floor and Thigh Trainer — the dual-action toning device for women. One product. Targets your pelvic floor, your inner thighs, and your core all at once — at home. No gym. No classes. Just this. And right now on TikTok Shop it has been slashed to a price I genuinely did not expect to see. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak>I <prosody rate='fast'>was not expecting</prosody> this <prosody rate='fast'>to be</prosody> on sale. <break time='300ms'/> <prosody rate='fast'>There is a</prosody> massive discount <prosody rate='fast'>on TikTok Shop</prosody> right now — <prosody rate='fast'>and when I</prosody> actually saw <prosody rate='fast'>what you get,</prosody> I had to stop <prosody rate='fast'>and look</prosody> again. <break time='300ms'/> You get <prosody rate='fast'>the</prosody> Pelvic Floor <prosody rate='fast'>and</prosody> Thigh Trainer — <prosody rate='fast'>the</prosody> dual-action toning device <prosody rate='fast'>for women.</prosody> <break time='250ms'/> One product. <prosody rate='fast'>Targets your</prosody> pelvic floor, <prosody rate='fast'>your inner</prosody> thighs, <prosody rate='fast'>and your</prosody> core <prosody rate='fast'>all at</prosody> once — <prosody rate='fast'>at home.</prosody> <break time='200ms'/> No gym. <prosody rate='fast'>No classes.</prosody> Just this. <break time='300ms'/> <prosody rate='fast'>And right now</prosody> on TikTok Shop <prosody rate='fast'>it has been</prosody> slashed <prosody rate='fast'>to a price</prosody> I genuinely <prosody rate='fast'>did not expect</prosody> to see. <break time='350ms'/> I don't know <prosody rate='fast'>how long this</prosody> deal is gonna last <prosody rate='fast'>but I've left</prosody> the link <prosody rate='fast'>in the</prosody> yellow basket below.</speak>",
-    "on_screen_caption": "I was NOT expecting this price 😮",
-    "tiktok_caption": "did not see this deal coming 😮👇 #tiktokcreatorpicks #dealdrops #pelvicfloor #homeworkout #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Pelvic-Floor-Thigh-Trainer-Transformation-Hook-No-Face-Botto_2026-06-18.mp3",
-    "prompt_context": "{\"selectedHookType\":\"transformation\",\"referenceLibraryId\":\"eaad7a6e-29ce-4868-9788-672d110dbdf1\",\"varietyRotation\":true}",
-    "reference_library_id": "eaad7a6e-29ce-4868-9788-672d110dbdf1",
-    "created_at": "2026-06-18T14:22:33.088Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "on_screen_caption": {
-        "rating": "keep_with_notes",
-        "notes": "dont mention price, sales or discount info in the on screen caption",
-        "rated_at": "2026-06-18T14:23:29.719Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:23:30.683Z"
-      },
-      "audio": {
-        "rating": "disliked",
-        "reason": "product is not mentioned quick enough, needs to be in first 5-10 seconds",
-        "rated_at": "2026-06-18T14:24:06.696Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:24:23.218Z"
-      }
-    }
-  },
-  {
-    "id": "e31a558b-2235-43cc-b8c7-0f966afb2303",
-    "product_id": "929e10b59e93a4cc",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "Careleaf Beetroot Gummies — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually on sale right now. There is a massive discount on TikTok Shop — and when I checked the listing, I had to stop and look twice. You get the Careleaf Beetroot Gummies — sixty vegan, non-GMO gummies in a single pack — peach flavour, five hundred milligrams of L-Citrulline and Hawthorn Extract. Sixty gummies, slashed price, on TikTok Shop right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> on sale right now. <break time=\"400ms\"/> <prosody rate='fast'>There is a</prosody> massive discount <prosody rate='fast'>on TikTok Shop</prosody> — and when I <prosody rate='fast'>checked the</prosody> listing, <prosody rate='fast'>I had to</prosody> stop <prosody rate='fast'>and look</prosody> twice. <break time=\"300ms\"/> <prosody rate='fast'>You get</prosody> the Careleaf Beetroot Gummies — <prosody rate='fast'>sixty</prosody> vegan, <prosody rate='fast'>non-GMO</prosody> gummies <prosody rate='fast'>in a</prosody> single pack — <break time=\"280ms\"/> peach flavour, <prosody rate='fast'>five hundred milligrams of</prosody> L-Citrulline <prosody rate='fast'>and</prosody> Hawthorn Extract. <break time=\"420ms\"/> <prosody rate='fast'>Sixty gummies,</prosody> slashed price, <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time=\"540ms\"/> I don't know <prosody rate='fast'>how long this deal is gonna last but</prosody> I've left the link <prosody rate='fast'>in the</prosody> yellow basket below.</speak>",
-    "on_screen_caption": "I can't believe this is actually on sale 😮",
-    "tiktok_caption": "do not sleep on this price 😮👇 #tiktokcreatorpicks #dealdrops #beetrootgummies #vegangummies #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Careleaf-Beetroot-Gummies-Curiosity-Gap-Hook-No-Face-Bottom-_2026-06-18.mp3",
-    "prompt_context": "{\"selectedHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\",\"varietyRotation\":true}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T14:21:06.542Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "keep_with_notes",
-        "notes": "product should be mentioned quicker",
-        "rated_at": "2026-06-18T14:21:32.659Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:21:33.625Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:21:36.357Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:21:38.636Z"
-      }
-    },
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Careleaf-Beetroot-Gummies-Curiosity-Gap-Hook-No-Face-Bottom-_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T14:22:03.490Z"
+    "drive_uploaded_at": "2026-06-18T14:30:58.742Z",
+    "linked_my_video_id": "36d571b7-61b7-4cf5-9139-45e51e6e64c2",
+    "linked_pending_analysis_id": "30d62ef5-f956-46a2-bb41-e72968ec0753"
   },
   {
     "id": "673445c1-ac1a-4758-ae2a-2362d602217b",
@@ -2656,42 +3021,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Careleaf-Beetroot-Gummies-Fear-Hook-No-Face-Bottom-Funnel_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T14:20:44.978Z"
-  },
-  {
-    "id": "31138ca8-7789-45e6-8779-c8b9ac36b54d",
-    "product_id": "929e10b59e93a4cc",
-    "hook_type": "transformation",
-    "funnel_style": "transformation",
-    "title": "Careleaf Beetroot Gummies — Transformation Hook (No Face, Bottom Funnel)",
-    "script_text": "I was not expecting that. Flash sale on TikTok Shop right now — and when I actually looked at what you get, I had to stop and rewatch the listing. You get the Careleaf Beetroot Gummies — sixty gummies, 500mg, peach flavour, vegan, non-GMO. Before I found this I was paying way more somewhere else. Same thing. Different packaging. And here it is on TikTok Shop for a fraction of that. Sixty count. Peach flavour. Beetroot, L-Citrulline, Hawthorn Extract — all in one bottle. I genuinely did a double take when I saw the deal. This is the Careleaf Beetroot Gummies and right now the price on TikTok Shop is honestly hard to justify not trying them. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak>I <prosody rate='fast'>was not expecting</prosody> that. <break time='300ms'/> <prosody rate='fast'>Flash sale</prosody> on TikTok Shop <prosody rate='fast'>right now —</prosody> and when I <prosody rate='fast'>actually looked at</prosody> what you get, <prosody rate='fast'>I had to stop and</prosody> rewatch the listing. <break time='400ms'/> You get <prosody rate='fast'>the Careleaf Beetroot Gummies —</prosody> sixty gummies, <prosody rate='fast'>500mg,</prosody> peach flavour, <prosody rate='fast'>vegan,</prosody> non-GMO. <break time='350ms'/> Before I found this <prosody rate='fast'>I was paying way more</prosody> somewhere else. <prosody rate='fast'>Same thing.</prosody> Different packaging. <prosody rate='fast'>And here it is</prosody> on TikTok Shop <prosody rate='fast'>for a fraction of</prosody> that. <break time='300ms'/> <prosody rate='fast'>Sixty count.</prosody> Peach flavour. <prosody rate='fast'>Beetroot,</prosody> L-Citrulline, <prosody rate='fast'>Hawthorn Extract —</prosody> all in one bottle. <break time='680ms'/> <prosody rate='slow'>I genuinely</prosody> did a double take <prosody rate='fast'>when I saw the deal.</prosody> <break time='300ms'/> This is <prosody rate='fast'>the Careleaf Beetroot Gummies</prosody> and right now <prosody rate='fast'>the price on TikTok Shop</prosody> is honestly <prosody rate='fast'>hard to justify</prosody> not trying them. <break time='350ms'/> <prosody rate='fast'>I don't know how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link</prosody> in the yellow basket below.</speak>",
-    "on_screen_caption": "I was not expecting this 😳",
-    "tiktok_caption": "do not sleep on this deal 👇 #tiktokcreatorpicks #dealdrops #beetrootgummies #wellness #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Careleaf-Beetroot-Gummies-Transformation-Hook-No-Face-Bottom_2026-06-18.mp3",
-    "prompt_context": "{\"selectedHookType\":\"transformation\",\"referenceLibraryId\":\"0cd3cc0d-0f6d-44a4-882a-538cf9a03254\",\"varietyRotation\":true}",
-    "reference_library_id": "0cd3cc0d-0f6d-44a4-882a-538cf9a03254",
-    "created_at": "2026-06-18T14:17:03.219Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:18:28.740Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:18:29.256Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:18:30.307Z"
-      },
-      "pace": {
-        "rating": "disliked",
-        "reason": "pronounciations are very bad",
-        "rated_at": "2026-06-18T14:19:05.273Z"
-      }
-    }
+    "drive_uploaded_at": "2026-06-18T14:20:44.978Z",
+    "linked_my_video_id": "de264741-e2c5-47df-bff5-520f1b9c8756",
+    "linked_pending_analysis_id": "37aef5a7-831c-4d4b-a974-d94a7e29c10e"
   },
   {
     "id": "12e5a208-5e47-46ee-a90a-7ecf54bb3c4c",
@@ -2727,7 +3059,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHPlabs-OxyShred-Energy-Drink-Curiosity-Gap-Hook-No-Face-Bot_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T14:10:05.246Z"
+    "drive_uploaded_at": "2026-06-18T14:10:05.246Z",
+    "linked_my_video_id": "622bb5f6-e6f8-462a-b1d3-2f5408a0bcec",
+    "linked_pending_analysis_id": "aecc3e34-f541-4cd6-b024-e231098c18bf"
   },
   {
     "id": "6a4b809d-0270-4b88-847b-aac7bf65d4d4",
@@ -2763,197 +3097,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T14:07:47.388Z"
-  },
-  {
-    "id": "00d2d278-ba10-4f3e-acaf-a3331bbf2b72",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset — Curiosity Gap Hook (No Face, Bottom Funnel) v2",
-    "script_text": "I don't believe this is actually worth it. Two for the price of one on TikTok Shop right now — and I genuinely did not expect there to be this much. You get two full packs of the WildGut Capsules — that's two complete packs, both included, for the price of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — <break time=\"280ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this much.</prosody> <break time=\"420ms\"/> You get <prosody rate='fast'>two full packs</prosody> of the WildGut Capsules — <break time=\"300ms\"/> <prosody rate='fast'>that's two</prosody> complete packs, <prosody rate='fast'>both included,</prosody> for the price of <prosody rate='slow'>one.</prosody> <break time=\"540ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket below.</prosody></speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #guthealth #wellness #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T14:06:18.447Z",
-    "awaiting_feedback": false,
-    "section_feedback": {}
-  },
-  {
-    "id": "54fe828f-8436-4b53-8005-570615571b46",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset — Curiosity Gap Hook (No Face, Bottom Funnel) v2",
-    "script_text": "I don't believe this is actually worth it. Two for the price of one on TikTok Shop right now — and I genuinely did not expect there to be this many. Not one, not two, but two full packs of the WildGut Capsules — that's ninety capsules per pack, one hundred and eighty capsules total, and you're only paying for one. I've been seeing these everywhere and I put off grabbing them for ages — and honestly I'm annoyed I waited this long. Because right now on TikTok Shop they've slashed the price and you're getting both packs for the cost of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop right now — <prosody rate='fast'>and I genuinely did not expect</prosody> there to be this many. <break time=\"420ms\"/> Not one, <prosody rate='fast'>not two,</prosody> but <prosody rate='slow'>two</prosody> full packs <prosody rate='fast'>of</prosody> the WildGut Capsules — <break time=\"300ms\"/> <prosody rate='fast'>that's</prosody> ninety capsules <prosody rate='fast'>per pack,</prosody> <prosody rate='slow'>one hundred and eighty</prosody> capsules total, <prosody rate='fast'>and you're only paying for</prosody> one. <break time=\"540ms\"/> I've been seeing these <prosody rate='fast'>everywhere</prosody> and I put off <prosody rate='fast'>grabbing them</prosody> for ages — <prosody rate='fast'>and honestly</prosody> I'm annoyed <prosody rate='slow'>I waited</prosody> this long. <break time=\"300ms\"/> Because right now <prosody rate='fast'>on TikTok Shop</prosody> they've slashed the price <prosody rate='fast'>and you're getting</prosody> both packs <prosody rate='fast'>for the cost of</prosody> one. <break time=\"880ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #guthealth #wellness #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T14:04:53.276Z",
-    "awaiting_feedback": false,
-    "section_feedback": {}
-  },
-  {
-    "id": "dea6d3c7-2c98-42cb-a538-51dd0354ea77",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Capsules — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Two for the price of one on TikTok Shop right now — and I genuinely did not expect there to be this much. You get two full packs of the WildGut Capsules — that's ninety capsules in each pack — both for the price of one. I've been seeing these everywhere and when I spotted this deal I had to grab them. Ninety capsules. Then another ninety capsules on top. That is a serious amount of product for what they're charging right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this much.</prosody> <break time=\"420ms\"/> You get <prosody rate='fast'>two full packs</prosody> of the WildGut Capsules — <prosody rate='fast'>that's</prosody> ninety capsules <prosody rate='fast'>in each pack</prosody> — <prosody rate='fast'>both</prosody> for the price of <prosody rate='fast'>one.</prosody> <break time=\"300ms\"/> I've been seeing these <prosody rate='fast'>everywhere</prosody> and when I spotted this deal <prosody rate='fast'>I had to</prosody> grab them. <break time=\"420ms\"/> <prosody rate='fast'>Ninety capsules.</prosody> <break time=\"300ms\"/> Then another <prosody rate='fast'>ninety capsules</prosody> on top. <break time=\"540ms\"/> That is a <prosody rate='fast'>serious</prosody> amount of product for what they're <prosody rate='fast'>charging right now.</prosody> <break time=\"420ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link in the <prosody rate='fast'>yellow basket below.</prosody></speak>",
-    "on_screen_caption": "I cant believe there was this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #guthealth #wellness #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Capsules-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T14:03:36.996Z",
-    "awaiting_feedback": false,
-    "section_feedback": {}
-  },
-  {
-    "id": "12adbc2b-1c39-4b56-8ac9-ab116f0baa7a",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Two for the price of one on TikTok Shop right now — and I genuinely did not expect there to be this much. You get two full packs of the WildGut Capsules — that's ninety capsules in each pack. Two packs. Both of them. For the price of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — <break time=\"250ms\"/> and I genuinely did not expect <prosody rate='fast'>there to be</prosody> this much. <break time=\"300ms\"/> You get <prosody rate='fast'>two full packs</prosody> of the WildGut Capsules — <break time=\"200ms\"/> that's <prosody rate='fast'>ninety capsules</prosody> in each pack. <break time=\"420ms\"/> <prosody rate='slow'>Two packs.</prosody> <break time=\"300ms\"/> <prosody rate='fast'>Both of them.</prosody> <break time=\"250ms\"/> For the price of one. <break time=\"540ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
-    "on_screen_caption": "I cant believe there was this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #guthealth #wellness #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T13:57:14.477Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:03:02.407Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:03:03.714Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:03:04.301Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T14:03:05.553Z"
-      }
-    },
-    "alignment_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18-alignment.json",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T14:03:18.640Z"
-  },
-  {
-    "id": "065f29e5-3264-427e-8b09-4cf3c87970c2",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Two for the price of one on TikTok Shop right now — and I genuinely did not expect there to be this much. You get two full packs of the WildGut Capsules — that's two full packs, ninety capsules each. And they've slashed the price so you're basically getting the second one for nothing. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop right now — <break time=\"200ms\"/> and I genuinely did not expect <prosody rate='fast'>there to be</prosody> this much. <break time=\"300ms\"/> You get <prosody rate='fast'>two full packs</prosody> of the WildGut Capsules — <break time=\"200ms\"/> <prosody rate='slow'>that's</prosody> <prosody rate='fast'>two full packs,</prosody> ninety capsules each. <break time=\"300ms\"/> And they've <prosody rate='fast'>slashed the price</prosody> so you're basically getting <prosody rate='fast'>the second one</prosody> for nothing. <break time=\"420ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
-    "on_screen_caption": "I cant believe there was this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #guthealth #wellness #tiktokshopuk",
-    "audio_path": "",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T13:56:04.533Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:56:17.200Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:56:19.941Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:56:20.912Z"
-      }
-    }
-  },
-  {
-    "id": "e89d2e0b-c2fc-43fa-a146-41781d71411d",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Two for the price of one on TikTok Shop right now — and I genuinely did not expect there to be this much. The WildGut Capsules — ninety capsules in each, and you're getting two full products for the price of one. That is basically getting the second one for free. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop right now — <break time=\"200ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this</prosody> much. <break time=\"350ms\"/> <prosody rate='fast'>The</prosody> WildGut Capsules — <break time=\"200ms\"/> <prosody rate='fast'>ninety capsules</prosody> in each, <break time=\"200ms\"/> and you're getting <prosody rate='fast'>two full products</prosody> for the price of <prosody rate='slow'>one.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>That is basically</prosody> getting the second one <prosody rate='fast'>for</prosody> free. <break time=\"300ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link in the <prosody rate='fast'>yellow basket</prosody> below.</speak>",
-    "on_screen_caption": "I cant believe there was this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #gutheath #wellness #tiktokshopuk",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T13:52:10.706Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "disliked",
-        "reason": "dont ever say about being able to get something for free",
-        "rated_at": "2026-06-18T13:55:24.590Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:55:26.857Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:55:27.535Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:55:40.899Z"
-      }
-    }
-  },
-  {
-    "id": "57fa47f8-d1c7-41cd-b35c-df1a52e1c8bc",
-    "product_id": "f1e9d300ddee9961",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "Umberto Giannini Curl Jelly Collection — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. More than half price on TikTok Shop right now — and I genuinely did not expect there to be this much in the collection. The Umberto Giannini Curl Jelly collection — we're talking the full range of Curl Jellies plus the brushes — over eighty pounds worth of product for more than half price. I paid full price for mine and I am gutted. Because right now on TikTok Shop you are getting all of this for basically nothing. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>More than half price</prosody> on TikTok Shop right now — <break time=\"200ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='slow'>this much</prosody> in the collection. <break time=\"350ms\"/> <prosody rate='fast'>The</prosody> Umberto Giannini Curl Jelly collection — <break time=\"200ms\"/> <prosody rate='fast'>we're talking the full range of</prosody> Curl Jellies <prosody rate='fast'>plus the</prosody> brushes — <break time=\"250ms\"/> <prosody rate='slow'>over eighty pounds worth</prosody> <prosody rate='fast'>of product</prosody> for more than half price. <break time=\"420ms\"/> I paid <prosody rate='fast'>full price</prosody> for mine <prosody rate='fast'>and I am</prosody> <prosody rate='slow'>gutted.</prosody> <break time=\"350ms\"/> Because <prosody rate='fast'>right now on TikTok Shop</prosody> you are getting <prosody rate='slow'>all of this</prosody> <prosody rate='fast'>for basically</prosody> nothing. <break time=\"300ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link in the yellow basket below.</speak>",
-    "on_screen_caption": "over £80 worth for more than half price 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #curlyhair #haircare #curls",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Umberto-Giannini-Curl-Jelly-Collection-Curiosity-Gap-Hook-No_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T13:09:17.518Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:50:40.630Z"
-      },
-      "on_screen_caption": {
-        "rating": "disliked",
-        "reason": "dont speak about pricing or discounts in on screen caption - leads to violations",
-        "rated_at": "2026-06-18T13:51:08.744Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:51:09.336Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T13:51:40.088Z"
-      }
-    },
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Collection-Curiosity-Gap-Hook-No_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T13:51:37.187Z"
+    "drive_uploaded_at": "2026-06-18T14:07:47.388Z",
+    "linked_my_video_id": "0730e735-b4e4-417e-9109-cf4f2093119e",
+    "linked_pending_analysis_id": "0d79a4d2-e600-445c-8dce-cdf29cb7eb31"
   },
   {
     "id": "c5f411c0-4284-4d23-9a1d-f03c3641e0b7",
@@ -2989,134 +3135,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Curiosity-Gap-Hook-No-Face-Botto_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T12:32:04.748Z"
-  },
-  {
-    "id": "1ee2b752-3fd4-48c0-a5c6-4f0a6bf20383",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHP Labs Hydreau — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Triple discount on TikTok Shop right now — and I genuinely did not expect there to be this much in the tub. The EHP Labs Hydreau Electrolytes — three flavours: Pineapple Kiwi and Strawberry, and Raspberry Refresh. One scoop from the tub and you're done. And at this price, I honestly don't know how they're still running this deal. Full-size tub. Massive discount. Already going. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Triple discount</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — <break time=\"250ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='slow'>this much</prosody> in the tub. <break time=\"380ms\"/> The <prosody rate='fast'>EHP Labs</prosody> Hydreau Electrolytes — <break time=\"200ms\"/> <prosody rate='fast'>three flavours:</prosody> Pineapple Kiwi <prosody rate='fast'>and</prosody> Strawberry, <break time=\"180ms\"/> and Raspberry Refresh. <break time=\"320ms\"/> <prosody rate='fast'>One scoop</prosody> from the tub <prosody rate='fast'>and you're</prosody> done. <break time=\"420ms\"/> And at <prosody rate='fast'>this price,</prosody> I honestly don't know <prosody rate='fast'>how they're</prosody> still running <prosody rate='slow'>this deal.</prosody> <break time=\"350ms\"/> <prosody rate='fast'>Full-size tub.</prosody> <break time=\"180ms\"/> <prosody rate='fast'>Massive discount.</prosody> <break time=\"180ms\"/> Already going. <break time=\"450ms\"/> I don't know <prosody rate='fast'>how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link</prosody> in the yellow basket below.</speak>",
-    "on_screen_caption": "I can't believe there was this much in the tub 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T11:34:08.896Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:34:40.516Z"
-      },
-      "on_screen_caption": {
-        "rating": "keep_with_notes",
-        "notes": "should be \"I cant believe there was this much 😳\"",
-        "rated_at": "2026-06-18T11:34:55.777Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:34:56.513Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:35:02.455Z"
-      }
-    },
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T11:35:15.934Z"
-  },
-  {
-    "id": "73717cd7-9353-4bba-bd8a-530608b886cf",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHP Labs Hydreau — Not 1 Not 2 Counting Hook (No Face, Bottom Funnel)",
-    "script_text": "Not one, not two, not three, but three. Triple discount on TikTok Shop right now on the EHP Labs Hydreau Electrolytes — and I genuinely did not expect there to be this much in the tub. Pineapple, Kiwi and Strawberry, Raspberry Refresh — three flavours, one tub, massive discount. You just take one scoop, mix it in, and that's it. The tub itself is huge — this is not going fast at that price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>Not one,</prosody> <break time=\"200ms\"/> <prosody rate='fast'>not two,</prosody> <break time=\"200ms\"/> not three, <break time=\"300ms\"/> <prosody rate='slow'>but three.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Triple discount</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> on the EHP Labs Hydreau Electrolytes — <break time=\"300ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='slow'>this much</prosody> in the tub. <break time=\"420ms\"/> <prosody rate='fast'>Pineapple,</prosody> Kiwi and Strawberry, <prosody rate='fast'>Raspberry Refresh</prosody> — <break time=\"300ms\"/> three flavours, <prosody rate='fast'>one tub,</prosody> massive discount. <break time=\"350ms\"/> You just take <prosody rate='fast'>one scoop,</prosody> mix it in, <prosody rate='fast'>and that's it.</prosody> <break time=\"420ms\"/> The tub itself is <prosody rate='slow'>huge</prosody> — <prosody rate='fast'>this is not going fast at that price.</prosody> <break time=\"540ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link in the <prosody rate='fast'>yellow basket below.</prosody></speak>",
-    "on_screen_caption": "Not 1. Not 2. Not 3. But 3 🤯",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Not-1-Not-2-Counting-Hook-No-Face-Bottom-Fu_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T11:32:03.482Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "disliked",
-        "reason": "you said \"this is not going fast at that price\" -> this makes no sense, your basically saying it isnt selling fast. The goal for bottom of funnel is to push a sale & create FOMO",
-        "rated_at": "2026-06-18T11:33:08.095Z"
-      },
-      "on_screen_caption": {
-        "rating": "disliked",
-        "reason": "for this hook, onscreen captions should be things like: \"I can't believe there was so much\", \"how is there so much of this\" etc",
-        "rated_at": "2026-06-18T11:33:33.887Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:33:36.614Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:33:51.639Z"
-      }
-    }
-  },
-  {
-    "id": "b514ec4b-0c66-468a-b5e2-b689fd81ace7",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHP Labs Hydreau — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Triple discount on TikTok Shop right now — and I genuinely did not expect there to be this much in the tub. One scoop of the EHP Labs Hydreau Electrolytes and you're sorted. Watermelon, Passionfruit Mango, Peach Iced Tea, Rainbow Candy — proper flavours, not just one sad option. This tub should cost way more than what it's going for right now. And the size of it — I actually didn't think it'd be this big when it landed. This is not a product you use twice and forget about. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"420ms\"/> Triple discount <prosody rate='fast'>on TikTok Shop</prosody> right now — <break time=\"300ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this much</prosody> in the tub. <break time=\"380ms\"/> <prosody rate='fast'>One scoop of the</prosody> EHP Labs Hydreau Electrolytes <prosody rate='fast'>and you're</prosody> sorted. <break time=\"300ms\"/> Watermelon, <prosody rate='fast'>Passionfruit Mango,</prosody> Peach Iced Tea, <prosody rate='fast'>Rainbow Candy</prosody> — <break time=\"280ms\"/> proper flavours, <prosody rate='fast'>not just one</prosody> sad option. <break time=\"380ms\"/> This tub <prosody rate='fast'>should cost way more than</prosody> what it's going for right now. <break time=\"300ms\"/> And the <prosody rate='fast'>size of it</prosody> — <break time=\"420ms\"/> I actually didn't think <prosody rate='fast'>it'd be this big</prosody> when it landed. <break time=\"300ms\"/> This is <prosody rate='fast'>not</prosody> a product you use twice <prosody rate='fast'>and forget about.</prosody> <break time=\"540ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T11:29:26.620Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "disliked",
-        "reason": "you keep using the same hook for every script, keep it different each time, you can rotate options if need be.\n\nYou also made up random flavours that dont exist, do product research and understand. To save time, for the EHP Labs Hydreau electrolytes there is three flavours. Pinapple, Kiwi & Strawberry, Raspberry Refresh",
-        "rated_at": "2026-06-18T11:30:44.910Z"
-      },
-      "on_screen_caption": {
-        "rating": "keep_with_notes",
-        "notes": "You keep reusing the same on-screen caption, change this everytime",
-        "rated_at": "2026-06-18T11:30:59.289Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:31:01.635Z"
-      },
-      "pace": {
-        "rating": "disliked",
-        "reason": "hook needs to deliver a little bit faster",
-        "rated_at": "2026-06-18T11:31:19.729Z"
-      }
-    }
-  },
-  {
-    "id": "d4123e36-9312-44d4-b950-2cc334c08afd",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHP Labs Hydreau — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually worth it. Triple discount on TikTok Shop right now — and I genuinely did not expect there to be this much in the tub. One scoop of the EHP Labs Hydreau Electrolytes, that's it. This tub is massive. We're talking a serious amount of servings for basically nothing. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"420ms\"/> Triple discount <prosody rate='fast'>on TikTok Shop</prosody> right now — <break time=\"300ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this much</prosody> in the tub. <break time=\"480ms\"/> <prosody rate='fast'>One scoop</prosody> of the <prosody rate='fast'>EHP Labs Hydreau</prosody> Electrolytes, <prosody rate='fast'>that's it.</prosody> <break time=\"380ms\"/> This tub <prosody rate='fast'>is massive.</prosody> <break time=\"300ms\"/> We're talking <prosody rate='fast'>a serious amount</prosody> of servings <prosody rate='fast'>for basically</prosody> nothing. <break time=\"540ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T11:28:53.104Z",
-    "awaiting_feedback": false,
-    "section_feedback": {}
+    "drive_uploaded_at": "2026-06-18T12:32:04.748Z",
+    "linked_my_video_id": "0ea9a7ec-1efe-42fa-b2a3-26234eb4e3fc",
+    "linked_pending_analysis_id": "6626cea1-30b6-432c-8ff0-56cca96f493c"
   },
   {
     "id": "e6b2c9a7-00aa-4c93-9b29-5598e8d01f1e",
@@ -3153,163 +3174,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp4",
-    "drive_uploaded_at": "2026-06-18T11:28:08.287Z"
-  },
-  {
-    "id": "e9736dca-8c32-4aea-b71b-88e289f46b40",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHP Labs Hydreau — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually gonna be worth it. Triple discount on TikTok Shop right now. I thought this was just another powder you'd use twice and forget about. But this is the EHP Labs Hydreau Electrolytes — and look at the size of this tub. One scoop and you're done. And the fact that it's on a massive flash sale right now — I genuinely did not expect to get this much for this price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually gonna be</prosody> worth it. <break time=\"420ms\"/> <prosody rate='fast'>Triple discount</prosody> on TikTok Shop <prosody rate='fast'>right now.</prosody> <break time=\"300ms\"/> I thought this was <prosody rate='fast'>just</prosody> another powder <prosody rate='fast'>you'd use</prosody> twice and forget about. <break time=\"420ms\"/> But this is <prosody rate='fast'>the</prosody> EHP Labs Hydreau Electrolytes — <break time=\"300ms\"/> and <prosody rate='fast'>look at the size of</prosody> this tub. <break time=\"300ms\"/> <prosody rate='fast'>One scoop</prosody> and you're done. <break time=\"540ms\"/> And the fact that it's on a <prosody rate='fast'>massive</prosody> flash sale right now — <break time=\"300ms\"/> I genuinely did <prosody rate='fast'>not</prosody> expect to get <prosody rate='fast'>this much</prosody> for this price. <break time=\"880ms\"/> I don't know how long this deal is gonna last <prosody rate='fast'>but</prosody> I've left the link in the yellow basket below.</speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T11:24:57.311Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "keep_with_notes",
-        "notes": "\"I dont believe this is actually gonna be worth it\" -> instead this should be \"I don't believe this is actually worth it\"\n\nAdding extra words for the sake of it -> avoid this",
-        "rated_at": "2026-06-18T11:25:58.466Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:25:59.978Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:26:01.160Z"
-      },
-      "pace": {
-        "rating": "disliked",
-        "reason": "A little slow paced. Sentences need a certain tone based on what is said, common knowledge can understand this. Note for next time.",
-        "rated_at": "2026-06-18T11:26:45.887Z"
-      }
-    }
-  },
-  {
-    "id": "0cff1f2e-2afc-4118-82bb-ebf3aed63503",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHP Labs Hydreau — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually gonna be worth it. I thought this was just another powder that'd sit on the shelf after the second use. But this is the EHP Labs Hydreau Electrolytes — and I did not expect there to be this much in one tub. One scoop from the tub and you're sorted. The flavours, the value, the size of this tub — I genuinely cannot believe what you're getting on TikTok Shop right now. This is not full price. This is not half price. This is an absolute flash sale and I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually gonna be</prosody> worth it. <break time=\"420ms\"/> I thought this was <prosody rate='fast'>just</prosody> another powder <prosody rate='fast'>that'd sit on the</prosody> shelf after the <prosody rate='fast'>second</prosody> use. <break time=\"300ms\"/> But this <prosody rate='fast'>is</prosody> the <prosody rate='slow'>EHP Labs Hydreau Electrolytes</prosody> — <break time=\"420ms\"/> and I did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='slow'>this much</prosody> in one tub. <break time=\"300ms\"/> <prosody rate='fast'>One scoop from the</prosody> tub <prosody rate='fast'>and you're</prosody> sorted. <break time=\"540ms\"/> The flavours, <prosody rate='fast'>the value,</prosody> the size of <prosody rate='fast'>this</prosody> tub — <break time=\"300ms\"/> I genuinely <prosody rate='fast'>cannot believe</prosody> what you're getting <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time=\"420ms\"/> This is <prosody rate='fast'>not</prosody> full price. <prosody rate='fast'>This is not</prosody> half price. <break time=\"300ms\"/> This is an <prosody rate='fast'>absolute</prosody> flash sale <break time=\"300ms\"/> and I don't know how long this deal is gonna last <prosody rate='fast'>but I've left the link in the</prosody> yellow basket below.</speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHP-Labs-Hydreau-Curiosity-Gap-Hook-No-Face-Bottom-Funnel_2026-06-18.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-18T11:23:15.811Z",
-    "awaiting_feedback": false,
-    "section_feedback": {
-      "audio": {
-        "rating": "disliked",
-        "reason": "the discount call needs to be in the first 6-10 seconds. I.e triple discount, huge discounrd, mega sale, flash sale etc",
-        "rated_at": "2026-06-18T11:24:16.309Z"
-      },
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:24:19.349Z"
-      },
-      "tiktok_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:24:21.074Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-18T11:24:40.732Z"
-      }
-    }
-  },
-  {
-    "id": "4d2e676d-2883-46fb-8231-4b8c156b541d",
-    "product_id": "753da0a737026b9b",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "Dr.Melaxin Full Skincare Bundle — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually gonna be worth it. I thought this was just another overpriced skincare set you'd use once and leave on the shelf. But this is the Dr.Melaxin full skincare bundle — and I did not expect there to be this much. Not one, not two, not three, not four, not five, but five full-size products in one bundle. And right now on TikTok Shop it's been slashed to under two hundred pounds. I genuinely could not believe it when I saw the price. This is a full routine — everything you need in one go, nothing extra to buy. If you've been putting off sorting your skincare, this is the one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually gonna be</prosody> worth it. <break time=\"420ms\"/> I thought this was <prosody rate='fast'>just</prosody> another overpriced skincare set <prosody rate='fast'>you'd use once and</prosody> leave on the shelf. <break time=\"300ms\"/> But this is <prosody rate='fast'>the</prosody> Dr.Melaxin full skincare bundle — <break time=\"300ms\"/> and I did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='slow'>this much.</prosody> <break time=\"540ms\"/> <prosody rate='fast'>Not one, not two, not three, not four, not five, but</prosody> <prosody rate='slow'>five</prosody> full-size products <prosody rate='fast'>in one bundle.</prosody> <break time=\"300ms\"/> And right now <prosody rate='fast'>on TikTok Shop</prosody> it's been slashed <prosody rate='fast'>to under</prosody> two hundred pounds. <break time=\"420ms\"/> <prosody rate='slow'>I genuinely could not believe it</prosody> <prosody rate='fast'>when I saw the price.</prosody> <break time=\"300ms\"/> This is <prosody rate='fast'>a full routine —</prosody> everything you need <prosody rate='fast'>in one go,</prosody> nothing extra to buy. <break time=\"420ms\"/> If you've been <prosody rate='fast'>putting off</prosody> sorting your skincare, <prosody rate='slow'>this is the one.</prosody> <break time=\"540ms\"/> <prosody rate='fast'>I don't know how long this deal is gonna last but</prosody> I've left the link <prosody rate='fast'>in the yellow basket below.</prosody></speak>",
-    "on_screen_caption": "I did not expect there to be this much 😳",
-    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\DrMelaxin-Full-Skincare-Bundle-Curiosity-Gap-Hook-No-Face-Bo_2026-06-17.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-17T22:21:04.085Z",
-    "awaiting_feedback": false,
-    "section_feedback": {}
-  },
-  {
-    "id": "5b46f5a7-c401-40d9-ba80-4fa3b50659e6",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset Curiosity Gap Dont Buy This Hook No Face",
-    "script_text": "Don't buy the WildGut Capsules. Not yet. Because right now on TikTok Shop you're getting two for the price of one — that's ninety capsules, twice. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak> <prosody rate='fast'>Don't buy</prosody> the WildGut Capsules. <break time='540ms'/> <prosody rate='slow'>Not</prosody> <prosody rate='fast'>yet.</prosody> <break time='420ms'/> Because <prosody rate='fast'>right now on TikTok Shop</prosody> you're getting <prosody rate='fast'>two</prosody> for the price of <prosody rate='fast'>one —</prosody> that's <prosody rate='slow'>ninety capsules,</prosody> <prosody rate='fast'>twice.</prosody> <break time='420ms'/> <prosody rate='fast'>I don't know how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link</prosody> in the yellow basket <prosody rate='fast'>below.</prosody> </speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-Dont-Buy-This-Hook-No-Face_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-17\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:47:20.673Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Curiosity-Gap-Dont-Buy-This-Hook-No-Face_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:47:20.673Z"
-  },
-  {
-    "id": "a7ebc345-fc54-4b0a-9b6d-552339c260eb",
-    "product_id": "3dfef41c803f789a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Capsules Curiosity Gap Dont Buy Hook No Face Bottom",
-    "script_text": "Don't buy the WildGut Capsules. Not yet. Because right now on TikTok Shop you're getting two for the price of one — that's two full bottles of the WildGut Capsules for basically nothing. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>Don't buy</prosody> the WildGut Capsules. <break time=\"540ms\"/> <prosody rate='slow'>Not yet.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Because right now on TikTok Shop</prosody> you're getting <prosody rate='fast'>two for the</prosody> price of one — <prosody rate='fast'>that's two full</prosody> bottles <prosody rate='fast'>of the</prosody> WildGut Capsules <prosody rate='fast'>for basically</prosody> nothing. <break time=\"420ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link in the</prosody> yellow basket below.</speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Capsules-Curiosity-Gap-Dont-Buy-Hook-No-Face-Bottom-_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-17\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:47:17.065Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Capsules-Curiosity-Gap-Dont-Buy-Hook-No-Face-Bottom-_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:47:17.065Z"
-  },
-  {
-    "id": "41954ff2-a4e7-49b3-9c01-61e6d054d25f",
-    "product_id": "53fc34aebdfc37a8",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHPlabs OxyShred Energy Drink Curiosity Gap Hook No Face Bot",
-    "script_text": "I don't believe this is actually on TikTok Shop right now. So I've got the EHPlabs OxyShred Energy Drink here — sugar free, zero calories, and it comes in new flavours I did not expect to actually enjoy this much. Acetyl L-Carnitine, Guarana, Green Tea Extract — all in a 355ml can you can just grab and go. No sugar crash, no guilt, just clean functional energy whenever you need it. The only problem with deals like this is they never last. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak> <prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually on</prosody> TikTok Shop right now. <break time=\"420ms\"/> <prosody rate='fast'>So I've got the</prosody> EHPlabs OxyShred Energy Drink <prosody rate='fast'>here —</prosody> sugar free, <prosody rate='fast'>zero calories,</prosody> and it comes in <prosody rate='fast'>new flavours</prosody> I did not expect <prosody rate='fast'>to actually</prosody> enjoy this much. <break time=\"300ms\"/> <prosody rate='fast'>Acetyl L-Carnitine,</prosody> Guarana, <prosody rate='fast'>Green Tea Extract —</prosody> all in a <prosody rate='fast'>355ml</prosody> can <prosody rate='fast'>you can just</prosody> grab and go. <break time=\"300ms\"/> <prosody rate='fast'>No sugar</prosody> crash, <prosody rate='fast'>no guilt,</prosody> just clean <prosody rate='fast'>functional</prosody> energy <prosody rate='fast'>whenever you</prosody> need it. <break time=\"540ms\"/> <prosody rate='fast'>The only</prosody> problem <prosody rate='fast'>with deals like</prosody> this <prosody rate='fast'>is they</prosody> never last. <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal <prosody rate='fast'>is gonna last but</prosody> I've left the link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHPlabs-OxyShred-Energy-Drink-Curiosity-Gap-Hook-No-Face-Bot_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-17\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:52:09.749Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\EHPlabs-OxyShred-Energy-Drink-Curiosity-Gap-Hook-No-Face-Bot_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:52:09.749Z"
-  },
-  {
-    "id": "2cc49529-e0f1-48ed-b298-3fa121ad3619",
-    "product_id": "53fc34aebdfc37a8",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "EHPlabs OxyShred Energy Drink Curiosity Gap Can Reveal",
-    "script_text": "I don't believe this is actually on TikTok Shop right now. Not one, not two, not three, not four, not five, not six, not seven, not eight, not nine, not ten, not eleven, but twelve. Twelve cans of the EHPlabs OxyShred Energy Drink — sugar free, zero calories, and they've just dropped brand new flavours. Each can is 355ml, packed with Acetyl L-Carnitine, Guarana, and Green Tea Extract. Twelve cans. For basically nothing on TikTok Shop right now. I genuinely don't know how this deal is even up. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this is actually <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time=\"420ms\"/> <prosody rate='fast'>Not one,</prosody> not two, <prosody rate='fast'>not three,</prosody> not four, <prosody rate='fast'>not five,</prosody> not six, <prosody rate='fast'>not seven,</prosody> not eight, <prosody rate='fast'>not nine,</prosody> not ten, <prosody rate='fast'>not eleven,</prosody> <break time=\"540ms\"/> but <prosody rate='slow'>twelve.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Twelve cans of</prosody> the EHPlabs OxyShred Energy Drink — <prosody rate='fast'>sugar free,</prosody> zero calories, <prosody rate='fast'>and they've just</prosody> dropped <prosody rate='fast'>brand new</prosody> flavours. <break time=\"300ms\"/> <prosody rate='fast'>Each can is</prosody> 355ml, <prosody rate='fast'>packed with</prosody> Acetyl L-Carnitine, <prosody rate='fast'>Guarana,</prosody> and Green Tea Extract. <break time=\"420ms\"/> <prosody rate='slow'>Twelve cans.</prosody> <prosody rate='fast'>For basically</prosody> nothing <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time=\"540ms\"/> <prosody rate='fast'>I genuinely don't know how</prosody> this deal is <prosody rate='fast'>even</prosody> up. <prosody rate='fast'>I don't know how long this deal is gonna last but</prosody> I've left the link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody></speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\EHPlabs-OxyShred-Energy-Drink-Curiosity-Gap-Can-Reveal_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-17\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:50:54.705Z",
-    "drive_mp4_path": "",
-    "drive_uploaded_at": "2026-06-16T18:50:54.705Z"
+    "drive_uploaded_at": "2026-06-18T11:28:08.287Z",
+    "linked_my_video_id": "2657c328-f643-438a-a8cd-5440c435da4a",
+    "linked_pending_analysis_id": "5c86582b-26b2-40da-b049-89d04f917f6f"
   },
   {
     "id": "686feede-ad11-4512-b533-423ea933d164",
@@ -3326,7 +3193,9 @@
     "reference_library_id": null,
     "created_at": "2026-06-16T18:59:47.623Z",
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\OxyShred-Pre-Workout-Curiosity-Gap-Dont-Buy-Hook-No-Face_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:59:47.623Z"
+    "drive_uploaded_at": "2026-06-16T18:59:47.623Z",
+    "linked_my_video_id": "635aedab-b17c-4fb5-8ba5-1dd387a997b6",
+    "linked_pending_analysis_id": "94ca8c5e-9ab2-408e-9cbe-096efaea1495"
   },
   {
     "id": "2689f113-56fa-48fd-b839-e711f9f6ee9e",
@@ -3363,46 +3232,9 @@
       }
     },
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Hydreau-Sports-Hydration-Curiosity-Gap-Hook-No-Face-Bottom-F_2026-06-17.mp4",
-    "drive_uploaded_at": "2026-06-17T11:55:07.614Z"
-  },
-  {
-    "id": "30bf99bd-4851-49c1-a247-6aab4264564d",
-    "product_id": "2dbcb1a086a16eb4",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "Pelvic Floor Trainer — Curiosity Gap Hook (No Face, Bottom Funnel)",
-    "script_text": "I don't believe this is actually gonna work. I thought this was just another gimmick. But this is the Pelvic Floor and Thigh Trainer — a dual-action toning device, and it is on a massive discount on TikTok Shop right now. You just open it out, position it between your thighs, and squeeze. That is literally it. The LED display tracks every single rep so you are never guessing. It targets your pelvic floor, your inner thighs, your hips, and your core — all in one go. I genuinely did not expect it to feel this effective. And the fact that it is this cheap right now is kind of unbelievable. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually gonna</prosody> work. <break time=\"420ms\"/> I thought this was <prosody rate='fast'>just</prosody> another <prosody rate='fast'>gimmick.</prosody> <break time=\"540ms\"/> But this is <prosody rate='fast'>the</prosody> Pelvic Floor <prosody rate='fast'>and</prosody> Thigh Trainer — <prosody rate='fast'>a dual-action</prosody> toning device, <prosody rate='fast'>and it is on a</prosody> massive discount <prosody rate='fast'>on TikTok Shop</prosody> right now. <prosody rate='fast'>You just</prosody> open it out, <prosody rate='fast'>position it</prosody> between your thighs, <prosody rate='fast'>and</prosody> squeeze. <prosody rate='fast'>That is</prosody> literally it. <break time=\"420ms\"/> The LED display <prosody rate='fast'>tracks every single</prosody> rep <prosody rate='fast'>so you are</prosody> never <prosody rate='fast'>guessing.</prosody> It targets your <prosody rate='fast'>pelvic floor,</prosody> your inner thighs, <prosody rate='fast'>your hips,</prosody> and your core — <prosody rate='fast'>all in</prosody> one go. <break time=\"540ms\"/> <prosody rate='fast'>I genuinely did not</prosody> expect it <prosody rate='fast'>to feel this</prosody> effective. <prosody rate='fast'>And the fact that it is</prosody> this cheap <prosody rate='fast'>right now is</prosody> kind of <prosody rate='fast'>unbelievable.</prosody> <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long this</prosody> deal <prosody rate='fast'>is gonna last but I've left the</prosody> link <prosody rate='fast'>in the yellow</prosody> basket <prosody rate='fast'>below.</prosody></speak>",
-    "on_screen_caption": "I didn't think this was gonna work… 😳",
-    "tiktok_caption": "I genuinely did not expect this 😳 The Pelvic Floor & Thigh Trainer is on a massive discount on TikTok Shop right now — targets your pelvic floor, inner thighs, hips and core all in one go. LED display tracks every rep. Link in the yellow basket before this deal disappears 👇 #pelvicfloor #thighworkout #homeworkout #tiktokmademebuyit #tiktokshopuk #workoutequipment #corestrength #womenshealth #ukfitness #tiktokshop",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Pelvic-Floor-Trainer-Curiosity-Gap-Hook-No-Face-Bottom-Funne_2026-06-16.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-16T19:07:51.551Z",
-    "awaiting_feedback": false,
-    "feedback": null,
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Pelvic-Floor-Trainer-Curiosity-Gap-Hook-No-Face-Bottom-Funne_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T19:08:46.140Z",
-    "section_feedback": {
-      "on_screen_caption": {
-        "rating": "liked",
-        "rated_at": "2026-06-17T11:52:01.302Z"
-      },
-      "audio": {
-        "rating": "disliked",
-        "reason": "this model doesnt have led display",
-        "rated_at": "2026-06-17T11:52:02.606Z"
-      },
-      "tiktok_caption": {
-        "rating": "keep_with_notes",
-        "notes": "way too much, tiktok captions should be like 5 words max, example: \"do not miss this deal\" 2-3 hashtags #tiktokcreatorpicks #dealdrops then a # for the current yearly period i.e summersale, springsale, autumnsale etc",
-        "rated_at": "2026-06-17T11:52:49.734Z"
-      },
-      "pace": {
-        "rating": "liked",
-        "rated_at": "2026-06-17T11:52:52.527Z"
-      }
-    }
+    "drive_uploaded_at": "2026-06-17T11:55:07.614Z",
+    "linked_my_video_id": "c4431009-0728-4f72-9e3d-d086d31da795",
+    "linked_pending_analysis_id": "aa183100-bb96-4a9c-98f9-5ba4a1fb5edc"
   },
   {
     "id": "f41377f2-1acb-4703-bb0b-733dbb1b87f3",
@@ -3419,74 +3251,8 @@
     "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
     "created_at": "2026-06-16T18:55:04.336Z",
     "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Exfoliating-Body-Wash-Curiosity-Gap-Hook-No-Face-Bottom-Funn_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:55:54.453Z"
-  },
-  {
-    "id": "8fd1e093-29f2-44ec-bea1-ce37409bae8e",
-    "product_id": "25d97566f4b78716",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "C4 Ultimate Bundle — Curiosity Gap 'How Is This Legal' Hook (No Face, ~45s)",
-    "script_text": "I don't believe this deal is even real. I am looking at the C4 Ultimate Performance Bundle right now — you get the tub of C4 Ultimate Pre-Workout, the tub of C4 Smart Energy Powder, and the C4 shaker, all in one stack. Like, how is this even on TikTok Shop right now for this price? Every time something this good drops, it sells out. I grabbed a scoop from the pre-workout tub this morning and I actually cannot believe what you are getting for basically nothing. The tubs are massive, the shaker is proper gym quality, and this whole bundle is sitting on a flash sale right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak> <prosody rate='fast'>I</prosody> don't believe this deal is even real. <break time=\"420ms\"/> <prosody rate='fast'>I am looking at</prosody> the C4 Ultimate Performance Bundle <prosody rate='fast'>right now —</prosody> you get <prosody rate='fast'>the</prosody> tub <prosody rate='fast'>of C4 Ultimate</prosody> Pre-Workout, <prosody rate='fast'>the</prosody> tub <prosody rate='fast'>of C4 Smart Energy</prosody> Powder, <prosody rate='fast'>and the</prosody> C4 shaker, <prosody rate='fast'>all in one</prosody> stack. <break time=\"540ms\"/> <prosody rate='fast'>Like, how is this</prosody> even on TikTok Shop <prosody rate='fast'>right now</prosody> for this price? <prosody rate='fast'>Every time something</prosody> this good drops, <prosody rate='fast'>it</prosody> sells out. <break time=\"420ms\"/> <prosody rate='fast'>I grabbed a</prosody> scoop <prosody rate='fast'>from the</prosody> pre-workout tub <prosody rate='fast'>this morning and I</prosody> actually cannot believe <prosody rate='fast'>what you are</prosody> getting <prosody rate='fast'>for basically</prosody> nothing. <prosody rate='fast'>The tubs are</prosody> massive, <prosody rate='fast'>the shaker is</prosody> proper gym quality, <prosody rate='fast'>and this whole</prosody> bundle <prosody rate='fast'>is sitting on a</prosody> flash sale <prosody rate='fast'>right</prosody> now. <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal is gonna last <prosody rate='fast'>but I've left the link in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
-    "on_screen_caption": "HOW IS THIS EVEN LEGAL? 😳 C4 Ultimate Bundle on TikTok Shop 🔥 Flash sale — link in yellow basket",
-    "tiktok_caption": "I genuinely cannot believe this bundle is sitting at this price right now 😳 The C4 Ultimate Performance Bundle — pre-workout tub, energy powder tub, and shaker all in one stack on a flash sale via TikTok Shop. I don't know how long this deal is gonna last but I've left the link in the yellow basket below 👇 #C4Energy #C4PreWorkout #GymTok #PreWorkout #TikTokShop #GymSupplements #WorkoutMotivation #FitnessTok #GymLife #EnergyDrink",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\C4-Ultimate-Bundle-Curiosity-Gap-How-Is-This-Legal-Hook-No-F_2026-06-16.mp3",
-    "prompt_context": "{\"inferredHookType\":\"curiosity gap\",\"referenceLibraryId\":\"8a90c025-6b3f-4ee2-a4f6-c59ae2232521\"}",
-    "reference_library_id": "8a90c025-6b3f-4ee2-a4f6-c59ae2232521",
-    "created_at": "2026-06-16T18:53:21.166Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\C4-Ultimate-Bundle-Curiosity-Gap-How-Is-This-Legal-Hook-No-F_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:54:32.112Z"
-  },
-  {
-    "id": "0c1fa156-cd72-487a-8417-c126090234dd",
-    "product_id": "a08e21b6961d10ed",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "Hydreau Tub Curiosity Gap No Face Bottom Funnel",
-    "script_text": "I did not expect there to be this much. Not one scoop, not two scoops — this tub is absolutely stacked. I grabbed the Hydreau Sports Hydration from EHP Labs on TikTok Shop and I genuinely cannot believe what I paid for it. The deal they've got on right now is basically slashing the price — and for a tub this size that is honestly kind of unreal. The problem is every single time a deal like this goes live, it sells out fast. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak> <prosody rate='fast'>I did not expect</prosody> there to be <prosody rate='fast'>this much.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Not one</prosody> scoop, <prosody rate='fast'>not two</prosody> scoops — <prosody rate='fast'>this tub is</prosody> absolutely stacked. <break time=\"300ms\"/> <prosody rate='fast'>I grabbed</prosody> the Hydreau Sports Hydration <prosody rate='fast'>from EHP Labs on</prosody> TikTok Shop <prosody rate='fast'>and I genuinely</prosody> cannot believe <prosody rate='fast'>what I</prosody> paid for it. <break time=\"300ms\"/> <prosody rate='fast'>The deal they've got on</prosody> right now <prosody rate='fast'>is basically</prosody> slashing the price — <prosody rate='fast'>and for a tub</prosody> this size <prosody rate='fast'>that is</prosody> honestly <prosody rate='fast'>kind of</prosody> unreal. <break time=\"540ms\"/> <prosody rate='fast'>The problem is</prosody> every single time <prosody rate='fast'>a deal like this</prosody> goes live, <prosody rate='fast'>it sells</prosody> out fast. <break time=\"300ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal <prosody rate='fast'>is gonna</prosody> last <prosody rate='fast'>but I've left</prosody> the link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Hydreau-Tub-Curiosity-Gap-No-Face-Bottom-Funnel_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-16\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:47:06.897Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Hydreau-Tub-Curiosity-Gap-No-Face-Bottom-Funnel_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:47:06.897Z"
-  },
-  {
-    "id": "3ea93bd7-c47a-4bf0-b79b-61c3cc4efb8f",
-    "product_id": "f1e9d300ddee9961",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "Umberto Giannini Curl Jelly Curiosity Gap Bottom Funnel No F",
-    "script_text": "I don't believe this is actually on TikTok Shop right now. Not one, not two, not three, not four, not five, but five pieces from the Umberto Giannini Curl Jelly collection — plus the brushes — all in one. I'm talking over eighty pounds worth of product, and you're getting it for more than half price. I genuinely don't know how this deal is even live right now. The full Curl Jelly collection, the brushes — everything. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak> <prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually on</prosody> TikTok Shop <prosody rate='fast'>right now.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Not one,</prosody> not two, <prosody rate='fast'>not three,</prosody> not four, <prosody rate='fast'>not five,</prosody> <prosody rate='slow'>but</prosody> <prosody rate='fast'>five</prosody> pieces <prosody rate='fast'>from the</prosody> Umberto Giannini <prosody rate='fast'>Curl Jelly</prosody> collection — <prosody rate='fast'>plus the</prosody> brushes — <prosody rate='fast'>all</prosody> in one. <break time=\"540ms\"/> <prosody rate='fast'>I'm talking</prosody> over <prosody rate='fast'>eighty pounds</prosody> worth of product, <prosody rate='fast'>and you're getting it</prosody> for more than <prosody rate='fast'>half</prosody> price. <prosody rate='fast'>I genuinely don't know</prosody> how this deal <prosody rate='fast'>is even</prosody> live right now. <break time=\"880ms\"/> <prosody rate='fast'>The full</prosody> Curl Jelly <prosody rate='fast'>collection,</prosody> the brushes — <prosody rate='fast'>everything.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal is <prosody rate='fast'>gonna last</prosody> but I've left the link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\Umberto-Giannini-Curl-Jelly-Curiosity-Gap-Bottom-Funnel-No-F_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-16\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:47:13.908Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\Umberto-Giannini-Curl-Jelly-Curiosity-Gap-Bottom-Funnel-No-F_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:47:13.908Z"
-  },
-  {
-    "id": "5d90151c-d6ce-49ab-a34d-e120ceefc4c0",
-    "product_id": "9ddefa8590f42f6a",
-    "hook_type": "curiosity gap",
-    "funnel_style": "curiosity gap",
-    "title": "WildGut Colon Reset Curiosity Gap HOW IS THIS LEGAL No Face",
-    "script_text": "I don't believe this is actually real. Not one bottle, not two bottles, but you are getting two full bottles of the WildGut Capsules for the price of one. That is two lots of ninety capsules. I genuinely cannot get my head around how this deal is even allowed. I paid full price for mine the other week and now they've slashed it in half on TikTok Shop. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> real. <break time=\"420ms\"/> <prosody rate='fast'>Not one</prosody> bottle, <prosody rate='fast'>not two</prosody> bottles, <prosody rate='fast'>but</prosody> you are getting <prosody rate='fast'>two full</prosody> bottles <prosody rate='fast'>of the</prosody> WildGut Capsules <prosody rate='fast'>for the price</prosody> of one. <break time=\"540ms\"/> That is <prosody rate='fast'>two lots of</prosody> ninety <prosody rate='fast'>capsules.</prosody> <break time=\"420ms\"/> I genuinely <prosody rate='fast'>cannot get my head around</prosody> how this deal <prosody rate='fast'>is even</prosody> allowed. <break time=\"540ms\"/> <prosody rate='fast'>I paid</prosody> full price <prosody rate='fast'>for mine the</prosody> other week <prosody rate='fast'>and now they've</prosody> slashed it <prosody rate='fast'>in half</prosody> on TikTok Shop. <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal <prosody rate='fast'>is gonna last but</prosody> I've left <prosody rate='fast'>the link in the</prosody> yellow basket <prosody rate='fast'>below.</prosody></speak>",
-    "on_screen_caption": "",
-    "tiktok_caption": "",
-    "audio_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\WildGut-Colon-Reset-Curiosity-Gap-HOW-IS-THIS-LEGAL-No-Face-_2026-06-16.mp3",
-    "prompt_context": "{\"recoveredFromAudio\":true,\"dateTag\":\"2026-06-16\"}",
-    "reference_library_id": null,
-    "created_at": "2026-06-16T18:47:23.912Z",
-    "drive_mp4_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\audio\\mp4\\WildGut-Colon-Reset-Curiosity-Gap-HOW-IS-THIS-LEGAL-No-Face-_2026-06-16.mp4",
-    "drive_uploaded_at": "2026-06-16T18:47:23.912Z"
+    "drive_uploaded_at": "2026-06-16T18:55:54.453Z",
+    "linked_my_video_id": "062e017c-e668-44e5-bd5f-2abf79010a53",
+    "linked_pending_analysis_id": "ddc90785-a893-45d4-ac91-a2f8889c376b"
   }
 ]

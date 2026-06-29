@@ -11,8 +11,8 @@ The repo `data/` folder is the shared copy of library, products, sales, studio/c
 
 Run `npm run data:export` and commit `data/` when you or the user:
 
-- Import library, sales, products, studio, or compass files
-- Change data that affects the Dashboard, Library, Products, Memory, or planner
+- Import library, sales, products, studio, compass, or **personal library** files
+- Change data that affects Dashboard, Library, Products, Memory, My Videos, or planner
 - Finish a session where hub database tables were updated
 
 ## Never commit
@@ -22,15 +22,17 @@ Run `npm run data:export` and commit `data/` when you or the user:
 
 ## Before pushing hub work
 
-1. `npm run data:export`
+1. `npm run data:export:force` (merges production + Electron dev AppData)
 2. `git add data/`
-3. Include data in the commit (or a dedicated "Sync hub data" commit)
+3. Include data in the commit (or `npm run data:push` to export + stage)
 
 ## After pull (tell the user)
 
 ```powershell
+git pull
+cd tiktok-intelligence-hub
 npm run data:import
 npm run dev
 ```
 
-`data:import` copies into `%APPDATA%/tiktok-intelligence-hub/` without overwriting `settings.json`.
+`data:import` copies into **all** AppData roots (production + dev cache), merges `settings.device.json` prefs, and never overwrites API keys in `settings.json`.

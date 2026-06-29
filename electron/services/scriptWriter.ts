@@ -9,12 +9,19 @@ import { buildLibraryContextBlock } from "./libraryContext.js";
 import { getProductResearchContext, applyHeuristicProductPackaging } from "./productResearch.js";
 import { formatProductPackagingForPrompt } from "./productPackaging.js";
 import { buildScriptWriterSystemPrompt } from "./scriptSystemPrompt.js";
-import { recordValidationLesson } from "./scriptFeedback.js";
+import { SCRIPT_WRITER_PRE_OUTPUT_CHECK } from "./hubContextSnapshot.js";
+import { recordHookFallbackLesson, recordValidationLesson } from "./scriptFeedback.js";
 import {
   buildVarietyDirectiveBlock,
   getRecentScriptContext,
-  pickHookTypeForScript,
 } from "./scriptVariety.js";
+import {
+  buildVisualDirectorRulesBlock,
+  buildVisualDirectorRulesBlockCompact,
+  formatTopPerformingVideosBlock,
+  pickHookWithPerformanceContext,
+} from "./myVideoScriptContext.js";
+import type { MyVideo } from "./myVideoAnalysis.js";
 import { synthesizeSpeech } from "./elevenlabs.js";
 import { AGENT_GUARDRAILS, revokeScriptGenerationCalls } from "./agentGuardrails.js";
 
@@ -68,6 +75,19 @@ export type ScriptDetail = {
   awaiting_feedback: boolean;
 };
 
+export type VisualDirectorShot = {
+  timing: string;
+  description: string;
+  humanInteraction: boolean;
+  notes: string;
+};
+
+export type VisualDirector = {
+  shots: VisualDirectorShot[];
+  styleNotes: string;
+  watchTimeHook: string;
+};
+
 export type ScriptResult = {
   id: string;
   title: string;
@@ -79,13 +99,141 @@ export type ScriptResult = {
   createdAt: string;
   onScreenCaption: string;
   tiktokCaption: string;
+  visualDirector?: VisualDirector | null;
   audioPath?: string;
   sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
   cost?: import("./agentPricing.js").AgentCostBreakdown;
   validationBlocked?: boolean;
   validationViolations?: string[];
   validationLessonSaved?: boolean;
+  hookFallbackApplied?: string;
 };
+
+export const SAFE_FALLBACK_HOOKS = [
+  "Don't buy this.",
+  "Why only one?",
+  "Stop.",
+  "I can't believe this.",
+  "Did you know this?",
+] as const;
+
+function pickSafeFallbackHook(): string {
+  return SAFE_FALLBACK_HOOKS[Math.floor(Math.random() * SAFE_FALLBACK_HOOKS.length)];
+}
+
+function isHookValidationFailure(violations: string[]): boolean {
+  return violations.some((v) => v.startsWith("HOOK TOO LONG"));
+}
+
+function splitScriptAtFirstSentence(script: string): { hook: string; rest: string } {
+  const trimmed = script.trim();
+  const match = trimmed.match(/^(.+?[.!?])\s*(.*)$/s);
+  if (!match) return { hook: trimmed, rest: "" };
+  return { hook: match[1].trim(), rest: match[2].trim() };
+}
+
+function normalizeHookLine(hook: string): string {
+  const t = hook.trim();
+  if (!t) return "Don't buy this.";
+  if (/[.!?]$/.test(t)) return t;
+  return `${t}.`;
+}
+
+function applySafeFallbackHook(script: string, forcedHook: string): string {
+  const hook = normalizeHookLine(forcedHook);
+  const { rest } = splitScriptAtFirstSentence(script);
+  if (!rest) return hook;
+  return `${hook} ${rest}`.trim();
+}
+
+const HOOK_SSML_PATCH_SYSTEM = `You patch TikTok Shop voiceover SSML after a hook line change.
+Return JSON only: { "ssml": "<speak>...</speak>" }
+Rules: fast prosody on connectors, x-fast on Not/But in countdowns, product names never wrapped.
+Change ONLY the opening hook portion — keep the rest of the SSML identical in structure and pacing.`;
+
+async function regenerateHookSsmlOnly(
+  store: JsonStore,
+  opts: {
+    forcedHook: string;
+    fullAudioScript: string;
+    ssml: string;
+  },
+  callOpts: { skipDuplicateCheck?: boolean; skipDirectApiLimit?: boolean }
+): Promise<string> {
+  if (!opts.ssml.trim()) return opts.ssml;
+
+  const user = [
+    `New hook line (first sentence only): ${normalizeHookLine(opts.forcedHook)}`,
+    "",
+    "Updated fullAudioScript:",
+    opts.fullAudioScript,
+    "",
+    "Current ssml — patch opening hook only:",
+    opts.ssml,
+  ].join("\n");
+
+  try {
+    const raw = await callClaudeDirect(
+      store,
+      HOOK_SSML_PATCH_SYSTEM,
+      user,
+      undefined,
+      "generate_script_hook_ssml",
+      { skipDuplicateCheck: true, skipDirectApiLimit: callOpts.skipDirectApiLimit }
+    );
+    const parsed = extractJsonFromAgentReply(raw, "ssml") as Record<string, unknown>;
+    const patched = String(parsed.ssml || "").trim();
+    return patched.startsWith("<speak>") ? patched : opts.ssml;
+  } catch {
+    return opts.ssml;
+  }
+}
+
+async function applyHookFallbackAfterFailedAttempts(
+  store: JsonStore,
+  parsed: {
+    title: string;
+    script: string;
+    ssml: string;
+    onScreenCaption: string;
+    tiktokCaption: string;
+    visualDirector: VisualDirector | null;
+  },
+  opts: {
+    productId: string;
+    productName: string;
+    violations: string[];
+    callOpts: { skipDuplicateCheck?: boolean; skipDirectApiLimit?: boolean };
+  }
+): Promise<{ parsed: typeof parsed; forcedHook: string }> {
+  const originalHook = splitScriptAtFirstSentence(parsed.script).hook;
+  const forcedHook = pickSafeFallbackHook();
+
+  recordHookFallbackLesson(store, {
+    productId: opts.productId,
+    productName: opts.productName,
+    title: parsed.title,
+    originalHook,
+    forcedHook,
+    violations: opts.violations,
+  });
+
+  const newScript = applySafeFallbackHook(parsed.script, forcedHook);
+  const newSsml = await regenerateHookSsmlOnly(
+    store,
+    { forcedHook, fullAudioScript: newScript, ssml: parsed.ssml },
+    opts.callOpts
+  );
+
+  return {
+    forcedHook,
+    parsed: {
+      ...parsed,
+      script: newScript,
+      ssml: newSsml,
+    },
+  };
+}
 
 export const BANNED_PHRASES = [
   "basically free",
@@ -318,9 +466,12 @@ export function rateScriptSectionFeedback(
 
 function assembleScriptUserContext(opts: {
   performanceBlock: string;
+  myVideosBlock: string;
+  performanceContextBlock: string;
   libraryBlock: string;
   pacingBlock: string;
   varietyBlock: string;
+  visualDirectorBlock: string;
   product: Record<string, unknown>;
   packagingBlock: string;
   researchBlock: string;
@@ -329,14 +480,20 @@ function assembleScriptUserContext(opts: {
   fixBlock?: string;
 }): string {
   const parts = [
-    "Reference context for this script (library performance, pacing, variety, product):",
+    "Reference context for this script (library performance, personal video sales, pacing, variety, product):",
     "",
     opts.performanceBlock,
     "",
     opts.libraryBlock,
     "",
+    opts.myVideosBlock,
+    "",
+    opts.performanceContextBlock,
+    "",
     opts.pacingBlock ? `${opts.pacingBlock}\n` : "",
     opts.varietyBlock,
+    "",
+    opts.visualDirectorBlock,
     "",
     "## Product to sell",
     `- Name: ${opts.product.name}`,
@@ -357,6 +514,8 @@ function assembleScriptUserContext(opts: {
   if (opts.fixBlock) {
     parts.push("", opts.fixBlock);
   }
+
+  parts.push("", SCRIPT_WRITER_PRE_OUTPUT_CHECK);
 
   return parts.filter((line) => line !== undefined).join("\n");
 }
@@ -383,13 +542,18 @@ function buildScriptUserContext(
     product: Record<string, unknown>;
     productId: string;
     performanceBlock: string;
+    performanceContextBlock: string;
     pacingBlock: string;
     varietyBlock: string;
+    topPerformersForVisuals: MyVideo[];
     duration: number;
     additionalInfo: string;
     excludeLibraryIds: Set<string>;
     libraryLimit: number;
     topVideoLimit: number;
+    myVideoLimit: number;
+    compactMyVideos: boolean;
+    compactVisual: boolean;
     fixBlock?: string;
   }
 ): string {
@@ -397,12 +561,21 @@ function buildScriptUserContext(
   const researchBlock = getProductResearchContext(store, opts.productId);
   const performanceBlock = trimPerformanceBlockTopVideos(opts.performanceBlock, opts.topVideoLimit);
   const libraryBlock = buildLibraryContextBlock(store, opts.libraryLimit, opts.excludeLibraryIds);
+  const myVideosBlock = formatTopPerformingVideosBlock(store, opts.myVideoLimit, {
+    compact: opts.compactMyVideos,
+  });
+  const visualDirectorBlock = opts.compactVisual
+    ? buildVisualDirectorRulesBlockCompact(opts.topPerformersForVisuals)
+    : buildVisualDirectorRulesBlock(opts.topPerformersForVisuals);
 
   return assembleScriptUserContext({
     performanceBlock,
+    myVideosBlock,
+    performanceContextBlock: opts.performanceContextBlock,
     libraryBlock,
     pacingBlock: opts.pacingBlock,
     varietyBlock: opts.varietyBlock,
+    visualDirectorBlock,
     product: opts.product,
     packagingBlock,
     researchBlock,
@@ -415,26 +588,71 @@ function buildScriptUserContext(
 function fitScriptContextToLimit(
   store: JsonStore,
   system: string,
-  base: Omit<Parameters<typeof buildScriptUserContext>[1], "libraryLimit" | "topVideoLimit">
+  base: Omit<
+    Parameters<typeof buildScriptUserContext>[1],
+    "libraryLimit" | "topVideoLimit" | "myVideoLimit" | "compactMyVideos" | "compactVisual"
+  >
 ): string {
   const max = AGENT_GUARDRAILS.maxDirectPayloadChars;
-  const tiers: Array<{ libraryLimit: number; topVideoLimit: number }> = [
-    { libraryLimit: 5, topVideoLimit: 7 },
-    { libraryLimit: 3, topVideoLimit: 5 },
-    { libraryLimit: 2, topVideoLimit: 4 },
-    { libraryLimit: 1, topVideoLimit: 3 },
-    { libraryLimit: 0, topVideoLimit: 3 },
+  const tiers: Array<{
+    libraryLimit: number;
+    topVideoLimit: number;
+    myVideoLimit: number;
+    compactMyVideos: boolean;
+    compactVisual: boolean;
+  }> = [
+    { libraryLimit: 5, topVideoLimit: 7, myVideoLimit: 5, compactMyVideos: false, compactVisual: false },
+    { libraryLimit: 3, topVideoLimit: 5, myVideoLimit: 3, compactMyVideos: false, compactVisual: false },
+    { libraryLimit: 2, topVideoLimit: 4, myVideoLimit: 2, compactMyVideos: true, compactVisual: false },
+    { libraryLimit: 1, topVideoLimit: 3, myVideoLimit: 2, compactMyVideos: true, compactVisual: true },
+    { libraryLimit: 0, topVideoLimit: 2, myVideoLimit: 1, compactMyVideos: true, compactVisual: true },
   ];
 
+  let smallest = "";
   for (const tier of tiers) {
     const context = buildScriptUserContext(store, { ...base, ...tier });
+    smallest = context;
     if (system.length + context.length <= max) return context;
   }
 
-  return buildScriptUserContext(store, { ...base, libraryLimit: 0, topVideoLimit: 3 });
+  if (system.length + smallest.length > max && base.additionalInfo.length > 400) {
+    const trimmed = buildScriptUserContext(store, {
+      ...base,
+      ...tiers[tiers.length - 1],
+      additionalInfo: `${base.additionalInfo.slice(0, 400)}… (trimmed to fit API limit)`,
+    });
+    if (system.length + trimmed.length <= max) return trimmed;
+    smallest = trimmed;
+  }
+
+  return smallest;
 }
 
 import { extractJsonFromAgentReply } from "./agentJson.js";
+
+function parseVisualDirector(raw: unknown): VisualDirector | null {
+  if (!raw || typeof raw !== "object") return null;
+  const vd = raw as Record<string, unknown>;
+  const shotsRaw = Array.isArray(vd.shots) ? vd.shots : [];
+  const shots: VisualDirectorShot[] = shotsRaw
+    .map((s) => {
+      if (!s || typeof s !== "object") return null;
+      const shot = s as Record<string, unknown>;
+      const description = String(shot.description || "").trim();
+      if (!description) return null;
+      return {
+        timing: String(shot.timing || "").trim(),
+        description,
+        humanInteraction: shot.humanInteraction === true || shot.human_interaction === true,
+        notes: String(shot.notes || "").trim(),
+      };
+    })
+    .filter((s): s is VisualDirectorShot => s != null);
+  const styleNotes = String(vd.styleNotes || vd.style_notes || "").trim();
+  const watchTimeHook = String(vd.watchTimeHook || vd.watch_time_hook || "").trim();
+  if (!shots.length && !styleNotes && !watchTimeHook) return null;
+  return { shots, styleNotes, watchTimeHook };
+}
 
 function parseScriptResponse(raw: string): {
   title: string;
@@ -442,6 +660,7 @@ function parseScriptResponse(raw: string): {
   ssml: string;
   onScreenCaption: string;
   tiktokCaption: string;
+  visualDirector: VisualDirector | null;
 } {
   try {
     const parsed = extractJsonFromAgentReply(raw, "script") as Record<string, unknown>;
@@ -451,6 +670,7 @@ function parseScriptResponse(raw: string): {
       ssml: String(parsed.ssml || "").trim(),
       onScreenCaption: String(parsed.onScreenCaption || parsed.on_screen_caption || "").trim(),
       tiktokCaption: String(parsed.tiktokCaption || parsed.tiktok_caption || "").trim(),
+      visualDirector: parseVisualDirector(parsed.visualDirector || parsed.visual_director),
     };
   } catch {
     const titleMatch = raw.match(/^#\s*(.+)$/m);
@@ -460,7 +680,7 @@ function parseScriptResponse(raw: string): {
     let script = raw;
     if (ssmlMatch) script = script.replace(ssmlMatch[0], "").trim();
     script = script.replace(/^#\s*.+\n?/m, "").trim();
-    return { title, script, ssml, onScreenCaption: "", tiktokCaption: "" };
+    return { title, script, ssml, onScreenCaption: "", tiktokCaption: "", visualDirector: null };
   }
 }
 
@@ -480,10 +700,16 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
 
   const insights = getScriptInsights(store);
   const recent = getRecentScriptContext(store, req.productId);
-  const { hookType: selectedHookType, poolSize: hookPoolSize } = pickHookTypeForScript(
+  const productName = String(product.name || "");
+  const perfDecision = pickHookWithPerformanceContext(
+    store,
+    req.productId,
+    productName,
     insights.hookTypeStats,
     recent.hookTypes
   );
+  const selectedHookType = perfDecision.hookType;
+  const hookPoolSize = perfDecision.poolSize;
   const alternateHookTypes = insights.hookTypeStats
     .map((s) => s.hookType)
     .filter((h) => h.toLowerCase() !== selectedHookType.toLowerCase());
@@ -505,7 +731,7 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
     ...insights.topVideos.slice(0, 8).map((v) => v.libraryId),
     ...(pacingRef?.libraryId ? [pacingRef.libraryId] : []),
   ]);
-  const duration = req.durationSeconds || 45;
+  const duration = req.durationSeconds || perfDecision.preferredDuration || 45;
 
   const system = buildScriptWriterSystemPrompt(store);
 
@@ -513,8 +739,10 @@ export async function generateScript(store: JsonStore, req: ScriptRequest): Prom
     product,
     productId: req.productId,
     performanceBlock,
+    performanceContextBlock: perfDecision.performanceContextBlock,
     pacingBlock,
     varietyBlock,
+    topPerformersForVisuals: perfDecision.topPerformersForVisuals,
     duration,
     additionalInfo: req.additionalInfo?.trim() || "",
     excludeLibraryIds,
@@ -552,6 +780,19 @@ Do NOT start with a long story sentence like "I used to spend..." — that will 
     validation = validateScript(parsed.script, { productName: String(product.name || "") });
   }
 
+  let hookFallbackApplied: string | undefined;
+  if (!validation.valid && isHookValidationFailure(validation.violations)) {
+    const fallback = await applyHookFallbackAfterFailedAttempts(store, parsed, {
+      productId: req.productId,
+      productName: String(product.name || ""),
+      violations: validation.violations,
+      callOpts,
+    });
+    parsed = fallback.parsed;
+    hookFallbackApplied = fallback.forcedHook;
+    validation = validateScript(parsed.script, { productName: String(product.name || "") });
+  }
+
   if (!validation.valid) {
     revokeScriptGenerationCalls(store);
     recordValidationLesson(store, {
@@ -572,6 +813,7 @@ Do NOT start with a long story sentence like "I used to spend..." — that will 
       createdAt: new Date().toISOString(),
       onScreenCaption: parsed.onScreenCaption,
       tiktokCaption: parsed.tiktokCaption,
+      visualDirector: parsed.visualDirector,
       sectionFeedback: {},
       validationBlocked: true,
       validationViolations: validation.violations,
@@ -619,6 +861,9 @@ Do NOT start with a long story sentence like "I used to spend..." — that will 
       selectedHookType,
       referenceLibraryId: pacingRef?.libraryId || referenceId || null,
       varietyRotation: true,
+      performanceAssignReason: perfDecision.assignReason,
+      visualDirector: parsed.visualDirector,
+      hookFallbackApplied: hookFallbackApplied || null,
     }),
     reference_library_id: pacingRef?.libraryId || referenceId || null,
     created_at: createdAt,
@@ -637,6 +882,8 @@ Do NOT start with a long story sentence like "I used to spend..." — that will 
     createdAt,
     onScreenCaption: parsed.onScreenCaption,
     tiktokCaption: parsed.tiktokCaption,
+    visualDirector: parsed.visualDirector,
+    hookFallbackApplied,
     audioPath,
     sectionFeedback: {},
   };

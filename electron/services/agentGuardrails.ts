@@ -98,6 +98,25 @@ export function hashAgentPayload(text: string): string {
   return createHash("sha256").update(text).digest("hex").slice(0, 16);
 }
 
+/** Drop recent log entries for this payload so an explicit bypass retry is not blocked again. */
+export function clearDuplicateGuard(
+  store: JsonStore,
+  kind: AgentCallKind,
+  payloadHash: string
+): void {
+  const log = readLog(store);
+  const cutoff = Date.now() - AGENT_GUARDRAILS.duplicateWindowMs;
+  const filtered = log.filter(
+    (e) =>
+      !(
+        e.kind === kind &&
+        e.payloadHash === payloadHash &&
+        new Date(e.at).getTime() >= cutoff
+      )
+  );
+  if (filtered.length !== log.length) writeLog(store, filtered);
+}
+
 export function getAgentBudgetStatus(store: JsonStore): AgentBudgetStatus {
   const log = readLog(store);
   const until = circuitBreakerUntil(store);

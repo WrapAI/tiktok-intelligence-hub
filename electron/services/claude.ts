@@ -3,6 +3,7 @@ import type { JsonStore } from "../db.js";
 import {
   assertAgentCallAllowed,
   checkPostCallAnomaly,
+  clearDuplicateGuard,
   hashAgentPayload,
   recordAgentCall,
 } from "./agentGuardrails.js";
@@ -19,6 +20,9 @@ export async function callClaudeDirect(
   options: { skipDuplicateCheck?: boolean; skipDirectApiLimit?: boolean } = {}
 ): Promise<string> {
   const payloadHash = hashAgentPayload(`${task}|${system.slice(0, 500)}|${user.slice(0, 2000)}`);
+  if (options.skipDuplicateCheck) {
+    clearDuplicateGuard(store, "direct_api", payloadHash);
+  }
   assertAgentCallAllowed(store, "direct_api", {
     task,
     payloadHash,

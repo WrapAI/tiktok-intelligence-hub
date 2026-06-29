@@ -1,7 +1,9 @@
 import type { PendingAnalysisSubmit } from "../hub";
+import { previewAverageWatchTimePct } from "../utils/watchTime";
 
 type Props = {
   draft: PendingAnalysisSubmit;
+  durationSeconds: number | null;
   views: number | null;
   likes: number | null;
   comments: number | null;
@@ -18,6 +20,7 @@ function num(v: string): number | null {
 
 export default function PendingPerformanceForm({
   draft,
+  durationSeconds,
   views,
   likes,
   comments,
@@ -26,6 +29,8 @@ export default function PendingPerformanceForm({
   onLikesChange,
   onCommentsChange,
 }: Props) {
+  const previewPct = previewAverageWatchTimePct(draft.watch_time_seconds, durationSeconds);
+
   return (
     <>
       <div className="card-title" style={{ fontSize: 12, color: "#aaa", fontWeight: 400, marginTop: 4 }}>
@@ -64,19 +69,32 @@ export default function PendingPerformanceForm({
         </div>
       </div>
 
+      {durationSeconds != null && (
+        <p className="muted" style={{ fontSize: 11, marginTop: 10, marginBottom: 0 }}>
+          Grok confirmed video duration: <strong>{durationSeconds}s</strong>
+        </p>
+      )}
+
       <div style={{ marginTop: 10 }}>
-        <label className="field-label">Watch time %</label>
+        <label className="field-label">Avg watch time (seconds)</label>
         <input
           className="field-input"
           type="number"
           min="0"
-          max="100"
-          placeholder="e.g. 65"
-          value={draft.watch_time_pct ?? ""}
-          onChange={(e) => onChange({ watch_time_pct: num(e.target.value) })}
+          step="0.1"
+          placeholder={durationSeconds ? "e.g. 8.5" : "Run Grok analysis first"}
+          disabled={durationSeconds == null}
+          value={draft.watch_time_seconds ?? ""}
+          onChange={(e) => onChange({ watch_time_seconds: num(e.target.value) })}
         />
         <p className="muted" style={{ fontSize: 11, marginTop: 3 }}>
-          Average % of video watched (from TikTok Studio)
+          {durationSeconds == null
+            ? "Duration not found in this analysis — click Pull stats & analyse again (restart whisper-server first)."
+            : previewPct != null
+              ? `→ ${previewPct}% average watch time (${draft.watch_time_seconds}s of ${durationSeconds}s)`
+              : draft.watch_time_pct != null
+                ? `Saved: ${draft.watch_time_pct}% average watch time (legacy entry)`
+                : "Enter average watch time in seconds from TikTok Studio — % is calculated automatically."}
         </p>
       </div>
 

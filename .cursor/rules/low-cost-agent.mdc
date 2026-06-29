@@ -40,9 +40,11 @@ Follow these rules on every task to minimise token usage and API cost.
 
 ## Agent / API calls (in the hub app)
 
-- Never trigger `sendAgentMessage` or `requestAgentTask` from background/sync paths — user-triggered only
-- Never auto-research products on every list fetch — research is one-time, user-triggered
-- When adding a feature that calls the Claude agent, add cost estimate to `agentPricing.ts` and show `<AgentCostBadge>` in the UI
+- **All Claude calls must use `agentGuardrails.ts`** — never bypass `assertAgentCallAllowed`
+- Never trigger `sendAgentMessage` or `requestAgentTask` from background/sync/startup paths
+- Never auto-research products or auto-retry agent tasks in loops
+- Hub tasks use **ephemeral agent sessions** — never reuse chat session for scripts/plans
+- When adding a feature that calls Claude, add guardrail checks + update limits in `agentGuardrails.ts`
 
 ## Responses
 

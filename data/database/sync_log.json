@@ -1,5 +1,362 @@
 [
   {
+    "id": 1782753374523,
+    "type": "agent_memory",
+    "status": "error",
+    "message": "Memory sync limit reached (2/hour).",
+    "created_at": "2026-06-29T17:16:14.523Z"
+  },
+  {
+    "id": 1782753314302,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded Careleaf-Beetroot-Gummies-Pattern-Interrupt-Bottom-Funnel_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Careleaf Beet Root Gummies",
+    "created_at": "2026-06-29T17:15:14.302Z"
+  },
+  {
+    "id": 1782753303112,
+    "type": "script",
+    "status": "ok",
+    "message": "Careleaf Beetroot Gummies — Pattern Interrupt (Bottom Funnel)",
+    "created_at": "2026-06-29T17:15:03.112Z"
+  },
+  {
+    "id": 1782753250552,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded Careleaf-Beetroot-Gummies-Pattern-Interrupt-Bottom-Funnel_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Careleaf Beet Root Gummies",
+    "created_at": "2026-06-29T17:14:10.552Z"
+  },
+  {
+    "id": 1782753223422,
+    "type": "script",
+    "status": "ok",
+    "message": "Careleaf Beetroot Gummies — Pattern Interrupt (Bottom Funnel)",
+    "created_at": "2026-06-29T17:13:43.422Z"
+  },
+  {
+    "id": 1782753189210,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded Umberto-Giannini-Curl-Jelly-Collection-Brushes-Dont-Buy-Hook_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Curl Jelly collection brushes",
+    "created_at": "2026-06-29T17:13:09.210Z"
+  },
+  {
+    "id": 1782753134588,
+    "type": "script",
+    "status": "ok",
+    "message": "Umberto Giannini Curl Jelly Collection + Brushes — Don't Buy Hook (Bottom Funnel)",
+    "created_at": "2026-06-29T17:12:14.588Z"
+  },
+  {
+    "id": 1782753094032,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded EHP-Labs-Hydreau-Sports-Hydration-Pattern-Interrupt-Bottom-F_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Hydreau Sports Hydration",
+    "created_at": "2026-06-29T17:11:34.032Z"
+  },
+  {
+    "id": 1782753080476,
+    "type": "script",
+    "status": "ok",
+    "message": "EHP Labs Hydreau Sports Hydration — Pattern Interrupt (Bottom Funnel)",
+    "created_at": "2026-06-29T17:11:20.476Z"
+  },
+  {
+    "id": 1782753068824,
+    "type": "agent_memory",
+    "status": "error",
+    "message": "Memory sync limit reached (2/hour).",
+    "created_at": "2026-06-29T17:11:08.824Z"
+  },
+  {
+    "id": 1782753008596,
+    "type": "script",
+    "status": "ok",
+    "message": "EHP Labs Hydreau Sports Hydration — Story Hook (Bottom Funnel)",
+    "created_at": "2026-06-29T17:10:08.596Z"
+  },
+  {
+    "id": 1782752963678,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded EHP-Labs-Hydreau-Sports-Hydration-Fear-Hook-Bottom-Funnel_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Hydreau Sports Hydration",
+    "created_at": "2026-06-29T17:09:23.678Z"
+  },
+  {
+    "id": 1782752950637,
+    "type": "script",
+    "status": "ok",
+    "message": "EHP Labs Hydreau Sports Hydration — Fear Hook (Bottom Funnel)",
+    "created_at": "2026-06-29T17:09:10.637Z"
+  },
+  {
+    "id": 1782752901905,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded EHP-Labs-Hydreau-Sports-Hydration-Transformation-Hook-Bottom_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Hydreau Sports Hydration",
+    "created_at": "2026-06-29T17:08:21.905Z"
+  },
+  {
+    "id": 1782752871137,
+    "type": "script",
+    "status": "ok",
+    "message": "EHP Labs Hydreau Sports Hydration — Transformation Hook (Bottom Funnel)",
+    "created_at": "2026-06-29T17:07:51.137Z"
+  },
+  {
+    "id": 1782752842786,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded EHP-Labs-Hydreau-Sports-Hydration-Curiosity-Gap-Hook-Bottom-_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / Hydreau Sports Hydration",
+    "created_at": "2026-06-29T17:07:22.786Z"
+  },
+  {
+    "id": 1782752810418,
+    "type": "script",
+    "status": "ok",
+    "message": "EHP Labs Hydreau Sports Hydration — Curiosity Gap Hook (Bottom Funnel)",
+    "created_at": "2026-06-29T17:06:50.418Z"
+  },
+  {
+    "id": 1782752749550,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded WildGut-Capsules-Question-Hook-Bottom-Funnel-Honest-Scarcity_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / WildGut Colon Reset",
+    "created_at": "2026-06-29T17:05:49.550Z"
+  },
+  {
+    "id": 1782752735396,
+    "type": "script",
+    "status": "ok",
+    "message": "WildGut Capsules — Question Hook (Bottom Funnel) — Honest Scarcity Frame",
+    "created_at": "2026-06-29T17:05:35.396Z"
+  },
+  {
+    "id": 1782752565185,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded WildGut-Capsules-Question-Hook-Honest-Scarcity-Frame-Bottom-_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / WildGut Colon Reset",
+    "created_at": "2026-06-29T17:02:45.185Z"
+  },
+  {
+    "id": 1782752538820,
+    "type": "script",
+    "status": "ok",
+    "message": "WildGut Capsules — Question Hook (Honest Scarcity Frame) Bottom Funnel",
+    "created_at": "2026-06-29T17:02:18.820Z"
+  },
+  {
+    "id": 1782752473171,
+    "type": "drive",
+    "status": "ok",
+    "message": "Uploaded WildGut-Colon-Reset-Question-Hook-Honest-Scarcity-Frame-Bott_2026-06-29.mp4 → TikTok - Voiceovers / 2026-06-29 / WildGut Colon Reset",
+    "created_at": "2026-06-29T17:01:13.171Z"
+  },
+  {
+    "id": 1782752384691,
+    "type": "script",
+    "status": "ok",
+    "message": "WildGut Colon Reset — Question Hook (Honest Scarcity Frame, Bottom Funnel)",
+    "created_at": "2026-06-29T16:59:44.691Z"
+  },
+  {
+    "id": 1782752204078,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why just one? I had been grabbing a single container every month for ages — never once thought to check if there was a better deal\" is 26 words — maximum is 7",
+    "created_at": "2026-06-29T16:56:44.078Z"
+  },
+  {
+    "id": 1782752138052,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why only one? I had been grabbing the WildGut Capsules at full price for months without even thinking to check TikTok Shop\" is 22 words — maximum is 7",
+    "created_at": "2026-06-29T16:55:38.052Z"
+  },
+  {
+    "id": 1782752088947,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 3 hub context files (12 unchanged)",
+    "created_at": "2026-06-29T16:54:48.947Z"
+  },
+  {
+    "id": 1782752044353,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why only one? I had the WildGut Capsules in my routine for months and paid full price every single time — never once thought to check TikTok Shop\" is 28 words — maximum is 7",
+    "created_at": "2026-06-29T16:54:04.353Z"
+  },
+  {
+    "id": 1782751685574,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why only one? I had the WildGut Capsules in my routine for months and quietly paid full price every single time — never once thought to check TikTok Shop\" is 29 words — maximum is 7",
+    "created_at": "2026-06-29T16:48:05.574Z"
+  },
+  {
+    "id": 1782751625528,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why just one? I grabbed the WildGut Capsules one container at a time for months — never once checked TikTok Shop — and quietly paid double what I needed to\" is 30 words — maximum is 7",
+    "created_at": "2026-06-29T16:47:05.528Z"
+  },
+  {
+    "id": 1782751562279,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 2 hub context files (13 unchanged)",
+    "created_at": "2026-06-29T16:46:02.279Z"
+  },
+  {
+    "id": 1782751542333,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"When did you last check? I was grabbing the WildGut Capsules one at a time every single month — paying full price without even looking at TikTok Shop\" is 28 words — maximum is 7",
+    "created_at": "2026-06-29T16:45:42.333Z"
+  },
+  {
+    "id": 1782751483655,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why are you still paying full price? I was doing the exact same thing — grabbing the WildGut Capsules one at a time every single month without even checking TikTok Shop\" is 31 words — maximum is 7",
+    "created_at": "2026-06-29T16:44:43.655Z"
+  },
+  {
+    "id": 1782751462348,
+    "type": "drive",
+    "status": "ok",
+    "message": "Created today's folders: TikTok - Voiceovers / 2026-06-29",
+    "created_at": "2026-06-29T16:44:22.348Z"
+  },
+  {
+    "id": 1782751462348,
+    "type": "drive",
+    "status": "ok",
+    "message": "Today's Drive date folder ready: TikTok - Voiceovers / 2026-06-29",
+    "created_at": "2026-06-29T16:44:22.348Z"
+  },
+  {
+    "id": 1782751430942,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"How did I miss this? I was buying the WildGut Capsules one at a time, every single month, paying full price — and the whole time TikTok Shop had a 2 for 1 sitting right there\" is 36 words — maximum is 7",
+    "created_at": "2026-06-29T16:43:50.942Z"
+  },
+  {
+    "id": 1782751269822,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why is nobody doing this? I grabbed the WildGut Capsules at full price for months — and the whole time TikTok Shop had a 2 for 1 sitting right there\" is 30 words — maximum is 7",
+    "created_at": "2026-06-29T16:41:09.822Z"
+  },
+  {
+    "id": 1782751220739,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"When did you last check TikTok Shop? I was grabbing the WildGut Capsules one at a time, every single month, paying full price — and the whole time there was a 2 for 1 deal just sitting there\" is 38 words — maximum is 7",
+    "created_at": "2026-06-29T16:40:20.739Z"
+  },
+  {
+    "id": 1782750243254,
+    "type": "script",
+    "status": "error",
+    "message": "Request too large (36397 chars). Max 36000 — trim library context or shorten additional notes.",
+    "created_at": "2026-06-29T16:24:03.254Z"
+  },
+  {
+    "id": 1782750220011,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"Why is nobody talking about this? I grabbed the WildGut Capsules at full price three times before I even thought to check TikTok Shop\" is 24 words — maximum is 7",
+    "created_at": "2026-06-29T16:23:40.011Z"
+  },
+  {
+    "id": 1782750171756,
+    "type": "script",
+    "status": "error",
+    "message": "Validation blocked: HOOK TOO LONG: \"When did this get so cheap? I used to grab the WildGut Capsules one at a time without even checking the shop\" is 22 words — maximum is 7",
+    "created_at": "2026-06-29T16:22:51.756Z"
+  },
+  {
+    "id": 1782750098783,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 5 hub context files (10 unchanged)",
+    "created_at": "2026-06-29T16:21:38.783Z"
+  },
+  {
+    "id": 1782747720436,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 7 hub context files (8 unchanged)",
+    "created_at": "2026-06-29T15:42:00.436Z"
+  },
+  {
+    "id": 1782747523542,
+    "type": "import",
+    "status": "ok",
+    "message": "Imported 1 file(s): personal_library.json (library)",
+    "created_at": "2026-06-29T15:38:43.542Z"
+  },
+  {
+    "id": 1782746816512,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 4 hub context files (11 unchanged)",
+    "created_at": "2026-06-29T15:26:56.512Z"
+  },
+  {
+    "id": 1782745074361,
+    "type": "agent_memory",
+    "status": "error",
+    "message": "Memory sync limit reached (2/hour).",
+    "created_at": "2026-06-29T14:57:54.361Z"
+  },
+  {
+    "id": 1782745012942,
+    "type": "agent_memory",
+    "status": "error",
+    "message": "Memory sync limit reached (2/hour).",
+    "created_at": "2026-06-29T14:56:52.942Z"
+  },
+  {
+    "id": 1782744039453,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 4 hub context files (11 unchanged)",
+    "created_at": "2026-06-29T14:40:39.453Z"
+  },
+  {
+    "id": 1782743853976,
+    "type": "agent_memory",
+    "status": "error",
+    "message": "Memory sync limit reached (2/hour).",
+    "created_at": "2026-06-29T14:37:33.976Z"
+  },
+  {
+    "id": 1782743648435,
+    "type": "agent_memory",
+    "status": "error",
+    "message": "Memory sync limit reached (2/hour).",
+    "created_at": "2026-06-29T14:34:08.435Z"
+  },
+  {
+    "id": 1782742290558,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 2 hub context files (13 unchanged)",
+    "created_at": "2026-06-29T14:11:30.558Z"
+  },
+  {
+    "id": 1782740345589,
+    "type": "agent_memory",
+    "status": "ok",
+    "message": "Synced 3 hub context files (12 unchanged)",
+    "created_at": "2026-06-29T13:39:05.589Z"
+  },
+  {
     "id": 1782571655865,
     "type": "agent_memory",
     "status": "error",
@@ -1041,362 +1398,5 @@
     "status": "ok",
     "message": "Belgrave 9 Seater Rattan Garden Set — Story Hook 'I Paid Full Price Somewhere Else' (No Face, Bottom Funnel)",
     "created_at": "2026-06-20T07:01:03.715Z"
-  },
-  {
-    "id": 1781938238325,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Daily memory sync limit reached (8/day).",
-    "created_at": "2026-06-20T06:50:38.325Z"
-  },
-  {
-    "id": 1781938178168,
-    "type": "drive",
-    "status": "ok",
-    "message": "Uploaded Umberto-Giannini-Curl-Jelly-Collection-Brushes-Bold-Claim-I-_2026-06-20.mp4 → TikTok - Voiceovers / 2026-06-20 / Curl Jelly collection brushes",
-    "created_at": "2026-06-20T06:49:38.168Z"
-  },
-  {
-    "id": 1781938146342,
-    "type": "script",
-    "status": "ok",
-    "message": "Umberto Giannini Curl Jelly Collection + Brushes — Bold Claim 'I Had To Say It Out Loud' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:49:06.342Z"
-  },
-  {
-    "id": 1781938123863,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T06:48:43.863Z"
-  },
-  {
-    "id": 1781938113396,
-    "type": "drive",
-    "status": "ok",
-    "message": "Uploaded Umberto-Giannini-Curl-Jelly-Collection-Brushes-Pattern-Inter_2026-06-20.mp4 → TikTok - Voiceovers / 2026-06-20 / Curl Jelly collection brushes",
-    "created_at": "2026-06-20T06:48:33.396Z"
-  },
-  {
-    "id": 1781938104964,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Daily memory sync limit reached (8/day).",
-    "created_at": "2026-06-20T06:48:24.964Z"
-  },
-  {
-    "id": 1781938044791,
-    "type": "script",
-    "status": "ok",
-    "message": "Umberto Giannini Curl Jelly Collection + Brushes — Pattern Interrupt Countdown Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:47:24.791Z"
-  },
-  {
-    "id": 1781936581489,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T06:23:01.489Z"
-  },
-  {
-    "id": 1781936499706,
-    "type": "script",
-    "status": "ok",
-    "message": "Pelvic Floor & Thigh Trainer — Reveal 'I Actually Did The Maths' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:21:39.706Z"
-  },
-  {
-    "id": 1781936477121,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T06:21:17.121Z"
-  },
-  {
-    "id": 1781936468649,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T06:21:08.649Z"
-  },
-  {
-    "id": 1781936394825,
-    "type": "script",
-    "status": "ok",
-    "message": "Pelvic Floor & Thigh Trainer — Controversy Hook 'Why Are People Still Sleeping On This' (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:19:54.825Z"
-  },
-  {
-    "id": 1781936374733,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T06:19:34.733Z"
-  },
-  {
-    "id": 1781936136493,
-    "type": "script",
-    "status": "ok",
-    "message": "Pelvic Floor & Thigh Trainer — Curiosity Gap + Bold Claim 'I Actually Counted' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:15:36.493Z"
-  },
-  {
-    "id": 1781936116003,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T06:15:16.003Z"
-  },
-  {
-    "id": 1781936112176,
-    "type": "agent_memory",
-    "status": "ok",
-    "message": "Synced 3 hub context files (12 unchanged)",
-    "created_at": "2026-06-20T06:15:12.176Z"
-  },
-  {
-    "id": 1781936104170,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Daily memory sync limit reached (8/day).",
-    "created_at": "2026-06-20T06:15:04.170Z"
-  },
-  {
-    "id": 1781936044006,
-    "type": "script",
-    "status": "ok",
-    "message": "Pelvic Floor & Thigh Trainer — Fear Hook 'Stop Buying The Wrong Thing' (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:14:04.006Z"
-  },
-  {
-    "id": 1781935797940,
-    "type": "script",
-    "status": "error",
-    "message": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"You have reached your specified API usage limits. You will regain access on 2026-07-01 at 00:00 UTC.\"},\"request_id\":\"req_011CcE1n5iXbYWbsEcg28MHX\"}",
-    "created_at": "2026-06-20T06:09:57.940Z"
-  },
-  {
-    "id": 1781935796348,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T06:09:56.348Z"
-  },
-  {
-    "id": 1781935332659,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T06:02:12.659Z"
-  },
-  {
-    "id": 1781935322114,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T06:02:02.114Z"
-  },
-  {
-    "id": 1781935272493,
-    "type": "script",
-    "status": "ok",
-    "message": "EHPlabs OxyShred Energy Drink — Reveal 'I Actually Worked It Out' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:01:12.493Z"
-  },
-  {
-    "id": 1781935260256,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T06:01:00.256Z"
-  },
-  {
-    "id": 1781935254575,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T06:00:54.575Z"
-  },
-  {
-    "id": 1781935200066,
-    "type": "script",
-    "status": "ok",
-    "message": "EHPlabs OxyShred Energy Drink — Curiosity Gap + Bold Claim 'Not 1 Not 2' Bundle Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T06:00:00.066Z"
-  },
-  {
-    "id": 1781935183887,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T05:59:43.887Z"
-  },
-  {
-    "id": 1781935168880,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T05:59:28.880Z"
-  },
-  {
-    "id": 1781935144659,
-    "type": "script",
-    "status": "ok",
-    "message": "EHPlabs OxyShred Energy Drink — Controversy Hook 'Everyone Is Paying Too Much' (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:59:04.659Z"
-  },
-  {
-    "id": 1781935124496,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T05:58:44.496Z"
-  },
-  {
-    "id": 1781935086409,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T05:58:06.409Z"
-  },
-  {
-    "id": 1781935075185,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T05:57:55.185Z"
-  },
-  {
-    "id": 1781935026180,
-    "type": "script",
-    "status": "ok",
-    "message": "EHPlabs OxyShred Energy Drink — Fear Hook 'You're Buying The Wrong One' (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:57:06.180Z"
-  },
-  {
-    "id": 1781935001937,
-    "type": "script",
-    "status": "error",
-    "message": "Duplicate agent request blocked — same task was sent recently. This prevents runaway loops.",
-    "created_at": "2026-06-20T05:56:41.937Z"
-  },
-  {
-    "id": 1781934862109,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T05:54:22.109Z"
-  },
-  {
-    "id": 1781934845579,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T05:54:05.579Z"
-  },
-  {
-    "id": 1781934801941,
-    "type": "script",
-    "status": "ok",
-    "message": "EHP Labs Hydreau — Curiosity Gap 'Stopped Mid-Scroll' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:53:21.941Z"
-  },
-  {
-    "id": 1781933872119,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T05:37:52.119Z"
-  },
-  {
-    "id": 1781933002180,
-    "type": "script",
-    "status": "ok",
-    "message": "EHP Labs Hydreau — Curiosity Gap + Bold Claim 'Wait Until You See What You're Actually Getting' (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:23:22.180Z"
-  },
-  {
-    "id": 1781932971954,
-    "type": "agent_memory",
-    "status": "ok",
-    "message": "Synced 3 hub context files (12 unchanged)",
-    "created_at": "2026-06-20T05:22:51.954Z"
-  },
-  {
-    "id": 1781932926763,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T05:22:06.763Z"
-  },
-  {
-    "id": 1781932866598,
-    "type": "script",
-    "status": "ok",
-    "message": "EHP Labs Hydreau — Controversy Hook 'Everyone Is Getting This Wrong' (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:21:06.598Z"
-  },
-  {
-    "id": 1781932853478,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T05:20:53.478Z"
-  },
-  {
-    "id": 1781932793298,
-    "type": "script",
-    "status": "ok",
-    "message": "EHP Labs Hydreau — Reveal 'I Actually Counted' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:19:53.298Z"
-  },
-  {
-    "id": 1781932719488,
-    "type": "agent_memory",
-    "status": "error",
-    "message": "Memory sync limit reached (2/hour).",
-    "created_at": "2026-06-20T05:18:39.488Z"
-  },
-  {
-    "id": 1781932038651,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T05:07:18.651Z"
-  },
-  {
-    "id": 1781931899952,
-    "type": "script",
-    "status": "ok",
-    "message": "EHP Labs Hydreau — Bold Claim 'This Much In A Tub' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:04:59.952Z"
-  },
-  {
-    "id": 1781931874220,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T05:04:34.220Z"
-  },
-  {
-    "id": 1781931839946,
-    "type": "script",
-    "status": "ok",
-    "message": "EHP Labs Hydreau — Pattern Interrupt 'How Is This Even Legal' Hook (No Face, Bottom Funnel)",
-    "created_at": "2026-06-20T05:03:59.946Z"
-  },
-  {
-    "id": 1781931819323,
-    "type": "agent_memory",
-    "status": "ok",
-    "message": "Synced 3 hub context files (12 unchanged)",
-    "created_at": "2026-06-20T05:03:39.323Z"
-  },
-  {
-    "id": 1781931786034,
-    "type": "drive",
-    "status": "error",
-    "message": "createPendingFromDriveUpload is not defined",
-    "created_at": "2026-06-20T05:03:06.034Z"
   }
 ]

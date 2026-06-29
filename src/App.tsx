@@ -106,7 +106,7 @@ export default function App() {
           </Suspense>
         </TabPanel>
         <TabPanel active={tab === "pending"} mounted={mountedTabs.has("pending")}>
-          <PendingAnalysis />
+          <PendingAnalysis tabActive={tab === "pending"} />
         </TabPanel>
         <TabPanel active={tab === "products"} mounted={mountedTabs.has("products")}>
           <Products />
@@ -118,7 +118,7 @@ export default function App() {
           <Memory />
         </TabPanel>
         <TabPanel active={tab === "myvideos"} mounted={mountedTabs.has("myvideos")}>
-          <MyVideos />
+          <MyVideos tabActive={tab === "myvideos"} />
         </TabPanel>
         <TabPanel active={tab === "settings"} mounted={mountedTabs.has("settings")}>
           <Settings onSaved={() => window.hub.checkWhisper().then(setWhisperOnline)} />

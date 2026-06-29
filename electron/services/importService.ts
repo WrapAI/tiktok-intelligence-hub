@@ -24,6 +24,7 @@ import {
   type FunnelBreakdownStage,
   type MyVideo,
 } from "./myVideoAnalysis.js";
+import { resolveVideoDurationSeconds } from "./watchTime.js";
 
 export type ImportResult = {
   type: string;
@@ -172,6 +173,12 @@ function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
     // Pull URL from wherever it may be
     const url = String(row.url || videoData?.url || row.videoUrl || "");
 
+    const timeline = Array.isArray(row.timeline) ? (row.timeline as Array<{ timestamp: number }>) : [];
+    const durationSeconds = resolveVideoDurationSeconds(
+      Number(row.duration_seconds ?? (analysis as Record<string, unknown> | null)?.duration_seconds) || null,
+      timeline
+    );
+
     const entry = {
       id,
       url,
@@ -190,6 +197,8 @@ function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
       submitted_at: now,
       // Build analysis from the extension's Grok output
       analysis: url ? {
+        duration_seconds: durationSeconds,
+        thumbnail_url: thumbnail_url,
         transcript: String(row.transcript || (analysis as Record<string, unknown> | null)?.transcript || ""),
         onscreen_hook: String((row.hooks as Record<string, unknown> | null)?.on_screen_text || row.onscreen_hook || "") || null,
         video_structure: String(row.detailed_analysis || ""),
@@ -200,7 +209,7 @@ function upsertPersonalLibrary(store: JsonStore, items: unknown[]): number {
         funnel_category: String(row.funnel_category || row.funnel_class || "") || null,
         funnel_category_reason: String(row.funnel_category_reason || row.funnel_class_reason || "") || null,
         funnel_breakdown: parseFunnelBreakdownFromRow(row),
-        timeline: Array.isArray(row.timeline) ? row.timeline as [] : [],
+        timeline,
         pacing_notes: String((row.watch_time_psychology as Record<string, unknown> | null)?.pacing_notes || ""),
         detailed_analysis: String(row.detailed_analysis || ""),
         raw_json: JSON.stringify(row),

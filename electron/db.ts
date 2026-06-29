@@ -33,7 +33,10 @@ type TableName =
   | "sync_log"
   | "my_videos"
   | "pending_analysis"
-  | "video_outcomes";
+  | "pending_dismissals"
+  | "video_outcomes"
+  | "creator_guidance"
+  | "validation_lessons";
 
 const DEFAULTS: Record<TableName, unknown> = {
   settings: {},
@@ -50,7 +53,10 @@ const DEFAULTS: Record<TableName, unknown> = {
   sync_log: [],
   my_videos: [],
   pending_analysis: [],
+  pending_dismissals: [],
   video_outcomes: [],
+  creator_guidance: [],
+  validation_lessons: [],
 };
 
 export class JsonStore {

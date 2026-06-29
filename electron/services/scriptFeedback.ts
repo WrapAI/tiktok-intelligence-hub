@@ -205,6 +205,30 @@ export function recordValidationLesson(
   }
 }
 
+/** Logged to validation_lessons → /hub/script_feedback.md on memory sync. */
+export function recordHookFallbackLesson(
+  store: JsonStore,
+  input: {
+    productId?: string;
+    productName?: string;
+    title?: string;
+    originalHook: string;
+    forcedHook: string;
+    violations: string[];
+  }
+): void {
+  recordValidationLesson(store, {
+    productId: input.productId,
+    productName: input.productName,
+    title: input.title,
+    scriptText: `Hook auto-fallback: "${input.originalHook.slice(0, 120)}" → "${input.forcedHook}"`,
+    violations: [
+      ...input.violations.filter((v) => v.startsWith("HOOK TOO LONG")),
+      `HOOK FALLBACK: forced safe hook "${input.forcedHook}" after 2 failed API attempts`,
+    ],
+  });
+}
+
 export function formatValidationLessonsInject(store: JsonStore): string {
   const lessons = store
     .list<ValidationLessonRow>("validation_lessons")

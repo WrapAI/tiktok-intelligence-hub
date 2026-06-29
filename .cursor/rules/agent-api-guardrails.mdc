@@ -1,0 +1,42 @@
+---
+description: Enforce Claude API budget limits in hub code
+globs: tiktok-intelligence-hub/electron/**/*.ts
+alwaysApply: false
+---
+
+# Agent API guardrails
+
+Limits live in `electron/services/agentGuardrails.ts` — **never bypass**.
+
+## Before any Claude call
+
+```typescript
+assertAgentCallAllowed(store, kind, { task, payloadHash, payloadChars });
+```
+
+## After any Claude call
+
+```typescript
+recordAgentCall(store, { at, kind, task, inputTokens, outputTokens, costUsd, payloadHash });
+checkPostCallAnomaly(store, inputTokens, kind, task);
+```
+
+## Current limits (solo creator)
+
+| Kind | Per hour | Per day |
+|------|----------|---------|
+| Managed agent (scripts, plans, chat) | 6 | 12 |
+| Direct API (manual product research) | 2 | 5 |
+| Memory sync | 2 | 8 |
+
+- **Daily spend cap:** $2.50
+- **Circuit breaker:** any call >30k input tokens → 24h lock
+- **Burst lock:** 3 managed calls in 2 min → 1h lock
+- **Duplicate block:** same payload hash within 10 min → reject
+
+## Adding new call sites
+
+1. Choose kind: `managed_agent` | `direct_api` | `memory_sync`
+2. Hash payload with `hashAgentPayload()`
+3. Use **ephemeral sessions** for hub tasks (`sendAgentTask`), never reuse chat session
+4. Expose budget via `getAgentBudgetStatus()` if user-facing

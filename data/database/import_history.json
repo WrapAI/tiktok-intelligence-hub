@@ -1,5 +1,49 @@
 [
   {
+    "id": "9154af54-4572-4ec9-801d-db6fd1d6b339",
+    "imported_at": "2026-06-29T16:17:10.681Z",
+    "category": "library",
+    "file_name": "personal_library.json",
+    "relative_path": "personal_library.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-29T16-17-10-679Z_personal_library.json",
+    "import_type": "personal_library",
+    "record_count": 0,
+    "fingerprint": "3118819:1782749406721.8293"
+  },
+  {
+    "id": "63c05c85-9201-4945-a82d-13f727a18831",
+    "imported_at": "2026-06-29T15:42:37.725Z",
+    "category": "library",
+    "file_name": "personal_library.json",
+    "relative_path": "personal_library.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-29T15-42-37-724Z_personal_library.json",
+    "import_type": "personal_library",
+    "record_count": 0,
+    "fingerprint": "1147824:1782747509449.9023"
+  },
+  {
+    "id": "277d4b12-1107-4eb6-a7f8-f79dfad61e65",
+    "imported_at": "2026-06-29T15:42:37.714Z",
+    "category": "library",
+    "file_name": "personal_library-2.json",
+    "relative_path": "library/personal_library-2.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-29T15-42-37-712Z_personal_library-2.json",
+    "import_type": "library",
+    "record_count": 1,
+    "fingerprint": "201660:1782747509202.417"
+  },
+  {
+    "id": "dcf72ee6-7602-4a0b-b4ae-d9c1213edff1",
+    "imported_at": "2026-06-29T15:38:43.208Z",
+    "category": "library",
+    "file_name": "personal_library-2.json",
+    "relative_path": "library/personal_library-2.json",
+    "archive_path": "C:\\Users\\liamb\\AppData\\Roaming\\tiktok-intelligence-hub\\chromium-cache\\tiktok-intelligence-hub\\hub-data\\archive\\library\\2026-06-29T15-38-43-207Z_personal_library-2.json",
+    "import_type": "library",
+    "record_count": 1,
+    "fingerprint": "201660:1782747509202.417"
+  },
+  {
     "id": "ee28eecd-1f4a-4b6a-85f5-afd3b07d7bdb",
     "imported_at": "2026-06-27T14:12:23.793Z",
     "category": "sales",

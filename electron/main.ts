@@ -39,6 +39,8 @@ import {
 import { estimateAgentActionCost } from "./services/agentPricing.js";
 import { getAgentBudgetStatus, resetAgentGuardrails } from "./services/agentGuardrails.js";
 import { analyseMyVideo, backfillMyVideoThumbnail, scoreMyVideo, type MyVideo, type MyVideoSubmission } from "./services/myVideoAnalysis.js";
+import { getAnalysisDurationSeconds, resolveWatchTimeFromSubmit } from "./services/watchTime.js";
+import { fetchVideoThumbnail } from "./services/videoThumbnail.js";
 import { removeMyVideoFromPositiveMemory, syncMyVideoToPositiveMemory } from "./services/myVideoMemorySync.js";
 import { connectGoogleDrive, createTodaysDriveFolders, DEFAULT_GOOGLE_DRIVE_CLIENT_ID, getGoogleDriveStatus, getTodaysDriveFolderStatus } from "./services/googleDrive.js";
 import { uploadScriptVoiceoverToDrive } from "./services/voiceoverUpload.js";
@@ -53,6 +55,8 @@ import {
   setPendingTikTokUrl,
   resetPendingAfterScriptEdit,
   syncPendingCaptionsFromScript,
+  removeDuplicatePendingEntries,
+  clearPendingDismissals,
   type PendingAnalysisSubmit,
 } from "./services/pendingAnalysis.js";
 import { setAgentStatusWindow } from "./services/agentSessionStatus.js";
@@ -872,20 +876,20 @@ ipcMain.handle("hub:pull-pending-analysis", async (_e, id: string) => {
   }
 });
 
-ipcMain.handle("hub:update-pending-performance", (_e, req: { id: string; data: PendingAnalysisSubmit }) => {
+ipcMain.handle("hub:update-pending-performance", async (_e, req: { id: string; data: PendingAnalysisSubmit }) => {
   try {
     ensureStore();
-    const entry = updatePendingPerformanceData(store, req.id, req.data);
+    const entry = await updatePendingPerformanceData(store, req.id, req.data);
     return { ok: true, entry };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
 });
 
-ipcMain.handle("hub:submit-pending-analysis", (_e, req: { id: string; data: PendingAnalysisSubmit }) => {
+ipcMain.handle("hub:submit-pending-analysis", async (_e, req: { id: string; data: PendingAnalysisSubmit }) => {
   try {
     ensureStore();
-    const result = submitPendingAnalysis(store, req.id, req.data);
+    const result = await submitPendingAnalysis(store, req.id, req.data);
     notifyHubDataChanged({
       kind: "import",
       summary: `Pending analysis submitted — score ${result.score}/100`,
@@ -902,6 +906,26 @@ ipcMain.handle("hub:delete-pending-analysis", (_e, req: { id: string; deleteScri
     ensureStore();
     deletePendingAnalysis(store, req.id, !!req.deleteScript);
     return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:remove-duplicate-pending", () => {
+  try {
+    ensureStore();
+    const result = removeDuplicatePendingEntries(store);
+    return { ok: true, ...result };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+ipcMain.handle("hub:clear-pending-dismissals", () => {
+  try {
+    ensureStore();
+    const result = clearPendingDismissals(store);
+    return { ok: true, ...result };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
@@ -1183,36 +1207,63 @@ ipcMain.handle("hub:list-my-videos", () => {
 
   return videos.map((video) => {
     const backfilled = backfillMyVideoThumbnail(video);
-    if (backfilled.thumbnail_url && backfilled.thumbnail_url !== video.thumbnail_url) {
+    if (
+      (backfilled.thumbnail_url && backfilled.thumbnail_url !== video.thumbnail_url) ||
+      backfilled.analysis?.duration_seconds !== video.analysis?.duration_seconds
+    ) {
       store.upsertById("my_videos", { ...backfilled, updated_at: now } as unknown as typeof backfilled);
     }
     return backfilled;
   });
 });
 
-ipcMain.handle("hub:save-my-video", (_e, submission: MyVideoSubmission & { id?: string }) => {
-  ensureStore();
-  const now = new Date().toISOString();
-  const id = submission.id || randomUUID();
-  const existing = store.list<MyVideo>("my_videos").find((v) => v.id === id);
-  const video: MyVideo = {
-    ...existing,
-    ...submission,
-    id,
-    thumbnail_url: submission.thumbnail_url ?? existing?.thumbnail_url ?? null,
-    analysis: existing?.analysis || null,
-    analysis_status: existing?.analysis_status || "pending",
-    analysis_error: "",
-    score: existing?.score ?? null,
-    created_at: existing?.created_at || now,
-    updated_at: now,
-    // Clear the pending flag once the user has manually saved/updated the entry
-    pending_hub_review: false,
-  };
-  video.score = scoreMyVideo(video);
-  store.upsertById("my_videos", video as unknown as typeof video);
-  syncMyVideoToPositiveMemory(store, video);
-  return { ok: true, id };
+ipcMain.handle("hub:save-my-video", async (_e, submission: MyVideoSubmission & { id?: string }) => {
+  try {
+    ensureStore();
+    const now = new Date().toISOString();
+    const id = submission.id || randomUUID();
+    const existing = store.list<MyVideo>("my_videos").find((v) => v.id === id);
+    const durationSeconds = getAnalysisDurationSeconds(existing?.analysis);
+    const watchTime = resolveWatchTimeFromSubmit({
+      watch_time_seconds: submission.watch_time_seconds,
+      watch_time_pct: submission.watch_time_pct,
+      durationSeconds,
+    });
+    let thumbnail_url =
+      submission.thumbnail_url ?? existing?.thumbnail_url ?? existing?.analysis?.thumbnail_url ?? null;
+    if (
+      !thumbnail_url &&
+      submission.url?.trim() &&
+      (watchTime.watch_time_seconds != null || watchTime.watch_time_pct != null)
+    ) {
+      thumbnail_url = await fetchVideoThumbnail(submission.url);
+    }
+    let analysis = existing?.analysis || null;
+    if (analysis && durationSeconds != null && analysis.duration_seconds !== durationSeconds) {
+      analysis = { ...analysis, duration_seconds: durationSeconds };
+    }
+    const video: MyVideo = {
+      ...existing,
+      ...submission,
+      ...watchTime,
+      id,
+      thumbnail_url,
+      analysis,
+      analysis_status: existing?.analysis_status || "pending",
+      analysis_error: "",
+      score: existing?.score ?? null,
+      created_at: existing?.created_at || now,
+      updated_at: now,
+      // Clear the pending flag once the user has manually saved/updated the entry
+      pending_hub_review: false,
+    };
+    video.score = scoreMyVideo(video);
+    store.upsertById("my_videos", video as unknown as typeof video);
+    syncMyVideoToPositiveMemory(store, video);
+    return { ok: true, id };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
 });
 
 ipcMain.handle("hub:delete-my-video", (_e, id: string) => {
@@ -1236,6 +1287,7 @@ ipcMain.handle("hub:analyse-my-video", async (_e, videoId: string) => {
     const updated: MyVideo = {
       ...video,
       analysis,
+      thumbnail_url: analysis.thumbnail_url ?? video.thumbnail_url,
       analysis_status: "complete",
       analysis_error: "",
       updated_at: new Date().toISOString(),

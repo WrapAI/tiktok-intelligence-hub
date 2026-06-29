@@ -512,6 +512,31 @@ export default function ScriptWriter() {
                 }}
                 onFeedbackChange={setFeedbackComplete}
               />
+              {result.visualDirector && (
+                <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
+                  <div className="card-title" style={{ fontSize: "0.9rem", marginBottom: 8 }}>
+                    Visual director
+                  </div>
+                  {result.visualDirector.watchTimeHook && (
+                    <p className="muted" style={{ fontSize: 13, marginBottom: 10 }}>
+                      <strong>Scroll-stop (0–2s):</strong> {result.visualDirector.watchTimeHook}
+                    </p>
+                  )}
+                  {result.visualDirector.shots.map((shot, i) => (
+                    <div key={i} style={{ marginBottom: 10, fontSize: 13 }}>
+                      <strong>{shot.timing || `Shot ${i + 1}`}</strong>
+                      {shot.humanInteraction ? " · hands" : ""}
+                      <div>{shot.description}</div>
+                      {shot.notes && <div className="muted" style={{ fontSize: 12 }}>{shot.notes}</div>}
+                    </div>
+                  ))}
+                  {result.visualDirector.styleNotes && (
+                    <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
+                      {result.visualDirector.styleNotes}
+                    </p>
+                  )}
+                </div>
+              )}
               {!driveConnected && (
                 <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
                   Connect Google Drive in Settings to upload voiceovers to your phone.

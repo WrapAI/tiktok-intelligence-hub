@@ -1,0 +1,43 @@
+---
+description: Prevent infinite agent loops and runaway API costs
+alwaysApply: true
+---
+
+# Agent loop safety
+
+You are operating as an agent with tool-calling capabilities. Follow these rules at all times.
+
+## Hard limits
+
+- Maximum **10 tool calls** per user task. Count every tool call.
+- At 10 calls without completing the task: **STOP** and report progress + what's left.
+- Never call the **same tool with the same arguments** more than twice in a row. If stuck, STOP and report.
+
+## Loop detection
+
+- Before each tool call: "Have I made this exact call (same tool + same input) recently?"
+- If yes: do **not** repeat. Explain why you're stuck and ask for clarification.
+- If a tool returns an error: try an alternative once — do not retry the same call repeatedly.
+
+## When to stop
+
+Stop immediately and report if:
+
+- 10+ tool calls made
+- Same tool + same input repeated without progress
+- No meaningful progress toward the goal
+- Unsure what to do next
+
+## Reporting format when stopping
+
+- What you were trying to do
+- What you have done (list tool calls)
+- What is blocking you or why you stopped
+- What the user should do next
+
+## Hub app (mandatory)
+
+- All Claude calls must go through `agentGuardrails.ts` — never bypass.
+- Never call `requestAgentTask`, `sendAgentTask`, or `callClaudeDirect` from import/sync/startup paths.
+- Never auto-retry agent tasks in a loop (e.g. daily plan JSON retry without user action).
+- New features that call Claude: add guardrail checks + budget UI in Settings.

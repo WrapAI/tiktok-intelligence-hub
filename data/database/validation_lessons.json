@@ -1,5 +1,185 @@
 [
   {
+    "id": "dc12212e-c1c4-4a47-afbe-36fcfa1cdb14",
+    "created_at": "2026-06-29T17:06:43.326Z",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "title": "EHP Labs Hydreau Sports Hydration — Curiosity Gap Hook (Bottom Funnel)",
+    "script_snippet": "Hook auto-fallback: \"Did you know this?\" → \"I can't believe this.\"",
+    "violations": [
+      "HOOK TOO LONG: \"Did you know this? I had been buying the EHP Labs Hydreau Sports Hydration at full price for months and it never once crossed my mind to check TikTok Shop\" is 30 words — maximum is 7",
+      "HOOK FALLBACK: forced safe hook \"I can't believe this.\" after 2 failed API attempts"
+    ]
+  },
+  {
+    "id": "fb805286-3ec5-4962-90a7-c3b760aff4d4",
+    "created_at": "2026-06-29T17:05:28.989Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Capsules — Question Hook (Bottom Funnel) — Honest Scarcity Frame",
+    "script_snippet": "Hook auto-fallback: \"Still paying full price?\" → \"Don't buy this.\"",
+    "violations": [
+      "HOOK TOO LONG: \"Still paying full price? I was grabbing the WildGut Capsules one at a time for months without ever thinking to check TikTok Shop\" is 23 words — maximum is 7",
+      "HOOK FALLBACK: forced safe hook \"Don't buy this.\" after 2 failed API attempts"
+    ]
+  },
+  {
+    "id": "f509ab51-65fb-4156-9ced-2530e76c57ef",
+    "created_at": "2026-06-29T17:02:11.811Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Capsules — Question Hook (Honest Scarcity Frame) Bottom Funnel",
+    "script_snippet": "Hook auto-fallback: \"How is this even allowed?\" → \"Don't buy this.\"",
+    "violations": [
+      "HOOK TOO LONG: \"How is this even allowed? I was grabbing the WildGut Capsules one at a time every single month — the whole time TikTok Shop had a 2 for 1 sitting right there and I had absolutely no idea\" is 38 words — maximum is 7",
+      "HOOK FALLBACK: forced safe hook \"Don't buy this.\" after 2 failed API attempts"
+    ]
+  },
+  {
+    "id": "80376382-2766-4ece-b5ea-e9f561845742",
+    "created_at": "2026-06-29T16:59:33.733Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Honest Scarcity Frame, Bottom Funnel)",
+    "script_snippet": "Hook auto-fallback: \"Why only one?\" → \"Don't buy this.\"",
+    "violations": [
+      "HOOK TOO LONG: \"Why only one? I had the WildGut Capsules in my routine for months and paid full price every single time\" is 20 words — maximum is 7",
+      "HOOK FALLBACK: forced safe hook \"Don't buy this.\" after 2 failed API attempts"
+    ]
+  },
+  {
+    "id": "ae06e2e1-11bd-4710-9be3-4e567ca4250c",
+    "created_at": "2026-06-29T16:56:44.078Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Honest Scarcity Frame) Bottom Funnel",
+    "script_snippet": "Why just one? I had been grabbing a single container every month for ages — never once thought to check if there was a better deal. Turns out TikTok Shop had a 2 for 1 running the whole time and I completely missed it. Right now the WildGut Capsules are still on that deal — two full containers, 90 capsules each, and you are essentially getting the second one on a massive discount. This is not the ",
+    "violations": [
+      "HOOK TOO LONG: \"Why just one? I had been grabbing a single container every month for ages — never once thought to check if there was a better deal\" is 26 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "ea6a2bfd-f41d-4a7d-bf4e-c57f4fd9c8af",
+    "created_at": "2026-06-29T16:55:38.051Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Capsules — Question Hook (Bottom Funnel) | 2 for 1 Deal",
+    "script_snippet": "Why only one? I had been grabbing the WildGut Capsules at full price for months without even thinking to check TikTok Shop. Right now they have a 2 for 1 deal running and it is not going to stick around. You get two full containers — ninety capsules each — for the price of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "violations": [
+      "HOOK TOO LONG: \"Why only one? I had been grabbing the WildGut Capsules at full price for months without even thinking to check TikTok Shop\" is 22 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "bd280d0f-3bbb-4666-83d0-7eb8d5b0ff6c",
+    "created_at": "2026-06-29T16:54:04.352Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel, Honest Scarcity Frame)",
+    "script_snippet": "Why only one? I had the WildGut Capsules in my routine for months and paid full price every single time — never once thought to check TikTok Shop. Right now they are running a 2 for 1 deal and it is genuinely not going to stick around. Two containers, ninety capsules each — all of it at half the cost I was paying before. I don't know how long this deal is gonna last but I've left the link in the y",
+    "violations": [
+      "HOOK TOO LONG: \"Why only one? I had the WildGut Capsules in my routine for months and paid full price every single time — never once thought to check TikTok Shop\" is 28 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "31d5574e-68d4-4edb-b742-5f3d1f5a7268",
+    "created_at": "2026-06-29T16:48:05.573Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel) — 2 for 1 Deal",
+    "script_snippet": "Why only one? I had the WildGut Capsules in my routine for months and quietly paid full price every single time — never once thought to check TikTok Shop. Right now they are running a 2 for 1 deal and that is not going to stick around. Ninety capsules per container, two full containers — both of them — for the price of one. I don't know how long this deal is gonna last but I've left the link in th",
+    "violations": [
+      "HOOK TOO LONG: \"Why only one? I had the WildGut Capsules in my routine for months and quietly paid full price every single time — never once thought to check TikTok Shop\" is 29 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "830bc8ed-75e4-495a-8d5d-4c0d08fbfbe8",
+    "created_at": "2026-06-29T16:47:05.528Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel)",
+    "script_snippet": "Why just one? I grabbed the WildGut Capsules one container at a time for months — never once checked TikTok Shop — and quietly paid double what I needed to. Right now they are running a 2 for 1 deal and it is not going to hang around. Ninety capsules in each container, two containers for the price of one — that is a serious amount of product at a seriously slashed price. I don't know how long this",
+    "violations": [
+      "HOOK TOO LONG: \"Why just one? I grabbed the WildGut Capsules one container at a time for months — never once checked TikTok Shop — and quietly paid double what I needed to\" is 30 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "0f40c541-9701-4064-bc02-1bb7fac3f35d",
+    "created_at": "2026-06-29T16:45:42.332Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel)",
+    "script_snippet": "When did you last check? I was grabbing the WildGut Capsules one at a time every single month — paying full price without even looking at TikTok Shop. Classic mistake. Right now they are running a 2 for 1 deal and it is not going to stick around. Two containers, ninety capsules each — all of it at 2 for the price of 1. I don't know how long this deal is gonna last but I've left the link in the yel",
+    "violations": [
+      "HOOK TOO LONG: \"When did you last check? I was grabbing the WildGut Capsules one at a time every single month — paying full price without even looking at TikTok Shop\" is 28 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "d338bafe-c3df-44af-9c16-b0204d058351",
+    "created_at": "2026-06-29T16:44:43.654Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel) 2-for-1 Deal",
+    "script_snippet": "Why are you still paying full price? I was doing the exact same thing — grabbing the WildGut Capsules one at a time every single month without even checking TikTok Shop. Right now they are running a 2 for 1 deal and it is genuinely not going to last. You get two full containers — 90 capsules each — for the price of one. I don't know how long this deal is gonna last but I've left the link in the ye",
+    "violations": [
+      "HOOK TOO LONG: \"Why are you still paying full price? I was doing the exact same thing — grabbing the WildGut Capsules one at a time every single month without even checking TikTok Shop\" is 31 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "7a0555df-75ba-46e7-8fd2-7df54c62c0c9",
+    "created_at": "2026-06-29T16:43:50.941Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel) — 2 for 1 Deal",
+    "script_snippet": "How did I miss this? I was buying the WildGut Capsules one at a time, every single month, paying full price — and the whole time TikTok Shop had a 2 for 1 sitting right there. That is genuinely painful to think about. Right now you can grab two full containers — 90 capsules each — for the price of one, and that deal is not going to stick around. Two bottles, 180 capsules total, at half the price i",
+    "violations": [
+      "HOOK TOO LONG: \"How did I miss this? I was buying the WildGut Capsules one at a time, every single month, paying full price — and the whole time TikTok Shop had a 2 for 1 sitting right there\" is 36 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "357c3d9e-66e3-4220-be31-3ccf56dd3c8f",
+    "created_at": "2026-06-29T16:41:09.821Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Capsules — Question Hook (Bottom Funnel)",
+    "script_snippet": "Why is nobody doing this? I grabbed the WildGut Capsules at full price for months — and the whole time TikTok Shop had a 2 for 1 sitting right there. Like how did I miss that? Right now they are still running it and it is genuinely not going to stick around. Two full containers — 90 capsules each — for the price of one. I don't know how long this deal is gonna last but I've left the link in the ye",
+    "violations": [
+      "HOOK TOO LONG: \"Why is nobody doing this? I grabbed the WildGut Capsules at full price for months — and the whole time TikTok Shop had a 2 for 1 sitting right there\" is 30 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "c1df698b-179f-4b35-b81b-729de67bf3e6",
+    "created_at": "2026-06-29T16:40:20.738Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel, 2-for-1 Deal)",
+    "script_snippet": "When did you last check TikTok Shop? I was grabbing the WildGut Capsules one at a time, every single month, paying full price — and the whole time there was a 2 for 1 deal just sitting there. Right now on TikTok Shop they have slashed the price and you are walking away with two full containers for the price of one. That is 180 capsules — two bottles of the WildGut Capsules — and this deal is not g",
+    "violations": [
+      "HOOK TOO LONG: \"When did you last check TikTok Shop? I was grabbing the WildGut Capsules one at a time, every single month, paying full price — and the whole time there was a 2 for 1 deal just sitting there\" is 38 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "52c48cef-e4aa-47a5-ac30-27a9ebdf5687",
+    "created_at": "2026-06-29T16:23:40.010Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Capsules — Question Hook (Bottom Funnel) — Honest Scarcity Frame",
+    "script_snippet": "Why is nobody talking about this? I grabbed the WildGut Capsules at full price three times before I even thought to check TikTok Shop. Right now they are running a 2 for 1 deal and it is not going to last. Two containers — ninety capsules each — for the price of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "violations": [
+      "HOOK TOO LONG: \"Why is nobody talking about this? I grabbed the WildGut Capsules at full price three times before I even thought to check TikTok Shop\" is 24 words — maximum is 7"
+    ]
+  },
+  {
+    "id": "49ddfb06-6435-4b0c-b349-19781f656edc",
+    "created_at": "2026-06-29T16:22:51.756Z",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "title": "WildGut Colon Reset — Question Hook (Bottom Funnel)",
+    "script_snippet": "When did this get so cheap? I used to grab the WildGut Capsules one at a time without even checking the shop. Classic mistake. Right now on TikTok Shop they are running a 2 for 1 deal and it is genuinely not going to stick around. Two full containers, 90 capsules each — both at the price of one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "violations": [
+      "HOOK TOO LONG: \"When did this get so cheap? I used to grab the WildGut Capsules one at a time without even checking the shop\" is 22 words — maximum is 7"
+    ]
+  },
+  {
     "id": "866733aa-e37d-4b82-9d3f-e8c9ae8233ec",
     "created_at": "2026-06-27T14:32:40.848Z",
     "product_id": "2dbcb1a086a16eb4",
@@ -41,17 +221,6 @@
     "script_snippet": "Nobody is talking about this. I bought the EHP Labs Hydreau Sports Hydration at full price and then found it sitting on TikTok Shop on a massive flash sale the very same week. That stung. Right now the tub is on a flash sale and I genuinely do not know how much longer it is going to last. You get the full EHP Labs Hydreau Sports Hydration tub — multiple flavours, full size, with the scoop — at a s",
     "violations": [
       "REPEATED PHRASE DETECTED: \"ehp labs hydreau sports\" — every phrase should appear once only"
-    ]
-  },
-  {
-    "id": "63300f22-3a75-40e6-b233-d3e225a9f49c",
-    "created_at": "2026-06-27T13:11:55.804Z",
-    "product_id": "9ddefa8590f42f6a",
-    "product_name": "WildGut Colon Reset",
-    "title": "WildGut Capsules — Transformation Hook (No Face, Bottom Funnel)",
-    "script_snippet": "I used to spend so much on gut health every single month. Then I found the WildGut Capsules on TikTok Shop and everything changed. Right now they are running a 2 for 1 deal and it is not going to be around long. Two full containers — 90 capsules each — and you are only paying for one. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
-    "violations": [
-      "HOOK TOO LONG: \"I used to spend so much on gut health every single month\" is 12 words — maximum is 7"
     ]
   }
 ]

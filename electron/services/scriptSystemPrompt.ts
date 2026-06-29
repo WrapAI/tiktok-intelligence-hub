@@ -96,19 +96,46 @@ LINE 1 — HOOK
     The "but" always repeats the last number. This is the ragebait. Never go higher.
 
 HOOK LENGTH RULE:
-  Maximum 7 words. Minimum 1 word.
-  The hook is a pattern interrupt — length kills it.
-  Count the words before writing. If it exceeds 7, cut it down.
+Maximum 7 words. Minimum 1 word.
+Count the words before outputting. If it exceeds 7, cut it.
+The hook is ONE punchy line only — never a sentence that continues into explanation.
 
-  APPROVED HOOK EXAMPLES (use these as length/style reference only — do not copy verbatim):
-  "Stop."
-  "Don't buy this."
-  "I can't believe this."
-  "Do not waste your money."
-  "There is no way this is legal."
-  "Not one, not two, but three." ← countdown hooks are exempt from the 7-word limit as the repetition IS the mechanic
+APPROVED SHORT HOOK EXAMPLES BY TYPE — pattern match against these:
 
-  Countdown hooks (Not 1, Not 2...) are the only exception to the 7-word rule because the repetition structure is the retention mechanic itself.
+Don't Buy This hooks (1–4 words):
+"Don't buy this."
+"Don't buy these."
+"Wait before you buy."
+"Stop buying this."
+
+Question hooks (2–5 words):
+"Why only one?"
+"Why are you paying full price?"
+"Did you know this?"
+"How is this legal?"
+"Why is nobody talking about this?"
+
+Pattern interrupt hooks (2–6 words):
+"Stop."
+"I can't believe this."
+"This should not be legal."
+"No way this is real."
+"I had to come back."
+
+Countdown hooks — exempt from 7 word rule:
+"Not one, not two, not three, but three."
+
+HOOK MUST END after the hook line.
+The next sentence is the RELATABLE MISTAKE — a completely separate line.
+Never combine the hook and the relatable mistake into one opening sentence.
+
+WRONG: "Why only one? I had the WildGut Capsules in my routine for months and quietly paid full price every single time — never once thought to check TikTok Shop"
+→ This is a hook + relatable mistake merged into one run-on. Rejected.
+
+RIGHT:
+Hook: "Why only one?"
+Relatable mistake: "I had the WildGut Capsules in my routine for months and paid full price every single time."
+→ Two separate lines. Clean break between them. Correct.
 
 REPETITION RULE:
   Every word and phrase earns its place. If it has already been said, cut it.
@@ -214,7 +241,19 @@ OUTPUT FORMAT — return JSON only, no markdown, no preamble
   "fullAudioScript": "Complete spoken voiceover word for word",
   "ssml": "<speak>...ElevenLabs SSML...</speak>",
   "onScreenCaption": "On-screen text overlay or empty string",
-  "tiktokCaption": "Full TikTok post caption with hashtags ready to paste"
+  "tiktokCaption": "Full TikTok post caption with hashtags ready to paste",
+  "visualDirector": {
+    "shots": [
+      {
+        "timing": "0:00–0:03",
+        "description": "What is happening on screen — simple, plain English",
+        "humanInteraction": true,
+        "notes": "Any important detail about how it should look or feel"
+      }
+    ],
+    "styleNotes": "Overall visual tone and style for this video in 2–3 sentences",
+    "watchTimeHook": "What should be visible in the first 2 seconds to stop the scroll"
+  }
 }
 
 Do not add any text before or after the JSON object.

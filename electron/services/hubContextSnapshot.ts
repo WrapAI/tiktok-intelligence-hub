@@ -10,6 +10,14 @@ import { buildLibraryContextBlock } from "./libraryContext.js";
 import { PACKAGING_KNOWLEDGE } from "./productPackaging.js";
 import { formatCreatorGuidanceMarkdown } from "./creatorGuidance.js";
 import { formatScriptFeedbackForPrompt, formatValidationLessonsInject } from "./scriptFeedback.js";
+import { formatTopGmvPerformersTable, formatTopPerformingVideosBlock } from "./myVideoScriptContext.js";
+
+export { formatTopPerformingVideosBlock, formatTopGmvPerformersTable } from "./myVideoScriptContext.js";
+export {
+  pickHookWithPerformanceContext,
+  buildVisualDirectorRulesBlock,
+  listTopPerformingVideos,
+} from "./myVideoScriptContext.js";
 
 export { buildScriptWriterSystemPrompt } from "./scriptSystemPrompt.js";
 
@@ -78,10 +86,47 @@ These rules are ABSOLUTE. Apply them to every script, daily plan, and content su
 - e.g. 3 items = "Not 1, Not 2, Not 3, But 3"
 
 ### Hook length
-- Maximum 7 words. Minimum 1 word. Count before writing — length kills the pattern interrupt
-- GOOD: "Stop." / "Don't buy this." / "I can't believe this." / "There is no way this is legal." / "Do not waste your money."
-- BAD: "Don't buy the Umberto Giannini Curl Jelly Kit until you've seen this deal" — too long
-- Countdown hooks (Not 1, Not 2...) are the only exception — repetition IS the retention mechanic
+HOOK LENGTH RULE:
+Maximum 7 words. Minimum 1 word.
+Count the words before outputting. If it exceeds 7, cut it.
+The hook is ONE punchy line only — never a sentence that continues into explanation.
+
+APPROVED SHORT HOOK EXAMPLES BY TYPE — pattern match against these:
+
+Don't Buy This hooks (1–4 words):
+"Don't buy this."
+"Don't buy these."
+"Wait before you buy."
+"Stop buying this."
+
+Question hooks (2–5 words):
+"Why only one?"
+"Why are you paying full price?"
+"Did you know this?"
+"How is this legal?"
+"Why is nobody talking about this?"
+
+Pattern interrupt hooks (2–6 words):
+"Stop."
+"I can't believe this."
+"This should not be legal."
+"No way this is real."
+"I had to come back."
+
+Countdown hooks — exempt from 7 word rule:
+"Not one, not two, not three, but three."
+
+HOOK MUST END after the hook line.
+The next sentence is the RELATABLE MISTAKE — a completely separate line.
+Never combine the hook and the relatable mistake into one opening sentence.
+
+WRONG: "Why only one? I had the WildGut Capsules in my routine for months and quietly paid full price every single time — never once thought to check TikTok Shop"
+→ This is a hook + relatable mistake merged into one run-on. Rejected.
+
+RIGHT:
+Hook: "Why only one?"
+Relatable mistake: "I had the WildGut Capsules in my routine for months and paid full price every single time."
+→ Two separate lines. Clean break between them. Correct.
 
 ### Repetition
 - Never repeat the same word, phrase, or product name more than once unless it is the CTA line
@@ -123,6 +168,19 @@ Triple discount · Half price · Third of the price · Flash sale · For basical
 
 "I don't know how long this deal is gonna last but I've left the link in the yellow basket below."
 `;
+
+
+export const SCRIPT_WRITER_PRE_OUTPUT_CHECK = `BEFORE YOU OUTPUT ANYTHING — run this internal check:
+
+1. Count the words in your hook line. If more than 7, rewrite it shorter.
+2. Check the hook ends with a full stop or question mark and NOTHING follows it on the same line. The relatable mistake is a new sentence.
+3. Check the product name appears with "the" before it on first mention.
+4. Check the CTA is word for word: "I don't know how long this deal is gonna last but I've left the link in the yellow basket below."
+5. Check no banned phrases appear anywhere in fullAudioScript.
+6. Check no phrase or product name appears more than twice.
+
+Only output the JSON after passing all 6 checks internally.
+If you cannot pass check 1 after two attempts at shortening, default to "Don't buy this." as the hook and continue.`;
 
 
 function clip(text: string, max = MAX_DOC_CHARS): string {
@@ -434,8 +492,10 @@ NOT valid triggers (do not act on these):
       content: (() => {
         const rated = formatScriptFeedbackForPrompt(store);
         const lessons = formatValidationLessonsInject(store);
+        const topGmv = formatTopGmvPerformersTable(store);
         const parts: string[] = [];
         if (rated) parts.push(rated);
+        if (topGmv) parts.push(topGmv);
         if (!lessons.startsWith("(No auto-rejected")) {
           parts.push(`## Auto-learned validation rejections\n\n${lessons}`);
         }

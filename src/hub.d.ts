@@ -97,6 +97,19 @@ export type ScriptDetail = {
   awaiting_feedback: boolean;
 };
 
+export type VisualDirectorShot = {
+  timing: string;
+  description: string;
+  humanInteraction: boolean;
+  notes: string;
+};
+
+export type VisualDirector = {
+  shots: VisualDirectorShot[];
+  styleNotes: string;
+  watchTimeHook: string;
+};
+
 export type ScriptResult = {
   id: string;
   title: string;
@@ -108,12 +121,14 @@ export type ScriptResult = {
   createdAt: string;
   onScreenCaption: string;
   tiktokCaption: string;
+  visualDirector?: VisualDirector | null;
   audioPath?: string;
   sectionFeedback?: Partial<Record<ScriptSection, ScriptSectionFeedbackEntry>>;
   cost?: AgentCostBreakdown;
   validationBlocked?: boolean;
   validationViolations?: string[];
   validationLessonSaved?: boolean;
+  hookFallbackApplied?: string;
 };
 
 export type MemorySummary = {
@@ -487,6 +502,7 @@ export type HubApi = {
     ok: boolean;
     added?: number;
     skipped?: number;
+    skippedMyVideos?: number;
     dismissed?: number;
     total?: number;
     error?: string;
@@ -495,6 +511,7 @@ export type HubApi = {
     ok: boolean;
     added?: number;
     skipped?: number;
+    skippedMyVideos?: number;
     dismissed?: number;
     total?: number;
     orphanAdded?: number;
@@ -519,6 +536,8 @@ export type HubApi = {
     error?: string;
   }>;
   deletePendingAnalysis: (req: { id: string; deleteScript?: boolean }) => Promise<{ ok: boolean; error?: string }>;
+  removeDuplicatePending: () => Promise<{ ok: boolean; removed?: number; error?: string }>;
+  clearPendingDismissals: () => Promise<{ ok: boolean; cleared?: number; error?: string }>;
 };
 
 export type TikTokStatsSnapshot = {
@@ -537,7 +556,8 @@ export type PendingAnalysisStatus = "awaiting_url" | "tracking" | "ready_for_rev
 
 export type PendingAnalysisSubmit = {
   upload_date: string;
-  watch_time_pct: number | null;
+  watch_time_seconds: number | null;
+  watch_time_pct?: number | null;
   sales: number | null;
   gmv: number | null;
   commission: number | null;
@@ -562,6 +582,7 @@ export type PendingAnalysis = {
   drive_uploaded_at: string;
   drive_folder_path: string;
   tiktok_url: string;
+  thumbnail_url: string | null;
   url_added_at: string | null;
   initial_stats: TikTokStatsSnapshot | null;
   latest_stats: TikTokStatsSnapshot | null;
@@ -572,6 +593,7 @@ export type PendingAnalysis = {
   likes: number | null;
   comments: number | null;
   upload_date: string;
+  watch_time_seconds: number | null;
   watch_time_pct: number | null;
   sales: number | null;
   gmv: number | null;
@@ -595,6 +617,8 @@ export type FunnelBreakdownStage = {
 };
 
 export type MyVideoAnalysis = {
+  duration_seconds: number | null;
+  thumbnail_url: string | null;
   transcript: string;
   onscreen_hook: string | null;
   video_structure: string;
@@ -616,6 +640,7 @@ export type MyVideo = {
   views: number | null;
   likes: number | null;
   comments: number | null;
+  watch_time_seconds: number | null;
   watch_time_pct: number | null;
   sales: number | null;
   gmv: number | null;

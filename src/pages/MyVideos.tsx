@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import type { MyVideo } from "../hub";
+import { previewAverageWatchTimePct, getAnalysisDurationSeconds } from "../utils/watchTime";
 
 const EMPTY_FORM = {
   url: "",
   views: "",
   likes: "",
   comments: "",
-  watch_time_pct: "",
+  watch_time_seconds: "",
   sales: "",
   gmv: "",
   commission: "",
@@ -43,12 +44,18 @@ function videoThumbnail(video: MyVideo): string | null {
 }
 
 function videoToForm(v: MyVideo): FormState {
+  const durationSeconds = getAnalysisDurationSeconds(v.analysis);
   return {
     url: v.url || "",
     views: v.views != null ? String(v.views) : "",
     likes: v.likes != null ? String(v.likes) : "",
     comments: v.comments != null ? String(v.comments) : "",
-    watch_time_pct: v.watch_time_pct != null ? String(v.watch_time_pct) : "",
+    watch_time_seconds:
+      v.watch_time_seconds != null
+        ? String(v.watch_time_seconds)
+        : v.watch_time_pct != null && durationSeconds
+          ? String(Math.round((v.watch_time_pct / 100) * durationSeconds * 10) / 10)
+          : "",
     sales: v.sales != null ? String(v.sales) : "",
     gmv: v.gmv != null ? String(v.gmv) : "",
     commission: v.commission != null ? String(v.commission) : "",
@@ -61,6 +68,7 @@ function videoToForm(v: MyVideo): FormState {
 
 type VideoEditFormProps = {
   form: FormState;
+  durationSeconds: number | null;
   onChange: (next: FormState) => void;
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
@@ -72,6 +80,7 @@ type VideoEditFormProps = {
 
 function VideoEditForm({
   form,
+  durationSeconds,
   onChange,
   onSubmit,
   onCancel,
@@ -81,6 +90,7 @@ function VideoEditForm({
   thumbnailUrl,
 }: VideoEditFormProps) {
   const set = (key: keyof FormState, value: string) => onChange({ ...form, [key]: value });
+  const previewPct = previewAverageWatchTimePct(num(form.watch_time_seconds), durationSeconds);
 
   return (
     <form
@@ -123,18 +133,23 @@ function VideoEditForm({
           </div>
 
           <div style={{ marginTop: 4 }}>
-            <label className="field-label">Watch Time %</label>
+            <label className="field-label">Avg watch time (seconds)</label>
             <input
               className="field-input"
               type="text"
               inputMode="decimal"
               autoComplete="off"
-              placeholder="e.g. 65"
-              value={form.watch_time_pct}
-              onChange={(e) => set("watch_time_pct", e.target.value)}
+              placeholder={durationSeconds ? "e.g. 8.5" : "Analyse video first"}
+              disabled={durationSeconds == null}
+              value={form.watch_time_seconds}
+              onChange={(e) => set("watch_time_seconds", e.target.value)}
             />
             <p className="muted" style={{ fontSize: 11, marginTop: -8, marginBottom: 8 }}>
-              Average % of video watched (from TikTok Studio)
+              {durationSeconds == null
+                ? "Run Grok analysis first — it confirms video duration."
+                : previewPct != null
+                  ? `→ ${previewPct}% average watch time (${form.watch_time_seconds}s of ${durationSeconds}s)`
+                  : "Enter average watch time in seconds from TikTok Studio."}
             </p>
           </div>
 
@@ -160,7 +175,13 @@ function VideoEditForm({
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             {(["audience_male_pct", "audience_female_pct", "audience_other_pct"] as const).map((key) => (
               <div key={key}>
-                <label className="field-label">{key.includes("male") ? "Male %" : key.includes("female") ? "Female %" : "Other %"}</label>
+                <label className="field-label">
+                  {key === "audience_male_pct"
+                    ? "Male %"
+                    : key === "audience_female_pct"
+                      ? "Female %"
+                      : "Other %"}
+                </label>
                 <input className="field-input" type="text" inputMode="numeric" autoComplete="off" placeholder="0" value={form[key]} onChange={(e) => set(key, e.target.value)} />
               </div>
             ))}
@@ -204,7 +225,7 @@ function VideoEditForm({
   );
 }
 
-export default function MyVideos() {
+export default function MyVideos({ tabActive = true }: { tabActive?: boolean }) {
   const [videos, setVideos] = useState<MyVideo[]>([]);
   const [addForm, setAddForm] = useState<FormState>(EMPTY_FORM);
   const [editForm, setEditForm] = useState<FormState>(EMPTY_FORM);
@@ -238,33 +259,43 @@ export default function MyVideos() {
   }
 
   useEffect(() => {
+    if (!tabActive) return;
     window.hub.importPersonalLibrary().then(() => load());
-  }, []);
+  }, [tabActive]);
 
   async function saveVideo(form: FormState, id?: string) {
     if (!form.url.trim()) { setError("Video URL is required."); return false; }
     setSaving(true);
     setError("");
-    const res = await window.hub.saveMyVideo({
-      ...(id ? { id } : {}),
-      url: form.url.trim(),
-      views: num(form.views),
-      likes: num(form.likes),
-      comments: num(form.comments),
-      watch_time_pct: num(form.watch_time_pct),
-      sales: num(form.sales),
-      gmv: num(form.gmv),
-      commission: num(form.commission),
-      audience_male_pct: num(form.audience_male_pct),
-      audience_female_pct: num(form.audience_female_pct),
-      audience_other_pct: num(form.audience_other_pct),
-      upload_date: form.upload_date,
-      submitted_at: new Date().toISOString(),
-    });
-    setSaving(false);
-    if (!res.ok) { setError(res.error || "Save failed"); return false; }
-    setNotice(id ? "Video updated." : "Video saved.");
-    return true;
+    try {
+      const res = await window.hub.saveMyVideo({
+        ...(id ? { id } : {}),
+        url: form.url.trim(),
+        views: num(form.views),
+        likes: num(form.likes),
+        comments: num(form.comments),
+        watch_time_seconds: num(form.watch_time_seconds),
+        sales: num(form.sales),
+        gmv: num(form.gmv),
+        commission: num(form.commission),
+        audience_male_pct: num(form.audience_male_pct),
+        audience_female_pct: num(form.audience_female_pct),
+        audience_other_pct: num(form.audience_other_pct),
+        upload_date: form.upload_date,
+        submitted_at: new Date().toISOString(),
+      });
+      if (!res.ok) {
+        setError(res.error || "Save failed");
+        return false;
+      }
+      setNotice(id ? "Video updated." : "Video saved.");
+      return true;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      return false;
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function handleAddSubmit(e: React.FormEvent) {
@@ -328,7 +359,17 @@ export default function MyVideos() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-        <h2 className="page-title" style={{ margin: 0 }}>My Videos</h2>
+        <h2 className="page-title" style={{ margin: 0 }}>
+          My Videos{videos.length > 0 ? ` (${videos.length})` : ""}
+        </h2>
+        <button
+          className="btn btn-secondary"
+          style={{ fontSize: 12 }}
+          disabled={saving}
+          onClick={() => void load()}
+        >
+          ↻ Refresh
+        </button>
         <button
           className="btn btn-secondary"
           style={{ marginLeft: "auto", fontSize: 12 }}
@@ -360,6 +401,7 @@ export default function MyVideos() {
         <div className="card" style={{ marginBottom: 20 }}>
           <VideoEditForm
             form={addForm}
+            durationSeconds={null}
             onChange={setAddForm}
             onSubmit={handleAddSubmit}
             onCancel={() => { setShowAddForm(false); setAddForm(EMPTY_FORM); }}
@@ -444,7 +486,15 @@ export default function MyVideos() {
                   {v.views != null && <span>👁 {v.views.toLocaleString()}</span>}
                   {v.likes != null && <span>❤️ {v.likes.toLocaleString()}</span>}
                   {v.comments != null && <span>💬 {v.comments.toLocaleString()}</span>}
-                  {v.watch_time_pct != null && <span>⏱ {v.watch_time_pct}% watch time</span>}
+                  {v.watch_time_pct != null && (
+                    <span>
+                      ⏱ {v.watch_time_seconds != null ? `${v.watch_time_seconds}s · ` : ""}
+                      {v.watch_time_pct}% avg watch
+                    </span>
+                  )}
+                  {v.analysis?.duration_seconds != null && (
+                    <span>{v.watch_time_pct != null ? " · " : ""}{v.analysis.duration_seconds}s video</span>
+                  )}
                   {v.gmv != null && v.gmv > 0 && <span>💰 £{v.gmv.toFixed(2)} GMV</span>}
                   {v.commission != null && v.commission > 0 && <span>🤑 £{v.commission.toFixed(2)} comm.</span>}
                   {v.sales != null && v.sales > 0 && <span>📦 {v.sales} sales</span>}
@@ -483,6 +533,7 @@ export default function MyVideos() {
             {isEditing && (
               <VideoEditForm
                 form={editForm}
+                durationSeconds={getAnalysisDurationSeconds(v.analysis)}
                 onChange={setEditForm}
                 onSubmit={handleEditSubmit}
                 onCancel={cancelEdit}

@@ -63,6 +63,8 @@ contextBridge.exposeInMainWorld("hub", {
     ipcRenderer.invoke("hub:submit-pending-analysis", req),
   deletePendingAnalysis: (req: { id: string; deleteScript?: boolean }) =>
     ipcRenderer.invoke("hub:delete-pending-analysis", req),
+  removeDuplicatePending: () => ipcRenderer.invoke("hub:remove-duplicate-pending"),
+  clearPendingDismissals: () => ipcRenderer.invoke("hub:clear-pending-dismissals"),
   getMemorySummary: () => ipcRenderer.invoke("hub:get-memory-summary"),
   importFiles: () => ipcRenderer.invoke("hub:import-files"),
   rescanDataFolder: () => ipcRenderer.invoke("hub:rescan-data-folder"),

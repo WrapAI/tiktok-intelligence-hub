@@ -1,1 +1,2483 @@
-[]
+[
+  {
+    "id": "c48cdaa5-4e81-42ae-b05f-3b07a2549b3a",
+    "pending_analysis_id": "93e978df-0c0a-4da8-bdea-0213be56e9e6",
+    "source_script_id": "163ba0b5-8191-4f5b-b34c-02a487c26ce7",
+    "script_title": "EHP Labs Hydreau — Story Hook (No Face, Bottom Funnel)",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7653550852732505377",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T15:35:03.968Z",
+    "score": 2,
+    "views": 1927,
+    "likes": 1,
+    "comments": 1,
+    "watch_time_seconds": 1.8,
+    "watch_time_pct": 7.5,
+    "sales": 0,
+    "gmv": 0,
+    "commission": null,
+    "audience_male_pct": 51,
+    "audience_female_pct": 49,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 1927,
+      "likes": 1,
+      "comments": 1,
+      "reposts": null,
+      "saves": null,
+      "views_text": "1.9K",
+      "likes_text": "1",
+      "comments_text": "1",
+      "captured_at": "2026-06-29T15:33:32.558Z"
+    },
+    "latest_stats": {
+      "views": 1927,
+      "likes": 1,
+      "comments": 1,
+      "reposts": null,
+      "saves": null,
+      "views_text": "1.9K",
+      "likes_text": "1",
+      "comments_text": "1",
+      "captured_at": "2026-06-29T15:34:12.065Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 24,
+      "thumbnail_url": null,
+      "transcript": "",
+      "onscreen_hook": "I can’t believe what I’ve just found 😮",
+      "video_structure": "Opens with hands dramatically unwrapping a white package outdoors. Reveals Hydreau tub, rotates to show front label (Raspberry Refresh flavor, EHP Labs branding, key benefits). Scoops powder with dramatic spill effect. Transitions to three tubs lined up on reflective surface (Raspberry Refresh on top, Kiwi Strawberry and Lemon Pineapple below). Ends with hand pointing at Raspberry tub and final close-ups of all three flavors.",
+      "cta_timestamps": [],
+      "hook_type": "curiosity_gap",
+      "funnel_category": "Middle/Bottom Funnel",
+      "funnel_category_reason": "Strong product reveal and multi-flavor showcase designed to drive immediate purchase consideration.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-12s",
+          "what_happens": "Curiosity hook + detailed unboxing and label inspection to build interest"
+        },
+        {
+          "label": "Bottom Funnel",
+          "time_range": "13-24s",
+          "what_happens": "Multi-flavor display and close-ups to convert interest into purchase intent"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hands gripping white package outdoors",
+          "audio": "",
+          "on_screen_text": "I can’t believe what I’ve just found 😮"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Package rotated to show side",
+          "audio": "",
+          "on_screen_text": "I can’t believe what I’ve just found 😮"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Full front of Hydreau tub revealed",
+          "audio": "",
+          "on_screen_text": "I can’t believe what I’ve just found 😮"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Close-up of scoop being inserted",
+          "audio": "",
+          "on_screen_text": "I can’t believe what I’ve just found 😮"
+        },
+        {
+          "timestamp": 7,
+          "visual": "Scoop lifted with powder spilling",
+          "audio": "",
+          "on_screen_text": "I can’t believe what I’ve just found 😮"
+        },
+        {
+          "timestamp": 11,
+          "visual": "Back label details shown",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 13,
+          "visual": "Three tubs stacked on reflective table",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 16,
+          "visual": "Hand gestures toward Raspberry tub",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 18,
+          "visual": "Lemon Pineapple tub close-up",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 20,
+          "visual": "Kiwi Strawberry tub close-up",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 22,
+          "visual": "Final stack of all three tubs",
+          "audio": "",
+          "on_screen_text": null
+        }
+      ],
+      "pacing_notes": "Slow deliberate unboxing (0-8s) builds suspense, then faster product rotation and scooping (8-12s) creates energy peak, followed by steady multi-flavor showcase (13-24s).",
+      "detailed_analysis": "Curiosity_gap hook lands perfectly with the consistent text overlay and slow unwrap — viewers stay hooked waiting for the reveal. Strong visual product demo shows label, benefits, scoop, and all three flavors clearly. No spoken audio limits emotional connection and urgency. No visible CTA or discount reduces conversion potential. Adding voiceover explaining benefits + 'link in bio' or 'shop now' text at 20s+ would significantly boost performance.",
+      "raw_json": "{\"duration_seconds\":24,\"transcript\":\"\",\"onscreen_hook\":\"I can’t believe what I’ve just found 😮\",\"video_structure\":\"Opens with hands dramatically unwrapping a white package outdoors. Reveals Hydreau tub, rotates to show front label (Raspberry Refresh flavor, EHP Labs branding, key benefits). Scoops powder with dramatic spill effect. Transitions to three tubs lined up on reflective surface (Raspberry Refresh on top, Kiwi Strawberry and Lemon Pineapple below). Ends with hand pointing at Raspberry tub and final close-ups of all three flavors.\",\"cta_timestamps\":[],\"hook_type\":\"curiosity_gap\",\"funnel_category\":\"Middle/Bottom Funnel\",\"funnel_category_reason\":\"Strong product reveal and multi-flavor showcase designed to drive immediate purchase consideration.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-12s\",\"what_happens\":\"Curiosity hook + detailed unboxing and label inspection to build interest\"},{\"label\":\"Bottom Funnel\",\"time_range\":\"13-24s\",\"what_happens\":\"Multi-flavor display and close-ups to convert interest into purchase intent\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hands gripping white package outdoors\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe what I’ve just found 😮\"},{\"timestamp\":2,\"visual\":\"Package rotated to show side\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe what I’ve just found 😮\"},{\"timestamp\":3,\"visual\":\"Full front of Hydreau tub revealed\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe what I’ve just found 😮\"},{\"timestamp\":6,\"visual\":\"Close-up of scoop being inserted\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe what I’ve just found 😮\"},{\"timestamp\":7,\"visual\":\"Scoop lifted with powder spilling\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe what I’ve just found 😮\"},{\"timestamp\":11,\"visual\":\"Back label details shown\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":13,\"visual\":\"Three tubs stacked on reflective table\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":16,\"visual\":\"Hand gestures toward Raspberry tub\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":18,\"visual\":\"Lemon Pineapple tub close-up\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":20,\"visual\":\"Kiwi Strawberry tub close-up\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":22,\"visual\":\"Final stack of all three tubs\",\"audio\":\"\",\"on_screen_text\":null}],\"pacing_notes\":\"Slow deliberate unboxing (0-8s) builds suspense, then faster product rotation and scooping (8-12s) creates energy peak, followed by steady multi-flavor showcase (13-24s).\",\"detailed_analysis\":\"Curiosity_gap hook lands perfectly with the consistent text overlay and slow unwrap — viewers stay hooked waiting for the reveal. Strong visual product demo shows label, benefits, scoop, and all three flavors clearly. No spoken audio limits emotional connection and urgency. No visible CTA or discount reduces conversion potential. Adding voiceover explaining benefits + 'link in bio' or 'shop now' text at 20s+ would significantly boost performance.\"}"
+    },
+    "script_text": "I could not believe what I just found. The EHP Labs Hydreau Sports Hydration — half price on TikTok Shop right now. So I actually grabbed this tub a few weeks back because I kept hitting a wall halfway through my workouts. Not tired. Just done. And I didn't know why. Then this tub showed up and honestly I was not expecting much. One scoop in my water before I trained and that was it. I was hooked. And now it is half price. This tub is packed — loads of scoops, proper sports hydration, and the flavours are actually good. Check your price. Read those reviews. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I could not believe I found this 😮",
+    "tiktok_caption": "did not expect to find this at all 😮👇 #tiktokcreatorpicks #dealdrops #ehplabs #hydreau #hydration #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>I could not believe</prosody> what I just found. <break time='300ms'/> <prosody rate='slow'>The EHP Labs Hydreau Sports Hydration</prosody> — <prosody rate='fast'>half price</prosody> on TikTok Shop right now. <break time='400ms'/> So I actually grabbed <prosody rate='fast'>this tub</prosody> a few weeks back <prosody rate='fast'>because I kept</prosody> hitting a wall <prosody rate='fast'>halfway through</prosody> my workouts. <break time='250ms'/> Not tired. <prosody rate='fast'>Just</prosody> done. <break time='300ms'/> And I didn't know why. <break time='350ms'/> <prosody rate='fast'>Then this tub</prosody> showed up <prosody rate='fast'>and honestly</prosody> I was not expecting much. <break time='300ms'/> <prosody rate='fast'>One scoop</prosody> in my water <prosody rate='fast'>before I trained</prosody> and that was it. <break time='250ms'/> <prosody rate='slow'>I was hooked.</prosody> <break time='400ms'/> <prosody rate='fast'>And now</prosody> it is half price. <break time='300ms'/> <prosody rate='fast'>This tub is packed</prosody> — loads of scoops, <prosody rate='fast'>proper sports hydration,</prosody> and the flavours <prosody rate='fast'>are actually</prosody> good. <break time='350ms'/> <prosody rate='fast'>Check your</prosody> price. <prosody rate='fast'>Read those</prosody> reviews. <break time='300ms'/> I don't know how long this deal is gonna last <prosody rate='fast'>but I've left the link</prosody> in the yellow basket below.</speak>",
+    "hook_type": "story",
+    "linked_my_video_id": "96b4f565-00f6-403b-be4f-1decd35e2933",
+    "linked_memory_id": "d095ab30-4927-47d4-a4bb-da0a382eff7e",
+    "created_at": "2026-06-29T15:35:03.968Z"
+  },
+  {
+    "id": "e9ea8643-23f5-4b37-8b07-659cf1cec858",
+    "pending_analysis_id": "d58f2ed1-155f-461d-88a9-65d6d74749a5",
+    "source_script_id": "537a2777-697f-4dba-aaeb-f4bb98ec21e1",
+    "script_title": "EHP Labs Hydreau — Transformation Hook (No Face, Bottom Funnel)",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7653546310519229728",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T15:33:17.692Z",
+    "score": 2,
+    "views": 936,
+    "likes": 1,
+    "comments": null,
+    "watch_time_seconds": 1.4,
+    "watch_time_pct": 6.7,
+    "sales": 0,
+    "gmv": 0,
+    "commission": null,
+    "audience_male_pct": 44,
+    "audience_female_pct": 56,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 936,
+      "likes": 1,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "936",
+      "likes_text": "1",
+      "captured_at": "2026-06-29T15:32:25.780Z"
+    },
+    "latest_stats": {
+      "views": 936,
+      "likes": 1,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "936",
+      "likes_text": "1",
+      "captured_at": "2026-06-29T15:32:35.832Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 21,
+      "thumbnail_url": null,
+      "transcript": "",
+      "onscreen_hook": "I actually could not believe this 😮",
+      "video_structure": "0-3s: close-up of single Hydreau tub (Kiwi Strawberry) being rotated in hands. 3-7s: tub turned to show full label. 7-9s: second tub (Passion Pineapple) added side-by-side. 9-13s: three tubs stacked on table (Raspberry on top). 13-15s: tub opened, scoop of powder lifted out. 15-21s: final shots of stacked tubs with hand pointing and touching lids.",
+      "cta_timestamps": [],
+      "hook_type": "curiosity_gap",
+      "funnel_category": "Middle Funnel",
+      "funnel_category_reason": "Product demo and flavor variety shown with no price, link, or purchase prompt.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-21s",
+          "what_happens": "Hands showcase multiple Hydreau tubs, rotate labels, stack flavors, open container and reveal scoop to build desire through visual proof."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "White Hydreau tub held up, Kiwi Strawberry flavor visible",
+          "audio": "",
+          "on_screen_text": "I actually could not believe this 😮"
+        },
+        {
+          "timestamp": 7,
+          "visual": "Two tubs side-by-side (Kiwi Strawberry + Passion Pineapple)",
+          "audio": "",
+          "on_screen_text": "I actually could not believe this 😮"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Three tubs stacked on glass table",
+          "audio": "",
+          "on_screen_text": "I actually could not believe this 😮"
+        },
+        {
+          "timestamp": 14,
+          "visual": "Tub opened, finger pulls seal, white scoop lifted",
+          "audio": "",
+          "on_screen_text": "I actually could not believe this 😮"
+        },
+        {
+          "timestamp": 21,
+          "visual": "Final stacked three tubs with hand pointing at lids",
+          "audio": "",
+          "on_screen_text": "I actually could not believe this 😮"
+        }
+      ],
+      "pacing_notes": "steady/slow — consistent product rotation with no cuts or energy shifts",
+      "detailed_analysis": "Strong visual curiosity hook via repeated shocked-face text but weak because same overlay stays the entire video with zero voiceover or movement energy. Excellent flavor variety and unboxing/scoop moment provide good product proof, yet absence of any CTA, price mention, or shop link makes it pure middle-funnel awareness only. Could improve by adding spoken reaction, faster cuts, and a clear 'link in bio' or discount reveal at the end.",
+      "raw_json": "{\"duration_seconds\":21,\"transcript\":\"\",\"onscreen_hook\":\"I actually could not believe this 😮\",\"video_structure\":\"0-3s: close-up of single Hydreau tub (Kiwi Strawberry) being rotated in hands. 3-7s: tub turned to show full label. 7-9s: second tub (Passion Pineapple) added side-by-side. 9-13s: three tubs stacked on table (Raspberry on top). 13-15s: tub opened, scoop of powder lifted out. 15-21s: final shots of stacked tubs with hand pointing and touching lids.\",\"cta_timestamps\":[],\"hook_type\":\"curiosity_gap\",\"funnel_category\":\"Middle Funnel\",\"funnel_category_reason\":\"Product demo and flavor variety shown with no price, link, or purchase prompt.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-21s\",\"what_happens\":\"Hands showcase multiple Hydreau tubs, rotate labels, stack flavors, open container and reveal scoop to build desire through visual proof.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"White Hydreau tub held up, Kiwi Strawberry flavor visible\",\"audio\":\"\",\"on_screen_text\":\"I actually could not believe this 😮\"},{\"timestamp\":7,\"visual\":\"Two tubs side-by-side (Kiwi Strawberry + Passion Pineapple)\",\"audio\":\"\",\"on_screen_text\":\"I actually could not believe this 😮\"},{\"timestamp\":9,\"visual\":\"Three tubs stacked on glass table\",\"audio\":\"\",\"on_screen_text\":\"I actually could not believe this 😮\"},{\"timestamp\":14,\"visual\":\"Tub opened, finger pulls seal, white scoop lifted\",\"audio\":\"\",\"on_screen_text\":\"I actually could not believe this 😮\"},{\"timestamp\":21,\"visual\":\"Final stacked three tubs with hand pointing at lids\",\"audio\":\"\",\"on_screen_text\":\"I actually could not believe this 😮\"}],\"pacing_notes\":\"steady/slow — consistent product rotation with no cuts or energy shifts\",\"detailed_analysis\":\"Strong visual curiosity hook via repeated shocked-face text but weak because same overlay stays the entire video with zero voiceover or movement energy. Excellent flavor variety and unboxing/scoop moment provide good product proof, yet absence of any CTA, price mention, or shop link makes it pure middle-funnel awareness only. Could improve by adding spoken reaction, faster cuts, and a clear 'link in bio' or discount reveal at the end.\"}"
+    },
+    "script_text": "I actually could not believe what I was getting when this tub showed up. The EHP Labs Hydreau Sports Hydration — slashed price on TikTok Shop right now. And I am not going to lie, I was not prepared for how much is packed into this tub. Every single scoop — and the flavours on this thing? Genuinely did not see that coming. This is the kind of find that makes you annoyed you ever paid more elsewhere. One tub. One scoop. And the price right now on TikTok Shop is honestly mad. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I was NOT ready for what showed up 😮",
+    "tiktok_caption": "was not prepared for this at all 😮👇 #tiktokcreatorpicks #dealdrops #ehplabs #hydreau #hydration #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>I actually could not believe</prosody> what I was getting <prosody rate='fast'>when this tub</prosody> showed up. <break time='300ms'/> The <prosody rate='slow'>EHP Labs Hydreau Sports Hydration</prosody> — <prosody rate='fast'>slashed price</prosody> on TikTok Shop <prosody rate='fast'>right now.</prosody> <break time='400ms'/> And I am <prosody rate='fast'>not going to lie,</prosody> I was not prepared <prosody rate='fast'>for how much</prosody> is packed <prosody rate='fast'>into this tub.</prosody> <break time='300ms'/> <prosody rate='fast'>Every single scoop</prosody> — <prosody rate='slow'>and the flavours</prosody> on this thing? <break time='250ms'/> <prosody rate='fast'>Genuinely did not</prosody> see that coming. <break time='350ms'/> This is the kind of find <prosody rate='fast'>that makes you annoyed</prosody> you ever paid more <prosody rate='slow'>elsewhere.</prosody> <break time='400ms'/> <prosody rate='fast'>One tub.</prosody> <prosody rate='fast'>One scoop.</prosody> And the price right now <prosody rate='fast'>on TikTok Shop</prosody> is honestly <prosody rate='slow'>mad.</prosody> <break time='400ms'/> <prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket below.</prosody></speak>",
+    "hook_type": "transformation",
+    "linked_my_video_id": "d89a5558-301d-4216-900c-075fd8bea76b",
+    "linked_memory_id": "12c6f8c0-732a-4f5d-b2c8-dea2d7586894",
+    "created_at": "2026-06-29T15:33:17.692Z"
+  },
+  {
+    "id": "0475bbb2-a2c0-400f-aca5-be12853a49d9",
+    "pending_analysis_id": "3710db9c-65cb-4335-a4a1-f0702c66984a",
+    "source_script_id": "d2a1d8bc-fac0-43a9-9be9-cf77222ef011",
+    "script_title": "WildGut Colon Reset — Transformation Hook (No Face, Bottom Funnel)",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7653592293039000865",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T15:32:05.315Z",
+    "score": 19,
+    "views": 7432,
+    "likes": 10,
+    "comments": null,
+    "watch_time_seconds": 3.1,
+    "watch_time_pct": 18.2,
+    "sales": 7,
+    "gmv": 120.91,
+    "commission": null,
+    "audience_male_pct": 16,
+    "audience_female_pct": 84,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 7432,
+      "likes": 10,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "7.4K",
+      "likes_text": "10",
+      "captured_at": "2026-06-29T15:26:10.730Z"
+    },
+    "latest_stats": {
+      "views": 7432,
+      "likes": 10,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "7.4K",
+      "likes_text": "10",
+      "captured_at": "2026-06-29T15:30:48.365Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 17,
+      "thumbnail_url": null,
+      "transcript": "",
+      "onscreen_hook": "How is this legal 😭",
+      "video_structure": "Opens with hand holding white shipping bag on wet surface with 'How is this legal 😭' overlay. Hand points at bag and circular economy icons. Cuts to two WildGut Colon Reset bottles on reflective table. Hand picks up and rotates one bottle showing label details (90 vegan capsules, made in UK). Moves outdoors to garden table with plants and brick wall; shows both bottles side-by-side with reflections. Hand points at and lifts bottles, rotates one to show back. Ends with hand gesturing toward garden sign.",
+      "cta_timestamps": [],
+      "hook_type": "question",
+      "funnel_category": "Bottom Funnel",
+      "funnel_category_reason": "Direct product showcase with no awareness or education layer; focuses entirely on the supplement itself.",
+      "funnel_breakdown": [
+        {
+          "label": "Bottom Funnel",
+          "time_range": "0-17s",
+          "what_happens": "Product reveal and close-up demonstration of WildGut Colon Reset bottles"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand holding white shipping bag on wet black surface",
+          "audio": "",
+          "on_screen_text": "How is this legal 😭"
+        },
+        {
+          "timestamp": 1,
+          "visual": "Hand points at bag and circular economy logos",
+          "audio": "",
+          "on_screen_text": "How is this legal 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Close-up of bag with icons and 4/D label",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 3,
+          "visual": "Two WildGut Colon Reset bottles on table",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 4,
+          "visual": "Bottles side-by-side with reflections",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 5,
+          "visual": "Hand holds one bottle showing front label",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 6,
+          "visual": "Bottle rotated to show side/back",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 7,
+          "visual": "Bottles on outdoor table with garden background",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 8,
+          "visual": "Two bottles side-by-side outdoors",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 9,
+          "visual": "Hand points at bottles",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 10,
+          "visual": "Hand touches one bottle",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 11,
+          "visual": "Hand lifts one bottle",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 12,
+          "visual": "Bottle held up against garden backdrop",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 13,
+          "visual": "Hand holds both bottles together",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 14,
+          "visual": "Single bottle rotated in hand",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 15,
+          "visual": "Bottle held steady showing label",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 16,
+          "visual": "Hand points toward garden sign",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 17,
+          "visual": "Hand points at 'FAMILY AND FRIENDS GATHER HERE' sign",
+          "audio": "",
+          "on_screen_text": null
+        }
+      ],
+      "pacing_notes": "Fast initial cut (0-3s) then steady product showcase with slow rotations and holds; energy peaks at bottle reveal (3s) then plateaus with repetitive close-ups.",
+      "detailed_analysis": "Strong curiosity/ragebait hook with 'How is this legal' drives immediate attention but feels mismatched once the actual product (digestive supplement) is revealed. No voiceover or spoken CTA weakens conversion potential. Product visuals are clean and consistent but lack discount/offer delivery or urgency. No shop link or 'tap to buy' moment reduces bottom-funnel effectiveness. Improvement: add price reveal, before/after claims, or direct 'get it here' text overlay.",
+      "raw_json": "{\"duration_seconds\":17,\"transcript\":\"\",\"onscreen_hook\":\"How is this legal 😭\",\"video_structure\":\"Opens with hand holding white shipping bag on wet surface with 'How is this legal 😭' overlay. Hand points at bag and circular economy icons. Cuts to two WildGut Colon Reset bottles on reflective table. Hand picks up and rotates one bottle showing label details (90 vegan capsules, made in UK). Moves outdoors to garden table with plants and brick wall; shows both bottles side-by-side with reflections. Hand points at and lifts bottles, rotates one to show back. Ends with hand gesturing toward garden sign.\",\"cta_timestamps\":[],\"hook_type\":\"question\",\"funnel_category\":\"Bottom Funnel\",\"funnel_category_reason\":\"Direct product showcase with no awareness or education layer; focuses entirely on the supplement itself.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Bottom Funnel\",\"time_range\":\"0-17s\",\"what_happens\":\"Product reveal and close-up demonstration of WildGut Colon Reset bottles\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand holding white shipping bag on wet black surface\",\"audio\":\"\",\"on_screen_text\":\"How is this legal 😭\"},{\"timestamp\":1,\"visual\":\"Hand points at bag and circular economy logos\",\"audio\":\"\",\"on_screen_text\":\"How is this legal 😭\"},{\"timestamp\":2,\"visual\":\"Close-up of bag with icons and 4/D label\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":3,\"visual\":\"Two WildGut Colon Reset bottles on table\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":4,\"visual\":\"Bottles side-by-side with reflections\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":5,\"visual\":\"Hand holds one bottle showing front label\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":6,\"visual\":\"Bottle rotated to show side/back\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":7,\"visual\":\"Bottles on outdoor table with garden background\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":8,\"visual\":\"Two bottles side-by-side outdoors\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":9,\"visual\":\"Hand points at bottles\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":10,\"visual\":\"Hand touches one bottle\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":11,\"visual\":\"Hand lifts one bottle\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":12,\"visual\":\"Bottle held up against garden backdrop\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":13,\"visual\":\"Hand holds both bottles together\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":14,\"visual\":\"Single bottle rotated in hand\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":15,\"visual\":\"Bottle held steady showing label\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":16,\"visual\":\"Hand points toward garden sign\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":17,\"visual\":\"Hand points at 'FAMILY AND FRIENDS GATHER HERE' sign\",\"audio\":\"\",\"on_screen_text\":null}],\"pacing_notes\":\"Fast initial cut (0-3s) then steady product showcase with slow rotations and holds; energy peaks at bottle reveal (3s) then plateaus with repetitive close-ups.\",\"detailed_analysis\":\"Strong curiosity/ragebait hook with 'How is this legal' drives immediate attention but feels mismatched once the actual product (digestive supplement) is revealed. No voiceover or spoken CTA weakens conversion potential. Product visuals are clean and consistent but lack discount/offer delivery or urgency. No shop link or 'tap to buy' moment reduces bottom-funnel effectiveness. Improvement: add price reveal, before/after claims, or direct 'get it here' text overlay.\"}"
+    },
+    "script_text": "I was not ready for what I just found on TikTok Shop. The WildGut Capsules — two for the price of one right now. That is ninety capsules in each packaging — and you are getting both. Look at that. Two full packagings of the WildGut Capsules for what you would normally pay for one. Check that listing and look at those reviews. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I was NOT ready for this 😮",
+    "tiktok_caption": "did not see this coming at all 😮👇 #tiktokcreatorpicks #dealdrops #wildgut #guthealth #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>I was not ready</prosody> for what I just found <prosody rate='fast'>on TikTok Shop.</prosody> <break time='300ms'/> <prosody rate='fast'>The</prosody> WildGut Capsules — <prosody rate='fast'>two for the price of one</prosody> right now. <break time='250ms'/> That is <prosody rate='fast'>ninety capsules</prosody> in each packaging — <prosody rate='fast'>and you are getting</prosody> both. <break time='300ms'/> Look at that. <break time='200ms'/> <prosody rate='fast'>Two full packagings of the</prosody> WildGut Capsules <prosody rate='fast'>for what you would normally pay</prosody> for one. <break time='350ms'/> <prosody rate='fast'>Check that</prosody> listing <prosody rate='fast'>and look at those</prosody> reviews. <break time='300ms'/> I <prosody rate='fast'>don't know how long this deal is gonna last but I've left the link in the</prosody> yellow basket below.</speak>",
+    "hook_type": "transformation",
+    "linked_my_video_id": "905bf510-88e7-4428-8318-433ffd383151",
+    "linked_memory_id": "a7a698cc-fb68-499e-a655-180a1325bd5f",
+    "created_at": "2026-06-29T15:32:05.315Z"
+  },
+  {
+    "id": "f491934b-30bc-4d9f-a366-85ac7ee845ef",
+    "pending_analysis_id": "de74d851-425c-4bf7-a915-76ae30f72c85",
+    "source_script_id": "37953911-2d75-43a3-9e16-e9766bac284c",
+    "script_title": "WildGut Colon Reset — Controversy Hook (No Face, Bottom Funnel)",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7653544105804451104",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T15:25:54.121Z",
+    "score": 19,
+    "views": 2180,
+    "likes": 3,
+    "comments": null,
+    "watch_time_seconds": 3.1,
+    "watch_time_pct": 15.5,
+    "sales": 7,
+    "gmv": 120.91,
+    "commission": null,
+    "audience_male_pct": 26,
+    "audience_female_pct": 74,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 2180,
+      "likes": 3,
+      "comments": null,
+      "reposts": 2,
+      "saves": null,
+      "views_text": "2.2K",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T15:14:14.437Z"
+    },
+    "latest_stats": {
+      "views": 2180,
+      "likes": 3,
+      "comments": null,
+      "reposts": 2,
+      "saves": null,
+      "views_text": "2.2K",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T15:15:59.602Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 20,
+      "thumbnail_url": null,
+      "transcript": "",
+      "onscreen_hook": "How is this even legal 😮",
+      "video_structure": "Opens with yellow capsules spilling from a dark bottle onto a wet black table (0-2s). Cuts to two WildGut Colon Reset bottles on the table (2-4s). Hand enters frame to touch/point at bottles and pick one up (4-7s). Single bottle held up close to camera with outdoor background (7-8s). Two bottles held together outdoors with brick wall and plants (8-10s). Bottles placed back on table with pointing and peace-sign gestures (10-16s). Ends with final close-up of the two bottles (16-20s).",
+      "cta_timestamps": [],
+      "hook_type": "question",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Pure curiosity hook with no product benefits, offer, or purchase prompt shown.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-20s",
+          "what_happens": "Visual curiosity hook using product reveal + repeated 'How is this even legal' text to stop scroll and create intrigue around the supplement."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand pouring yellow capsules from dark bottle onto wet black table",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Two WildGut Colon Reset bottles placed on table",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Hand touching and gesturing at the two bottles",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        },
+        {
+          "timestamp": 5,
+          "visual": "Single bottle lifted and rotated toward camera",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Two bottles held together outdoors against brick wall and plants",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        },
+        {
+          "timestamp": 10,
+          "visual": "Bottles back on table with pointing and peace-sign hand gestures",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Final close-up of two bottles with hand pointing",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😮"
+        }
+      ],
+      "pacing_notes": "Fast cuts in first 4 seconds, then slower deliberate product handling and hand gestures; energy stays high due to constant text overlay but no voice or music peaks.",
+      "detailed_analysis": "Strong visual hook using mystery ('how is this even legal') + product reveal works well for stopping scroll. Repeated text overlay reinforces the hook but becomes repetitive. No spoken audio or benefits explained. No discount, price, or CTA visible — keeps it purely top-of-funnel curiosity but misses opportunity to move viewers further down the funnel. Hand interaction and outdoor shots add authenticity and visual variety.",
+      "raw_json": "{\"duration_seconds\":20,\"transcript\":\"\",\"onscreen_hook\":\"How is this even legal 😮\",\"video_structure\":\"Opens with yellow capsules spilling from a dark bottle onto a wet black table (0-2s). Cuts to two WildGut Colon Reset bottles on the table (2-4s). Hand enters frame to touch/point at bottles and pick one up (4-7s). Single bottle held up close to camera with outdoor background (7-8s). Two bottles held together outdoors with brick wall and plants (8-10s). Bottles placed back on table with pointing and peace-sign gestures (10-16s). Ends with final close-up of the two bottles (16-20s).\",\"cta_timestamps\":[],\"hook_type\":\"question\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Pure curiosity hook with no product benefits, offer, or purchase prompt shown.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-20s\",\"what_happens\":\"Visual curiosity hook using product reveal + repeated 'How is this even legal' text to stop scroll and create intrigue around the supplement.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand pouring yellow capsules from dark bottle onto wet black table\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"},{\"timestamp\":2,\"visual\":\"Two WildGut Colon Reset bottles placed on table\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"},{\"timestamp\":4,\"visual\":\"Hand touching and gesturing at the two bottles\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"},{\"timestamp\":5,\"visual\":\"Single bottle lifted and rotated toward camera\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"},{\"timestamp\":8,\"visual\":\"Two bottles held together outdoors against brick wall and plants\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"},{\"timestamp\":10,\"visual\":\"Bottles back on table with pointing and peace-sign hand gestures\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"},{\"timestamp\":16,\"visual\":\"Final close-up of two bottles with hand pointing\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😮\"}],\"pacing_notes\":\"Fast cuts in first 4 seconds, then slower deliberate product handling and hand gestures; energy stays high due to constant text overlay but no voice or music peaks.\",\"detailed_analysis\":\"Strong visual hook using mystery ('how is this even legal') + product reveal works well for stopping scroll. Repeated text overlay reinforces the hook but becomes repetitive. No spoken audio or benefits explained. No discount, price, or CTA visible — keeps it purely top-of-funnel curiosity but misses opportunity to move viewers further down the funnel. Hand interaction and outdoor shots add authenticity and visual variety.\"}"
+    },
+    "script_text": "Everyone is arguing about this in the comments. Two for the price of one on TikTok Shop right now — and I genuinely cannot blame them. You get the WildGut Capsules — two full packagings of the WildGut Capsules — at half the price. I have seen people saying this deal should not exist at this price point, and honestly, they are not wrong. Two complete packagings for what most people would expect to pay for one. Ninety capsules per packaging — so you are getting a serious amount of product here. The WildGut Capsules — two for the price of one on TikTok Shop right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "everyone is arguing about this 👀",
+    "tiktok_caption": "the comments don't lie on this one 👀👇 #tiktokcreatorpicks #dealdrops #wildgut #guthealth #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>Everyone is arguing</prosody> about this <prosody rate='fast'>in the comments.</prosody> <break time='300ms'/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop <prosody rate='fast'>right now —</prosody> and I <prosody rate='fast'>genuinely cannot</prosody> blame them. <break time='400ms'/> <prosody rate='fast'>You get</prosody> the WildGut Capsules — <prosody rate='fast'>two full packagings</prosody> of the WildGut Capsules — <prosody rate='fast'>at half</prosody> the price. <break time='300ms'/> I have seen people <prosody rate='fast'>saying this deal</prosody> should not exist <prosody rate='fast'>at this price point,</prosody> and honestly, <prosody rate='fast'>they are</prosody> not wrong. <break time='350ms'/> <prosody rate='fast'>Two complete packagings</prosody> for what most people <prosody rate='fast'>would expect to pay</prosody> for one. <break time='300ms'/> <prosody rate='fast'>Ninety capsules</prosody> per packaging — <prosody rate='fast'>so you are getting</prosody> a serious amount <prosody rate='fast'>of product</prosody> here. <break time='400ms'/> <prosody rate='fast'>The WildGut Capsules —</prosody> two for the price of one <prosody rate='fast'>on TikTok Shop</prosody> right now. <break time='350ms'/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
+    "hook_type": "controversy",
+    "linked_my_video_id": "34bcce71-ca0c-4a66-8746-5e146578eb37",
+    "linked_memory_id": "98044ab8-5a06-42eb-aea5-db7ff422be39",
+    "created_at": "2026-06-29T15:25:54.121Z"
+  },
+  {
+    "id": "9845ba81-c1f9-412d-b3c1-61d8611e0e35",
+    "pending_analysis_id": "648fb2c0-0cde-4b66-8e13-e4c468333d23",
+    "source_script_id": "7d37bc25-0c64-4718-b219-d3bb97b5f86a",
+    "script_title": "Belgrave 9 Seater Rattan Garden Set — Fear Hook 'You're Going To Regret This' (No Face, Bottom Funnel)",
+    "product_id": "f618685611567f3e",
+    "product_name": "Belgrave 9 Seater Rattan Garden Set Outdoor Patio Furniture with Washable Cushion Covers Water Resistant Durable weather-resistant design",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7654327804942699809",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:56:54.178Z",
+    "score": 7,
+    "views": 468,
+    "likes": 3,
+    "comments": null,
+    "watch_time_seconds": 3.5,
+    "watch_time_pct": 17.5,
+    "sales": 0,
+    "gmv": 0,
+    "commission": null,
+    "audience_male_pct": 28,
+    "audience_female_pct": 72,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 468,
+      "likes": 3,
+      "comments": null,
+      "reposts": 1,
+      "saves": null,
+      "views_text": "468",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:56:16.140Z"
+    },
+    "latest_stats": {
+      "views": 468,
+      "likes": 3,
+      "comments": null,
+      "reposts": 1,
+      "saves": null,
+      "views_text": "468",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:56:18.244Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 20,
+      "transcript": "",
+      "onscreen_hook": "Don’t make the mistake I did 😭",
+      "video_structure": "Opens with close-up of white UK flag cushion on outdoor table (0-1s), hand points at woven placemats then the cushion (1-3s). Quick cuts to wider patio shots showing multiple UK cushions and furniture while hand gestures at them (3-7s). Shifts to gray cushions on sofa; hand lifts one to reveal underside (8-12s), then points at wicker table base and individual seat pads (13-20s). Consistent crying emoji text overlay throughout. No product reveal, demo of waterproofing, or purchase link shown.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Middle Funnel",
+      "funnel_category_reason": "Focuses on highlighting a painful customer mistake with outdoor cushions but provides no solution, product demo, or direct offer.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-20s",
+          "what_happens": "Problem agitation via repeated visual proof of the 'mistake' (wet/dirty cushions, pointing gestures) without moving to solution or offer."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "White UK flag cushion on black table with woven placemats, brick wall background",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 1,
+          "visual": "Hand points at woven placemats on table",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Hand gestures over white cushion on table",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Wider shot of patio sofa with gray cushions and pink polka dot pillows; hand points at glass table",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Close-up of two gray seat pads on floor; hand points at them",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Hand lifts and squeezes gray cushion to show material",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 11,
+          "visual": "Hand flips gray cushion to show underside",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Hand rests on wicker table edge then points at gray sofa cushions",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Hand points at pink polka dot pillow on sofa",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 18,
+          "visual": "Hand points at full patio setup with multiple cushions and table",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        },
+        {
+          "timestamp": 20,
+          "visual": "Final wide shot of entire seating area with hand pointing at footstools",
+          "audio": "",
+          "on_screen_text": "Don’t make the mistake I did 😭"
+        }
+      ],
+      "pacing_notes": "Fast cuts (every 1s) with constant hand gesturing; energy stays high and repetitive but never peaks or drops — no variation or resolution.",
+      "detailed_analysis": "Strong visual hook using fear-of-mistake + crying emoji creates immediate curiosity gap and emotional hook. Repetitive pointing + cushion-flipping effectively demonstrates the problem (likely rain damage) but lacks any solution reveal, benefit demo, or CTA, making it pure middle-funnel problem agitation. The 20s runtime feels long for the single message; adding a 3-5s solution flip or text CTA would convert better. No discount or offer delivery weakens affiliate potential.",
+      "raw_json": "{\"duration_seconds\":20,\"transcript\":\"\",\"onscreen_hook\":\"Don’t make the mistake I did 😭\",\"video_structure\":\"Opens with close-up of white UK flag cushion on outdoor table (0-1s), hand points at woven placemats then the cushion (1-3s). Quick cuts to wider patio shots showing multiple UK cushions and furniture while hand gestures at them (3-7s). Shifts to gray cushions on sofa; hand lifts one to reveal underside (8-12s), then points at wicker table base and individual seat pads (13-20s). Consistent crying emoji text overlay throughout. No product reveal, demo of waterproofing, or purchase link shown.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Middle Funnel\",\"funnel_category_reason\":\"Focuses on highlighting a painful customer mistake with outdoor cushions but provides no solution, product demo, or direct offer.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-20s\",\"what_happens\":\"Problem agitation via repeated visual proof of the 'mistake' (wet/dirty cushions, pointing gestures) without moving to solution or offer.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"White UK flag cushion on black table with woven placemats, brick wall background\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":1,\"visual\":\"Hand points at woven placemats on table\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":2,\"visual\":\"Hand gestures over white cushion on table\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":3,\"visual\":\"Wider shot of patio sofa with gray cushions and pink polka dot pillows; hand points at glass table\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":6,\"visual\":\"Close-up of two gray seat pads on floor; hand points at them\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":8,\"visual\":\"Hand lifts and squeezes gray cushion to show material\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":11,\"visual\":\"Hand flips gray cushion to show underside\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":13,\"visual\":\"Hand rests on wicker table edge then points at gray sofa cushions\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":16,\"visual\":\"Hand points at pink polka dot pillow on sofa\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":18,\"visual\":\"Hand points at full patio setup with multiple cushions and table\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"},{\"timestamp\":20,\"visual\":\"Final wide shot of entire seating area with hand pointing at footstools\",\"audio\":\"\",\"on_screen_text\":\"Don’t make the mistake I did 😭\"}],\"pacing_notes\":\"Fast cuts (every 1s) with constant hand gesturing; energy stays high and repetitive but never peaks or drops — no variation or resolution.\",\"detailed_analysis\":\"Strong visual hook using fear-of-mistake + crying emoji creates immediate curiosity gap and emotional hook. Repetitive pointing + cushion-flipping effectively demonstrates the problem (likely rain damage) but lacks any solution reveal, benefit demo, or CTA, making it pure middle-funnel problem agitation. The 20s runtime feels long for the single message; adding a 3-5s solution flip or text CTA would convert better. No discount or offer delivery weakens affiliate potential.\"}"
+    },
+    "script_text": "Stop. Do not buy garden furniture anywhere else right now. I did exactly that — went somewhere else, paid full price, and then found this on TikTok Shop at half price the very next week. The Belgrave 9 Seater Rattan Garden Set with washable cushion covers and a water-resistant, weather-resistant design. Nine seats. One deal. And I genuinely do not think it is going to stay at this price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I went elsewhere first. Big mistake. 😬",
+    "tiktok_caption": "Wish someone had told me before I paid full price somewhere else 😭 the link is in the basket if you want it #gardenset #rattanfurniture #tiktokshopuk #tiktokcreatorpicks #gardenfurniture #outdoorliving",
+    "ssml": "<speak>\n<prosody rate='x-fast'>Stop.</prosody>\n<break time='600ms'/>\n<prosody rate='fast'>Do not buy</prosody> garden furniture anywhere else right now.\n<break time='400ms'/>\n<prosody rate='fast'>I did exactly that —</prosody> went somewhere else,\n<prosody rate='fast'>paid full price, and then</prosody> found this\n<prosody rate='fast'>on TikTok Shop at</prosody> half price\n<prosody rate='slow'>the very next week.</prosody>\n<break time='500ms'/>\n<prosody rate='fast'>The</prosody> Belgrave 9 Seater Rattan Garden Set\n<prosody rate='fast'>with</prosody> washable cushion covers\n<prosody rate='fast'>and a</prosody> water-resistant, weather-resistant design.\n<break time='400ms'/>\n<prosody rate='slow'>Nine seats.</prosody>\n<prosody rate='fast'>One deal.</prosody>\n<break time='500ms'/>\n<prosody rate='fast'>And I genuinely do not think</prosody> it is going to stay at this price.\n<break time='300ms'/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "hook_type": "fear",
+    "linked_my_video_id": "3ae04105-1dac-479c-8d29-4a5a77a0ecfe",
+    "linked_memory_id": "fc7f2571-4a83-4769-9875-3c0e6be35e18",
+    "created_at": "2026-06-29T14:56:54.178Z"
+  },
+  {
+    "id": "a140c94e-f2d8-45a8-b44f-64a881411879",
+    "pending_analysis_id": "44b5bbb2-74d3-4d05-8b66-0d23526e7f94",
+    "source_script_id": "b65cf672-cade-458a-a51e-5b302f6cac85",
+    "script_title": "Umberto Giannini Curl Jelly Collection + Brushes — Bold Claim 'I Had To Say It Out Loud' Hook (No Face, Bottom Funnel)",
+    "product_id": "f1e9d300ddee9961",
+    "product_name": "Umberto Giannini Curl Jelly collection + brushes",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7654745885838003459",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:55:52.769Z",
+    "score": 3,
+    "views": 5022,
+    "likes": 18,
+    "comments": null,
+    "watch_time_seconds": 1.9,
+    "watch_time_pct": 7.9,
+    "sales": 0,
+    "gmv": 0,
+    "commission": null,
+    "audience_male_pct": 13,
+    "audience_female_pct": 57,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 5022,
+      "likes": 18,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "5.0K",
+      "likes_text": "18",
+      "captured_at": "2026-06-29T14:55:23.217Z"
+    },
+    "latest_stats": {
+      "views": 5022,
+      "likes": 18,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "5.0K",
+      "likes_text": "18",
+      "captured_at": "2026-06-29T14:55:26.096Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 24,
+      "transcript": "",
+      "onscreen_hook": "How is this even legal? 😭",
+      "video_structure": "Opens with hand holding Jelly Shampoo bottle + £80 pink price tag overlay (0-2s). Cuts to full product lineup on table (Curl Foam, Curl Whip, Curl Jelly, brushes, box) with hand gesturing (2-4s). Quick cuts showing individual products: Curl Foam (4-6s), Curl Whip (6-8s), Curl Jelly (8-10s), Curl Jelly Shine (10-13s). Then detangling brush held up (13-16s). Returns to full lineup with repeated pointing/gesturing over products (16-24s).",
+      "cta_timestamps": [
+        16,
+        18,
+        22
+      ],
+      "hook_type": "ragebait",
+      "funnel_category": "Middle/Bottom Funnel",
+      "funnel_category_reason": "Directly showcases full product set with price tag to drive impulse purchase of the £80 bundle.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-4s",
+          "what_happens": "Hook + product reveal to spark curiosity about the 'illegal' value"
+        },
+        {
+          "label": "Bottom Funnel",
+          "time_range": "4-24s",
+          "what_happens": "Full lineup, individual product close-ups, repeated pointing to the £80 set to convert"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand holding pink Jelly Shampoo bottle with pink £80 price tag sticker",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Full product range laid out on table (mousse, whip, jelly, shine, brushes, box)",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Close-up of Curl Foam bottle held in hand",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Close-up of Curl Whip can rotated in hand",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Close-up of Curl Jelly tube held and rotated",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 10,
+          "visual": "Close-up of Curl Jelly Shine bottle held and rotated",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Pink detangling brush held up and rotated to show bristles",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Full product range again, hand pointing across items",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        },
+        {
+          "timestamp": 22,
+          "visual": "Full product range, hand pointing at brushes and box",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😭"
+        }
+      ],
+      "pacing_notes": "Fast cuts every 1-2 seconds with constant on-screen text; energy stays high throughout with repeated pointing gestures creating urgency.",
+      "detailed_analysis": "Hook 'How is this even legal?' is strong ragebait/curiosity that immediately grabs attention and implies massive value. No voiceover keeps focus on visuals and text. Price tag (£80 for the set) is shown early and reinforced visually. Repeated hand-pointing at 16s+ acts as soft CTA. Could improve by adding a spoken 'link in bio' or final on-screen 'Shop the full set now' at 22-24s for stronger conversion.",
+      "raw_json": "{\"duration_seconds\":24,\"transcript\":\"\",\"onscreen_hook\":\"How is this even legal? 😭\",\"video_structure\":\"Opens with hand holding Jelly Shampoo bottle + £80 pink price tag overlay (0-2s). Cuts to full product lineup on table (Curl Foam, Curl Whip, Curl Jelly, brushes, box) with hand gesturing (2-4s). Quick cuts showing individual products: Curl Foam (4-6s), Curl Whip (6-8s), Curl Jelly (8-10s), Curl Jelly Shine (10-13s). Then detangling brush held up (13-16s). Returns to full lineup with repeated pointing/gesturing over products (16-24s).\",\"cta_timestamps\":[16,18,22],\"hook_type\":\"ragebait\",\"funnel_category\":\"Middle/Bottom Funnel\",\"funnel_category_reason\":\"Directly showcases full product set with price tag to drive impulse purchase of the £80 bundle.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-4s\",\"what_happens\":\"Hook + product reveal to spark curiosity about the 'illegal' value\"},{\"label\":\"Bottom Funnel\",\"time_range\":\"4-24s\",\"what_happens\":\"Full lineup, individual product close-ups, repeated pointing to the £80 set to convert\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand holding pink Jelly Shampoo bottle with pink £80 price tag sticker\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":2,\"visual\":\"Full product range laid out on table (mousse, whip, jelly, shine, brushes, box)\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":4,\"visual\":\"Close-up of Curl Foam bottle held in hand\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":6,\"visual\":\"Close-up of Curl Whip can rotated in hand\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":8,\"visual\":\"Close-up of Curl Jelly tube held and rotated\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":10,\"visual\":\"Close-up of Curl Jelly Shine bottle held and rotated\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":13,\"visual\":\"Pink detangling brush held up and rotated to show bristles\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":16,\"visual\":\"Full product range again, hand pointing across items\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"},{\"timestamp\":22,\"visual\":\"Full product range, hand pointing at brushes and box\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😭\"}],\"pacing_notes\":\"Fast cuts every 1-2 seconds with constant on-screen text; energy stays high throughout with repeated pointing gestures creating urgency.\",\"detailed_analysis\":\"Hook 'How is this even legal?' is strong ragebait/curiosity that immediately grabs attention and implies massive value. No voiceover keeps focus on visuals and text. Price tag (£80 for the set) is shown early and reinforced visually. Repeated hand-pointing at 16s+ acts as soft CTA. Could improve by adding a spoken 'link in bio' or final on-screen 'Shop the full set now' at 22-24s for stronger conversion.\"}"
+    },
+    "script_text": "Over eighty pounds worth of products. For more than half price. I had to say that out loud because I could not believe it when I saw it. I bought the Umberto Giannini Curl Jelly separately last year and I paid full price every single time. Every. Single. Time. Right now on TikTok Shop the Umberto Giannini Curl Jelly Collection plus the brushes are in a flash sale and that deal is not sticking around. You are getting the full Umberto Giannini Curl Jelly Collection and the Umberto Giannini brushes — all of it — for more than half price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "eighty quid worth for more than half price 😳",
+    "tiktok_caption": "I had to say it out loud 😭 #UmbertoGiannini #CurlJelly #TikTokShopUK #TikTokCreatorPicks #HairCare",
+    "ssml": "<speak>\n<prosody rate='fast'>Over eighty pounds</prosody> worth of products.\n<prosody rate='fast'>For more than</prosody> half price.\n<prosody rate='fast'>I had to say that</prosody> out loud\n<prosody rate='fast'>because I could not believe it</prosody> when I saw it.\n<prosody rate='fast'>I bought the</prosody> Umberto Giannini Curl Jelly\n<prosody rate='fast'>separately last year and I</prosody> paid full price\n<prosody rate='fast'>every single</prosody> time.\n<prosody rate='fast'>Every.</prosody> Single. Time.\n<prosody rate='fast'>Right now on</prosody> TikTok Shop\n<prosody rate='fast'>the</prosody> Umberto Giannini Curl Jelly Collection\n<prosody rate='fast'>plus the</prosody> brushes\n<prosody rate='fast'>are in a</prosody> flash sale\n<prosody rate='fast'>and that deal is</prosody> not sticking around.\n<prosody rate='fast'>You are getting the full</prosody> Umberto Giannini Curl Jelly Collection\n<prosody rate='fast'>and the</prosody> Umberto Giannini brushes —\n<prosody rate='fast'>all of it —</prosody> for more than half price.\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "hook_type": "bold claim",
+    "linked_my_video_id": "26ba2204-e4c4-481a-a5b6-7292c3cacb73",
+    "linked_memory_id": "46154ca2-eeb4-4975-8b10-76e20ce796c9",
+    "created_at": "2026-06-29T14:55:52.769Z"
+  },
+  {
+    "id": "8fe167e8-8e33-489b-b4af-dab4fc147cf3",
+    "pending_analysis_id": "59969026-5bdf-408d-aed7-443483c0cf44",
+    "source_script_id": "3bdd5946-715c-407d-b986-f108536a9fc1",
+    "script_title": "Umberto Giannini Curl Jelly Collection + Brushes — Pattern Interrupt Countdown Hook (No Face, Bottom Funnel)",
+    "product_id": "f1e9d300ddee9961",
+    "product_name": "Umberto Giannini Curl Jelly collection + brushes",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7654937113753865494",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:55:01.398Z",
+    "score": 2,
+    "views": 2164,
+    "likes": 4,
+    "comments": 2,
+    "watch_time_seconds": 1.5,
+    "watch_time_pct": 5.4,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 16,
+    "audience_female_pct": 84,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 2164,
+      "likes": 4,
+      "comments": 2,
+      "reposts": null,
+      "saves": null,
+      "views_text": "2.2K",
+      "likes_text": "4",
+      "comments_text": "2",
+      "captured_at": "2026-06-29T14:54:16.669Z"
+    },
+    "latest_stats": {
+      "views": 2164,
+      "likes": 4,
+      "comments": 2,
+      "reposts": null,
+      "saves": null,
+      "views_text": "2.2K",
+      "likes_text": "4",
+      "comments_text": "2",
+      "captured_at": "2026-06-29T14:54:22.452Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 28,
+      "transcript": "",
+      "onscreen_hook": "Don’t waste your money on these 😮",
+      "video_structure": "Opens with close-up of Curl Foam bottle + bold negative text. Quickly cycles through Curl Jelly Shine, Curl Jelly Refresh, and full product line on table. Hand points, gestures, and does peace sign. Introduces pink detangling brush as final item. Ends with more product close-ups and brush held up.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Uses strong negative claim and visual unboxing to create curiosity and stop the scroll before any positive pitch.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-28s",
+          "what_happens": "Entire video uses the 'don't buy' hook and product reveal to drive attention and comments."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand holds Curl Foam bottle",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 1,
+          "visual": "Hand holds Curl Jelly Shine bottle",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Hand holds Curl Jelly Refresh bottle",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Four products lined up on table, hand points",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Full product lineup with small No More Frizz serum",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Hand makes peace sign in front of products",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 12,
+          "visual": "Pink detangling brush added to table",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 15,
+          "visual": "Close-up of pink brush held up",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 18,
+          "visual": "Brush rotated to show bristles",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 22,
+          "visual": "Tight product close-ups",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 26,
+          "visual": "Hand points at brush and full lineup",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        },
+        {
+          "timestamp": 28,
+          "visual": "Final shot of brush and products",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😮"
+        }
+      ],
+      "pacing_notes": "Fast cuts every 1-2 seconds, constant hand movement keeps energy high with no drop.",
+      "detailed_analysis": "The 'Don’t waste your money' hook is a classic ragebait/dont_buy pattern that stops scrolls instantly. Visuals are clean and product-focused with consistent text overlay. No spoken words or voiceover keeps it purely visual and scroll-stopping. No discount or direct CTA is shown, which limits conversion potential — the video excels at Top Funnel attention but would benefit from a follow-up or comment prompt to move viewers down the funnel.",
+      "raw_json": "{\"duration_seconds\":28,\"transcript\":\"\",\"onscreen_hook\":\"Don’t waste your money on these 😮\",\"video_structure\":\"Opens with close-up of Curl Foam bottle + bold negative text. Quickly cycles through Curl Jelly Shine, Curl Jelly Refresh, and full product line on table. Hand points, gestures, and does peace sign. Introduces pink detangling brush as final item. Ends with more product close-ups and brush held up.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Uses strong negative claim and visual unboxing to create curiosity and stop the scroll before any positive pitch.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-28s\",\"what_happens\":\"Entire video uses the 'don't buy' hook and product reveal to drive attention and comments.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand holds Curl Foam bottle\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":1,\"visual\":\"Hand holds Curl Jelly Shine bottle\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":2,\"visual\":\"Hand holds Curl Jelly Refresh bottle\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":3,\"visual\":\"Four products lined up on table, hand points\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":6,\"visual\":\"Full product lineup with small No More Frizz serum\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":8,\"visual\":\"Hand makes peace sign in front of products\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":12,\"visual\":\"Pink detangling brush added to table\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":15,\"visual\":\"Close-up of pink brush held up\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":18,\"visual\":\"Brush rotated to show bristles\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":22,\"visual\":\"Tight product close-ups\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":26,\"visual\":\"Hand points at brush and full lineup\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"},{\"timestamp\":28,\"visual\":\"Final shot of brush and products\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😮\"}],\"pacing_notes\":\"Fast cuts every 1-2 seconds, constant hand movement keeps energy high with no drop.\",\"detailed_analysis\":\"The 'Don’t waste your money' hook is a classic ragebait/dont_buy pattern that stops scrolls instantly. Visuals are clean and product-focused with consistent text overlay. No spoken words or voiceover keeps it purely visual and scroll-stopping. No discount or direct CTA is shown, which limits conversion potential — the video excels at Top Funnel attention but would benefit from a follow-up or comment prompt to move viewers down the funnel.\"}"
+    },
+    "script_text": "Not one, not two, not three, not four, but four. Four products in one bundle and I genuinely sat there thinking — there is no way this is real. I bought two of these separately last year and I paid nearly full price for both. TikTok Shop has the whole Umberto Giannini Curl Jelly Collection plus the brushes on a massive discount right now — and that is not going to stick around. You are getting the Umberto Giannini Curl Jelly, the Umberto Giannini Curl Activating Spray, the Umberto Giannini Scrunching Jelly, and the Umberto Giannini Curl Detangling Brush — over eighty pounds worth for more than half price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "four products and I still can't get over it 😳",
+    "tiktok_caption": "over £80 worth and it's all in one bundle 😳 #umbertogianninicurls #curlyhair #tiktokshopuk #tiktokcreatorpicks #haircare",
+    "ssml": "<speak>\n<prosody rate='x-fast'>Not</prosody> one,\n<prosody rate='x-fast'>not</prosody> two,\n<prosody rate='x-fast'>not</prosody> three,\n<prosody rate='x-fast'>not</prosody> four,\n<prosody rate='x-fast'>but</prosody> four.\n<break time='500ms'/>\n<prosody rate='fast'>Four products in one bundle and I genuinely sat there thinking —</prosody> <break time='300ms'/> there is no way this is real.\n<break time='400ms'/>\n<prosody rate='fast'>I bought two of these separately last year and I paid</prosody> nearly full price <prosody rate='fast'>for both.</prosody>\n<break time='350ms'/>\n<prosody rate='fast'>TikTok Shop has the whole</prosody> Umberto Giannini Curl Jelly Collection plus the brushes <prosody rate='fast'>on a</prosody> massive discount right now — <prosody rate='fast'>and that is</prosody> not going to stick around.\n<break time='350ms'/>\n<prosody rate='fast'>You are getting the</prosody> Umberto Giannini Curl Jelly, <prosody rate='fast'>the</prosody> Umberto Giannini Curl Activating Spray, <prosody rate='fast'>the</prosody> Umberto Giannini Scrunching Jelly, <prosody rate='fast'>and the</prosody> Umberto Giannini Curl Detangling Brush — <prosody rate='fast'>over</prosody> eighty pounds worth <prosody rate='fast'>for more than</prosody> half price.\n<break time='300ms'/>\n<prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link\n<prosody rate='fast'>in the</prosody> yellow basket below.\n</speak>",
+    "hook_type": "pattern interrupt",
+    "linked_my_video_id": "7e7987dc-08ad-48f1-a8ec-d0516e8ec347",
+    "linked_memory_id": "897e91b3-865f-4178-a894-b913421781c7",
+    "created_at": "2026-06-29T14:55:01.398Z"
+  },
+  {
+    "id": "ce7bc334-f34f-4112-8b3e-730576f7831d",
+    "pending_analysis_id": "30d62ef5-f956-46a2-bb41-e72968ec0753",
+    "source_script_id": "d0458114-8592-4c69-bfa4-255c66dc6866",
+    "script_title": "Pelvic Floor & Thigh Trainer — Bold Claim Hook (No Face, Bottom Funnel)",
+    "product_id": "2dbcb1a086a16eb4",
+    "product_name": "Pelvic Floor & Thigh Trainer – Dual-Action Toning Device for Women | UK Home Workout Equipment | Strengthens Core, Pelvic Floor & Inner Thighs",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652783388645936417",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:53:18.655Z",
+    "score": 6,
+    "views": 3240,
+    "likes": 4,
+    "comments": null,
+    "watch_time_seconds": 5.8,
+    "watch_time_pct": 25.2,
+    "sales": 0,
+    "gmv": 0,
+    "commission": null,
+    "audience_male_pct": 11,
+    "audience_female_pct": 89,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 3240,
+      "likes": 4,
+      "comments": null,
+      "reposts": 1,
+      "saves": null,
+      "views_text": "3.2K",
+      "likes_text": "4",
+      "captured_at": "2026-06-29T14:52:04.742Z"
+    },
+    "latest_stats": {
+      "views": 3240,
+      "likes": 4,
+      "comments": null,
+      "reposts": 1,
+      "saves": null,
+      "views_text": "3.2K",
+      "likes_text": "4",
+      "captured_at": "2026-06-29T14:52:48.003Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 23,
+      "transcript": "",
+      "onscreen_hook": "How is this even legal 😭",
+      "video_structure": "0-2s: Hands squeeze pink device on green pepper with overlay text. 2-3s: Cut to crushed pepper held in hands. 3-8s: Device close-ups, brand logo ZHONG OU visible, hands manipulate and press buttons. 8-10s: Overlay anatomy diagram of pelvic floor muscles. 10-11s: Overlay anatomy diagram of inner thigh muscles. 11-23s: Continued device handling, button presses, opening/closing pads, final close-up shots.",
+      "cta_timestamps": [],
+      "hook_type": "ragebait",
+      "funnel_category": "Middle/Bottom Funnel",
+      "funnel_category_reason": "Strong product demo directly showcasing power and targeted muscle use without awareness or consideration stages.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-8s",
+          "what_happens": "Hook + strength test demo builds desire and proof."
+        },
+        {
+          "label": "Bottom Funnel",
+          "time_range": "8-23s",
+          "what_happens": "Muscle diagrams + device interaction convert to purchase intent."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hands holding open pink device squeezing green pepper",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Close-up of crushed pepper in hands",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Device flipped to show ZHONG OU logo",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 5,
+          "visual": "Hands pressing buttons and manipulating device arms",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Pelvic floor muscles diagram overlay",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Inner thigh muscles diagram overlay",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 10,
+          "visual": "Fingers pressing central button on device",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 12,
+          "visual": "Device rotated and opened/closed",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 17,
+          "visual": "Finger pressing logo/button area",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 20,
+          "visual": "Hands squeezing and adjusting device pads",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 22,
+          "visual": "Final close-up of device being manipulated",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        }
+      ],
+      "pacing_notes": "Fast and varied — quick cuts every 1-2 seconds, high energy in first 3s with pepper crush, steady demonstration pace after with no drops.",
+      "detailed_analysis": "Hook psychology works via ragebait/curiosity gap ('how is this even legal') paired with visual shock of pepper destruction, instantly grabbing attention. Strength test is highly effective proof element for a muscle device. Anatomy diagrams smartly educate on use cases (pelvic floor + thighs) at midpoint to justify the product. No spoken audio keeps it pure visual/TikTok-native. CTA absent so opportunity missed for shop link or 'link in bio'. Could improve by adding price/offer flash or direct 'shop now' text near end. Overall strong for middle-bottom funnel conversion.",
+      "raw_json": "{\"duration_seconds\":23,\"transcript\":\"\",\"onscreen_hook\":\"How is this even legal 😭\",\"video_structure\":\"0-2s: Hands squeeze pink device on green pepper with overlay text. 2-3s: Cut to crushed pepper held in hands. 3-8s: Device close-ups, brand logo ZHONG OU visible, hands manipulate and press buttons. 8-10s: Overlay anatomy diagram of pelvic floor muscles. 10-11s: Overlay anatomy diagram of inner thigh muscles. 11-23s: Continued device handling, button presses, opening/closing pads, final close-up shots.\",\"cta_timestamps\":[],\"hook_type\":\"ragebait\",\"funnel_category\":\"Middle/Bottom Funnel\",\"funnel_category_reason\":\"Strong product demo directly showcasing power and targeted muscle use without awareness or consideration stages.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-8s\",\"what_happens\":\"Hook + strength test demo builds desire and proof.\"},{\"label\":\"Bottom Funnel\",\"time_range\":\"8-23s\",\"what_happens\":\"Muscle diagrams + device interaction convert to purchase intent.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hands holding open pink device squeezing green pepper\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":2,\"visual\":\"Close-up of crushed pepper in hands\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":3,\"visual\":\"Device flipped to show ZHONG OU logo\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":5,\"visual\":\"Hands pressing buttons and manipulating device arms\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":8,\"visual\":\"Pelvic floor muscles diagram overlay\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":9,\"visual\":\"Inner thigh muscles diagram overlay\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":10,\"visual\":\"Fingers pressing central button on device\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":12,\"visual\":\"Device rotated and opened/closed\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":17,\"visual\":\"Finger pressing logo/button area\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":20,\"visual\":\"Hands squeezing and adjusting device pads\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":22,\"visual\":\"Final close-up of device being manipulated\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"}],\"pacing_notes\":\"Fast and varied — quick cuts every 1-2 seconds, high energy in first 3s with pepper crush, steady demonstration pace after with no drops.\",\"detailed_analysis\":\"Hook psychology works via ragebait/curiosity gap ('how is this even legal') paired with visual shock of pepper destruction, instantly grabbing attention. Strength test is highly effective proof element for a muscle device. Anatomy diagrams smartly educate on use cases (pelvic floor + thighs) at midpoint to justify the product. No spoken audio keeps it pure visual/TikTok-native. CTA absent so opportunity missed for shop link or 'link in bio'. Could improve by adding price/offer flash or direct 'shop now' text near end. Overall strong for middle-bottom funnel conversion.\"}"
+    },
+    "script_text": "This is actually mad. There is a flash sale on TikTok Shop right now on the Pelvic Floor and Thigh Trainer — and I cannot believe how much you are saving. This thing targets your pelvic floor and your inner thighs at the same time. One device. Dual action. And right now it is slashed to basically nothing. I genuinely paid more than this somewhere else and got way less. This is the Pelvic Floor and Thigh Trainer — and the price right now on TikTok Shop is honestly wild. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "this price is actually mad 😤",
+    "tiktok_caption": "did not expect this price at all 😤👇 #tiktokcreatorpicks #dealdrops #pelvicfloor #thighworkout #homeworkout #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>This</prosody> is actually mad. <break time='300ms'/> <prosody rate='fast'>There is a</prosody> flash sale <prosody rate='fast'>on TikTok Shop</prosody> right now <prosody rate='fast'>on the</prosody> Pelvic Floor and Thigh Trainer — <break time='250ms'/> and I <prosody rate='fast'>cannot believe</prosody> how much <prosody rate='fast'>you are</prosody> saving. <break time='300ms'/> <prosody rate='fast'>This thing targets</prosody> your pelvic floor <prosody rate='fast'>and your</prosody> inner thighs <prosody rate='fast'>at the</prosody> same time. <break time='250ms'/> One device. <prosody rate='fast'>Dual</prosody> action. <break time='300ms'/> And right now <prosody rate='fast'>it is</prosody> slashed <prosody rate='fast'>to basically</prosody> nothing. <break time='350ms'/> I <prosody rate='slow'>genuinely</prosody> paid more than this <prosody rate='fast'>somewhere else</prosody> and got <prosody rate='fast'>way</prosody> less. <break time='300ms'/> <prosody rate='fast'>This is the</prosody> Pelvic Floor and Thigh Trainer — <break time='250ms'/> and the price right now <prosody rate='fast'>on TikTok Shop</prosody> is honestly <prosody rate='fast'>wild.</prosody> <break time='350ms'/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
+    "hook_type": "bold claim",
+    "linked_my_video_id": "36d571b7-61b7-4cf5-9139-45e51e6e64c2",
+    "linked_memory_id": "f12f1b5b-b6a1-4772-bf00-719a74e133ee",
+    "created_at": "2026-06-29T14:53:18.655Z"
+  },
+  {
+    "id": "d1c2caea-9b08-46cf-b7b0-90c1ac5897a1",
+    "pending_analysis_id": "37aef5a7-831c-4d4b-a974-d94a7e29c10e",
+    "source_script_id": "673445c1-ac1a-4758-ae2a-2362d602217b",
+    "script_title": "Careleaf Beetroot Gummies — Fear Hook (No Face, Bottom Funnel)",
+    "product_id": "929e10b59e93a4cc",
+    "product_name": "Careleaf Beet Root Gummies 500mg L-Citrulline & Hawthorn Extract Peach Flavor 60 Count Vegan Non-GMO Energy Stamina Boosters",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652788734345088288",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:51:50.892Z",
+    "score": 9,
+    "views": 1386,
+    "likes": 3,
+    "comments": null,
+    "watch_time_seconds": 5,
+    "watch_time_pct": 23.8,
+    "sales": 2,
+    "gmv": 24.18,
+    "commission": null,
+    "audience_male_pct": 50,
+    "audience_female_pct": 53,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 1386,
+      "likes": 3,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "1.4K",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:50:01.968Z"
+    },
+    "latest_stats": {
+      "views": 1386,
+      "likes": 3,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "1.4K",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:50:53.707Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 21,
+      "transcript": "",
+      "onscreen_hook": "Do NOT waste your money 😮",
+      "video_structure": "0-2s: red gummies scattered on reflective table with falling gummies and bold text overlay. 2-6s: hands pick up and rotate Careleaf Beet Root Gummies bottle, finger points at label details. 6-21s: single hand holds and slowly rotates bottle in outdoor setting, repeatedly pointing at branding, ingredients, and 60-count label while text overlay persists.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Strong negative hook creates curiosity and positions the product as the smart non-wasteful choice without any direct pitch or price.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-21s",
+          "what_happens": "Entire video uses a bold 'don't waste money' visual hook to grab attention and showcase the product as the solution."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Red gummies on black table, some falling from above",
+          "audio": "",
+          "on_screen_text": "Do NOT waste your money 😮"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Hands lift and display full Beet Root Gummies bottle",
+          "audio": "",
+          "on_screen_text": "Do NOT waste your money 😮"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Single hand holds bottle outdoors, rotating to show label",
+          "audio": "",
+          "on_screen_text": "Do NOT waste your money 😮"
+        },
+        {
+          "timestamp": 11,
+          "visual": "Finger points directly at '500MG PER SERVING' and ingredients",
+          "audio": "",
+          "on_screen_text": "Do NOT waste your money 😮"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Bottle placed on table then picked up again, outdoor background",
+          "audio": "",
+          "on_screen_text": "Do NOT waste your money 😮"
+        },
+        {
+          "timestamp": 21,
+          "visual": "Final close-up of bottle held toward camera",
+          "audio": "",
+          "on_screen_text": "Do NOT waste your money 😮"
+        }
+      ],
+      "pacing_notes": "Fast visual cuts in first 2s then steady slow rotation/zoom on bottle; energy stays high via constant text overlay and hand movement with no dead space.",
+      "detailed_analysis": "Hook psychology works via pattern interrupt + fear of wasting money. Product is shown immediately after the hook, building instant association. No spoken words or voiceover keeps it purely visual and scroll-stopping. No CTA or price is shown, leaving the video as pure top-of-funnel attention grab. Improvement: add a subtle 3-5s 'link in bio' or 'shop now' text at end and a quick benefit line to move viewers further down funnel.",
+      "raw_json": "{\"duration_seconds\":21,\"transcript\":\"\",\"onscreen_hook\":\"Do NOT waste your money 😮\",\"video_structure\":\"0-2s: red gummies scattered on reflective table with falling gummies and bold text overlay. 2-6s: hands pick up and rotate Careleaf Beet Root Gummies bottle, finger points at label details. 6-21s: single hand holds and slowly rotates bottle in outdoor setting, repeatedly pointing at branding, ingredients, and 60-count label while text overlay persists.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Strong negative hook creates curiosity and positions the product as the smart non-wasteful choice without any direct pitch or price.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-21s\",\"what_happens\":\"Entire video uses a bold 'don't waste money' visual hook to grab attention and showcase the product as the solution.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Red gummies on black table, some falling from above\",\"audio\":\"\",\"on_screen_text\":\"Do NOT waste your money 😮\"},{\"timestamp\":2,\"visual\":\"Hands lift and display full Beet Root Gummies bottle\",\"audio\":\"\",\"on_screen_text\":\"Do NOT waste your money 😮\"},{\"timestamp\":6,\"visual\":\"Single hand holds bottle outdoors, rotating to show label\",\"audio\":\"\",\"on_screen_text\":\"Do NOT waste your money 😮\"},{\"timestamp\":11,\"visual\":\"Finger points directly at '500MG PER SERVING' and ingredients\",\"audio\":\"\",\"on_screen_text\":\"Do NOT waste your money 😮\"},{\"timestamp\":16,\"visual\":\"Bottle placed on table then picked up again, outdoor background\",\"audio\":\"\",\"on_screen_text\":\"Do NOT waste your money 😮\"},{\"timestamp\":21,\"visual\":\"Final close-up of bottle held toward camera\",\"audio\":\"\",\"on_screen_text\":\"Do NOT waste your money 😮\"}],\"pacing_notes\":\"Fast visual cuts in first 2s then steady slow rotation/zoom on bottle; energy stays high via constant text overlay and hand movement with no dead space.\",\"detailed_analysis\":\"Hook psychology works via pattern interrupt + fear of wasting money. Product is shown immediately after the hook, building instant association. No spoken words or voiceover keeps it purely visual and scroll-stopping. No CTA or price is shown, leaving the video as pure top-of-funnel attention grab. Improvement: add a subtle 3-5s 'link in bio' or 'shop now' text at end and a quick benefit line to move viewers further down funnel.\"}"
+    },
+    "script_text": "You are about to waste your money. There is a massive discount on TikTok Shop right now — and if you buy the Careleaf Beetroot Gummies at full price, you are genuinely going to kick yourself. Because right now, on TikTok Shop, the price has been slashed. Sixty vegan gummies — sixty — Peach flavour, five hundred milligrams of L-Citrulline, Hawthorn Extract, Non-GMO. And the reviews on this thing? Go and check that price and look at those reviews. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "You're about to waste your money 😭",
+    "tiktok_caption": "do not pay full price for this 😭👇 #tiktokcreatorpicks #dealdrops #beetrootgummies #vegangummies #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>You are about to</prosody> waste your money. <break time='400ms'/> <prosody rate='fast'>There is a</prosody> massive discount <prosody rate='fast'>on TikTok Shop</prosody> right now — <break time='300ms'/> <prosody rate='fast'>and if you buy</prosody> the Careleaf Beetroot Gummies <prosody rate='fast'>at full price,</prosody> you are genuinely going to <prosody rate='fast'>kick yourself.</prosody> <break time='350ms'/> Because <prosody rate='fast'>right now,</prosody> on TikTok Shop, <prosody rate='fast'>the price has been</prosody> slashed. <break time='300ms'/> <prosody rate='fast'>Sixty</prosody> vegan gummies — <prosody rate='fast'>sixty</prosody> — <break time='250ms'/> Peach flavour, <prosody rate='fast'>five hundred milligrams</prosody> of L-Citrulline, <prosody rate='fast'>Hawthorn Extract,</prosody> Non-GMO. <break time='300ms'/> <prosody rate='fast'>And the reviews on</prosody> this thing? <break time='350ms'/> <prosody rate='fast'>Go and check</prosody> that <prosody rate='fast'>price</prosody> and look <prosody rate='fast'>at those</prosody> reviews. <break time='300ms'/> I <prosody rate='fast'>don't know how long this deal is gonna last but</prosody> I've left the link in the yellow basket below.</speak>",
+    "hook_type": "fear",
+    "linked_my_video_id": "de264741-e2c5-47df-bff5-520f1b9c8756",
+    "linked_memory_id": "9ba30a7f-67ce-40b1-8e0d-325f34c198dd",
+    "created_at": "2026-06-29T14:51:50.892Z"
+  },
+  {
+    "id": "07abfac4-bc16-4e50-a445-01044260f7d5",
+    "pending_analysis_id": "aecc3e34-f541-4cd6-b024-e231098c18bf",
+    "source_script_id": "12e5a208-5e47-46ee-a90a-7ecf54bb3c4c",
+    "script_title": "EHPlabs OxyShred Energy Drink — Curiosity Gap Hook (No Face, Bottom Funnel)",
+    "product_id": "53fc34aebdfc37a8",
+    "product_name": "EHPlabs OxyShred Energy Drink, 12 Packs Available, 355ml, Sugar Free, Sport Beverage, Acetyl L-Carnitine, Guarana, Green Tea Extract, 0 Calorie, Functional Energy Drink, New Flavours, On The Go Energy",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652785854590569761",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:49:42.856Z",
+    "score": 2,
+    "views": 436,
+    "likes": null,
+    "comments": null,
+    "watch_time_seconds": 2.5,
+    "watch_time_pct": 11.4,
+    "sales": 0,
+    "gmv": 0,
+    "commission": null,
+    "audience_male_pct": 35,
+    "audience_female_pct": 65,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 436,
+      "likes": null,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "436",
+      "captured_at": "2026-06-29T14:47:45.212Z"
+    },
+    "latest_stats": {
+      "views": 436,
+      "likes": null,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "436",
+      "captured_at": "2026-06-29T14:48:42.868Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 22,
+      "transcript": "",
+      "onscreen_hook": "I don’t believe this is actually worth it 😭",
+      "video_structure": "Opens with hands holding two identical OXYSHRED Kiwi Strawberry cans front-facing. Creator slowly rotates both cans to reveal side nutrition panels, ingredients lists, back barcodes, and zero-sugar/zero-crash claims while maintaining the same skeptical text overlay throughout. Ends with cans placed side-by-side on a reflective surface as a hand points at them.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Uses a strong negative/skeptical hook to spark immediate curiosity rather than direct selling.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-22s",
+          "what_happens": "Entire video relies on curiosity-gap hook to drive watch time and comments; no product benefits or purchase push is delivered."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Two hands holding front of two OXYSHRED cans",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Cans rotated to show nutrition side panel",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        },
+        {
+          "timestamp": 7,
+          "visual": "Cans flipped to show back ingredients and barcode",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        },
+        {
+          "timestamp": 10,
+          "visual": "Single can held close showing full side panel",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        },
+        {
+          "timestamp": 15,
+          "visual": "Both cans held side-by-side again",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        },
+        {
+          "timestamp": 19,
+          "visual": "Cans placed on table, hand points at them",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        },
+        {
+          "timestamp": 22,
+          "visual": "Final static shot of two cans on reflective surface",
+          "audio": "",
+          "on_screen_text": "I don’t believe this is actually worth it 😭"
+        }
+      ],
+      "pacing_notes": "Slow and deliberate throughout — steady close-up rotation with no cuts or speed changes; energy remains flat.",
+      "detailed_analysis": "The 'dont_buy' hook is psychologically strong for stopping the scroll and creating curiosity gap, but the video never resolves the claim or delivers any value, benefit, or CTA. Repeated identical text overlay becomes monotonous. Excellent product visibility and label detail, but lack of voiceover, discount mention, or purchase prompt makes it ineffective for conversion. Adding spoken explanation or a reveal at 8-10s would dramatically improve performance.",
+      "raw_json": "{\"duration_seconds\":22,\"transcript\":\"\",\"onscreen_hook\":\"I don’t believe this is actually worth it 😭\",\"video_structure\":\"Opens with hands holding two identical OXYSHRED Kiwi Strawberry cans front-facing. Creator slowly rotates both cans to reveal side nutrition panels, ingredients lists, back barcodes, and zero-sugar/zero-crash claims while maintaining the same skeptical text overlay throughout. Ends with cans placed side-by-side on a reflective surface as a hand points at them.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Uses a strong negative/skeptical hook to spark immediate curiosity rather than direct selling.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-22s\",\"what_happens\":\"Entire video relies on curiosity-gap hook to drive watch time and comments; no product benefits or purchase push is delivered.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Two hands holding front of two OXYSHRED cans\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"},{\"timestamp\":3,\"visual\":\"Cans rotated to show nutrition side panel\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"},{\"timestamp\":7,\"visual\":\"Cans flipped to show back ingredients and barcode\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"},{\"timestamp\":10,\"visual\":\"Single can held close showing full side panel\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"},{\"timestamp\":15,\"visual\":\"Both cans held side-by-side again\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"},{\"timestamp\":19,\"visual\":\"Cans placed on table, hand points at them\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"},{\"timestamp\":22,\"visual\":\"Final static shot of two cans on reflective surface\",\"audio\":\"\",\"on_screen_text\":\"I don’t believe this is actually worth it 😭\"}],\"pacing_notes\":\"Slow and deliberate throughout — steady close-up rotation with no cuts or speed changes; energy remains flat.\",\"detailed_analysis\":\"The 'dont_buy' hook is psychologically strong for stopping the scroll and creating curiosity gap, but the video never resolves the claim or delivers any value, benefit, or CTA. Repeated identical text overlay becomes monotonous. Excellent product visibility and label detail, but lack of voiceover, discount mention, or purchase prompt makes it ineffective for conversion. Adding spoken explanation or a reveal at 8-10s would dramatically improve performance.\"}"
+    },
+    "script_text": "I don't believe this is actually worth it. Flash sale on TikTok Shop right now — and I genuinely did not expect there to be this much. You get twelve cans of the EHPlabs OxyShred Energy Drink — twelve full cans, sugar free, zero calories, new flavours — for this price. That is an absolutely massive discount on TikTok Shop right now. Twelve cans. I had to do a double take when I saw this deal. And honestly, I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I did not expect there to be this much 😳",
+    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #energydrink #sugarfree #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>Flash sale</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — and I genuinely did not expect there to be <prosody rate='fast'>this much.</prosody> <break time=\"420ms\"/> You get <prosody rate='fast'>twelve cans</prosody> of the EHPlabs OxyShred Energy Drink — <prosody rate='fast'>twelve full cans,</prosody> sugar free, <prosody rate='fast'>zero calories,</prosody> new flavours — <prosody rate='fast'>for this price.</prosody> <break time=\"300ms\"/> That is an <prosody rate='fast'>absolutely massive</prosody> discount on TikTok Shop <prosody rate='fast'>right now.</prosody> <break time=\"540ms\"/> <prosody rate='fast'>Twelve cans.</prosody> <prosody rate='slow'>I</prosody> had to do a <prosody rate='fast'>double take</prosody> when I saw this deal. <break time=\"300ms\"/> And honestly, <prosody rate='fast'>I don't know how long this deal is gonna last</prosody> but I've left the link in the <prosody rate='fast'>yellow basket below.</prosody></speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "622bb5f6-e6f8-462a-b1d3-2f5408a0bcec",
+    "linked_memory_id": "8daf95ab-ec83-42cb-9c4f-726efdcda565",
+    "created_at": "2026-06-29T14:49:42.856Z"
+  },
+  {
+    "id": "acb831d2-ef6d-49c8-b8ee-c6ff94843ea8",
+    "pending_analysis_id": "0d79a4d2-e600-445c-8dce-cdf29cb7eb31",
+    "source_script_id": "6a4b809d-0270-4b88-847b-aac7bf65d4d4",
+    "script_title": "WildGut Colon Reset — Curiosity Gap Hook (No Face, Bottom Funnel)",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652778771069603105",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:47:26.374Z",
+    "score": 19,
+    "views": 3794,
+    "likes": 5,
+    "comments": null,
+    "watch_time_seconds": 7.3,
+    "watch_time_pct": 29.2,
+    "sales": 5,
+    "gmv": 100.93,
+    "commission": null,
+    "audience_male_pct": 22,
+    "audience_female_pct": 78,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 3794,
+      "likes": 5,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "3.8K",
+      "likes_text": "5",
+      "captured_at": "2026-06-29T14:46:12.864Z"
+    },
+    "latest_stats": {
+      "views": 3794,
+      "likes": 5,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "3.8K",
+      "likes_text": "5",
+      "captured_at": "2026-06-29T14:46:16.822Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 25,
+      "transcript": "",
+      "onscreen_hook": "I did not expect there to be this much 😮",
+      "video_structure": "Opens with two hands pouring dozens of orange capsules from two dark bottles onto a reflective black table with the surprise text overlay. Cuts to holding up the labeled 'WildGut Colon Reset' bottles (90 vegan capsules each) side-by-side, rotating and flipping them to show front/back labels and 'Made in the UK' details. Hands shake bottles, point at labels, bring them close to camera, then pull back to show the massive pile of spilled capsules on the table. Ends with bottles held up against outdoor background and a final shot of scattered capsules on the table with a hand pointing at them.",
+      "cta_timestamps": [],
+      "hook_type": "curiosity_gap",
+      "funnel_category": "Middle Funnel",
+      "funnel_category_reason": "Product quantity reveal and close-up label inspection to demonstrate value and build desire after initial awareness.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-25s",
+          "what_happens": "Visual proof of high capsule count and bottle details to overcome objections around value/quantity."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hands pouring capsules from two open bottles onto black table",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Holding both full bottles upright showing 'Colon Reset' labels",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Rotating bottles to show back labels and '90 VEGAN CAPSULES'",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Shaking one bottle while holding the other",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Bottles standing on table with spilled capsules around them",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Hand gesturing toward the two bottles on table",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 18,
+          "visual": "Holding both bottles together in one hand against outdoor background",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 21,
+          "visual": "Single bottle held close, then capsules scattered on table",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        },
+        {
+          "timestamp": 24,
+          "visual": "Final shot of scattered capsules with hand pointing",
+          "audio": "",
+          "on_screen_text": "I did not expect there to be this much 😮"
+        }
+      ],
+      "pacing_notes": "Slow and deliberate — steady close-ups with minimal cuts, energy stays consistent with no peaks or drops",
+      "detailed_analysis": "Strong curiosity-gap hook via quantity surprise works well for supplements; visual proof of '90 capsules per bottle' is clear and repeated effectively. No spoken words or music cues visible. No explicit CTA or discount shown, which limits conversion — adding a subtle 'Link in bio' or '90 capsules for £X' at the end would help. Repetitive text overlay is effective but could benefit from a second text layer highlighting '90 per bottle' for emphasis.",
+      "raw_json": "{\"duration_seconds\":25,\"transcript\":\"\",\"onscreen_hook\":\"I did not expect there to be this much 😮\",\"video_structure\":\"Opens with two hands pouring dozens of orange capsules from two dark bottles onto a reflective black table with the surprise text overlay. Cuts to holding up the labeled 'WildGut Colon Reset' bottles (90 vegan capsules each) side-by-side, rotating and flipping them to show front/back labels and 'Made in the UK' details. Hands shake bottles, point at labels, bring them close to camera, then pull back to show the massive pile of spilled capsules on the table. Ends with bottles held up against outdoor background and a final shot of scattered capsules on the table with a hand pointing at them.\",\"cta_timestamps\":[],\"hook_type\":\"curiosity_gap\",\"funnel_category\":\"Middle Funnel\",\"funnel_category_reason\":\"Product quantity reveal and close-up label inspection to demonstrate value and build desire after initial awareness.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-25s\",\"what_happens\":\"Visual proof of high capsule count and bottle details to overcome objections around value/quantity.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hands pouring capsules from two open bottles onto black table\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":2,\"visual\":\"Holding both full bottles upright showing 'Colon Reset' labels\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":4,\"visual\":\"Rotating bottles to show back labels and '90 VEGAN CAPSULES'\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":8,\"visual\":\"Shaking one bottle while holding the other\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":13,\"visual\":\"Bottles standing on table with spilled capsules around them\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":16,\"visual\":\"Hand gesturing toward the two bottles on table\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":18,\"visual\":\"Holding both bottles together in one hand against outdoor background\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":21,\"visual\":\"Single bottle held close, then capsules scattered on table\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"},{\"timestamp\":24,\"visual\":\"Final shot of scattered capsules with hand pointing\",\"audio\":\"\",\"on_screen_text\":\"I did not expect there to be this much 😮\"}],\"pacing_notes\":\"Slow and deliberate — steady close-ups with minimal cuts, energy stays consistent with no peaks or drops\",\"detailed_analysis\":\"Strong curiosity-gap hook via quantity surprise works well for supplements; visual proof of '90 capsules per bottle' is clear and repeated effectively. No spoken words or music cues visible. No explicit CTA or discount shown, which limits conversion — adding a subtle 'Link in bio' or '90 capsules for £X' at the end would help. Repetitive text overlay is effective but could benefit from a second text layer highlighting '90 per bottle' for emphasis.\"}"
+    },
+    "script_text": "I did not expect there to be this much. Two for the price of one on TikTok Shop right now — and honestly, when I saw the deal I had to do a double take. You get two full packs of the WildGut Capsules — that is ninety capsules in each pack, so one hundred and eighty capsules total, for the price of one. I don't know how this deal is even live right now but it is, and I have a feeling this is going to sell them out fast. If you've been sitting on the fence about the WildGut Capsules, now is genuinely the time — because I do not know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I did not expect there to be this much 😳",
+    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #guthealth #wellness #tiktokshopuk",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> did not expect there to be <prosody rate='fast'>this much.</prosody> <break time='300ms'/> <prosody rate='fast'>Two for the price of one</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — and honestly, <prosody rate='fast'>when I saw the deal</prosody> I had to do a double take. <break time='420ms'/> You get <prosody rate='fast'>two full packs</prosody> of the WildGut Capsules — <prosody rate='fast'>that is</prosody> ninety capsules <prosody rate='fast'>in each pack,</prosody> so one hundred <prosody rate='fast'>and eighty</prosody> capsules total, <prosody rate='fast'>for the price of</prosody> one. <break time='540ms'/> I don't know <prosody rate='fast'>how this deal is even</prosody> live right now <prosody rate='fast'>but it is,</prosody> and I have a feeling <prosody rate='fast'>this is going to</prosody> sell them out <prosody rate='fast'>fast.</prosody> <break time='300ms'/> If you've been <prosody rate='fast'>sitting on the fence</prosody> about the WildGut Capsules, <prosody rate='fast'>now is genuinely</prosody> the time — <prosody rate='fast'>because I do</prosody> not know <prosody rate='fast'>how long this deal is gonna last but</prosody> I've left the link <prosody rate='fast'>in the yellow basket below.</prosody></speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "0730e735-b4e4-417e-9109-cf4f2093119e",
+    "linked_memory_id": "4f4f8c61-331a-4dbc-ae26-39ec69187250",
+    "created_at": "2026-06-29T14:47:26.374Z"
+  },
+  {
+    "id": "050b2ce7-0977-4bd0-b0da-fc5657fbabd2",
+    "pending_analysis_id": "6626cea1-30b6-432c-8ff0-56cca96f493c",
+    "source_script_id": "c5f411c0-4284-4d23-9a1d-f03c3641e0b7",
+    "script_title": "Umberto Giannini Curl Jelly — Curiosity Gap Hook (No Face, Bottom Funnel)",
+    "product_id": "f1e9d300ddee9961",
+    "product_name": "Umberto Giannini Curl Jelly collection + brushes",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652793486231571744",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:45:18.702Z",
+    "score": 25,
+    "views": 15400,
+    "likes": 26,
+    "comments": null,
+    "watch_time_seconds": 2.1,
+    "watch_time_pct": 10.5,
+    "sales": 9,
+    "gmv": 178.83,
+    "commission": null,
+    "audience_male_pct": 12,
+    "audience_female_pct": 86,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 15400,
+      "likes": 26,
+      "comments": null,
+      "reposts": 2,
+      "saves": null,
+      "views_text": "15.4K",
+      "likes_text": "26",
+      "captured_at": "2026-06-29T14:43:08.169Z"
+    },
+    "latest_stats": {
+      "views": 15400,
+      "likes": 26,
+      "comments": null,
+      "reposts": 2,
+      "saves": null,
+      "views_text": "15.4K",
+      "likes_text": "26",
+      "captured_at": "2026-06-29T14:44:40.597Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 20,
+      "transcript": "",
+      "onscreen_hook": "Don’t waste your money on these 😭",
+      "video_structure": "Opens with wide shot of full pink Umberto Giannini curl product line on glass table + bold warning text overlay. Hand enters frame pointing sequentially at edge brush box, detangling brush, foam, whip, jelly, no-more-frizz serum and wide-tooth brush. Quick cuts to close-ups of packaging details, hand lifting edge brush box, rotating detangling brush to show bristles, holding up Curl Jelly Shine bottle. Ends with final wide shot + hand gesturing over the entire lineup.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Bold negative claim + visual product display designed to stop scroll and spark curiosity about why these items are 'a waste'.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-20s",
+          "what_happens": "Uses provocative text hook and rapid product showcase with pointing gestures to capture attention and highlight the full range."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Wide shot of all pink products on reflective table",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Hand points at edge brush box and brushes",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 7,
+          "visual": "Hand holds up edge brush box for close-up",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 9,
+          "visual": "Hand rotates and displays detangling brush",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 13,
+          "visual": "Hand holds Curl Jelly Shine bottle against outdoor background",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 15,
+          "visual": "Hand sweeps over full product lineup",
+          "audio": "",
+          "on_screen_text": null
+        },
+        {
+          "timestamp": 19,
+          "visual": "Final wide shot with hand pointing at brushes",
+          "audio": "",
+          "on_screen_text": null
+        }
+      ],
+      "pacing_notes": "Fast visual pacing with constant hand movement and quick cuts; energy stays high with no dead air.",
+      "detailed_analysis": "Strong 'dont_buy' hook psychology creates immediate curiosity and emotional reaction. Hand-pointing adds personal, demo-style engagement that performs well for affiliate content. No spoken CTA or discount code appears, missing bottom-funnel conversion opportunity. Product variety shown comprehensively but the negative framing may confuse viewers on whether these are being promoted or avoided.",
+      "raw_json": "{\"duration_seconds\":20,\"transcript\":\"\",\"onscreen_hook\":\"Don’t waste your money on these 😭\",\"video_structure\":\"Opens with wide shot of full pink Umberto Giannini curl product line on glass table + bold warning text overlay. Hand enters frame pointing sequentially at edge brush box, detangling brush, foam, whip, jelly, no-more-frizz serum and wide-tooth brush. Quick cuts to close-ups of packaging details, hand lifting edge brush box, rotating detangling brush to show bristles, holding up Curl Jelly Shine bottle. Ends with final wide shot + hand gesturing over the entire lineup.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Bold negative claim + visual product display designed to stop scroll and spark curiosity about why these items are 'a waste'.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-20s\",\"what_happens\":\"Uses provocative text hook and rapid product showcase with pointing gestures to capture attention and highlight the full range.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Wide shot of all pink products on reflective table\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":2,\"visual\":\"Hand points at edge brush box and brushes\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":7,\"visual\":\"Hand holds up edge brush box for close-up\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":9,\"visual\":\"Hand rotates and displays detangling brush\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":13,\"visual\":\"Hand holds Curl Jelly Shine bottle against outdoor background\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":15,\"visual\":\"Hand sweeps over full product lineup\",\"audio\":\"\",\"on_screen_text\":null},{\"timestamp\":19,\"visual\":\"Final wide shot with hand pointing at brushes\",\"audio\":\"\",\"on_screen_text\":null}],\"pacing_notes\":\"Fast visual pacing with constant hand movement and quick cuts; energy stays high with no dead air.\",\"detailed_analysis\":\"Strong 'dont_buy' hook psychology creates immediate curiosity and emotional reaction. Hand-pointing adds personal, demo-style engagement that performs well for affiliate content. No spoken CTA or discount code appears, missing bottom-funnel conversion opportunity. Product variety shown comprehensively but the negative framing may confuse viewers on whether these are being promoted or avoided.\"}"
+    },
+    "script_text": "I don't believe this is actually worth it. More than half price on TikTok Shop right now — and I genuinely did not expect there to be this much in the collection. The Umberto Giannini Curl Jelly collection and the brushes — over eighty pounds worth of product, and you're getting it for basically nothing right now. The packaging alone looks expensive. Everything you need for your curl routine, all in one go, at this price. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I did not expect there to be this much 😳",
+    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #curls #haircare #curlyhair",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"300ms\"/> <prosody rate='fast'>More than half price</prosody> on TikTok Shop <prosody rate='fast'>right now</prosody> — <break time=\"250ms\"/> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this much</prosody> in the collection. <break time=\"350ms\"/> <prosody rate='fast'>The</prosody> Umberto Giannini Curl Jelly collection <prosody rate='fast'>and the</prosody> brushes — <break time=\"300ms\"/> <prosody rate='fast'>over eighty pounds</prosody> worth of product, <break time=\"200ms\"/> and you're getting it for <prosody rate='fast'>basically nothing</prosody> right now. <break time=\"350ms\"/> <prosody rate='fast'>The</prosody> packaging alone <prosody rate='fast'>looks</prosody> expensive. <break time=\"250ms\"/> <prosody rate='fast'>Everything you need</prosody> for your curl routine, <prosody rate='fast'>all in one go,</prosody> at this price. <break time=\"420ms\"/> <prosody rate='slow'>I don't know how long</prosody> <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "0ea9a7ec-1efe-42fa-b2a3-26234eb4e3fc",
+    "linked_memory_id": "5e971405-8d1f-4d84-b50f-1effda8bc21d",
+    "created_at": "2026-06-29T14:45:18.702Z"
+  },
+  {
+    "id": "9ec09f61-ecc8-41d2-92ec-5c30735a2631",
+    "pending_analysis_id": "5c86582b-26b2-40da-b049-89d04f917f6f",
+    "source_script_id": "e6b2c9a7-00aa-4c93-9b29-5598e8d01f1e",
+    "script_title": "EHP Labs Hydreau — Curiosity Gap Hook (No Face, Bottom Funnel)",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652791420167654689",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:42:38.192Z",
+    "score": 5,
+    "views": 709,
+    "likes": 3,
+    "comments": null,
+    "watch_time_seconds": 3.2,
+    "watch_time_pct": 13.9,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 57,
+    "audience_female_pct": 43,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 709,
+      "likes": 3,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "709",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:40:14.617Z"
+    },
+    "latest_stats": {
+      "views": 709,
+      "likes": 3,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "709",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:40:29.041Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 23,
+      "transcript": "",
+      "onscreen_hook": "There’s no way this is actually worth it 😭",
+      "video_structure": "0-2s: powder spill on table with skeptical text overlay; 2-4s: close-up of black container and clear lid; 3-6s: static background shot; 4-13s: hand lifts and rotates Raspberry Refresh tub, shows front label, places on table; 6-8s: stacks three tubs (Raspberry on top of Kiwi Strawberry and another); 8-13s: picks up Raspberry tub, flips to show back label with ingredients/benefits, rotates; 13-23s: returns to stack of three tubs, points at flavors, gestures at product while text overlay persists throughout.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top/Middle Funnel",
+      "funnel_category_reason": "Negative/skeptical hook creates curiosity and stops scroll (Top), then immediately showcases multiple product flavors and labels to build consideration (Middle).",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-3s",
+          "what_happens": "Bold skeptical text + powder spill pattern interrupt grabs attention"
+        },
+        {
+          "label": "Middle Funnel",
+          "time_range": "3-23s",
+          "what_happens": "Hands rotate and stack tubs, reveal front/back labels and multiple flavors to demonstrate the product"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "White powder spilled on dark table, black container visible",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Background wall with decorations",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Hand holds Raspberry Refresh tub front-facing",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Three tubs stacked (Raspberry on top)",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Hand lifts and rotates Raspberry tub",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 18,
+          "visual": "Back label of tub shown (ingredients, benefits)",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 20,
+          "visual": "Three tubs stacked again, hand gestures",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        }
+      ],
+      "pacing_notes": "Slow and deliberate throughout — static shots with minimal movement; energy stays flat with no peaks or drops.",
+      "detailed_analysis": "Hook psychology works via pattern interrupt (spill) + negative/dont_buy claim that triggers curiosity. Product demo is thorough (multiple angles, back label, flavor stack) but lacks any positive payoff or value demonstration after the skeptical hook, so the video feels unresolved. No spoken words or music reduces emotional engagement. No visible CTA or discount reduces conversion potential. Improvement: add voiceover revealing 'it actually is' or price reveal at 15s+ to resolve the hook and drive action.",
+      "raw_json": "{\"duration_seconds\":23,\"transcript\":\"\",\"onscreen_hook\":\"There’s no way this is actually worth it 😭\",\"video_structure\":\"0-2s: powder spill on table with skeptical text overlay; 2-4s: close-up of black container and clear lid; 3-6s: static background shot; 4-13s: hand lifts and rotates Raspberry Refresh tub, shows front label, places on table; 6-8s: stacks three tubs (Raspberry on top of Kiwi Strawberry and another); 8-13s: picks up Raspberry tub, flips to show back label with ingredients/benefits, rotates; 13-23s: returns to stack of three tubs, points at flavors, gestures at product while text overlay persists throughout.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top/Middle Funnel\",\"funnel_category_reason\":\"Negative/skeptical hook creates curiosity and stops scroll (Top), then immediately showcases multiple product flavors and labels to build consideration (Middle).\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-3s\",\"what_happens\":\"Bold skeptical text + powder spill pattern interrupt grabs attention\"},{\"label\":\"Middle Funnel\",\"time_range\":\"3-23s\",\"what_happens\":\"Hands rotate and stack tubs, reveal front/back labels and multiple flavors to demonstrate the product\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"White powder spilled on dark table, black container visible\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":3,\"visual\":\"Background wall with decorations\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":4,\"visual\":\"Hand holds Raspberry Refresh tub front-facing\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":6,\"visual\":\"Three tubs stacked (Raspberry on top)\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":8,\"visual\":\"Hand lifts and rotates Raspberry tub\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":18,\"visual\":\"Back label of tub shown (ingredients, benefits)\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":20,\"visual\":\"Three tubs stacked again, hand gestures\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"}],\"pacing_notes\":\"Slow and deliberate throughout — static shots with minimal movement; energy stays flat with no peaks or drops.\",\"detailed_analysis\":\"Hook psychology works via pattern interrupt (spill) + negative/dont_buy claim that triggers curiosity. Product demo is thorough (multiple angles, back label, flavor stack) but lacks any positive payoff or value demonstration after the skeptical hook, so the video feels unresolved. No spoken words or music reduces emotional engagement. No visible CTA or discount reduces conversion potential. Improvement: add voiceover revealing 'it actually is' or price reveal at 15s+ to resolve the hook and drive action.\"}"
+    },
+    "script_text": "I don't believe this is actually worth it. Triple discount on TikTok Shop right now — and I genuinely did not expect there to be this much in the tub. One scoop of the EHP Labs Hydreau Electrolytes and you're done. Multiple flavours, massive tub, and it's on TikTok Shop for basically nothing right now. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I did not expect there to be this much 😳",
+    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> worth it. <break time=\"420ms\"/> <prosody rate='fast'>Triple discount</prosody> on TikTok Shop <prosody rate='fast'>right now —</prosody> and I genuinely did <prosody rate='fast'>not</prosody> expect there to be <prosody rate='fast'>this much</prosody> in the tub. <break time=\"300ms\"/> <prosody rate='fast'>One scoop</prosody> of the EHP Labs Hydreau Electrolytes <prosody rate='fast'>and you're</prosody> done. <break time=\"300ms\"/> Multiple flavours, <prosody rate='fast'>massive tub,</prosody> and it's on TikTok Shop <prosody rate='fast'>for basically</prosody> nothing right now. <break time=\"540ms\"/> I don't know how long <prosody rate='fast'>this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "2657c328-f643-438a-a8cd-5440c435da4a",
+    "linked_memory_id": "b59375cb-9ae4-4cd2-837f-891066578644",
+    "created_at": "2026-06-29T14:42:38.192Z"
+  },
+  {
+    "id": "a4bac3fd-8fbe-4544-bb50-9d45491ea98b",
+    "pending_analysis_id": "aa183100-bb96-4a9c-98f9-5ba4a1fb5edc",
+    "source_script_id": "2689f113-56fa-48fd-b839-e711f9f6ee9e",
+    "script_title": "Hydreau Sports Hydration — Curiosity Gap Hook (No Face, Bottom Funnel)",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652472467813829920",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:39:36.976Z",
+    "score": 2,
+    "views": 3001,
+    "likes": 3,
+    "comments": null,
+    "watch_time_seconds": 2.4,
+    "watch_time_pct": 10,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 64,
+    "audience_female_pct": 36,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 501,
+      "likes": null,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "501",
+      "captured_at": "2026-06-18T10:55:48.146Z"
+    },
+    "latest_stats": {
+      "views": 3001,
+      "likes": 3,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "3.0K",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:36:58.525Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 24,
+      "transcript": "",
+      "onscreen_hook": "There’s no way this is actually worth it 😭",
+      "video_structure": "Opens with hands stirring purple drink in glass (0-3s), cuts to scooping white powder from open HYDREAU tub (3-5s), rotates tub to show branding and flavors (Kiwi Strawberry, Pineapple, Raspberry Refresh) while pointing at labels (5-12s), opens tub to reveal inside, flips to back label highlighting electrolytes/ingredients (12-22s), ends with thumbs-down gesture against background (22-24s). Constant white text overlay throughout.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Strong negative/curiosity hook designed purely for attention and scroll-stopping, with product reveal following immediately.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-24s",
+          "what_happens": "Entire video uses negative hook + visual product demo to create curiosity gap and stop the scroll; no mid or bottom funnel elements like price, offer, or direct purchase CTA."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hands stirring purple drink in glass",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "White scoop of powder held above open HYDREAU tub",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 5,
+          "visual": "Rotating HYDREAU tub to show front label",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Opening tub to show white powder inside",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 11,
+          "visual": "Holding two flavor tubs side-by-side",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Scooping powder from Raspberry Refresh tub",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 19,
+          "visual": "Flipping tub to show back ingredients label",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        },
+        {
+          "timestamp": 22,
+          "visual": "Thumbs-down hand gesture",
+          "audio": "",
+          "on_screen_text": "There’s no way this is actually worth it 😭"
+        }
+      ],
+      "pacing_notes": "Steady, deliberate pacing with no cuts or energy shifts; constant text overlay keeps attention but visuals feel repetitive after 10s.",
+      "detailed_analysis": "Hook psychology relies on classic 'don't buy' ragebait/curiosity gap — the negative text creates instant intrigue and forces viewers to watch to see why it's 'not worth it'. Visuals effectively showcase the product and back label but lack any spoken explanation or urgency. No CTA or offer shown, which limits conversion; the thumbs-down ending reinforces the negative hook but risks leaving viewers confused rather than clicking. Could improve by adding voiceover revealing the value or price reveal at 15s to convert the curiosity into desire.",
+      "raw_json": "{\"duration_seconds\":24,\"transcript\":\"\",\"onscreen_hook\":\"There’s no way this is actually worth it 😭\",\"video_structure\":\"Opens with hands stirring purple drink in glass (0-3s), cuts to scooping white powder from open HYDREAU tub (3-5s), rotates tub to show branding and flavors (Kiwi Strawberry, Pineapple, Raspberry Refresh) while pointing at labels (5-12s), opens tub to reveal inside, flips to back label highlighting electrolytes/ingredients (12-22s), ends with thumbs-down gesture against background (22-24s). Constant white text overlay throughout.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Strong negative/curiosity hook designed purely for attention and scroll-stopping, with product reveal following immediately.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-24s\",\"what_happens\":\"Entire video uses negative hook + visual product demo to create curiosity gap and stop the scroll; no mid or bottom funnel elements like price, offer, or direct purchase CTA.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hands stirring purple drink in glass\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":3,\"visual\":\"White scoop of powder held above open HYDREAU tub\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":5,\"visual\":\"Rotating HYDREAU tub to show front label\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":9,\"visual\":\"Opening tub to show white powder inside\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":11,\"visual\":\"Holding two flavor tubs side-by-side\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":13,\"visual\":\"Scooping powder from Raspberry Refresh tub\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":19,\"visual\":\"Flipping tub to show back ingredients label\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"},{\"timestamp\":22,\"visual\":\"Thumbs-down hand gesture\",\"audio\":\"\",\"on_screen_text\":\"There’s no way this is actually worth it 😭\"}],\"pacing_notes\":\"Steady, deliberate pacing with no cuts or energy shifts; constant text overlay keeps attention but visuals feel repetitive after 10s.\",\"detailed_analysis\":\"Hook psychology relies on classic 'don't buy' ragebait/curiosity gap — the negative text creates instant intrigue and forces viewers to watch to see why it's 'not worth it'. Visuals effectively showcase the product and back label but lack any spoken explanation or urgency. No CTA or offer shown, which limits conversion; the thumbs-down ending reinforces the negative hook but risks leaving viewers confused rather than clicking. Could improve by adding voiceover revealing the value or price reveal at 15s to convert the curiosity into desire.\"}"
+    },
+    "script_text": "I don't believe this is actually gonna be worth it. I thought this was just another overpriced powder you'd use twice and forget about. But this is the Hydreau Sports Hydration from EHP Labs — and it's on TikTok Shop right now for basically nothing. One scoop from the tub, that's it. And the size of this tub? I did not expect there to be this much. You're getting so many servings out of one tub — the value is actually unreal. And right now the price has been absolutely slashed on TikTok Shop. I genuinely don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "I did not expect there to be this much 😳",
+    "tiktok_caption": "do not miss this deal 👇 #tiktokcreatorpicks #dealdrops #summersale",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually gonna be</prosody> worth it. <break time=\"420ms\"/> I thought this was <prosody rate='fast'>just</prosody> another overpriced powder <prosody rate='fast'>you'd use</prosody> twice and forget about. <break time=\"540ms\"/> But this <prosody rate='fast'>is</prosody> the Hydreau Sports Hydration <prosody rate='fast'>from</prosody> EHP Labs — <break time=\"300ms\"/> and it's on TikTok Shop right now <prosody rate='fast'>for basically</prosody> nothing. <break time=\"420ms\"/> <prosody rate='fast'>One scoop from the</prosody> tub, <prosody rate='fast'>that's it.</prosody> <break time=\"300ms\"/> And the <prosody rate='fast'>size of this</prosody> tub? <break time=\"540ms\"/> <prosody rate='slow'>I did not expect</prosody> there to be <prosody rate='fast'>this much.</prosody> <break time=\"300ms\"/> You're getting <prosody rate='fast'>so many</prosody> servings out of <prosody rate='fast'>one</prosody> tub — <break time=\"300ms\"/> the value is <prosody rate='fast'>actually</prosody> unreal. <break time=\"420ms\"/> And right now <prosody rate='fast'>the price has been</prosody> absolutely slashed <prosody rate='fast'>on TikTok Shop.</prosody> <break time=\"540ms\"/> I genuinely don't know <prosody rate='fast'>how long this deal is gonna last</prosody> but I've left the link <prosody rate='fast'>in the yellow basket</prosody> below.</speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "c4431009-0728-4f72-9e3d-d086d31da795",
+    "linked_memory_id": "b9dba065-bf77-47bc-88a5-e1e209f534fd",
+    "created_at": "2026-06-29T14:39:36.976Z"
+  },
+  {
+    "id": "3f51d91b-3446-4f55-9778-3d0981c16ca5",
+    "pending_analysis_id": "94ca8c5e-9ab2-408e-9cbe-096efaea1495",
+    "source_script_id": "686feede-ad11-4512-b533-423ea933d164",
+    "script_title": "OxyShred Pre Workout Curiosity Gap Dont Buy Hook No Face",
+    "product_id": "68b2586b35fa3248",
+    "product_name": "Summer Shred Stack Bundle | Energy + Focus + Workout Performance Support | OxyShred Powder & Gummies Stack",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652341913139318048?lang=en-GB",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:36:33.800Z",
+    "score": 7,
+    "views": 438,
+    "likes": 3,
+    "comments": null,
+    "watch_time_seconds": 3.9,
+    "watch_time_pct": 15.6,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 42,
+    "audience_female_pct": 57,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 10,
+      "likes": null,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "10",
+      "captured_at": "2026-06-17T12:39:18.266Z"
+    },
+    "latest_stats": {
+      "views": 438,
+      "likes": 3,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "438",
+      "likes_text": "3",
+      "captured_at": "2026-06-29T14:33:50.779Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 25,
+      "transcript": "",
+      "onscreen_hook": "Don’t waste your money on these 😭",
+      "video_structure": "0-3s: hand places tub on brick, text overlay appears. 3-8s: hands rotate and open tub. 8-11s: scoop lifted out showing pinkish powder. 11-16s: tub placed back, hands gesture at it. 16-19s: flipped to show back label with ingredients/warnings. 19-25s: flipped back to front, final gestures pointing at tub while text remains.",
+      "cta_timestamps": [],
+      "hook_type": "dont_buy",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Strong negative hook warning against buying, designed to stop scroll and create curiosity about why this popular product is bad.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-25s",
+          "what_happens": "Entire video is a single top-funnel hook using fear of wasting money + visual proof of low fill level"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "hand places iridescent tub on brick wall",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "both hands rotate and open tub",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 6,
+          "visual": "scoop lifted with pink powder",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 9,
+          "visual": "scoop shown then dropped back in",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 12,
+          "visual": "tub placed upright on bricks",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 16,
+          "visual": "tub flipped to show back label",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 19,
+          "visual": "tub flipped back to front label",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 22,
+          "visual": "finger points at tub on bricks",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        },
+        {
+          "timestamp": 25,
+          "visual": "final static shot of tub with finger pointing",
+          "audio": "",
+          "on_screen_text": "Don’t waste your money on these 😭"
+        }
+      ],
+      "pacing_notes": "slow and deliberate — no cuts, steady camera, energy stays flat throughout",
+      "detailed_analysis": "Hook psychology: classic 'don’t waste money' fear trigger with crying emoji for emotional punch. Works well for scroll-stop but lacks spoken explanation or proof of why it’s bad (low fill shown but never called out). No CTA, no link in bio tease, no discount reveal — pure negative hook with zero conversion path. Could improve by adding voiceover explaining the underfill or switching to curiosity gap. Visuals are clean but pacing is too slow for TikTok; energy never peaks.",
+      "raw_json": "{\"duration_seconds\":25,\"transcript\":\"\",\"onscreen_hook\":\"Don’t waste your money on these 😭\",\"video_structure\":\"0-3s: hand places tub on brick, text overlay appears. 3-8s: hands rotate and open tub. 8-11s: scoop lifted out showing pinkish powder. 11-16s: tub placed back, hands gesture at it. 16-19s: flipped to show back label with ingredients/warnings. 19-25s: flipped back to front, final gestures pointing at tub while text remains.\",\"cta_timestamps\":[],\"hook_type\":\"dont_buy\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Strong negative hook warning against buying, designed to stop scroll and create curiosity about why this popular product is bad.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-25s\",\"what_happens\":\"Entire video is a single top-funnel hook using fear of wasting money + visual proof of low fill level\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"hand places iridescent tub on brick wall\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":3,\"visual\":\"both hands rotate and open tub\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":6,\"visual\":\"scoop lifted with pink powder\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":9,\"visual\":\"scoop shown then dropped back in\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":12,\"visual\":\"tub placed upright on bricks\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":16,\"visual\":\"tub flipped to show back label\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":19,\"visual\":\"tub flipped back to front label\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":22,\"visual\":\"finger points at tub on bricks\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"},{\"timestamp\":25,\"visual\":\"final static shot of tub with finger pointing\",\"audio\":\"\",\"on_screen_text\":\"Don’t waste your money on these 😭\"}],\"pacing_notes\":\"slow and deliberate — no cuts, steady camera, energy stays flat throughout\",\"detailed_analysis\":\"Hook psychology: classic 'don’t waste money' fear trigger with crying emoji for emotional punch. Works well for scroll-stop but lacks spoken explanation or proof of why it’s bad (low fill shown but never called out). No CTA, no link in bio tease, no discount reveal — pure negative hook with zero conversion path. Could improve by adding voiceover explaining the underfill or switching to curiosity gap. Visuals are clean but pacing is too slow for TikTok; energy never peaks.\"}"
+    },
+    "script_text": "Don't buy the EHPlabs OxyShred Ultra Concentration Pre Workout Powder. I don't know why I waited this long to find this deal because right now on TikTok Shop it is on a massive discount. I'm talking the full tub — every single scoop — for basically nothing compared to what I was paying before. The tub itself is huge, one scoop before a session and you are sorted. Vegan, sugar-free, and it's got L-Glutamine and Carnitine in there too. This is not a small brand, this is EHPlabs, and right now the price on TikTok Shop is genuinely stupid good. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "ssml": "<speak> <prosody rate='fast'>Don't buy</prosody> the EHPlabs OxyShred Ultra Concentration Pre Workout Powder. <break time=\"420ms\"/> <prosody rate='fast'>I don't know why I</prosody> waited this long <prosody rate='fast'>to find this</prosody> deal <prosody rate='fast'>because right now</prosody> on TikTok Shop <prosody rate='fast'>it is on a</prosody> massive discount. <break time=\"300ms\"/> <prosody rate='fast'>I'm talking the</prosody> full tub — <prosody rate='fast'>every single</prosody> scoop — <prosody rate='fast'>for basically</prosody> nothing <prosody rate='fast'>compared to what I was</prosody> paying before. <prosody rate='fast'>The tub itself is</prosody> huge, <prosody rate='fast'>one scoop before a</prosody> session <prosody rate='fast'>and you are</prosody> sorted. <break time=\"300ms\"/> <prosody rate='fast'>Vegan,</prosody> sugar-free, <prosody rate='fast'>and it's got</prosody> L-Glutamine <prosody rate='fast'>and</prosody> Carnitine <prosody rate='fast'>in there</prosody> too. <break time=\"420ms\"/> <prosody rate='fast'>This is not a</prosody> small brand, <prosody rate='fast'>this is</prosody> EHPlabs, <prosody rate='fast'>and right now the</prosody> price <prosody rate='fast'>on TikTok Shop is</prosody> genuinely <prosody rate='slow'>stupid</prosody> <prosody rate='fast'>good.</prosody> <break time=\"540ms\"/> <prosody rate='fast'>I don't know how long this</prosody> deal <prosody rate='fast'>is gonna</prosody> last <prosody rate='fast'>but I've left the</prosody> link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "635aedab-b17c-4fb5-8ba5-1dd387a997b6",
+    "linked_memory_id": "e202a01e-c3c8-40cf-acb6-0fbf6cd5830e",
+    "created_at": "2026-06-29T14:36:33.800Z"
+  },
+  {
+    "id": "d377f6ad-c3f0-4730-9952-5bcd1c582c2b",
+    "pending_analysis_id": "ddc90785-a893-45d4-ac91-a2f8889c376b",
+    "source_script_id": "f41377f2-1acb-4703-bb0b-733dbb1b87f3",
+    "script_title": "Exfoliating Body Wash — Curiosity Gap Hook (No Face, Bottom Funnel)",
+    "product_id": "ffd63bdc4448d5d0",
+    "product_name": "Exfoliating Body Wash with Lactic Acid - 8fl oz",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652688354324090145",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:33:08.250Z",
+    "score": 7,
+    "views": 357,
+    "likes": null,
+    "comments": null,
+    "watch_time_seconds": 8.3,
+    "watch_time_pct": 33.2,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 36,
+    "audience_female_pct": 64,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 12,
+      "likes": null,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "12",
+      "captured_at": "2026-06-18T11:10:27.733Z"
+    },
+    "latest_stats": {
+      "views": 357,
+      "likes": null,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "357",
+      "captured_at": "2026-06-29T14:32:22.391Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 25,
+      "transcript": "",
+      "onscreen_hook": "How is this even legal 😭",
+      "video_structure": "Opens with bread receiving thick beige liquid from orange-capped bottle + bold text hook. Quickly cuts to product reveal and label close-ups with finger pointing at '4% Salicylic Acid + Lactic Acid'. Transitions to bottle standing on deck, then hand pours the wash directly onto two slices of bread to mimic food. Ends with final bottle shot and cap close-up.",
+      "cta_timestamps": [],
+      "hook_type": "ragebait",
+      "funnel_category": "Top Funnel",
+      "funnel_category_reason": "Pure curiosity/ragebait hook with zero product benefit or offer; designed solely to stop scroll and generate initial views.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-25s",
+          "what_happens": "Entire video is top-funnel curiosity trigger with no middle or bottom funnel elements"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand holding bread slice; beige liquid poured from orange bottle",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Bottle flipped to show back, then front label",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Full product held up, finger points at ingredients",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Bottle placed on wooden deck",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 14,
+          "visual": "Hand gestures toward standing bottle",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 17,
+          "visual": "Hand lifts and tilts bottle",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 21,
+          "visual": "Bottle pours body wash directly onto two slices of bread on deck",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        },
+        {
+          "timestamp": 24,
+          "visual": "Bottle tilted to show cap and back label",
+          "audio": "",
+          "on_screen_text": "How is this even legal 😭"
+        }
+      ],
+      "pacing_notes": "Fast and consistent visual cuts every 1-2 seconds; energy stays high through constant movement and text reinforcement; no slow moments.",
+      "detailed_analysis": "Hook works via strong pattern interrupt (food + body wash) and ragebait question that triggers immediate curiosity. Visual demonstration of pouring on bread is the payoff and highly shareable. No CTA or discount is present, so video stops at awareness stage. Could improve by adding a subtle 'link in bio' or price reveal in final 3 seconds to convert some viewers.",
+      "raw_json": "{\"duration_seconds\":25,\"transcript\":\"\",\"onscreen_hook\":\"How is this even legal 😭\",\"video_structure\":\"Opens with bread receiving thick beige liquid from orange-capped bottle + bold text hook. Quickly cuts to product reveal and label close-ups with finger pointing at '4% Salicylic Acid + Lactic Acid'. Transitions to bottle standing on deck, then hand pours the wash directly onto two slices of bread to mimic food. Ends with final bottle shot and cap close-up.\",\"cta_timestamps\":[],\"hook_type\":\"ragebait\",\"funnel_category\":\"Top Funnel\",\"funnel_category_reason\":\"Pure curiosity/ragebait hook with zero product benefit or offer; designed solely to stop scroll and generate initial views.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-25s\",\"what_happens\":\"Entire video is top-funnel curiosity trigger with no middle or bottom funnel elements\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand holding bread slice; beige liquid poured from orange bottle\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":2,\"visual\":\"Bottle flipped to show back, then front label\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":3,\"visual\":\"Full product held up, finger points at ingredients\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":9,\"visual\":\"Bottle placed on wooden deck\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":14,\"visual\":\"Hand gestures toward standing bottle\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":17,\"visual\":\"Hand lifts and tilts bottle\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":21,\"visual\":\"Bottle pours body wash directly onto two slices of bread on deck\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"},{\"timestamp\":24,\"visual\":\"Bottle tilted to show cap and back label\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal 😭\"}],\"pacing_notes\":\"Fast and consistent visual cuts every 1-2 seconds; energy stays high through constant movement and text reinforcement; no slow moments.\",\"detailed_analysis\":\"Hook works via strong pattern interrupt (food + body wash) and ragebait question that triggers immediate curiosity. Visual demonstration of pouring on bread is the payoff and highly shareable. No CTA or discount is present, so video stops at awareness stage. Could improve by adding a subtle 'link in bio' or price reveal in final 3 seconds to convert some viewers.\"}"
+    },
+    "script_text": "I don't believe this is gonna actually work. I just grabbed the Exfoliating Body Wash with Lactic Acid off TikTok Shop because everyone kept going on about it — and honestly I was so sceptical. I've wasted money on body washes before that do absolutely nothing. So I figured, how is this even legal for this price? Like, someone at TikTok Shop made a mistake. It's on such a massive discount right now — we're talking basically half price. The Exfoliating Body Wash with Lactic Acid — and this is the full eight fluid ounce — slashed right down. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "HOW IS THIS EVEN LEGAL? 😳 Exfoliating Body Wash with Lactic Acid — half price on TikTok Shop 👀",
+    "tiktok_caption": "I was NOT expecting this price 😳 The Exfoliating Body Wash with Lactic Acid is on a massive discount on TikTok Shop right now — link in the yellow basket before it's gone 🧴 #bodywash #lacticacid #exfoliating #skincare #tiktokshop #bodycare #skincareuk #tiktokmademebuyit #tiktokshopping #dealsoftiktok",
+    "ssml": "<speak> <prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is gonna actually</prosody> work. <break time=\"420ms\"/> I just grabbed <prosody rate='fast'>the</prosody> Exfoliating Body Wash <prosody rate='fast'>with Lactic Acid</prosody> off TikTok Shop <prosody rate='fast'>because everyone</prosody> kept going on about it — <prosody rate='fast'>and honestly</prosody> I was <prosody rate='slow'>so</prosody> <prosody rate='fast'>sceptical.</prosody> <break time=\"300ms\"/> I've wasted <prosody rate='fast'>money on</prosody> body washes before <prosody rate='fast'>that do</prosody> absolutely nothing. <prosody rate='fast'>So I figured,</prosody> how is this <prosody rate='fast'>even</prosody> legal <prosody rate='fast'>for this</prosody> price? <break time=\"540ms\"/> Like, <prosody rate='fast'>someone at</prosody> TikTok Shop <prosody rate='fast'>made a</prosody> mistake. <prosody rate='fast'>It's on such a</prosody> massive discount <prosody rate='fast'>right now —</prosody> we're talking <prosody rate='fast'>basically</prosody> half <prosody rate='fast'>price.</prosody> <break time=\"300ms\"/> The <prosody rate='fast'>Exfoliating Body Wash</prosody> with Lactic Acid — <prosody rate='fast'>and this is</prosody> the full <prosody rate='fast'>eight fluid</prosody> ounce — <prosody rate='fast'>slashed</prosody> right <prosody rate='fast'>down.</prosody> <break time=\"880ms\"/> I <prosody rate='fast'>don't know how long</prosody> this deal is <prosody rate='fast'>gonna last</prosody> but I've left <prosody rate='fast'>the link in</prosody> the yellow <prosody rate='fast'>basket</prosody> below. </speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "062e017c-e668-44e5-bd5f-2abf79010a53",
+    "linked_memory_id": "cdb2f05b-7ac0-4d05-a9a0-629136c67427",
+    "created_at": "2026-06-29T14:33:08.250Z"
+  },
+  {
+    "id": "e712eb45-ca4b-4c82-a03b-cf4a2caa83e6",
+    "pending_analysis_id": "647bd31d-b067-41e2-972a-7c826cb76ccb",
+    "source_script_id": "5d90151c-d6ce-49ab-a34d-e120ceefc4c0",
+    "script_title": "WildGut Colon Reset Curiosity Gap HOW IS THIS LEGAL No Face",
+    "product_id": "9ddefa8590f42f6a",
+    "product_name": "WildGut Colon Reset",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652088074419064096",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:17:44.962Z",
+    "score": 18,
+    "views": 3251,
+    "likes": 6,
+    "comments": 0,
+    "watch_time_seconds": 6.6,
+    "watch_time_pct": 36.7,
+    "sales": 4,
+    "gmv": 76.96,
+    "commission": null,
+    "audience_male_pct": 26,
+    "audience_female_pct": 75,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 23,
+      "likes": 1,
+      "comments": 0,
+      "reposts": null,
+      "saves": null,
+      "views_text": "23",
+      "likes_text": "1",
+      "comments_text": "0",
+      "captured_at": "2026-06-16T20:36:13.081Z"
+    },
+    "latest_stats": {
+      "views": 3251,
+      "likes": 6,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "3.3K",
+      "likes_text": "6",
+      "captured_at": "2026-06-29T14:13:13.399Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 18,
+      "transcript": "",
+      "onscreen_hook": "I can’t believe this is actually real 😭",
+      "video_structure": "Opens with dramatic close-up of scissors cutting open a single capsule (0-2s), immediately cuts to product reveal of WildGut Colon Reset bottle on reflective surface (2-4s), shows two bottles side-by-side then being held and rotated to highlight label details (4-13s), ends with final scissors cut on the bottle label itself (16-18s).",
+      "cta_timestamps": [],
+      "hook_type": "curiosity_gap",
+      "funnel_category": "Bottom Funnel",
+      "funnel_category_reason": "Heavy product focus with label close-ups and demo cuts designed to drive immediate purchase intent rather than awareness or education.",
+      "funnel_breakdown": [
+        {
+          "label": "Bottom Funnel",
+          "time_range": "0-18s",
+          "what_happens": "Full video is product demo and proof, no top-funnel storytelling or education"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hands holding capsule between scissor blades",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 2,
+          "visual": "Single WildGut Colon Reset bottle placed on table",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Two bottles held side-by-side",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Bottles tilted and rotated to show label",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 7,
+          "visual": "Single bottle held up against outdoor background",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 8,
+          "visual": "Two bottles held up together",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Finger pointing at label text",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Bottle held while other hand touches it",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Scissors cutting the bottle label",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        },
+        {
+          "timestamp": 18,
+          "visual": "Final shot of hands holding bottle with scissors",
+          "audio": "",
+          "on_screen_text": "I can’t believe this is actually real 😭"
+        }
+      ],
+      "pacing_notes": "Fast and consistent — new angle or product interaction every 1-2 seconds, no slow moments, energy stays high throughout the short runtime.",
+      "detailed_analysis": "Strong curiosity-gap hook with the opening capsule cut and disbelief text that forces a scroll-stop. The repeated visual proof (multiple bottle angles, label zooms, final label cut) builds credibility quickly. No spoken words or voiceover keeps it pure visual punch. No explicit CTA or discount is shown, which is a missed opportunity in a bottom-funnel video; adding a subtle on-screen 'Link in bio' or price flash at 15s would likely lift conversions. The scissors motif ties the beginning and end together nicely for memorability.",
+      "raw_json": "{\"duration_seconds\":18,\"transcript\":\"\",\"onscreen_hook\":\"I can’t believe this is actually real 😭\",\"video_structure\":\"Opens with dramatic close-up of scissors cutting open a single capsule (0-2s), immediately cuts to product reveal of WildGut Colon Reset bottle on reflective surface (2-4s), shows two bottles side-by-side then being held and rotated to highlight label details (4-13s), ends with final scissors cut on the bottle label itself (16-18s).\",\"cta_timestamps\":[],\"hook_type\":\"curiosity_gap\",\"funnel_category\":\"Bottom Funnel\",\"funnel_category_reason\":\"Heavy product focus with label close-ups and demo cuts designed to drive immediate purchase intent rather than awareness or education.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Bottom Funnel\",\"time_range\":\"0-18s\",\"what_happens\":\"Full video is product demo and proof, no top-funnel storytelling or education\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hands holding capsule between scissor blades\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":2,\"visual\":\"Single WildGut Colon Reset bottle placed on table\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":3,\"visual\":\"Two bottles held side-by-side\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":4,\"visual\":\"Bottles tilted and rotated to show label\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":7,\"visual\":\"Single bottle held up against outdoor background\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":8,\"visual\":\"Two bottles held up together\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":9,\"visual\":\"Finger pointing at label text\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":13,\"visual\":\"Bottle held while other hand touches it\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":16,\"visual\":\"Scissors cutting the bottle label\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"},{\"timestamp\":18,\"visual\":\"Final shot of hands holding bottle with scissors\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe this is actually real 😭\"}],\"pacing_notes\":\"Fast and consistent — new angle or product interaction every 1-2 seconds, no slow moments, energy stays high throughout the short runtime.\",\"detailed_analysis\":\"Strong curiosity-gap hook with the opening capsule cut and disbelief text that forces a scroll-stop. The repeated visual proof (multiple bottle angles, label zooms, final label cut) builds credibility quickly. No spoken words or voiceover keeps it pure visual punch. No explicit CTA or discount is shown, which is a missed opportunity in a bottom-funnel video; adding a subtle on-screen 'Link in bio' or price flash at 15s would likely lift conversions. The scissors motif ties the beginning and end together nicely for memorability.\"}"
+    },
+    "script_text": "I don't believe this is actually real. Not one bottle, not two bottles, but you are getting two full bottles of the WildGut Capsules for the price of one. That is two lots of ninety capsules. I genuinely cannot get my head around how this deal is even allowed. I paid full price for mine the other week and now they've slashed it in half on TikTok Shop. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "ssml": "<speak><prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually</prosody> real. <break time=\"420ms\"/> <prosody rate='fast'>Not one</prosody> bottle, <prosody rate='fast'>not two</prosody> bottles, <prosody rate='fast'>but</prosody> you are getting <prosody rate='fast'>two full</prosody> bottles <prosody rate='fast'>of the</prosody> WildGut Capsules <prosody rate='fast'>for the price</prosody> of one. <break time=\"540ms\"/> That is <prosody rate='fast'>two lots of</prosody> ninety <prosody rate='fast'>capsules.</prosody> <break time=\"420ms\"/> I genuinely <prosody rate='fast'>cannot get my head around</prosody> how this deal <prosody rate='fast'>is even</prosody> allowed. <break time=\"540ms\"/> <prosody rate='fast'>I paid</prosody> full price <prosody rate='fast'>for mine the</prosody> other week <prosody rate='fast'>and now they've</prosody> slashed it <prosody rate='fast'>in half</prosody> on TikTok Shop. <break time=\"880ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal <prosody rate='fast'>is gonna last but</prosody> I've left <prosody rate='fast'>the link in the</prosody> yellow basket <prosody rate='fast'>below.</prosody></speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "6394ae14-999c-4bae-942e-68b8e4d8e9a6",
+    "linked_memory_id": "31bdbc5a-d598-4c38-bafe-852863dc5066",
+    "created_at": "2026-06-29T14:17:44.962Z"
+  },
+  {
+    "id": "65330f05-2791-4f4d-a70d-5fbfe752c242",
+    "pending_analysis_id": "5d9dfd53-ab6c-4afa-bc8f-c7f064db39ec",
+    "source_script_id": "3ea93bd7-c47a-4bf0-b79b-61c3cc4efb8f",
+    "script_title": "Umberto Giannini Curl Jelly Curiosity Gap Bottom Funnel No F",
+    "product_id": "f1e9d300ddee9961",
+    "product_name": "Umberto Giannini Curl Jelly collection + brushes",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652344966232034592",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:13:09.186Z",
+    "score": 3,
+    "views": 4194,
+    "likes": 4,
+    "comments": null,
+    "watch_time_seconds": 2.3,
+    "watch_time_pct": 10.5,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 13,
+    "audience_female_pct": 86,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 558,
+      "likes": 1,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "558",
+      "likes_text": "1",
+      "captured_at": "2026-06-18T10:56:26.682Z"
+    },
+    "latest_stats": {
+      "views": 4194,
+      "likes": 4,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "4.2K",
+      "likes_text": "4",
+      "captured_at": "2026-06-29T14:10:38.427Z"
+    },
+    "grok_analysis": {
+      "duration_seconds": 22,
+      "transcript": "",
+      "onscreen_hook": "How is this even legal? 😂",
+      "video_structure": "Fast-cut visual montage starting with close-up of Curl Jelly Shine bottle being cut open with scissors (0-3s), then rotating through individual product reveals (mousse, jelly, foam, spray, balm), followed by full product lineup on bricks with hand pointing and gesturing, ending with brush reveal and final product arrangement.",
+      "cta_timestamps": [],
+      "hook_type": "ragebait",
+      "funnel_category": "Middle/Bottom Funnel",
+      "funnel_category_reason": "Direct product showcase and lineup of the full curl range with no price/discount/offer, aimed at viewers already interested in curly hair products.",
+      "funnel_breakdown": [
+        {
+          "label": "Middle Funnel",
+          "time_range": "0-8s",
+          "what_happens": "Hook + individual product reveals to build curiosity and show variety"
+        },
+        {
+          "label": "Bottom Funnel",
+          "time_range": "8-22s",
+          "what_happens": "Full lineup, brushing, and hand gesturing to drive consideration/purchase intent"
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand holding pink Curl Jelly Shine bottle while scissors cut it open",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Bottle turned to show back label, scissors removed",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Anti-Frizz Styling Mousse held up with other products in background",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 5,
+          "visual": "Scrunching Jelly tube held up",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 6,
+          "visual": "Curl Whip mousse can held up next to jelly tube",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 7,
+          "visual": "Wide shot of 5-product lineup on bricks with hand pointing",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Pink detangling brush held up and rotated to show bristles",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 11,
+          "visual": "Brush placed down, hand points across full product row",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Hand gestures over the 5-product lineup",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 16,
+          "visual": "Curl Jelly Shine bottle lifted and sprayed",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 18,
+          "visual": "Hand (wearing watch) rearranges products in the lineup",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 20,
+          "visual": "Hand points to specific products in final lineup arrangement",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        },
+        {
+          "timestamp": 22,
+          "visual": "Final static lineup of 5 products with hand resting nearby",
+          "audio": "",
+          "on_screen_text": "How is this even legal? 😂"
+        }
+      ],
+      "pacing_notes": "Very fast cuts (new product every 1-2 seconds) with consistent high energy; no drops, steady rapid reveal pace throughout.",
+      "detailed_analysis": "The ragebait hook works well for pattern interrupt and curiosity but is overused (same text on every frame), risking viewer fatigue. Strong visual variety of the full pink product family creates social proof of a complete line. No prices, discount code, or explicit CTA reduces conversion potential. Hand gestures and pointing help guide attention but could be stronger with a verbal or text 'shop now' push. Overall effective for awareness/consideration but misses bottom-funnel conversion triggers.",
+      "raw_json": "{\"duration_seconds\":22,\"transcript\":\"\",\"onscreen_hook\":\"How is this even legal? 😂\",\"video_structure\":\"Fast-cut visual montage starting with close-up of Curl Jelly Shine bottle being cut open with scissors (0-3s), then rotating through individual product reveals (mousse, jelly, foam, spray, balm), followed by full product lineup on bricks with hand pointing and gesturing, ending with brush reveal and final product arrangement.\",\"cta_timestamps\":[],\"hook_type\":\"ragebait\",\"funnel_category\":\"Middle/Bottom Funnel\",\"funnel_category_reason\":\"Direct product showcase and lineup of the full curl range with no price/discount/offer, aimed at viewers already interested in curly hair products.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Middle Funnel\",\"time_range\":\"0-8s\",\"what_happens\":\"Hook + individual product reveals to build curiosity and show variety\"},{\"label\":\"Bottom Funnel\",\"time_range\":\"8-22s\",\"what_happens\":\"Full lineup, brushing, and hand gesturing to drive consideration/purchase intent\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand holding pink Curl Jelly Shine bottle while scissors cut it open\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":3,\"visual\":\"Bottle turned to show back label, scissors removed\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":4,\"visual\":\"Anti-Frizz Styling Mousse held up with other products in background\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":5,\"visual\":\"Scrunching Jelly tube held up\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":6,\"visual\":\"Curl Whip mousse can held up next to jelly tube\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":7,\"visual\":\"Wide shot of 5-product lineup on bricks with hand pointing\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":9,\"visual\":\"Pink detangling brush held up and rotated to show bristles\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":11,\"visual\":\"Brush placed down, hand points across full product row\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":13,\"visual\":\"Hand gestures over the 5-product lineup\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":16,\"visual\":\"Curl Jelly Shine bottle lifted and sprayed\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":18,\"visual\":\"Hand (wearing watch) rearranges products in the lineup\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":20,\"visual\":\"Hand points to specific products in final lineup arrangement\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"},{\"timestamp\":22,\"visual\":\"Final static lineup of 5 products with hand resting nearby\",\"audio\":\"\",\"on_screen_text\":\"How is this even legal? 😂\"}],\"pacing_notes\":\"Very fast cuts (new product every 1-2 seconds) with consistent high energy; no drops, steady rapid reveal pace throughout.\",\"detailed_analysis\":\"The ragebait hook works well for pattern interrupt and curiosity but is overused (same text on every frame), risking viewer fatigue. Strong visual variety of the full pink product family creates social proof of a complete line. No prices, discount code, or explicit CTA reduces conversion potential. Hand gestures and pointing help guide attention but could be stronger with a verbal or text 'shop now' push. Overall effective for awareness/consideration but misses bottom-funnel conversion triggers.\"}"
+    },
+    "script_text": "I don't believe this is actually on TikTok Shop right now. Not one, not two, not three, not four, not five, but five pieces from the Umberto Giannini Curl Jelly collection — plus the brushes — all in one. I'm talking over eighty pounds worth of product, and you're getting it for more than half price. I genuinely don't know how this deal is even live right now. The full Curl Jelly collection, the brushes — everything. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "ssml": "<speak> <prosody rate='fast'>I</prosody> don't believe this <prosody rate='fast'>is actually on</prosody> TikTok Shop <prosody rate='fast'>right now.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Not one,</prosody> not two, <prosody rate='fast'>not three,</prosody> not four, <prosody rate='fast'>not five,</prosody> <prosody rate='slow'>but</prosody> <prosody rate='fast'>five</prosody> pieces <prosody rate='fast'>from the</prosody> Umberto Giannini <prosody rate='fast'>Curl Jelly</prosody> collection — <prosody rate='fast'>plus the</prosody> brushes — <prosody rate='fast'>all</prosody> in one. <break time=\"540ms\"/> <prosody rate='fast'>I'm talking</prosody> over <prosody rate='fast'>eighty pounds</prosody> worth of product, <prosody rate='fast'>and you're getting it</prosody> for more than <prosody rate='fast'>half</prosody> price. <prosody rate='fast'>I genuinely don't know</prosody> how this deal <prosody rate='fast'>is even</prosody> live right now. <break time=\"880ms\"/> <prosody rate='fast'>The full</prosody> Curl Jelly <prosody rate='fast'>collection,</prosody> the brushes — <prosody rate='fast'>everything.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal is <prosody rate='fast'>gonna last</prosody> but I've left the link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "9ac70d83-8906-43ae-b2cd-66531283745f",
+    "linked_memory_id": "e3596d33-a514-487b-b255-469f76665013",
+    "created_at": "2026-06-29T14:13:09.186Z"
+  },
+  {
+    "id": "79d7db26-2da2-4e13-a160-e1198022746f",
+    "pending_analysis_id": "20eb981f-72ec-4612-826b-476c14a5a802",
+    "source_script_id": "0c1fa156-cd72-487a-8417-c126090234dd",
+    "script_title": "Hydreau Tub Curiosity Gap No Face Bottom Funnel",
+    "product_id": "a08e21b6961d10ed",
+    "product_name": "Hydreau Sports Hydration",
+    "tiktok_url": "https://www.tiktok.com/@vexcile_/video/7652107961413782816",
+    "upload_date": "2026-06-29",
+    "submitted_at": "2026-06-29T14:10:29.179Z",
+    "score": 6,
+    "views": 1315,
+    "likes": 5,
+    "comments": 0,
+    "watch_time_seconds": 4.4,
+    "watch_time_pct": 21,
+    "sales": 0,
+    "gmv": 0,
+    "commission": 0,
+    "audience_male_pct": 59,
+    "audience_female_pct": 41,
+    "audience_other_pct": null,
+    "initial_stats": {
+      "views": 12,
+      "likes": 0,
+      "comments": 0,
+      "reposts": null,
+      "saves": null,
+      "views_text": "12",
+      "likes_text": "0",
+      "comments_text": "0",
+      "captured_at": "2026-06-16T21:55:34.778Z"
+    },
+    "latest_stats": {
+      "views": 1315,
+      "likes": 5,
+      "comments": null,
+      "reposts": null,
+      "saves": null,
+      "views_text": "1.3K",
+      "likes_text": "5",
+      "captured_at": "2026-06-29T13:40:59.856Z"
+    },
+    "grok_analysis": {
+      "transcript": "",
+      "onscreen_hook": "I can’t believe there was so much 😮",
+      "video_structure": "0-3s: Close-up of white powder being poured from a glass onto a dark surface with hook text overlay. 3-4s: Powder pile shown with hand gesture. 4-13s: Hands rotate and point at multiple Hydreau tubs (Piña Pineapple, Kiwi Strawberry, Raspberry Refuel) highlighting labels and ingredients. 13-22s: Tubs stacked and displayed on outdoor table with hand pointing and gesturing at flavors.",
+      "cta_timestamps": [],
+      "hook_type": "curiosity_gap",
+      "funnel_category": "Middle Funnel",
+      "funnel_category_reason": "Product demo and feature close-ups after initial hook, focused on showcasing the supplement tubs rather than awareness or direct purchase push.",
+      "funnel_breakdown": [
+        {
+          "label": "Top Funnel",
+          "time_range": "0-3s",
+          "what_happens": "Curiosity hook with powder pour and text overlay to grab attention."
+        },
+        {
+          "label": "Middle Funnel",
+          "time_range": "3-22s",
+          "what_happens": "Detailed product showcase, rotating tubs, pointing out flavors, ingredients (taurine, electrolytes), and branding."
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": 0,
+          "visual": "Hand pours white powder from glass onto reflective surface",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 3,
+          "visual": "Powder pile with hand gesturing",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 4,
+          "visual": "Spoon adding powder to water glass outdoors",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 5,
+          "visual": "Hands holding and rotating Piña Pineapple Hydreau tub",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 9,
+          "visual": "Three stacked Hydreau tubs (Kiwi Strawberry on top)",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 13,
+          "visual": "Single Kiwi Strawberry tub held up",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 17,
+          "visual": "Stacked tubs on table with hand pointing",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        },
+        {
+          "timestamp": 21,
+          "visual": "Close-up of stacked tubs with hand gesturing at labels",
+          "audio": "",
+          "on_screen_text": "I can’t believe there was so much 😮"
+        }
+      ],
+      "pacing_notes": "Fast visual cuts with consistent energy; no drops, steady product rotation and pointing keeps momentum high throughout the 22s.",
+      "detailed_analysis": "Strong curiosity-gap hook with dramatic powder pour immediately grabs attention. Psychology works via shock value of 'so much' volume. No spoken CTA or discount delivery visible, which limits bottom-funnel conversion; product showcase is clear and benefit-focused (electrolytes, flavors) but ends without explicit shop link or offer. Could improve by adding voiceover CTA or price reveal at 18-20s for better conversion.",
+      "raw_json": "{\"transcript\":\"\",\"onscreen_hook\":\"I can’t believe there was so much 😮\",\"video_structure\":\"0-3s: Close-up of white powder being poured from a glass onto a dark surface with hook text overlay. 3-4s: Powder pile shown with hand gesture. 4-13s: Hands rotate and point at multiple Hydreau tubs (Piña Pineapple, Kiwi Strawberry, Raspberry Refuel) highlighting labels and ingredients. 13-22s: Tubs stacked and displayed on outdoor table with hand pointing and gesturing at flavors.\",\"cta_timestamps\":[],\"hook_type\":\"curiosity_gap\",\"funnel_category\":\"Middle Funnel\",\"funnel_category_reason\":\"Product demo and feature close-ups after initial hook, focused on showcasing the supplement tubs rather than awareness or direct purchase push.\",\"funnel_breakdown\":{\"stages\":[{\"label\":\"Top Funnel\",\"time_range\":\"0-3s\",\"what_happens\":\"Curiosity hook with powder pour and text overlay to grab attention.\"},{\"label\":\"Middle Funnel\",\"time_range\":\"3-22s\",\"what_happens\":\"Detailed product showcase, rotating tubs, pointing out flavors, ingredients (taurine, electrolytes), and branding.\"}]},\"timeline\":[{\"timestamp\":0,\"visual\":\"Hand pours white powder from glass onto reflective surface\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":3,\"visual\":\"Powder pile with hand gesturing\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":4,\"visual\":\"Spoon adding powder to water glass outdoors\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":5,\"visual\":\"Hands holding and rotating Piña Pineapple Hydreau tub\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":9,\"visual\":\"Three stacked Hydreau tubs (Kiwi Strawberry on top)\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":13,\"visual\":\"Single Kiwi Strawberry tub held up\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":17,\"visual\":\"Stacked tubs on table with hand pointing\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"},{\"timestamp\":21,\"visual\":\"Close-up of stacked tubs with hand gesturing at labels\",\"audio\":\"\",\"on_screen_text\":\"I can’t believe there was so much 😮\"}],\"pacing_notes\":\"Fast visual cuts with consistent energy; no drops, steady product rotation and pointing keeps momentum high throughout the 22s.\",\"detailed_analysis\":\"Strong curiosity-gap hook with dramatic powder pour immediately grabs attention. Psychology works via shock value of 'so much' volume. No spoken CTA or discount delivery visible, which limits bottom-funnel conversion; product showcase is clear and benefit-focused (electrolytes, flavors) but ends without explicit shop link or offer. Could improve by adding voiceover CTA or price reveal at 18-20s for better conversion.\"}",
+      "duration_seconds": 21
+    },
+    "script_text": "I did not expect there to be this much. Not one scoop, not two scoops — this tub is absolutely stacked. I grabbed the Hydreau Sports Hydration from EHP Labs on TikTok Shop and I genuinely cannot believe what I paid for it. The deal they've got on right now is basically slashing the price — and for a tub this size that is honestly kind of unreal. The problem is every single time a deal like this goes live, it sells out fast. I don't know how long this deal is gonna last but I've left the link in the yellow basket below.",
+    "on_screen_caption": "",
+    "tiktok_caption": "",
+    "ssml": "<speak> <prosody rate='fast'>I did not expect</prosody> there to be <prosody rate='fast'>this much.</prosody> <break time=\"420ms\"/> <prosody rate='fast'>Not one</prosody> scoop, <prosody rate='fast'>not two</prosody> scoops — <prosody rate='fast'>this tub is</prosody> absolutely stacked. <break time=\"300ms\"/> <prosody rate='fast'>I grabbed</prosody> the Hydreau Sports Hydration <prosody rate='fast'>from EHP Labs on</prosody> TikTok Shop <prosody rate='fast'>and I genuinely</prosody> cannot believe <prosody rate='fast'>what I</prosody> paid for it. <break time=\"300ms\"/> <prosody rate='fast'>The deal they've got on</prosody> right now <prosody rate='fast'>is basically</prosody> slashing the price — <prosody rate='fast'>and for a tub</prosody> this size <prosody rate='fast'>that is</prosody> honestly <prosody rate='fast'>kind of</prosody> unreal. <break time=\"540ms\"/> <prosody rate='fast'>The problem is</prosody> every single time <prosody rate='fast'>a deal like this</prosody> goes live, <prosody rate='fast'>it sells</prosody> out fast. <break time=\"300ms\"/> <prosody rate='fast'>I don't know how long</prosody> this deal <prosody rate='fast'>is gonna</prosody> last <prosody rate='fast'>but I've left</prosody> the link <prosody rate='fast'>in the</prosody> yellow basket <prosody rate='fast'>below.</prosody> </speak>",
+    "hook_type": "curiosity gap",
+    "linked_my_video_id": "7744a745-12ff-4983-b9cc-c0184a5f2cb6",
+    "linked_memory_id": "790d21d9-bbf4-4b0b-8d45-ed7d75813ee7",
+    "created_at": "2026-06-29T14:10:29.179Z"
+  }
+]

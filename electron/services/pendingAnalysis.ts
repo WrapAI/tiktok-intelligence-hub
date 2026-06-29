@@ -15,6 +15,8 @@ import {
   productFolderNameFromProductName,
   todayDriveDateKey,
 } from "./googleDrive.js";
+import { resolveWatchTimeFromSubmit, getAnalysisDurationSeconds } from "./watchTime.js";
+import { fetchVideoThumbnail } from "./videoThumbnail.js";
 
 const WHISPER_URL = "http://localhost:5050";
 
@@ -49,6 +51,7 @@ export type PendingAnalysis = {
   drive_uploaded_at: string;
   drive_folder_path: string;
   tiktok_url: string;
+  thumbnail_url: string | null;
   url_added_at: string | null;
   initial_stats: TikTokStatsSnapshot | null;
   latest_stats: TikTokStatsSnapshot | null;
@@ -59,6 +62,7 @@ export type PendingAnalysis = {
   likes: number | null;
   comments: number | null;
   upload_date: string;
+  watch_time_seconds: number | null;
   watch_time_pct: number | null;
   sales: number | null;
   gmv: number | null;
@@ -77,7 +81,8 @@ export type PendingAnalysis = {
 
 export type PendingAnalysisSubmit = {
   upload_date: string;
-  watch_time_pct: number | null;
+  watch_time_seconds: number | null;
+  watch_time_pct?: number | null;
   sales: number | null;
   gmv: number | null;
   commission: number | null;
@@ -125,6 +130,162 @@ export function recordPendingDismissal(
     audio_basename: audioBasename,
     dismissed_at: nowIso(),
   });
+}
+
+export function normalizeTikTokVideoUrl(url: string): string | null {
+  const trimmed = url.trim();
+  if (!trimmed.includes("tiktok.com")) return null;
+  const videoMatch = trimmed.match(/\/video\/(\d+)/i);
+  if (videoMatch) return videoMatch[1];
+  try {
+    const u = new URL(trimmed.split("?")[0].split("#")[0]);
+    return u.pathname.replace(/\/+$/, "").toLowerCase();
+  } catch {
+    return trimmed.toLowerCase();
+  }
+}
+
+function tikTokUrlsMatch(a: string, b: string): boolean {
+  const na = normalizeTikTokVideoUrl(a);
+  const nb = normalizeTikTokVideoUrl(b);
+  if (na && nb) return na === nb;
+  return a.trim().toLowerCase() === b.trim().toLowerCase();
+}
+
+type TikTokUrlConflict = {
+  kind: "my_video" | "pending" | "outcome";
+  id: string;
+  label: string;
+};
+
+function checkTikTokUrlConflict(
+  store: JsonStore,
+  url: string,
+  excludePendingId?: string
+): TikTokUrlConflict | null {
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+
+  for (const video of store.list<MyVideo>("my_videos")) {
+    if (video.url && tikTokUrlsMatch(video.url, trimmed)) {
+      return { kind: "my_video", id: video.id, label: video.title || "My Video" };
+    }
+  }
+
+  for (const pending of store.list<PendingAnalysis>("pending_analysis")) {
+    if (pending.id === excludePendingId || !pending.tiktok_url?.trim()) continue;
+    if (tikTokUrlsMatch(pending.tiktok_url, trimmed)) {
+      return { kind: "pending", id: pending.id, label: pending.script_title || "Pending entry" };
+    }
+  }
+
+  for (const outcome of store.list<{ id: string; tiktok_url: string; script_title: string }>("video_outcomes")) {
+    if (outcome.tiktok_url && tikTokUrlsMatch(outcome.tiktok_url, trimmed)) {
+      return {
+        kind: "outcome",
+        id: outcome.id,
+        label: outcome.script_title || "Completed script",
+      };
+    }
+  }
+
+  return null;
+}
+
+function formatTikTokUrlConflict(conflict: TikTokUrlConflict): string {
+  if (conflict.kind === "my_video") {
+    return `This TikTok URL is already in My Videos ("${conflict.label}").`;
+  }
+  if (conflict.kind === "pending") {
+    return `This TikTok URL is already linked to another pending entry ("${conflict.label}").`;
+  }
+  return `This TikTok URL is already linked to a completed script ("${conflict.label}").`;
+}
+
+export function isScriptInMyVideos(store: JsonStore, scriptId: string): boolean {
+  if (!scriptId) return false;
+
+  const completedPending = store.list<PendingAnalysis>("pending_analysis").some(
+    (p) => p.source_script_id === scriptId && p.status === "complete" && p.linked_my_video_id
+  );
+  if (completedPending) return true;
+
+  return store
+    .list<{ source_script_id: string }>("video_outcomes")
+    .some((o) => o.source_script_id === scriptId);
+}
+
+function pendingProgressRank(entry: PendingAnalysis): number {
+  if (entry.status === "complete") return 5;
+  if (entry.status === "ready_for_review") return 4;
+  if (entry.status === "tracking") return 3;
+  if (entry.tiktok_url) return 2;
+  return 1;
+}
+
+function pickPreferredPending(a: PendingAnalysis, b: PendingAnalysis): PendingAnalysis {
+  const rankDiff = pendingProgressRank(b) - pendingProgressRank(a);
+  if (rankDiff !== 0) return rankDiff > 0 ? b : a;
+  return b.updated_at.localeCompare(a.updated_at) > 0 ? b : a;
+}
+
+export function removeDuplicatePendingEntries(store: JsonStore): { removed: number } {
+  const all = store.list<PendingAnalysis>("pending_analysis");
+  const keepIds = new Set<string>();
+  const seenScriptIds = new Map<string, PendingAnalysis>();
+  const seenUrls = new Map<string, PendingAnalysis>();
+
+  for (const entry of all) {
+    keepIds.add(entry.id);
+  }
+
+  for (const entry of all) {
+    if (entry.source_script_id) {
+      const prev = seenScriptIds.get(entry.source_script_id);
+      if (!prev) {
+        seenScriptIds.set(entry.source_script_id, entry);
+        continue;
+      }
+      const keep = pickPreferredPending(prev, entry);
+      const drop = keep.id === prev.id ? entry : prev;
+      keepIds.delete(drop.id);
+      seenScriptIds.set(entry.source_script_id, keep);
+    }
+  }
+
+  for (const entry of all) {
+    if (!keepIds.has(entry.id) || !entry.tiktok_url?.trim()) continue;
+    const key = normalizeTikTokVideoUrl(entry.tiktok_url) || entry.tiktok_url.trim().toLowerCase();
+    const prev = seenUrls.get(key);
+    if (!prev) {
+      seenUrls.set(key, entry);
+      continue;
+    }
+    if (!keepIds.has(prev.id)) {
+      seenUrls.set(key, entry);
+      continue;
+    }
+    const keep = pickPreferredPending(prev, entry);
+    const drop = keep.id === prev.id ? entry : prev;
+    keepIds.delete(drop.id);
+    seenUrls.set(key, keep);
+  }
+
+  let removed = 0;
+  for (const entry of all) {
+    if (keepIds.has(entry.id)) continue;
+    store.deleteById("pending_analysis", entry.id);
+    removed += 1;
+  }
+  return { removed };
+}
+
+export function clearPendingDismissals(store: JsonStore): { cleared: number } {
+  const dismissals = listDismissals(store);
+  for (const d of dismissals) {
+    store.deleteById("pending_dismissals", d.id);
+  }
+  return { cleared: dismissals.length };
 }
 
 function startOfDayLocal(d: Date): Date {
@@ -254,12 +415,13 @@ export function listPendingAnalysis(store: JsonStore): PendingAnalysis[] {
         p.script_created_at ||
         String(script?.created_at || p.drive_uploaded_at || p.created_at || "");
       const fromScript = captionFieldsFromScript(script);
-      return {
+      const merged: PendingAnalysis = {
         ...p,
         script_created_at: scriptCreated,
         on_screen_caption: p.on_screen_caption ?? fromScript.on_screen_caption,
         tiktok_caption: p.tiktok_caption ?? fromScript.tiktok_caption,
       };
+      return normalizePendingAnalysis(store, merged);
     })
     .sort((a, b) => b.script_created_at.localeCompare(a.script_created_at));
 }
@@ -278,6 +440,9 @@ export function createPendingFromDriveUpload(
 ): PendingAnalysis {
   if (isPendingDismissed(store, opts.scriptId)) {
     throw new Error("This script was removed from pending analysis.");
+  }
+  if (isScriptInMyVideos(store, opts.scriptId)) {
+    throw new Error("This script is already in My Videos and cannot be added to pending analysis.");
   }
 
   const script = store
@@ -322,6 +487,7 @@ export function createPendingFromDriveUpload(
     drive_uploaded_at: opts.uploadedAt,
     drive_folder_path: opts.folderPath,
     tiktok_url: "",
+    thumbnail_url: null,
     url_added_at: null,
     initial_stats: null,
     latest_stats: null,
@@ -332,6 +498,7 @@ export function createPendingFromDriveUpload(
     likes: null,
     comments: null,
     upload_date: "",
+    watch_time_seconds: null,
     watch_time_pct: null,
     sales: null,
     gmv: null,
@@ -463,11 +630,18 @@ function ensureScriptFromOrphanMp3(
 export function batchAddOrphanAudioToPending(
   store: JsonStore,
   opts: { dateTag?: string; daysBack?: number } = {}
-): { added: number; scriptsCreated: number; skipped: number; dismissed: number; total: number } {
+): {
+  added: number;
+  scriptsCreated: number;
+  skipped: number;
+  skippedMyVideos: number;
+  dismissed: number;
+  total: number;
+} {
   const daysBack = opts.daysBack ?? 1;
   const audioDir = path.join(app.getPath("userData"), "audio");
   if (!fs.existsSync(audioDir)) {
-    return { added: 0, scriptsCreated: 0, skipped: 0, dismissed: 0, total: 0 };
+    return { added: 0, scriptsCreated: 0, skipped: 0, skippedMyVideos: 0, dismissed: 0, total: 0 };
   }
 
   const mp3Files = fs
@@ -479,6 +653,7 @@ export function batchAddOrphanAudioToPending(
   let added = 0;
   let scriptsCreated = 0;
   let skipped = 0;
+  let skippedMyVideos = 0;
   let dismissed = 0;
 
   for (const mp3Path of mp3Files) {
@@ -491,6 +666,10 @@ export function batchAddOrphanAudioToPending(
     const scriptId = String(script.id);
     if (isPendingDismissed(store, scriptId, audioBase)) {
       dismissed += 1;
+      continue;
+    }
+    if (isScriptInMyVideos(store, scriptId)) {
+      skippedMyVideos += 1;
       continue;
     }
 
@@ -506,7 +685,7 @@ export function batchAddOrphanAudioToPending(
     added += 1;
   }
 
-  return { added, scriptsCreated, skipped, dismissed, total: mp3Files.length };
+  return { added, scriptsCreated, skipped, skippedMyVideos, dismissed, total: mp3Files.length };
 }
 
 export function createPendingFromScript(store: JsonStore, scriptId: string): PendingAnalysis {
@@ -516,6 +695,10 @@ export function createPendingFromScript(store: JsonStore, scriptId: string): Pen
   const audioPath = String(script.audio_path || "");
   if (isPendingDismissed(store, scriptId, audioPath)) {
     throw new Error("This script was removed from pending analysis.");
+  }
+
+  if (isScriptInMyVideos(store, scriptId)) {
+    throw new Error("This script is already in My Videos and cannot be added to pending analysis.");
   }
 
   const existing = store
@@ -558,11 +741,13 @@ export function batchAddScriptsToPending(
 ): {
   added: number;
   skipped: number;
+  skippedMyVideos: number;
   dismissed: number;
   total: number;
   orphanAdded: number;
   scriptsCreated: number;
   orphanSkipped: number;
+  orphanSkippedMyVideos: number;
   orphanDismissed: number;
   orphanTotal: number;
 } {
@@ -573,12 +758,17 @@ export function batchAddScriptsToPending(
 
   let added = 0;
   let skipped = 0;
+  let skippedMyVideos = 0;
   let dismissed = 0;
   for (const script of scripts) {
     const scriptId = String(script.id);
     const audioPath = String(script.audio_path || "");
     if (isPendingDismissed(store, scriptId, audioPath)) {
       dismissed += 1;
+      continue;
+    }
+    if (isScriptInMyVideos(store, scriptId)) {
+      skippedMyVideos += 1;
       continue;
     }
     const existing = store
@@ -597,11 +787,13 @@ export function batchAddScriptsToPending(
   return {
     added: added + orphan.added,
     skipped: skipped + orphan.skipped,
+    skippedMyVideos: skippedMyVideos + orphan.skippedMyVideos,
     dismissed: dismissed + orphan.dismissed,
     total: scripts.length + orphan.total,
     orphanAdded: orphan.added,
     scriptsCreated: orphan.scriptsCreated,
     orphanSkipped: orphan.skipped,
+    orphanSkippedMyVideos: orphan.skippedMyVideos,
     orphanDismissed: orphan.dismissed,
     orphanTotal: orphan.total,
   };
@@ -613,11 +805,13 @@ export function batchAddTodayScriptsToPending(
 ): {
   added: number;
   skipped: number;
+  skippedMyVideos: number;
   dismissed: number;
   total: number;
   orphanAdded: number;
   scriptsCreated: number;
   orphanSkipped: number;
+  orphanSkippedMyVideos: number;
   orphanDismissed: number;
   orphanTotal: number;
 } {
@@ -635,6 +829,11 @@ export async function setPendingTikTokUrl(
 
   const trimmed = url.trim();
   if (!trimmed.includes("tiktok.com")) throw new Error("Enter a valid TikTok video URL.");
+
+  const conflict = checkTikTokUrlConflict(store, trimmed, id);
+  if (conflict) {
+    throw new Error(formatTikTokUrlConflict(conflict));
+  }
 
   const savedAt = nowIso();
   store.upsertById("pending_analysis", {
@@ -679,6 +878,11 @@ export async function pullPendingStatsAndAnalyse(
   try {
     const latestStats = await fetchTikTokStats(entry.tiktok_url);
     const analysis = await analyseTikTokUrl(store, entry.tiktok_url);
+    const duration = getAnalysisDurationSeconds(analysis);
+    const normalizedAnalysis =
+      duration != null && analysis.duration_seconds !== duration
+        ? { ...analysis, duration_seconds: duration }
+        : analysis;
 
     const updated: PendingAnalysis = {
       ...entry,
@@ -686,7 +890,8 @@ export async function pullPendingStatsAndAnalyse(
       views: latestStats.views ?? entry.views,
       likes: latestStats.likes ?? entry.likes,
       comments: latestStats.comments ?? entry.comments,
-      analysis,
+      analysis: normalizedAnalysis,
+      thumbnail_url: normalizedAnalysis.thumbnail_url ?? entry.thumbnail_url,
       analysis_status: "complete",
       analysis_error: "",
       status: "ready_for_review",
@@ -714,11 +919,37 @@ function scoreToRating(score: number): number {
   return 1;
 }
 
-export function updatePendingPerformanceData(
+function pendingVideoDurationSeconds(entry: PendingAnalysis): number | null {
+  return getAnalysisDurationSeconds(entry.analysis);
+}
+
+async function resolvePendingThumbnail(
+  entry: PendingAnalysis,
+  watchTimeSaved: boolean
+): Promise<string | null> {
+  if (entry.thumbnail_url) return entry.thumbnail_url;
+  if (entry.analysis?.thumbnail_url) return entry.analysis.thumbnail_url;
+  if (!watchTimeSaved || !entry.tiktok_url?.trim()) return null;
+  return fetchVideoThumbnail(entry.tiktok_url);
+}
+
+function normalizePendingAnalysis(store: JsonStore, entry: PendingAnalysis): PendingAnalysis {
+  if (!entry.analysis) return entry;
+  const duration = getAnalysisDurationSeconds(entry.analysis);
+  if (duration == null || entry.analysis.duration_seconds === duration) return entry;
+  const normalized: PendingAnalysis = {
+    ...entry,
+    analysis: { ...entry.analysis, duration_seconds: duration },
+  };
+  store.upsertById("pending_analysis", normalized);
+  return normalized;
+}
+
+export async function updatePendingPerformanceData(
   store: JsonStore,
   id: string,
   data: PendingAnalysisSubmit
-): PendingAnalysis {
+): Promise<PendingAnalysis> {
   const entry = store.list<PendingAnalysis>("pending_analysis").find((p) => p.id === id);
   if (!entry) throw new Error("Pending analysis entry not found.");
   if (entry.status === "complete") throw new Error("This entry is already complete.");
@@ -726,10 +957,21 @@ export function updatePendingPerformanceData(
     throw new Error("Add a TikTok URL before entering performance data.");
   }
 
+  const watchTime = resolveWatchTimeFromSubmit({
+    watch_time_seconds: data.watch_time_seconds,
+    watch_time_pct: data.watch_time_pct,
+    durationSeconds: pendingVideoDurationSeconds(entry),
+  });
+  const watchTimeSaved =
+    watchTime.watch_time_seconds != null || watchTime.watch_time_pct != null;
+  const thumbnail_url = await resolvePendingThumbnail(entry, watchTimeSaved);
+
   const updated: PendingAnalysis = {
     ...entry,
     upload_date: data.upload_date?.trim() || entry.upload_date,
-    watch_time_pct: data.watch_time_pct,
+    watch_time_seconds: watchTime.watch_time_seconds,
+    watch_time_pct: watchTime.watch_time_pct,
+    thumbnail_url: thumbnail_url ?? entry.thumbnail_url,
     sales: data.sales,
     gmv: data.gmv,
     commission: data.commission,
@@ -745,11 +987,11 @@ export function updatePendingPerformanceData(
   return updated;
 }
 
-export function submitPendingAnalysis(
+export async function submitPendingAnalysis(
   store: JsonStore,
   id: string,
   data: PendingAnalysisSubmit
-): { pending: PendingAnalysis; myVideoId: string; memoryId: string; score: number } {
+): Promise<{ pending: PendingAnalysis; myVideoId: string; memoryId: string; score: number }> {
   const entry = store.list<PendingAnalysis>("pending_analysis").find((p) => p.id === id);
   if (!entry) throw new Error("Pending analysis entry not found.");
   if (entry.status !== "ready_for_review") {
@@ -757,10 +999,21 @@ export function submitPendingAnalysis(
   }
   if (!entry.tiktok_url) throw new Error("TikTok URL is required.");
   if (!data.upload_date?.trim()) throw new Error("Upload date is required.");
-  if (data.watch_time_pct == null) throw new Error("Watch time % is required.");
+
+  const watchTime = resolveWatchTimeFromSubmit({
+    watch_time_seconds: data.watch_time_seconds,
+    watch_time_pct: data.watch_time_pct,
+    durationSeconds: pendingVideoDurationSeconds(entry),
+  });
+  if (watchTime.watch_time_pct == null) {
+    throw new Error("Average watch time (seconds) is required.");
+  }
+
   if (data.sales == null && data.gmv == null && data.commission == null) {
     throw new Error("Enter at least one of sales, GMV, or commission.");
   }
+
+  const thumbnail_url = await resolvePendingThumbnail(entry, true);
 
   const completedAt = nowIso();
   const myVideoId = randomUUID();
@@ -769,11 +1022,12 @@ export function submitPendingAnalysis(
   const myVideo: MyVideo = {
     id: myVideoId,
     url: entry.tiktok_url,
-    thumbnail_url: null,
+    thumbnail_url,
     views: data.views ?? entry.views,
     likes: data.likes ?? entry.likes,
     comments: data.comments ?? entry.comments,
-    watch_time_pct: data.watch_time_pct,
+    watch_time_seconds: watchTime.watch_time_seconds,
+    watch_time_pct: watchTime.watch_time_pct,
     sales: data.sales,
     gmv: data.gmv,
     commission: data.commission,
@@ -822,7 +1076,7 @@ export function submitPendingAnalysis(
     my_likes: entry.likes ?? 0,
     my_sales: data.sales ?? 0,
     my_gmv: data.gmv ?? 0,
-    my_watch_time: data.watch_time_pct ?? 0,
+    my_watch_time: watchTime.watch_time_pct ?? 0,
     rating: scoreToRating(myVideo.score ?? 0),
     what_i_took: whatWorked,
     notes: entry.analysis?.detailed_analysis || "",
@@ -867,7 +1121,9 @@ export function submitPendingAnalysis(
     on_screen_caption: entry.on_screen_caption || captions.on_screen_caption,
     tiktok_caption: entry.tiktok_caption || captions.tiktok_caption,
     upload_date: data.upload_date,
-    watch_time_pct: data.watch_time_pct,
+    watch_time_seconds: watchTime.watch_time_seconds,
+    watch_time_pct: watchTime.watch_time_pct,
+    thumbnail_url: thumbnail_url ?? entry.thumbnail_url,
     sales: data.sales,
     gmv: data.gmv,
     commission: data.commission,
@@ -885,7 +1141,7 @@ export function submitPendingAnalysis(
 
   saveVideoOutcome(store, {
     pending,
-    submit: data,
+    submit: { ...data, ...watchTime },
     score: myVideo.score ?? 0,
     myVideoId,
     memoryId,
@@ -907,6 +1163,7 @@ export function resetPendingAfterScriptEdit(store: JsonStore, pendingId: string)
   const reset: PendingAnalysis = {
     ...entry,
     tiktok_url: "",
+    thumbnail_url: null,
     url_added_at: null,
     initial_stats: null,
     latest_stats: null,

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import type { PendingAnalysis, PendingAnalysisSubmit, Product } from "../hub";
 import ScriptContentCard from "../components/ScriptContentCard";
 import PendingPerformanceForm from "../components/PendingPerformanceForm";
+import { getAnalysisDurationSeconds } from "../utils/watchTime";
 
 const EMPTY_SUBMIT: PendingAnalysisSubmit = {
   upload_date: new Date().toISOString().slice(0, 10),
-  watch_time_pct: null,
+  watch_time_seconds: null,
   sales: null,
   gmv: null,
   commission: null,
@@ -98,7 +99,7 @@ function StatsBlock({
   );
 }
 
-export default function PendingAnalysisPage() {
+export default function PendingAnalysisPage({ tabActive = true }: { tabActive?: boolean }) {
   const [items, setItems] = useState<PendingAnalysis[]>([]);
   const [urlDrafts, setUrlDrafts] = useState<Record<string, string>>({});
   const [submitDrafts, setSubmitDrafts] = useState<Record<string, PendingAnalysisSubmit>>({});
@@ -112,9 +113,11 @@ export default function PendingAnalysisPage() {
   const [dateFilter, setDateFilter] = useState<DateFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("active");
   const [batchLoading, setBatchLoading] = useState(false);
+  const [cleanupLoading, setCleanupLoading] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<{ id: string; deleteScript: boolean } | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState("");
+  const [performanceErrors, setPerformanceErrors] = useState<Record<string, string>>({});
   const [notice, setNotice] = useState("");
   const [driveConnected, setDriveConnected] = useState(false);
   const [whisperOk, setWhisperOk] = useState<boolean | null>(null);
@@ -125,11 +128,12 @@ export default function PendingAnalysisPage() {
   }
 
   useEffect(() => {
+    if (!tabActive) return;
     void load();
     window.hub.getGoogleDriveStatus().then((s) => setDriveConnected(!!s.connected));
     window.hub.checkWhisper().then(setWhisperOk);
     window.hub.listProducts().then(setProducts);
-  }, []);
+  }, [tabActive]);
 
   function applyFilters(list: PendingAnalysis[]) {
     return list.filter((item) => {
@@ -164,10 +168,46 @@ export default function PendingAnalysisPage() {
     }
     const parts = [`${res.added ?? 0} added`];
     if (res.skipped) parts.push(`${res.skipped} already pending`);
+    if (res.skippedMyVideos) parts.push(`${res.skippedMyVideos} already in My Videos`);
     if (res.dismissed) parts.push(`${res.dismissed} previously removed`);
     if (res.scriptsCreated) parts.push(`${res.scriptsCreated} scripts recovered from audio`);
     setNotice(`Imported scripts from last ${daysBack} day${daysBack === 1 ? "" : "s"}: ${parts.join(", ")}.`);
     void load();
+  }
+
+  async function handleRemoveDuplicates() {
+    setCleanupLoading(true);
+    setError("");
+    setNotice("");
+    const res = await window.hub.removeDuplicatePending();
+    setCleanupLoading(false);
+    if (!res.ok) {
+      setError(res.error || "Could not remove duplicates");
+      return;
+    }
+    setNotice(
+      res.removed
+        ? `Removed ${res.removed} duplicate pending ${res.removed === 1 ? "entry" : "entries"}.`
+        : "No duplicate pending entries found."
+    );
+    void load();
+  }
+
+  async function handleClearDismissals() {
+    setCleanupLoading(true);
+    setError("");
+    setNotice("");
+    const res = await window.hub.clearPendingDismissals();
+    setCleanupLoading(false);
+    if (!res.ok) {
+      setError(res.error || "Could not clear removal blocklist");
+      return;
+    }
+    setNotice(
+      res.cleared
+        ? `Cleared ${res.cleared} previously removed ${res.cleared === 1 ? "entry" : "entries"} — those scripts can be imported again.`
+        : "No previously removed entries on the blocklist."
+    );
   }
 
   async function handleSetUrl(id: string) {
@@ -199,15 +239,20 @@ export default function PendingAnalysisPage() {
     setLoadingId(id);
     setError("");
     setNotice("");
-    const res = await window.hub.pullPendingAnalysis(id);
-    setLoadingId(null);
-    if (!res.ok) {
-      setError(res.error || "Pull stats / analysis failed");
-      return;
+    try {
+      const res = await window.hub.pullPendingAnalysis(id);
+      if (!res.ok) {
+        setError(res.error || "Pull stats / analysis failed");
+        return;
+      }
+      setNotice("Latest stats pulled and Grok analysis complete.");
+      setExpandedId(id);
+      void load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoadingId(null);
     }
-    setNotice("Latest stats pulled and Grok analysis complete.");
-    setExpandedId(id);
-    void load();
   }
 
   function getSubmitDraft(item: PendingAnalysis): PendingAnalysisSubmit {
@@ -215,6 +260,7 @@ export default function PendingAnalysisPage() {
       submitDrafts[item.id] || {
         ...EMPTY_SUBMIT,
         upload_date: item.upload_date || new Date().toISOString().slice(0, 10),
+        watch_time_seconds: item.watch_time_seconds,
         watch_time_pct: item.watch_time_pct,
         sales: item.sales,
         gmv: item.gmv,
@@ -271,15 +317,25 @@ export default function PendingAnalysisPage() {
     if (!item) return;
     setLoadingId(id);
     setError("");
+    setPerformanceErrors((prev) => ({ ...prev, [id]: "" }));
     setNotice("");
-    const res = await window.hub.updatePendingPerformance({ id, data: buildPayload(item) });
-    setLoadingId(null);
-    if (!res.ok) {
-      setError(res.error || "Could not save performance data");
-      return;
+    try {
+      if (typeof window.hub.updatePendingPerformance !== "function") {
+        throw new Error("Hub is out of date — quit and restart from start.bat, then try again.");
+      }
+      const res = await window.hub.updatePendingPerformance({ id, data: buildPayload(item) });
+      if (!res.ok) {
+        setPerformanceErrors((prev) => ({ ...prev, [id]: res.error || "Could not save performance data" }));
+        return;
+      }
+      setNotice("Performance data saved.");
+      void load();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setPerformanceErrors((prev) => ({ ...prev, [id]: msg }));
+    } finally {
+      setLoadingId(null);
     }
-    setNotice("Performance data saved.");
-    void load();
   }
 
   async function handleSubmit(id: string) {
@@ -288,15 +344,37 @@ export default function PendingAnalysisPage() {
     const payload = buildPayload(item);
     setLoadingId(id);
     setError("");
+    setPerformanceErrors((prev) => ({ ...prev, [id]: "" }));
     setNotice("");
-    const res = await window.hub.submitPendingAnalysis({ id, data: payload });
-    setLoadingId(null);
-    if (!res.ok) {
-      setError(res.error || "Submit failed");
-      return;
+    try {
+      const duration = getAnalysisDurationSeconds(item.analysis);
+      if (duration == null) {
+        setPerformanceErrors((prev) => ({
+          ...prev,
+          [id]: "Video duration missing — click Pull stats & analyse again (restart whisper-server first).",
+        }));
+        return;
+      }
+      if (payload.watch_time_seconds == null && payload.watch_time_pct == null) {
+        setPerformanceErrors((prev) => ({
+          ...prev,
+          [id]: "Enter average watch time in seconds from TikTok Studio.",
+        }));
+        return;
+      }
+      const res = await window.hub.submitPendingAnalysis({ id, data: payload });
+      if (!res.ok) {
+        setPerformanceErrors((prev) => ({ ...prev, [id]: res.error || "Submit failed" }));
+        return;
+      }
+      setNotice(`Sent to My Videos & memory — score ${res.score ?? "—"}/100`);
+      void load();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setPerformanceErrors((prev) => ({ ...prev, [id]: msg }));
+    } finally {
+      setLoadingId(null);
     }
-    setNotice(`Sent to My Videos & memory — score ${res.score ?? "—"}/100`);
-    void load();
   }
 
   async function handleDelete(id: string, deleteScript = false) {
@@ -314,7 +392,9 @@ export default function PendingAnalysisPage() {
   function renderPerformanceSection(item: PendingAnalysis, isLoading: boolean, showAnalysis: boolean) {
     const draft = getSubmitDraft(item);
     const stats = getStatsDraft(item);
+    const durationSeconds = getAnalysisDurationSeconds(item.analysis);
     const canComplete = item.status === "ready_for_review" && item.analysis_status === "complete";
+    const performanceError = performanceErrors[item.id];
 
     return (
       <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
@@ -328,6 +408,7 @@ export default function PendingAnalysisPage() {
 
         <PendingPerformanceForm
           draft={draft}
+          durationSeconds={durationSeconds}
           views={stats.views}
           likes={stats.likes}
           comments={stats.comments}
@@ -357,6 +438,8 @@ export default function PendingAnalysisPage() {
             </button>
           )}
         </div>
+
+        {performanceError && <p className="error" style={{ marginTop: 10, fontSize: 13 }}>{performanceError}</p>}
 
         {!canComplete && item.status === "tracking" && (
           <p className="muted" style={{ fontSize: 12, marginTop: 10 }}>
@@ -623,6 +706,28 @@ export default function PendingAnalysisPage() {
             Last 28 days
           </button>
         </div>
+        <div className="btn-row" style={{ flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled={cleanupLoading || batchLoading}
+            onClick={() => void handleRemoveDuplicates()}
+          >
+            {cleanupLoading ? "Cleaning…" : "Remove duplicates"}
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled={cleanupLoading || batchLoading}
+            onClick={() => void handleClearDismissals()}
+          >
+            Clear removal blocklist
+          </button>
+        </div>
+        <p className="muted" style={{ fontSize: 12, marginBottom: 14 }}>
+          Scripts already in My Videos are skipped on import. Duplicate URLs or the same script twice in pending can
+          be cleaned up above. Clearing the blocklist lets previously removed scripts be imported again.
+        </p>
         <div className="grid-2" style={{ gap: 12 }}>
           <div>
             <label className="field-label">Product</label>

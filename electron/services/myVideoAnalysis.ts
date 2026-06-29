@@ -1,4 +1,5 @@
 import type { JsonStore } from "../db.js";
+import { getAnalysisDurationSeconds, resolveVideoDurationSeconds } from "./watchTime.js";
 
 const WHISPER_URL = "http://localhost:5050";
 const GROK_RESPONSES_URL = "https://api.x.ai/v1/responses";
@@ -11,6 +12,8 @@ export type FunnelBreakdownStage = {
 };
 
 export type MyVideoAnalysis = {
+  duration_seconds: number | null;
+  thumbnail_url: string | null;
   transcript: string;
   onscreen_hook: string | null;
   video_structure: string;
@@ -31,6 +34,7 @@ export type MyVideoSubmission = {
   views: number | null;
   likes: number | null;
   comments: number | null;
+  watch_time_seconds: number | null;
   watch_time_pct: number | null;
   sales: number | null;
   gmv: number | null;
@@ -81,16 +85,27 @@ export function extractThumbnailFromLibraryRow(row: Record<string, unknown>): st
 }
 
 export function backfillMyVideoThumbnail(video: MyVideo): MyVideo {
-  if (video.thumbnail_url) return video;
-  if (!video.analysis?.raw_json) return video;
-  try {
-    const row = JSON.parse(video.analysis.raw_json) as Record<string, unknown>;
-    const thumb = extractThumbnailFromLibraryRow(row);
-    if (thumb) return { ...video, thumbnail_url: thumb };
-  } catch {
-    /* ignore */
+  let next = video;
+  if (!next.thumbnail_url) {
+    if (next.analysis?.thumbnail_url) {
+      next = { ...next, thumbnail_url: next.analysis.thumbnail_url };
+    } else if (next.analysis?.raw_json) {
+      try {
+        const row = JSON.parse(next.analysis.raw_json) as Record<string, unknown>;
+        const thumb = extractThumbnailFromLibraryRow(row);
+        if (thumb) next = { ...next, thumbnail_url: thumb };
+      } catch {
+        /* ignore */
+      }
+    }
   }
-  return video;
+  if (next.analysis) {
+    const duration = getAnalysisDurationSeconds(next.analysis);
+    if (duration != null && next.analysis.duration_seconds !== duration) {
+      next = { ...next, analysis: { ...next.analysis, duration_seconds: duration } };
+    }
+  }
+  return next;
 }
 
 function parseFunnelBreakdown(value: unknown): FunnelBreakdownStage[] | null {
@@ -118,6 +133,7 @@ This is their video — not a competitor. Analyse it thoroughly so they can lear
 
 Return JSON only:
 {
+  "duration_seconds": 28.5,
   "transcript": "full spoken transcript",
   "onscreen_hook": "exact on-screen text in opening 0-3s or null",
   "video_structure": "narrative walkthrough of the video structure",
@@ -140,7 +156,9 @@ Return JSON only:
   ],
   "pacing_notes": "fast/slow/varied — where energy peaks and drops",
   "detailed_analysis": "analysis of hook psychology, what worked, what could improve, discount delivery, CTA effectiveness"
-}`;
+}
+
+Confirm duration_seconds from the uploaded video (total length in seconds). Use the last timeline timestamp if needed. Round to one decimal.`;
 
 export async function analyseTikTokUrl(store: JsonStore, url: string): Promise<MyVideoAnalysis> {
   const grokKey = store.getSetting("grokApiKey");
@@ -160,11 +178,21 @@ export async function analyseTikTokUrl(store: JsonStore, url: string): Promise<M
     ok: boolean;
     file_id?: string;
     file_url?: string;
+    duration_seconds?: number;
+    thumbnail_data_url?: string;
     error?: string;
   };
   if (!uploadData.ok) throw new Error(uploadData.error || "xAI video upload failed");
   fileId = uploadData.file_id || null;
   fileUrl = uploadData.file_url || null;
+  const whisperDuration =
+    uploadData.duration_seconds != null && Number.isFinite(Number(uploadData.duration_seconds))
+      ? Number(uploadData.duration_seconds)
+      : null;
+  const thumbnail_url =
+    typeof uploadData.thumbnail_data_url === "string" && uploadData.thumbnail_data_url.trim()
+      ? uploadData.thumbnail_data_url.trim()
+      : null;
 
   const contentInput: unknown[] = [];
   if (fileId) {
@@ -235,7 +263,27 @@ export async function analyseTikTokUrl(store: JsonStore, url: string): Promise<M
     throw new Error("Could not parse Grok JSON response.");
   }
 
+  const timeline = Array.isArray(parsed.timeline)
+    ? (parsed.timeline as Record<string, unknown>[]).map((t) => ({
+        timestamp: Number(t.timestamp || 0),
+        visual: String(t.visual || ""),
+        audio: String(t.audio || ""),
+        on_screen_text: t.on_screen_text != null ? String(t.on_screen_text) : null,
+      }))
+    : [];
+
+  const grokDuration =
+    parsed.duration_seconds != null && Number.isFinite(Number(parsed.duration_seconds))
+      ? Number(parsed.duration_seconds)
+      : null;
+  const duration_seconds = resolveVideoDurationSeconds(
+    grokDuration ?? whisperDuration,
+    timeline
+  );
+
   return {
+    duration_seconds,
+    thumbnail_url,
     transcript: String(parsed.transcript || ""),
     onscreen_hook: parsed.onscreen_hook != null ? String(parsed.onscreen_hook) : null,
     video_structure: String(parsed.video_structure || ""),
@@ -247,14 +295,7 @@ export async function analyseTikTokUrl(store: JsonStore, url: string): Promise<M
     funnel_category_reason:
       parsed.funnel_category_reason != null ? String(parsed.funnel_category_reason) : null,
     funnel_breakdown: parseFunnelBreakdown(parsed.funnel_breakdown),
-    timeline: Array.isArray(parsed.timeline)
-      ? (parsed.timeline as Record<string, unknown>[]).map((t) => ({
-          timestamp: Number(t.timestamp || 0),
-          visual: String(t.visual || ""),
-          audio: String(t.audio || ""),
-          on_screen_text: t.on_screen_text != null ? String(t.on_screen_text) : null,
-        }))
-      : [],
+    timeline,
     pacing_notes: String(parsed.pacing_notes || ""),
     detailed_analysis: String(parsed.detailed_analysis || ""),
     raw_json: JSON.stringify(parsed),

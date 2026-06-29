@@ -17,6 +17,7 @@ export type VideoOutcome = {
   views: number | null;
   likes: number | null;
   comments: number | null;
+  watch_time_seconds: number | null;
   watch_time_pct: number | null;
   sales: number | null;
   gmv: number | null;
@@ -64,7 +65,8 @@ export function saveVideoOutcome(
     views: opts.pending.views,
     likes: opts.pending.likes,
     comments: opts.pending.comments,
-    watch_time_pct: opts.submit.watch_time_pct,
+    watch_time_seconds: opts.submit.watch_time_seconds ?? null,
+    watch_time_pct: opts.submit.watch_time_pct ?? null,
     sales: opts.submit.sales,
     gmv: opts.submit.gmv,
     commission: opts.submit.commission,
